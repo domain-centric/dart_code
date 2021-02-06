@@ -38,3 +38,15 @@ abstract class CodeLeaf extends CodeNode {
 abstract class CodeModel extends CodeNode {
   List<CodeNode> codeNodes(Context context);
 }
+
+/// a String representing a piece of Dart code
+class Code extends CodeLeaf {
+  final String code;
+
+  Code(this.code);
+
+  @override
+  String convertToString(Context context) {
+    return code;
+  }
+}

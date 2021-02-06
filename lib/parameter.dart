@@ -1,5 +1,7 @@
 import 'package:dart_code/basic.dart';
 
+import 'basic.dart';
+import 'expression.dart';
 import 'model.dart';
 
 abstract class Parameter extends CodeModel {

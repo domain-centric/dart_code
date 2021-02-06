@@ -1,5 +1,7 @@
 import 'package:dart_code/basic.dart';
+import 'package:dart_code/expression.dart';
 import 'package:dart_code/function.dart';
+import 'package:dart_code/model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 main() {

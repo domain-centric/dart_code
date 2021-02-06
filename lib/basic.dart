@@ -1,45 +1,7 @@
 import 'package:dart_code/model.dart';
 
-import 'formating.dart';
-
-///  A syntactic entity in the Dart programming language that may be evaluated to determine its value
-///  e.g.: 1 or or 1.1 or 1+2 or 1*2 or 'hello' or 'hello' + ' world' or user.name
-class Expression extends CodeModel {
-  final List<CodeNode> nodes;
-
-  Expression(this.nodes);
-
-  Expression.ofInt(int value) : nodes = [Code(value.toString())];
-
-  Expression.ofDouble(double value) : nodes = [Code(value.toString())];
-
-  Expression.ofBool(bool value) : nodes = [Code(value.toString())];
-
-  Expression.ofDateTime(DateTime value) : nodes = [Code(value.toString())];
-
-  Expression.ofString(String value) : nodes = _createStringNodes(value);
-
-  List<CodeNode> codeNodes(Context context) => nodes;
-
-  static RegExp singleQuote = RegExp("'");
-  static RegExp doubleQuote = RegExp('"');
-  static RegExp betweenSingleQuotes = RegExp("^'.*'\$");
-  static RegExp betweenDoubleQuotes = RegExp('^".*"\$');
-
-  static _createStringNodes(String value) {
-    if (!betweenSingleQuotes.hasMatch(value) &&
-        !betweenDoubleQuotes.hasMatch(value)) {
-      int nrSingleQoutes = singleQuote.allMatches(value).length;
-      int nrDoubleQoutes = doubleQuote.allMatches(value).length;
-      if (nrSingleQoutes > 0 && nrDoubleQoutes == 0) {
-        value = '"$value"';
-      } else {
-        value = "'$value'";
-      }
-    }
-    return [Code(value.toString())];
-  }
-}
+import 'expression.dart';
+import 'formatting.dart';
 
 class CommaSeparatedValues extends CodeModel {
   final List<CodeNode> values;
@@ -63,18 +25,6 @@ class CommaSeparatedValues extends CodeModel {
   }
 }
 
-/// a String representing a piece of Dart code
-class Code extends CodeLeaf {
-  final String code;
-
-  Code(this.code);
-
-  @override
-  String convertToString(Context context) {
-    return code;
-  }
-}
-
 ///Adds code only when it is not repeating itself (ignoring spaces)
 class NoneRepeatingCode extends CodeLeaf {
   final String code;
@@ -83,7 +33,7 @@ class NoneRepeatingCode extends CodeLeaf {
 
   @override
   String convertToString(Context context) {
-    if (code==context.lastCode) {
+    if (code == context.lastCode) {
       return ''; //add nothing
     } else {
       return code;
@@ -106,7 +56,8 @@ final RegExp endsWithWhiteSpace = RegExp(r'\s$');
 class SpaceWhenNeeded extends CodeLeaf {
   @override
   String convertToString(Context context) {
-    if (context.lastCode.isEmpty || endsWithWhiteSpace.hasMatch(context.lastCode)) {
+    if (context.lastCode.isEmpty ||
+        endsWithWhiteSpace.hasMatch(context.lastCode)) {
       return '';
     } else {
       return ' ';
@@ -276,8 +227,8 @@ class Type extends CodeModel {
   Type(this.name, {this.libraryUrl, this.generics = const []});
 
   @override
-  List<CodeNode> codeNodes(Context context) =>
-      [context.imports.reference(this)];
+  List<CodeNode> codeNodes(Context context) => Reference(this).codeNodes(context);
+
 }
 
 class Import extends CodeModel {
@@ -318,7 +269,7 @@ class Imports extends CodeModel {
 
   void _registerTypesInCodeModel(CodeModel codeModel, Context context) {
     for (CodeNode codeNode in codeModel.codeNodes(context)) {
-      _registerTypesInCodeNode(codeNode,context);
+      _registerTypesInCodeNode(codeNode, context);
     }
   }
 
@@ -335,8 +286,24 @@ class Imports extends CodeModel {
     }
   }
 
-  /// returns a reference for a given type (depending on imports and their aliases)
-  Expression reference(Type type) {
+  @override
+  List<CodeNode> codeNodes(Context context) => imports.keys
+      .map((libraryUrl) => Import(libraryUrl, imports[libraryUrl]))
+      .toList();
+
+  bool containsKey(String libraryUrl) => imports.containsKey(libraryUrl);
+
+  String aliasOf(String libraryUrl) => imports[libraryUrl];
+}
+
+class Reference extends CodeModel {
+  final Type type;
+
+  Reference(this.type);
+
+  @override
+  List<CodeNode> codeNodes(Context context) {
+    Imports imports = context.imports;
     List<CodeNode> typeNodes = [];
     if (type.libraryUrl != null) {
       String libraryUrl = type.libraryUrl.toLowerCase();
@@ -344,7 +311,7 @@ class Imports extends CodeModel {
         throw Exception(
             'Types need to be registered to Imports, before getting a reference');
       }
-      var alias = imports[libraryUrl];
+      String alias = imports.aliasOf(libraryUrl);
       typeNodes.add(Code(alias));
       typeNodes.add(Code('.'));
     }
@@ -355,23 +322,18 @@ class Imports extends CodeModel {
       typeNodes.add(_genericNodes(type));
       typeNodes.add(Code('>'));
     }
-    return Expression(typeNodes);
+    return typeNodes;
   }
 
   CommaSeparatedValues _genericNodes(Type type) {
     List<CodeNode> genericNodes = [];
     for (Type genericType in type.generics) {
       if (type != genericType) {
-        genericNodes.add(reference(genericType));
+        genericNodes.add(Reference(genericType));
       }
     }
     return CommaSeparatedValues(genericNodes);
   }
-
-  @override
-  List<CodeNode> codeNodes(Context context) => imports.keys
-      .map((libraryUrl) => Import(libraryUrl, imports[libraryUrl]))
-      .toList();
 }
 
 final RegExp _firstCharMustBeLetterOrUnderscore =
