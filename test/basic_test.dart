@@ -1,74 +1,89 @@
 import 'package:dart_code/basic.dart';
 import 'package:dart_code/code_formatter.dart';
 import 'package:dart_code/formating.dart';
+import 'package:dart_code/model.dart';
 import 'package:test/test.dart';
 
 main() {
   group('Expression class', () {
-    test('Calling named constructor .ofInt() => Returns the literal code string', () {
+    test(
+        'Calling named constructor .ofInt() => Returns the literal code string',
+        () {
       String actual = Expression.ofInt(12).toString();
       String expected = '12';
       expect(actual, expected);
     });
 
-    test('Calling named constructor .ofDouble() => Returns the literal code string', () {
+    test(
+        'Calling named constructor .ofDouble() => Returns the literal code string',
+        () {
       String actual = Expression.ofDouble(12.12).toString();
       String expected = '12.12';
       expect(actual, expected);
     });
 
-
-    test('Calling named constructor .ofBool(true) => Returns the literal code string', () {
+    test(
+        'Calling named constructor .ofBool(true) => Returns the literal code string',
+        () {
       String actual = Expression.ofBool(true).toString();
       String expected = 'true';
       expect(actual, expected);
     });
 
-    test('Calling named constructor .ofBool(false) => Returns the literal code string', () {
+    test(
+        'Calling named constructor .ofBool(false) => Returns the literal code string',
+        () {
       String actual = Expression.ofBool(false).toString();
       String expected = 'false';
       expect(actual, expected);
     });
 
-
-    test('Calling named constructor .ofDateTime() => Returns the literal code string', () {
+    test(
+        'Calling named constructor .ofDateTime() => Returns the literal code string',
+        () {
       var now = DateTime.now();
       String actual = Expression.ofDateTime(now).toString();
       String expected = now.toString();
       expect(actual, expected);
     });
 
-    test('Calling named constructor .ofString() => Returns the literal code string', () {
+    test(
+        'Calling named constructor .ofString() => Returns the literal code string',
+        () {
       String actual = Expression.ofString('Hello').toString();
       String expected = "'Hello'";
       expect(actual, expected);
     });
 
-    test('Calling named constructor .ofString() => Returns the literal code string', () {
+    test(
+        'Calling named constructor .ofString() => Returns the literal code string',
+        () {
       String actual = Expression.ofString('"Hello"').toString();
       String expected = '"Hello"';
       expect(actual, expected);
     });
 
-    test('Calling named constructor .ofString() => Returns the literal code string', () {
+    test(
+        'Calling named constructor .ofString() => Returns the literal code string',
+        () {
       String actual = Expression.ofString("'Hello'").toString();
       String expected = "'Hello'";
       expect(actual, expected);
     });
 
-    test('Calling named constructor .ofString() => Returns the literal code string', () {
-      String actual = Expression.ofString('considered "normal" behavior').toString();
+    test(
+        'Calling named constructor .ofString() => Returns the literal code string',
+        () {
+      String actual =
+          Expression.ofString('considered "normal" behavior').toString();
       String expected = "'considered \"normal\" behavior'";
       expect(actual, expected);
     });
-
   });
 
-  group ('CommaSeparatedValues class', () {
-
+  group('CommaSeparatedValues class', () {
     test('Given no expressions => Returns the literal code string', () {
-      String actual = CommaSeparatedValues([
-      ]).toString();
+      String actual = CommaSeparatedValues([]).toString();
       String expected = "";
       expect(actual, expected);
     });
@@ -89,9 +104,7 @@ main() {
       String expected = "1, 2, 3";
       expect(actual, expected);
     });
-
   });
-
 
   group('Code class', () {
     test('Given a Code => Returns the literal code string', () {
@@ -144,7 +157,7 @@ main() {
       ]).toString();
       String expected = '{\n'
           '  test1();\n'
-          '  test2();'
+          '  test2();\n'
           '}';
       expect(actual, expected);
     });
@@ -157,9 +170,9 @@ main() {
         Code("test2();"),
       ]);
       String actual = CodeFormatter(newLine: '\r\n').format(block);
-      String expected = '{\r\n'
+      String expected ='{\r\n'
           '  test1();\r\n'
-          '  test2();'
+          '  test2();\r\n'
           '}';
       expect(actual, expected);
     });
@@ -181,6 +194,19 @@ main() {
         Code('{}'),
       ]).toString();
       String expected = 'class extends OtherClass {};\n';
+      expect(actual, expected);
+    });
+
+    test('Given an empty line => Does not ad a space', () {
+      String actual = SpaceWhenNeeded().toString();
+      String expected = '';
+      expect(actual, expected);
+    });
+
+    test('Given space after new line => No space after new line', () {
+      String actual = Statement([NewLine(), SpaceWhenNeeded()]).toString();
+      String expected = '\n'
+          ';\n';
       expect(actual, expected);
     });
   });
@@ -219,12 +245,11 @@ main() {
     });
 
     test('Given Custom Type => Returns correct code string', () {
-      String actual = Type( "MyClass", libraryUrl:  "package:test/test.dart").toString();
+      String actual =
+          Type("MyClass", libraryUrl: "package:test/test.dart").toString();
       String expected = "_i1.MyClass";
       expect(actual, expected);
     });
-
-
   });
 
   group('Import class', () {
@@ -237,10 +262,13 @@ main() {
 
   group('Imports class', () {
     test('Given types => Returns correct import string', () {
-      String actual = Imports(Statements([
-        Statement([Type( "MyFirstClass", libraryUrl: "package:test/test1.dart")]),
-        Statement([Type( "MySecondClass", libraryUrl: "package:test/test2.dart")]),
-      ])).toString();
+      Statements statements=Statements([
+        Statement(
+            [Type("MyFirstClass", libraryUrl: "package:test/test1.dart")]),
+        Statement(
+            [Type("MySecondClass", libraryUrl: "package:test/test2.dart")]),
+      ]);
+      String actual = Imports(statements, Context(statements)).toString();
       String expected = "import 'package:test/test1.dart' as _i1;\n"
           "import 'package:test/test2.dart' as _i2;\n";
       expect(actual, expected);
@@ -248,8 +276,10 @@ main() {
 
     test('Given types => Returns correct type code strings', () {
       String actual = Statements([
-        Statement([Type( "MyFirstClass", libraryUrl: "package:test/test1.dart")]),
-        Statement([Type( "MySecondClass", libraryUrl: "package:test/test2.dart")]),
+        Statement(
+            [Type("MyFirstClass", libraryUrl: "package:test/test1.dart")]),
+        Statement(
+            [Type("MySecondClass", libraryUrl: "package:test/test2.dart")]),
       ]).toString();
       String expected = '_i1.MyFirstClass;\n'
           '_i2.MySecondClass;\n';
@@ -363,7 +393,6 @@ main() {
     });
   });
   group('IdentifierStartingWithLowerCase class', () {
-
     test('Given a null name => Throws "Must not be null" exception', () {
       expect(
           () => {IdentifierStartingWithLowerCase(null)},

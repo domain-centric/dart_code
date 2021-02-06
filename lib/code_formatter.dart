@@ -1,13 +1,12 @@
-
-import 'formating.dart';
 import 'model.dart';
 
 /// Converts a [CodeModel] to a formatted code [String], by going to the [CodeModel] recursively and adding [CodeLeaf]s to the result.
 /// It will format the code (indent and wrap) depending on the current [Context]
 class CodeBuffer {
-  final StringBuffer codeBuffer = StringBuffer();
   final Context context;
+  StringBuffer codeBuffer = StringBuffer();
   int lineLength = 0;
+
 
   CodeBuffer(this.context, CodeNode codeNode) {
     _appendNode(codeNode);
@@ -22,11 +21,9 @@ class CodeBuffer {
   _appendNode(CodeNode codeNode) {
     if (codeNode is CodeLeaf) {
       String code = codeNode.convertToString(context);
-      context.previousCodeLeaf = codeNode;
-      if (codeNode is NewLine) {
+      if (code==context.newLine) {
         _appendNewLine();
-      } else if (code.length > 0 &&
-          lineLength + code.length > context.maxLineLength) {
+      } else if (_wrapLine(code)) {
         _appendNewLine();
         _appendWrappingIndent();
         _appendString(code);
@@ -39,12 +36,13 @@ class CodeBuffer {
     }
   }
 
-  final _newLine = NewLine();
+  bool _wrapLine(String code) {
+    return code.length > 0 &&
+        lineLength + code.length > context.maxLineLength;
+  }
 
   void _appendNewLine() {
-    String code = _newLine.convertToString(context);
-    codeBuffer.write(code);
-    context.previousCodeLeaf = _newLine;
+    _appendString(context.newLine);
     lineLength = 0;
   }
 
@@ -55,20 +53,26 @@ class CodeBuffer {
   }
 
   void _appendWrappingIndent() {
-    String wrappingIndent = ' ' * (2 * context.indentWidth);
-    _appendString(wrappingIndent);
+    String indent = ' ' * (2 * context.indentWidth);
+    codeBuffer.write(indent);
+    lineLength += indent.length;
   }
 
   void _appendString(String string) {
-    if (lineLength == 0) _appendIndent();
-    codeBuffer.write(string);
-    lineLength += string.length;
+    if (string.isNotEmpty) {
+      if (lineLength == 0) _appendIndent();
+      codeBuffer.write(string);
+      context.lastCode = string;
+      lineLength += string.length;
+    }
   }
 
   @override
   String toString() {
     return codeBuffer.toString();
   }
+
+
 }
 
 /// Converts a [CodeModel] to a formatted String, using the constructor parameters, which already have sensible default values.

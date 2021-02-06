@@ -2,16 +2,19 @@ import 'basic.dart';
 import 'code_formatter.dart';
 
 class Context {
-  final Imports imports;
+  Imports imports;
   final String newLine;
   final int indentWidth;
   int indent = 0;
-  CodeLeaf previousCodeLeaf;
   int maxLineLength;
+  String lastCode='';
 
   Context(CodeNode codeNode,
-      {this.indentWidth, this.newLine, this.maxLineLength})
-      : imports = Imports(codeNode);
+      {this.indentWidth, this.newLine, this.maxLineLength}) {
+    imports = Imports(codeNode, this);
+  }
+
+
 }
 
 ///a tree model that represents DartCode

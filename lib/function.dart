@@ -9,11 +9,20 @@ class Function extends CodeModel {
   final Parameters parameters;
   final Body body;
 
-  Function.withoutName(this.body, {this.parameters, this.returnType})
-      : name = null;
+  Function.withoutName(CodeNode body, {this.parameters, this.returnType})
+      : name = null,
+        body = Body(body);
 
-  Function.withName(String name, this.body, {this.parameters, this.returnType})
-      : name = IdentifierStartingWithLowerCase(name);
+  Function.withName(String name, CodeNode body,
+      {this.parameters, this.returnType})
+      : name = IdentifierStartingWithLowerCase(name),
+        body = Body(body);
+
+  Function.main(CodeNode body,{this.parameters})
+      : returnType=null,
+        name = IdentifierStartingWithLowerCase('main'),
+        body = Body(body);
+
 
   @override
   List<CodeNode> codeNodes(Context context) => [
@@ -23,6 +32,8 @@ class Function extends CodeModel {
         Code('('),
         if (parameters != null) parameters,
         Code(')'),
+    SpaceWhenNeeded(),
         body,
       ];
 }
+

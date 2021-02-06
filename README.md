@@ -1,14 +1,16 @@
 # dart_code
 
-A new Flutter package project.
+A package for creating valid and formatted code, e.g. when creating builders.
 
-## Getting Started
+## Usage
 
-This project is a starting point for a Dart
-[package](https://flutter.dev/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+
+
+
+## Inspiration
+
+This package was inspired by the code_builder package.
+- It is simpler and likely less complete
+- You can extend the code classes to include code build logic
+- You can directly use the toString method on the code classes or use the CodeFormatter class for alternative formatting settings.

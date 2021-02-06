@@ -75,20 +75,38 @@ class Code extends CodeLeaf {
   }
 }
 
+///Adds code only when it is not repeating itself (ignoring spaces)
+class NoneRepeatingCode extends CodeLeaf {
+  final String code;
+
+  NoneRepeatingCode(this.code);
+
+  @override
+  String convertToString(Context context) {
+    if (code==context.lastCode) {
+      return ''; //add nothing
+    } else {
+      return code;
+    }
+  }
+}
+
 /// ;
 class EndOfStatement extends CodeModel {
   @override
   List<CodeNode> codeNodes(Context context) => [
-        Code(';'),
-        NewLine(),
+        NoneRepeatingCode(';'),
+        NoneRepeatingCode(context.newLine),
       ];
 }
 
-/// adds a space if last code was not a space (preventing double spaces)
+final RegExp endsWithWhiteSpace = RegExp(r'\s$');
+
+/// adds a space if last code line is not empty and does not end with a white space
 class SpaceWhenNeeded extends CodeLeaf {
   @override
   String convertToString(Context context) {
-    if (context.previousCodeLeaf is SpaceWhenNeeded) {
+    if (context.lastCode.isEmpty || endsWithWhiteSpace.hasMatch(context.lastCode)) {
       return '';
     } else {
       return ' ';
@@ -285,27 +303,27 @@ class Import extends CodeModel {
 class Imports extends CodeModel {
   final Map<String, String> imports = {};
 
-  Imports(CodeNode codeNode) {
-    _registerTypesInCodeNode(codeNode);
+  Imports(CodeNode codeNode, Context context) {
+    _registerTypesInCodeNode(codeNode, context);
   }
 
-  void _registerTypesInCodeNode(CodeNode codeNode) {
+  void _registerTypesInCodeNode(CodeNode codeNode, Context context) {
     if (codeNode is Type) {
       _registerType(codeNode);
     } else if (codeNode is CodeModel) {
       //recursive call
-      _registerTypesInCodeModel(codeNode);
+      _registerTypesInCodeModel(codeNode, context);
     }
   }
 
-  void _registerTypesInCodeModel(CodeModel codeModel) {
-    for (CodeNode codeNode in codeModel.codeNodes(null)) {
-      _registerTypesInCodeNode(codeNode);
+  void _registerTypesInCodeModel(CodeModel codeModel, Context context) {
+    for (CodeNode codeNode in codeModel.codeNodes(context)) {
+      _registerTypesInCodeNode(codeNode,context);
     }
   }
 
   void _registerType(Type type) {
-    if (type.libraryUrl!=null) {
+    if (type.libraryUrl != null) {
       var libraryUrl = type.libraryUrl.toLowerCase();
       if (!imports.containsKey(libraryUrl)) {
         imports[libraryUrl] = '_i${imports.length + 1}';
@@ -320,7 +338,7 @@ class Imports extends CodeModel {
   /// returns a reference for a given type (depending on imports and their aliases)
   Expression reference(Type type) {
     List<CodeNode> typeNodes = [];
-    if (type.libraryUrl!=null) {
+    if (type.libraryUrl != null) {
       String libraryUrl = type.libraryUrl.toLowerCase();
       if (!imports.containsKey(libraryUrl)) {
         throw Exception(
@@ -458,6 +476,7 @@ class Block extends CodeModel {
         IncreaseIndent(),
         for (CodeNode codeNode in codeInsideBlock) codeNode,
         DecreaseIndent(),
+        NoneRepeatingCode(context.newLine),
         Code('}')
       ];
 }
@@ -472,8 +491,9 @@ class Body extends CodeModel {
   List<CodeNode> codeNodes(Context context) {
     List<CodeNode> codeNodes = [];
     if (body is Expression) {
-      codeNodes.add(Code(" => "));
+      codeNodes.add(Code("=> "));
       codeNodes.add(body);
+      codeNodes.add(EndOfStatement());
     } else {
       codeNodes.add(Block([body]));
     }
