@@ -1,4 +1,5 @@
 import 'package:dart_code/basic.dart';
+import 'package:dart_code/formatting.dart';
 import 'package:dart_code/parameter.dart';
 
 import 'model.dart';
@@ -38,6 +39,16 @@ class Expression extends CodeModel {
     Code(')'),
   ];
 
+  Expression callMethod(String name, { ParameterValues parameterValues, bool cascade=false}) => Expression([
+    this,
+    if (!cascade) Code('.'),
+    if (cascade) NewLine(),
+    if (cascade) Code('..'),
+    IdentifierStartingWithLowerCase(name),
+    Code('('),
+    if (parameterValues!=null) parameterValues,
+    Code(')'),
+  ]);
 
   Statement assignVariable(String name, [Type type]) => Statement([
         if (type == null) Type.ofVar(),

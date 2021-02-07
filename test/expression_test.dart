@@ -174,7 +174,7 @@ main() {
       });
     });
 
-    group('.assignVariable()', () {
+    group('assignVariable() method', () {
       test('should result in a variable assignment', () {
         String actual = Expression.ofString('Hello World')
             .assignVariable("greeting")
@@ -207,5 +207,56 @@ main() {
                 e.message == 'Must start with an lower case letter'));
       });
     });
+
+    group('callMethod() method', () {
+      test('Should return a call to a method without parameter values', () {
+        String actual = Expression.callConstructor(Type('AddressFinder'))
+            .callMethod('findFirst')
+            .toString();
+        String expected = "AddressFinder().findFirst()";
+        expect(actual, expected);
+      });
+
+      test('Should return a call to a method with parameter values', () {
+        String actual = Expression.callConstructor(Type('AddressFinder'))
+            .callMethod('find',
+                parameterValues: ParameterValues(
+                    [ParameterValue(Expression.ofString("Santa's house"))]))
+            .toString();
+        String expected = "AddressFinder().find(\"Santa\'s house\")";
+        expect(actual, expected);
+      });
+
+      test('Should return a call to 2 cascade methods', () {
+        String actual = Expression.callConstructor(Type('Person'))
+            .callMethod('tickle',
+                cascade: true,
+                parameterValues: ParameterValues(
+                    [ParameterValue(Expression.ofString('feather'))]))
+            .callMethod('kiss', cascade: true)
+            .assignVariable('person')
+            .toString();
+        String expected = 'var person = Person()\n'
+            '..tickle(\'feather\')\n'
+            '..kiss();\n';
+        expect(actual, expected);
+      });
+
+      test('Should throws an exception invalid name ', () {
+        expect(() {
+          Expression.callConstructor(Type('AddressFinder'))
+              .callMethod('InvalidMethodName');
+        },
+            throwsA((e) =>
+                e is ArgumentError &&
+                e.message == 'Must start with an lower case letter'));
+      });
+    });
   });
+}
+
+class Person {
+  String kill() => "";
+
+  String revive() => "";
 }
