@@ -1,4 +1,5 @@
 import 'package:dart_code/basic.dart';
+import 'package:dart_code/parameter.dart';
 
 import 'model.dart';
 
@@ -20,6 +21,13 @@ class Expression extends CodeModel {
   Expression.ofString(String value) : nodes = _createStringNodes(value);
 
   Expression.ofVariable(String name) : nodes = [IdentifierStartingWithLowerCase(name)];
+
+  Expression.callFunction( String name ,[ ParameterValues parameterValues]) :nodes=[
+    if (name!=null) IdentifierStartingWithLowerCase(name),
+    Code('('),
+    if (parameterValues!=null) parameterValues,
+    Code(')'),
+  ];
 
   List<CodeNode> codeNodes(Context context) => nodes;
 

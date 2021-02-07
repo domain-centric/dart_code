@@ -1,5 +1,6 @@
 import 'package:dart_code/basic.dart';
 import 'package:dart_code/expression.dart';
+import 'package:dart_code/parameter.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 main() {
@@ -79,23 +80,49 @@ main() {
         expect(actual, expected);
       });
 
-      test(
-          'Calling named constructor .ofVariable() => Returns the literal code variable name',
-          () {
-        String actual = Expression.ofVariable('myValue').toString();
-        String expected = "myValue";
-        expect(actual, expected);
+      group('Expression.ofVariable constructor', () {
+        test('Should returns the literal code variable name', () {
+          String actual = Expression.ofVariable('myValue').toString();
+          String expected = "myValue";
+          expect(actual, expected);
+        });
+
+        test('Should throws an exception invalid name ', () {
+          expect(() {
+            Expression.ofVariable('InvalidVariableName');
+          },
+              throwsA((e) =>
+                  e is ArgumentError &&
+                  e.message == 'Must start with an lower case letter'));
+        });
       });
 
-      test(
-          'Calling named constructor .ofVariable() with an invalid variable name=> throws an exception',
-          () {
-        expect(() {
-          Expression.ofVariable('InvalidVariableName');
-        },
-            throwsA((e) =>
-                e is ArgumentError &&
-                e.message == 'Must start with an lower case letter'));
+      group('Expression.callFunction constructor', () {
+        test('Should return a call to a function', () {
+          String actual = Expression.callFunction('myFunction').toString();
+          String expected = "myFunction()";
+          expect(actual, expected);
+        });
+
+        test('Should return a call to a function with parameters', () {
+          String actual = Expression.callFunction(
+                  'add', ParameterValues([
+                    ParameterValue(Expression.ofInt(2)),
+              ParameterValue(Expression.ofInt(3))
+          ]))
+              .toString();
+          String expected = "add(2, 3)";
+          expect(actual, expected);
+        });
+
+        test('Should throws an exception invalid name ', () {
+          expect(() {
+            Expression.callFunction('InvalidFunctionName');
+          },
+              throwsA((e) =>
+                  e is ArgumentError &&
+                  e.message == 'Must start with an lower case letter'));
+        });
       });
     });
 
