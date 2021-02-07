@@ -224,10 +224,18 @@ class Type extends CodeModel {
         libraryUrl = null,
         generics = [];
 
+  Type.ofVar()
+      : name = 'var',
+        libraryUrl = null,
+        generics = [];
+
+
   Type(this.name, {this.libraryUrl, this.generics = const []});
 
   @override
   List<CodeNode> codeNodes(Context context) => Reference(this).codeNodes(context);
+
+
 
 }
 

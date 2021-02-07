@@ -1,3 +1,5 @@
+import 'package:dart_code/basic.dart';
+
 import 'model.dart';
 
 ///  A syntactic entity in the Dart programming language that may be evaluated to determine its value
@@ -18,6 +20,15 @@ class Expression extends CodeModel {
   Expression.ofString(String value) : nodes = _createStringNodes(value);
 
   List<CodeNode> codeNodes(Context context) => nodes;
+
+  Statement assignVariable(String name, [Type type]) => Statement([
+        if (type == null) Type.ofVar(),
+        if (type != null) type,
+        SpaceWhenNeeded(),
+        IdentifierStartingWithLowerCase(name),
+        Code(' = '),
+        this
+      ]);
 
   static RegExp singleQuote = RegExp("'");
   static RegExp doubleQuote = RegExp('"');

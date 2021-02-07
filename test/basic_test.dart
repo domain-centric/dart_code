@@ -158,11 +158,43 @@ main() {
   });
 
   group('Type class', () {
-    test('Given Dart Type => Returns correct code string', () {
+    test('should result in var', () {
+      String actual = Type.ofVar().toString();
+      String expected = "var";
+      expect(actual, expected);
+    });
+
+    test('should result in bool', () {
       String actual = Type.ofBool().toString();
       String expected = "bool";
       expect(actual, expected);
     });
+
+    test('should result in int', () {
+      String actual = Type.ofInt().toString();
+      String expected = "int";
+      expect(actual, expected);
+    });
+
+    test('should result in double', () {
+      String actual = Type.ofDouble().toString();
+      String expected = "double";
+      expect(actual, expected);
+    });
+
+    test('should result in DateTime', () {
+      String actual = Type.ofDateTime().toString();
+      String expected = "DateTime";
+      expect(actual, expected);
+    });
+
+    test('should result in String', () {
+      String actual = Type.ofString().toString();
+      String expected = "String";
+      expect(actual, expected);
+    });
+
+
 
     test('Given Custom Type => Returns correct code string', () {
       String actual =
