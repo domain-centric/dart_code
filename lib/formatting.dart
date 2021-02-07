@@ -4,20 +4,20 @@ abstract class FormattingCodeLeaf extends CodeLeaf {
 
 }
 
-/// Increases the [Context.indent] by one
+/// Increases the [Context.indentCount] by one
 class IncreaseIndent extends FormattingCodeLeaf {
   @override
   String convertToString(Context context) {
-    context.indent++;
+    context.indentCount++;
     return "";
   }
 }
 
-/// Decreases the [Context.indent] by one
+/// Decreases the [Context.indentCount] by one
 class DecreaseIndent extends FormattingCodeLeaf {
   @override
   String convertToString(Context context) {
-    if (context.indent > 0) context.indent--;
+    if (context.indentCount > 0) context.indentCount--;
     return "";
   }
 }

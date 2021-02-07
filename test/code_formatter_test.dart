@@ -11,10 +11,10 @@ main() {
         Code("'" + ('1234567890' * 8) + "'"),
         Code(")"),
       ]);
-      String actual = CodeFormatter(indentWidth: 3).format(statement);
+      String actual = CodeFormatter(indent: '\t', wrapIndent: '\t\t').format(statement);
       String expected = 'print(\n'
-          '      \'12345678901234567890123456789012345678901234567890123456789012345678901234567890\'\n'
-          '      );\n';
+          '\t\t\'12345678901234567890123456789012345678901234567890123456789012345678901234567890\'\n'
+          '\t\t);\n';
       code_formatter_test.expect(actual, expected);
     });
   });

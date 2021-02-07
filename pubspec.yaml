@@ -1,11 +1,11 @@
 name: dart_code
 description: A new Flutter package project.
 version: 0.0.1
-author:
-homepage:
+author: Nils ten Hoeve
+homepage: https://github.com/efficientyboosters/dart_code
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.10.5 <3.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
@@ -15,7 +15,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  test: ^1.15.7
+  test: ^1.15.0
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

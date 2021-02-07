@@ -4,13 +4,14 @@ import 'code_formatter.dart';
 class Context {
   Imports imports;
   final String newLine;
-  final int indentWidth;
-  int indent = 0;
+  final String indent;
+  final String wrapIndent;
+  int indentCount = 0;
   int maxLineLength;
   String lastCode='';
 
   Context(CodeNode codeNode,
-      {this.indentWidth, this.newLine, this.maxLineLength}) {
+      {this.indent='  ', this.wrapIndent='    ', this.newLine, this.maxLineLength}) {
     imports = Imports(codeNode, this);
   }
 

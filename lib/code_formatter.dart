@@ -7,7 +7,6 @@ class CodeBuffer {
   StringBuffer codeBuffer = StringBuffer();
   int lineLength = 0;
 
-
   CodeBuffer(this.context, CodeNode codeNode) {
     _appendNode(codeNode);
   }
@@ -21,7 +20,7 @@ class CodeBuffer {
   _appendNode(CodeNode codeNode) {
     if (codeNode is CodeLeaf) {
       String code = codeNode.convertToString(context);
-      if (code==context.newLine) {
+      if (code == context.newLine) {
         _appendNewLine();
       } else if (_wrapLine(code)) {
         _appendNewLine();
@@ -37,8 +36,7 @@ class CodeBuffer {
   }
 
   bool _wrapLine(String code) {
-    return code.length > 0 &&
-        lineLength + code.length > context.maxLineLength;
+    return code.length > 0 && lineLength + code.length > context.maxLineLength;
   }
 
   void _appendNewLine() {
@@ -47,13 +45,13 @@ class CodeBuffer {
   }
 
   void _appendIndent() {
-    String indent = ' ' * (context.indent * context.indentWidth);
+    String indent =  context.indent * context.indentCount;
     codeBuffer.write(indent);
     lineLength += indent.length;
   }
 
   void _appendWrappingIndent() {
-    String indent = ' ' * (2 * context.indentWidth);
+    String indent = context.wrapIndent;
     codeBuffer.write(indent);
     lineLength += indent.length;
   }
@@ -71,27 +69,28 @@ class CodeBuffer {
   String toString() {
     return codeBuffer.toString();
   }
-
-
 }
 
 /// Converts a [CodeModel] to a formatted String, using the constructor parameters, which already have sensible default values.
 class CodeFormatter {
   final int maxLineLength;
-  final int indentWidth;
+  final String indent;
+  final String wrapIndent;
   final String newLine;
 
   CodeFormatter(
-      {this.maxLineLength = 80, this.indentWidth = 2, this.newLine = '\n'});
+      {this.maxLineLength = 80,
+      this.indent = '  ',
+      this.wrapIndent = '    ',
+      this.newLine = '\n'});
 
   String format(CodeNode codeNode) {
     Context context = Context(codeNode,
         maxLineLength: maxLineLength,
         newLine: newLine,
-        indentWidth: indentWidth);
+        indent: indent,
+        wrapIndent: wrapIndent);
     CodeBuffer codeBuffer = CodeBuffer(context, codeNode);
     return codeBuffer.toString();
   }
 }
-
-

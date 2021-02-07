@@ -32,13 +32,7 @@ main() {
     });
   });
 
-  group('Code class', () {
-    test('Given a Code => Returns the literal code string', () {
-      String actual = Code("test();").toString();
-      String expected = 'test();';
-      expect(actual, expected);
-    });
-  });
+
 
   group('IncreaseIndent class', () {
     test(
