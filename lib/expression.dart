@@ -19,6 +19,8 @@ class Expression extends CodeModel {
 
   Expression.ofString(String value) : nodes = _createStringNodes(value);
 
+  Expression.ofVariable(String name) : nodes = [IdentifierStartingWithLowerCase(name)];
+
   List<CodeNode> codeNodes(Context context) => nodes;
 
   Statement assignVariable(String name, [Type type]) => Statement([
