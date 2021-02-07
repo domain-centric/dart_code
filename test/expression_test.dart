@@ -97,6 +97,54 @@ main() {
         });
       });
 
+      group('Expression.callConstructor constructor', () {
+        test('Should return a call to a empty constructor', () {
+          String actual = Expression.callConstructor(Type('Point')).toString();
+          String expected = "Point()";
+          expect(actual, expected);
+        });
+
+        test('Should return a call to a constructor with parameter values', () {
+          String actual = Expression.callConstructor(Type('Point'),
+              parameterValues: ParameterValues([
+                NamedParameterValue('x', Expression.ofInt(20)),
+                NamedParameterValue('y', Expression.ofInt(30))
+              ])).toString();
+          String expected = "Point(x: 20, y: 30)";
+          expect(actual, expected);
+        });
+
+        test('Should return a call to a empty named constructor', () {
+          String actual =
+              Expression.callConstructor(Type('Point'), name: 'origin')
+                  .toString();
+          String expected = "Point.origin()";
+          expect(actual, expected);
+        });
+
+        test(
+            'Should return a call to a named constructor with parameter values',
+            () {
+          String actual = Expression.callConstructor(Type('Point'),
+              name: 'fromJson',
+              parameterValues: ParameterValues([
+                ParameterValue(Expression.ofVariable('json')),
+              ])).toString();
+          String expected = "Point.fromJson(json)";
+          expect(actual, expected);
+        });
+
+        test('Should throws an exception invalid constructor name ', () {
+          expect(() {
+            Expression.callConstructor(Type('Point'),
+                name: 'InvalidConstructorName');
+          },
+              throwsA((e) =>
+                  e is ArgumentError &&
+                  e.message == 'Must start with an lower case letter'));
+        });
+      });
+
       group('Expression.callFunction constructor', () {
         test('Should return a call to a function', () {
           String actual = Expression.callFunction('myFunction').toString();
@@ -106,11 +154,11 @@ main() {
 
         test('Should return a call to a function with parameters', () {
           String actual = Expression.callFunction(
-                  'add', ParameterValues([
-                    ParameterValue(Expression.ofInt(2)),
-              ParameterValue(Expression.ofInt(3))
-          ]))
-              .toString();
+              'add',
+              ParameterValues([
+                ParameterValue(Expression.ofInt(2)),
+                ParameterValue(Expression.ofInt(3))
+              ])).toString();
           String expected = "add(2, 3)";
           expect(actual, expected);
         });

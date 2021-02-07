@@ -29,7 +29,15 @@ class Expression extends CodeModel {
     Code(')'),
   ];
 
-  List<CodeNode> codeNodes(Context context) => nodes;
+  Expression.callConstructor(Type type, {String name , ParameterValues parameterValues}) :nodes=[
+    type,
+    if (name!=null) Code('.'),
+    if (name!=null) IdentifierStartingWithLowerCase(name),
+    Code('('),
+    if (parameterValues!=null) parameterValues,
+    Code(')'),
+  ];
+
 
   Statement assignVariable(String name, [Type type]) => Statement([
         if (type == null) Type.ofVar(),
@@ -39,6 +47,13 @@ class Expression extends CodeModel {
         Code(' = '),
         this
       ]);
+
+
+
+
+  List<CodeNode> codeNodes(Context context) => nodes;
+
+
 
   static RegExp singleQuote = RegExp("'");
   static RegExp doubleQuote = RegExp('"');
