@@ -226,12 +226,80 @@ main() {
       });
     });
 
+    group('assignFinal() method', () {
+      test('should result in a final assignment', () {
+        String actual = Expression.ofString('Hello World')
+            .assignFinal("greeting")
+            .toString();
+        String expected = "final greeting = 'Hello World';\n";
+        expect(actual, expected);
+      });
+
+      test('should result in a String final assignment', () {
+        String actual = Expression.ofString('Hello World')
+            .assignFinal("greeting", Type.ofString())
+            .toString();
+        String expected = "final String greeting = 'Hello World';\n";
+        expect(actual, expected);
+      });
+
+      test('should result in a final assignment of type Statement', () {
+        bool actual = Expression.ofString('Hello World').assignFinal("greeting")
+            is Statement;
+        bool expected = true;
+        expect(actual, expected);
+      });
+
+      test('should throw name exception', () {
+        expect(() {
+          Expression.ofString('Hello World').assignFinal("Greeting");
+        },
+            throwsA((e) =>
+                e is ArgumentError &&
+                e.message == 'Must start with an lower case letter'));
+      });
+    });
+
+    group('assignConst() method', () {
+      test('should result in a const assignment', () {
+        String actual = Expression.ofString('Hello World')
+            .assignConst("greeting")
+            .toString();
+        String expected = "const greeting = 'Hello World';\n";
+        expect(actual, expected);
+      });
+
+      test('should result in a String const assignment', () {
+        String actual = Expression.ofString('Hello World')
+            .assignConst("greeting", Type.ofString())
+            .toString();
+        String expected = "const String greeting = 'Hello World';\n";
+        expect(actual, expected);
+      });
+
+      test('should result in a const assignment of type Statement', () {
+        bool actual = Expression.ofString('Hello World').assignConst("greeting")
+            is Statement;
+        bool expected = true;
+        expect(actual, expected);
+      });
+
+      test('should throw name exception', () {
+        expect(() {
+          Expression.ofString('Hello World').assignConst("Greeting");
+        },
+            throwsA((e) =>
+                e is ArgumentError &&
+                e.message == 'Must start with an lower case letter'));
+      });
+    });
+
     group('callMethod() method', () {
       test('Should return a call to a method without parameter values', () {
         String actual = Expression.callConstructor(Type('AddressFinder'))
-            .callMethod('findFirst')
+            .assignConst('findFirst')
             .toString();
-        String expected = "AddressFinder().findFirst()";
+        String expected = 'const findFirst = AddressFinder();\n';
         expect(actual, expected);
       });
 
