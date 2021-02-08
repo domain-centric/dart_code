@@ -252,11 +252,40 @@ main() {
                 e.message == 'Must start with an lower case letter'));
       });
     });
+
+
+    group('getProperty() method', () {
+      test('Should return a get property', () {
+        String actual = Expression.callConstructor(Type('Person'))
+            .getProperty('name')
+            .toString();
+        String expected = "Person().name";
+        expect(actual, expected);
+      });
+
+      test('Should return a call to 2 cascade methods', () {
+        String actual = Expression.callConstructor(Type('Person'))
+            .callMethod('kiss', cascade: true)
+            .getProperty('cheekColor', cascade:true)
+            .assignVariable('person')
+            .toString();
+        String expected = 'var person = Person()\n'
+            '..kiss()\n'
+            '..cheekColor;\n';//makes no sense: returns a kissed Person!
+        expect(actual, expected);
+      });
+
+
+      test('Should throws an invalid name exception', () {
+        expect(() {
+          Expression.callConstructor(Type('Person'))
+              .getProperty('InvalidPropertyName');
+        },
+            throwsA((e) =>
+            e is ArgumentError &&
+                e.message == 'Must start with an lower case letter'));
+      });
+    });
   });
 }
 
-class Person {
-  String kill() => "";
-
-  String revive() => "";
-}

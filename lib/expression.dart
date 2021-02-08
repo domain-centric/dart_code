@@ -50,6 +50,16 @@ class Expression extends CodeModel {
     Code(')'),
   ]);
 
+
+  Expression getProperty(String name, {bool cascade=false}) => Expression([
+    this,
+    if (!cascade) Code('.'),
+    if (cascade) NewLine(),
+    if (cascade) Code('..'),
+    IdentifierStartingWithLowerCase(name),
+  ]);
+
+
   Statement assignVariable(String name, [Type type]) => Statement([
         if (type == null) Type.ofVar(),
         if (type != null) type,
