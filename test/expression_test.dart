@@ -87,7 +87,7 @@ main() {
           expect(actual, expected);
         });
 
-        test('Should throws an exception invalid name ', () {
+        test('Should throw an exception invalid name ', () {
           expect(() {
             Expression.ofVariable('InvalidVariableName');
           },
@@ -134,10 +134,27 @@ main() {
           expect(actual, expected);
         });
 
-        test('Should throws an exception invalid constructor name ', () {
+        test('Should throw an exception invalid constructor name ', () {
           expect(() {
             Expression.callConstructor(Type('Point'),
                 name: 'InvalidConstructorName');
+          },
+              throwsA((e) =>
+                  e is ArgumentError &&
+                  e.message == 'Must start with an lower case letter'));
+        });
+      });
+
+      group('Expression.ofEnu, constructor', () {
+        test('Should return a reference to a enum value', () {
+          String actual = Expression.ofEnum(Type('MyColors'), 'red').toString();
+          String expected = "MyColors.red";
+          expect(actual, expected);
+        });
+
+        test('Should throw an exception invalid constructor name ', () {
+          expect(() {
+            Expression.ofEnum(Type('MyColors'), 'InvalidEnumValue');
           },
               throwsA((e) =>
                   e is ArgumentError &&
@@ -163,7 +180,7 @@ main() {
           expect(actual, expected);
         });
 
-        test('Should throws an exception invalid name ', () {
+        test('Should throw an exception invalid name ', () {
           expect(() {
             Expression.callFunction('InvalidFunctionName');
           },
@@ -242,7 +259,7 @@ main() {
         expect(actual, expected);
       });
 
-      test('Should throws an exception invalid name ', () {
+      test('Should throw an exception invalid name ', () {
         expect(() {
           Expression.callConstructor(Type('AddressFinder'))
               .callMethod('InvalidMethodName');
@@ -252,7 +269,6 @@ main() {
                 e.message == 'Must start with an lower case letter'));
       });
     });
-
 
     group('getProperty() method', () {
       test('Should return a get property', () {
@@ -266,26 +282,66 @@ main() {
       test('Should return a call to 2 cascade methods', () {
         String actual = Expression.callConstructor(Type('Person'))
             .callMethod('kiss', cascade: true)
-            .getProperty('cheekColor', cascade:true)
+            .getProperty('cheekColor', cascade: true)
             .assignVariable('person')
             .toString();
         String expected = 'var person = Person()\n'
             '..kiss()\n'
-            '..cheekColor;\n';//makes no sense: returns a kissed Person!
+            '..cheekColor;\n'; //makes no sense: returns a kissed Person!
         expect(actual, expected);
       });
 
-
-      test('Should throws an invalid name exception', () {
+      test('Should throw an invalid name exception', () {
         expect(() {
           Expression.callConstructor(Type('Person'))
               .getProperty('InvalidPropertyName');
         },
             throwsA((e) =>
-            e is ArgumentError &&
+                e is ArgumentError &&
+                e.message == 'Must start with an lower case letter'));
+      });
+    });
+
+    group('setProperty() method', () {
+      test('Should return a get property', () {
+        String actual = Expression.callConstructor(Type('Person'))
+            .setProperty('name', Expression.ofString('James'))
+            .toString();
+        String expected = "Person().name = 'James'";
+        expect(actual, expected);
+      });
+
+      test('Should return a get property', () {
+        String actual = Expression.callConstructor(Type('Person'))
+            .setProperty('name', Expression.ofString('James'))
+            .toString();
+        String expected = "Person().name = 'James'";
+        expect(actual, expected);
+      });
+
+      test('Should return a call to 2 cascade methods', () {
+        String actual = Expression.callConstructor(Type('Person'))
+            .callMethod('kiss', cascade: true)
+            .setProperty(
+                'cheekColor', Expression.ofEnum(Type('CheekColors'), 'red'),
+                cascade: true)
+            .assignVariable('person')
+            .toString();
+        String expected = 'var person = Person()\n'
+            '..kiss()\n'
+            '..cheekColor = CheekColors.red;\n'; //makes no sense: returns a kissed Person!
+        expect(actual, expected);
+      });
+
+      test('Should throw an invalid name exception', () {
+        expect(() {
+          Expression.callConstructor(Type('Person'))
+              .setProperty('InvalidPropertyName', Expression.ofString('Value'));
+        },
+            throwsA((e) =>
+                e is ArgumentError &&
                 e.message == 'Must start with an lower case letter'));
       });
     });
   });
 }
-

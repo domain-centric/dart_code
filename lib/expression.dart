@@ -39,6 +39,12 @@ class Expression extends CodeModel {
     Code(')'),
   ];
 
+  Expression.ofEnum(Type type, String value) :nodes=[
+  type,
+  Code('.'),
+  IdentifierStartingWithLowerCase(value),
+  ];
+
   Expression callMethod(String name, { ParameterValues parameterValues, bool cascade=false}) => Expression([
     this,
     if (!cascade) Code('.'),
@@ -59,6 +65,15 @@ class Expression extends CodeModel {
     IdentifierStartingWithLowerCase(name),
   ]);
 
+  Expression setProperty(String name, Expression value,{bool cascade=false}) => Expression([
+    this,
+    if (!cascade) Code('.'),
+    if (cascade) NewLine(),
+    if (cascade) Code('..'),
+    IdentifierStartingWithLowerCase(name),
+    Code(' = '),
+    value,
+  ]);
 
   Statement assignVariable(String name, [Type type]) => Statement([
         if (type == null) Type.ofVar(),
@@ -94,4 +109,6 @@ class Expression extends CodeModel {
     }
     return [Code(value.toString())];
   }
+
+
 }
