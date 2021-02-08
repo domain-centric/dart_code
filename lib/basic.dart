@@ -1,4 +1,5 @@
 import 'package:dart_code/model.dart';
+import 'package:dart_code/statement.dart';
 
 import 'expression.dart';
 import 'formatting.dart';
@@ -41,14 +42,6 @@ class NoneRepeatingCode extends CodeLeaf {
   }
 }
 
-/// ;
-class EndOfStatement extends CodeModel {
-  @override
-  List<CodeNode> codeNodes(Context context) => [
-        NoneRepeatingCode(';'),
-        NoneRepeatingCode(context.newLine),
-      ];
-}
 
 final RegExp endsWithWhiteSpace = RegExp(r'\s$');
 
@@ -413,26 +406,7 @@ class CaseChecker {
   }
 }
 
-class Statement extends CodeModel {
-  final List<CodeNode> statementCodes;
 
-  Statement(this.statementCodes);
-
-  @override
-  List<CodeNode> codeNodes(Context context) => [
-        for (CodeNode codeNode in statementCodes) codeNode,
-        if (statementCodes.isNotEmpty) EndOfStatement(),
-      ];
-}
-
-class Statements extends CodeModel {
-  final List<Statement> statements;
-
-  Statements(this.statements);
-
-  @override
-  List<CodeNode> codeNodes(Context context) => statements;
-}
 
 class Block extends CodeModel {
   final List<CodeNode> codeInsideBlock;

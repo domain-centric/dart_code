@@ -1,6 +1,6 @@
-import 'package:dart_code/basic.dart';
 import 'package:dart_code/code_formatter.dart';
 import 'package:dart_code/model.dart';
+import 'package:dart_code/statement.dart';
 import 'package:test/test.dart' as code_formatter_test;
 
 main() {
