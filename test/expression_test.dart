@@ -192,224 +192,393 @@ main() {
       });
     });
 
-    group('assignVariable() method', () {
-      test('should result in a variable assignment', () {
-        String actual = Expression.ofString('Hello World')
-            .assignVariable("greeting")
+    group('Fluent method for operators', () {
+      test('Should return me && other', () {
+        String actual = Expression.ofVariable('me')
+            .and(Expression.ofVariable('other'))
             .toString();
-        String expected = "var greeting = 'Hello World';\n";
+        String expected = 'me && other';
         expect(actual, expected);
       });
 
-      test('should result in a String variable assignment', () {
-        String actual = Expression.ofString('Hello World')
-            .assignVariable("greeting", Type.ofString())
+      test('Should return me || other', () {
+        String actual = Expression.ofVariable('me')
+            .or(Expression.ofVariable('other'))
             .toString();
-        String expected = "String greeting = 'Hello World';\n";
+        String expected = 'me || other';
         expect(actual, expected);
       });
 
-      test('should result in a variable assignment of type Statement', () {
-        bool actual = Expression.ofString('Hello World')
-            .assignVariable("greeting") is Statement;
-        bool expected = true;
+      test('Should return !me', () {
+        String actual = Expression.ofVariable('me').negate().toString();
+        String expected = '!me';
         expect(actual, expected);
       });
 
-      test('should throw name exception', () {
-        expect(() {
-          Expression.ofString('Hello World').assignVariable("Greeting");
-        },
-            throwsA((e) =>
-                e is ArgumentError &&
-                e.message == 'Must start with an lower case letter'));
+      test('Should return me as other', () {
+        String actual = Expression.ofVariable('me')
+            .asA(Expression.ofVariable('other'))
+            .toString();
+        String expected = 'me as other';
+        expect(actual, expected);
+      });
+
+      test('Should return me[index]', () {
+        String actual = Expression.ofVariable('me')
+            .index(Expression.ofVariable('index'))
+            .toString();
+        String expected = 'me[index]';
+        expect(actual, expected);
+      });
+
+      test('Should return me is other', () {
+        String actual = Expression.ofVariable('me')
+            .isA(Expression.ofVariable('other'))
+            .toString();
+        String expected = 'me is other';
+        expect(actual, expected);
+      });
+
+      test('Should return me is! other', () {
+        String actual = Expression.ofVariable('me')
+            .isNotA(Expression.ofVariable('other'))
+            .toString();
+        String expected = 'me is! other';
+        expect(actual, expected);
+      });
+
+      test('Should return me == other', () {
+        String actual = Expression.ofVariable('me')
+            .equalTo(Expression.ofVariable('other'))
+            .toString();
+        String expected = 'me == other';
+        expect(actual, expected);
+      });
+
+      test('Should return me != other', () {
+        String actual = Expression.ofVariable('me')
+            .notEqualTo(Expression.ofVariable('other'))
+            .toString();
+        String expected = 'me != other';
+        expect(actual, expected);
+      });
+
+      test('Should return me > other', () {
+        String actual = Expression.ofVariable('me')
+            .greaterThan(Expression.ofVariable('other'))
+            .toString();
+        String expected = 'me > other';
+        expect(actual, expected);
+      });
+
+      test('Should return me < other', () {
+        String actual = Expression.ofVariable('me')
+            .lessThan(Expression.ofVariable('other'))
+            .toString();
+        String expected = 'me < other';
+        expect(actual, expected);
+      });
+
+      test('Should return me >= other', () {
+        String actual = Expression.ofVariable('me')
+            .greaterOrEqualTo(Expression.ofVariable('other'))
+            .toString();
+        String expected = 'me >= other';
+        expect(actual, expected);
+      });
+
+      test('Should return me <= other', () {
+        String actual = Expression.ofVariable('me')
+            .lessOrEqualTo(Expression.ofVariable('other'))
+            .toString();
+        String expected = 'me <= other';
+        expect(actual, expected);
+      });
+
+      test('Should return me + other', () {
+        String actual = Expression.ofVariable('me')
+            .add(Expression.ofVariable('other'))
+            .toString();
+        String expected = 'me + other';
+        expect(actual, expected);
+      });
+
+      test('Should return me - other', () {
+        String actual = Expression.ofVariable('me')
+            .substract(Expression.ofVariable('other'))
+            .toString();
+        String expected = 'me - other';
+        expect(actual, expected);
+      });
+
+      test('Should return me / other', () {
+        String actual = Expression.ofVariable('me')
+            .divide(Expression.ofVariable('other'))
+            .toString();
+        String expected = 'me / other';
+        expect(actual, expected);
+      });
+
+      test('Should return me * other', () {
+        String actual = Expression.ofVariable('me')
+            .multiply(Expression.ofVariable('other'))
+            .toString();
+        String expected = 'me * other';
+        expect(actual, expected);
+      });
+
+      test('Should return me % other', () {
+        String actual = Expression.ofVariable('me')
+            .modulo(Expression.ofVariable('other'))
+            .toString();
+        String expected = 'me % other';
+        expect(actual, expected);
+      });
+
+      test('Should return me ? whenTrue : whenFalse', () {
+        String actual = Expression.ofVariable('me')
+            .conditional(Expression.ofVariable('whenTrue'),
+                Expression.ofVariable('whenFalse'))
+            .toString();
+        String expected = 'me ? whenTrue : whenFalse';
+        expect(actual, expected);
+      });
+
+      test('Should return await me', () {
+        String actual = Expression.ofVariable('me').awaited().toString();
+        String expected = 'await me';
+        expect(actual, expected);
+      });
+
+      test('Should return other ?? me', () {
+        String actual = Expression.ofVariable('me')
+            .ifNullThen(Expression.ofVariable('other'))
+            .toString();
+        String expected = 'other ?? me';
+        expect(actual, expected);
       });
     });
 
-    group('assignFinal() method', () {
-      test('should result in a final assignment', () {
-        String actual = Expression.ofString('Hello World')
-            .assignFinal("greeting")
-            .toString();
-        String expected = "final greeting = 'Hello World';\n";
-        expect(actual, expected);
+    group('Other fluent methods', () {
+      group('assignVariable() method', () {
+        test('should result in a variable assignment', () {
+          String actual = Expression.ofString('Hello World')
+              .assignVariable("greeting")
+              .toString();
+          String expected = "var greeting = 'Hello World';\n";
+          expect(actual, expected);
+        });
+
+        test('should result in a String variable assignment', () {
+          String actual = Expression.ofString('Hello World')
+              .assignVariable("greeting", Type.ofString())
+              .toString();
+          String expected = "String greeting = 'Hello World';\n";
+          expect(actual, expected);
+        });
+
+        test('should result in a variable assignment of type Statement', () {
+          bool actual = Expression.ofString('Hello World')
+              .assignVariable("greeting") is Statement;
+          bool expected = true;
+          expect(actual, expected);
+        });
+
+        test('should throw name exception', () {
+          expect(() {
+            Expression.ofString('Hello World').assignVariable("Greeting");
+          },
+              throwsA((e) =>
+                  e is ArgumentError &&
+                  e.message == 'Must start with an lower case letter'));
+        });
       });
 
-      test('should result in a String final assignment', () {
-        String actual = Expression.ofString('Hello World')
-            .assignFinal("greeting", Type.ofString())
-            .toString();
-        String expected = "final String greeting = 'Hello World';\n";
-        expect(actual, expected);
+      group('assignFinal() method', () {
+        test('should result in a final assignment', () {
+          String actual = Expression.ofString('Hello World')
+              .assignFinal("greeting")
+              .toString();
+          String expected = "final greeting = 'Hello World';\n";
+          expect(actual, expected);
+        });
+
+        test('should result in a String final assignment', () {
+          String actual = Expression.ofString('Hello World')
+              .assignFinal("greeting", Type.ofString())
+              .toString();
+          String expected = "final String greeting = 'Hello World';\n";
+          expect(actual, expected);
+        });
+
+        test('should result in a final assignment of type Statement', () {
+          bool actual = Expression.ofString('Hello World')
+              .assignFinal("greeting") is Statement;
+          bool expected = true;
+          expect(actual, expected);
+        });
+
+        test('should throw name exception', () {
+          expect(() {
+            Expression.ofString('Hello World').assignFinal("Greeting");
+          },
+              throwsA((e) =>
+                  e is ArgumentError &&
+                  e.message == 'Must start with an lower case letter'));
+        });
       });
 
-      test('should result in a final assignment of type Statement', () {
-        bool actual = Expression.ofString('Hello World').assignFinal("greeting")
-            is Statement;
-        bool expected = true;
-        expect(actual, expected);
+      group('assignConst() method', () {
+        test('should result in a const assignment', () {
+          String actual = Expression.ofString('Hello World')
+              .assignConst("greeting")
+              .toString();
+          String expected = "const greeting = 'Hello World';\n";
+          expect(actual, expected);
+        });
+
+        test('should result in a String const assignment', () {
+          String actual = Expression.ofString('Hello World')
+              .assignConst("greeting", Type.ofString())
+              .toString();
+          String expected = "const String greeting = 'Hello World';\n";
+          expect(actual, expected);
+        });
+
+        test('should result in a const assignment of type Statement', () {
+          bool actual = Expression.ofString('Hello World')
+              .assignConst("greeting") is Statement;
+          bool expected = true;
+          expect(actual, expected);
+        });
+
+        test('should throw name exception', () {
+          expect(() {
+            Expression.ofString('Hello World').assignConst("Greeting");
+          },
+              throwsA((e) =>
+                  e is ArgumentError &&
+                  e.message == 'Must start with an lower case letter'));
+        });
       });
 
-      test('should throw name exception', () {
-        expect(() {
-          Expression.ofString('Hello World').assignFinal("Greeting");
-        },
-            throwsA((e) =>
-                e is ArgumentError &&
-                e.message == 'Must start with an lower case letter'));
-      });
-    });
+      group('callMethod() method', () {
+        test('Should return a call to a method without parameter values', () {
+          String actual = Expression.callConstructor(Type('AddressFinder'))
+              .assignConst('findFirst')
+              .toString();
+          String expected = 'const findFirst = AddressFinder();\n';
+          expect(actual, expected);
+        });
 
-    group('assignConst() method', () {
-      test('should result in a const assignment', () {
-        String actual = Expression.ofString('Hello World')
-            .assignConst("greeting")
-            .toString();
-        String expected = "const greeting = 'Hello World';\n";
-        expect(actual, expected);
-      });
+        test('Should return a call to a method with parameter values', () {
+          String actual = Expression.callConstructor(Type('AddressFinder'))
+              .callMethod('find',
+                  parameterValues: ParameterValues(
+                      [ParameterValue(Expression.ofString("Santa's house"))]))
+              .toString();
+          String expected = "AddressFinder().find(\"Santa\'s house\")";
+          expect(actual, expected);
+        });
 
-      test('should result in a String const assignment', () {
-        String actual = Expression.ofString('Hello World')
-            .assignConst("greeting", Type.ofString())
-            .toString();
-        String expected = "const String greeting = 'Hello World';\n";
-        expect(actual, expected);
-      });
+        test('Should return a call to 2 cascade methods', () {
+          String actual = Expression.callConstructor(Type('Person'))
+              .callMethod('tickle',
+                  cascade: true,
+                  parameterValues: ParameterValues(
+                      [ParameterValue(Expression.ofString('feather'))]))
+              .callMethod('kiss', cascade: true)
+              .assignVariable('person')
+              .toString();
+          String expected = 'var person = Person()\n'
+              '..tickle(\'feather\')\n'
+              '..kiss();\n';
+          expect(actual, expected);
+        });
 
-      test('should result in a const assignment of type Statement', () {
-        bool actual = Expression.ofString('Hello World').assignConst("greeting")
-            is Statement;
-        bool expected = true;
-        expect(actual, expected);
-      });
-
-      test('should throw name exception', () {
-        expect(() {
-          Expression.ofString('Hello World').assignConst("Greeting");
-        },
-            throwsA((e) =>
-                e is ArgumentError &&
-                e.message == 'Must start with an lower case letter'));
-      });
-    });
-
-    group('callMethod() method', () {
-      test('Should return a call to a method without parameter values', () {
-        String actual = Expression.callConstructor(Type('AddressFinder'))
-            .assignConst('findFirst')
-            .toString();
-        String expected = 'const findFirst = AddressFinder();\n';
-        expect(actual, expected);
+        test('Should throw an exception invalid name ', () {
+          expect(() {
+            Expression.callConstructor(Type('AddressFinder'))
+                .callMethod('InvalidMethodName');
+          },
+              throwsA((e) =>
+                  e is ArgumentError &&
+                  e.message == 'Must start with an lower case letter'));
+        });
       });
 
-      test('Should return a call to a method with parameter values', () {
-        String actual = Expression.callConstructor(Type('AddressFinder'))
-            .callMethod('find',
-                parameterValues: ParameterValues(
-                    [ParameterValue(Expression.ofString("Santa's house"))]))
-            .toString();
-        String expected = "AddressFinder().find(\"Santa\'s house\")";
-        expect(actual, expected);
+      group('getProperty() method', () {
+        test('Should return a get property', () {
+          String actual = Expression.callConstructor(Type('Person'))
+              .getProperty('name')
+              .toString();
+          String expected = "Person().name";
+          expect(actual, expected);
+        });
+
+        test('Should return a call to 2 cascade methods', () {
+          String actual = Expression.callConstructor(Type('Person'))
+              .callMethod('kiss', cascade: true)
+              .getProperty('cheekColor', cascade: true)
+              .assignVariable('person')
+              .toString();
+          String expected = 'var person = Person()\n'
+              '..kiss()\n'
+              '..cheekColor;\n'; //makes no sense: returns a kissed Person!
+          expect(actual, expected);
+        });
+
+        test('Should throw an invalid name exception', () {
+          expect(() {
+            Expression.callConstructor(Type('Person'))
+                .getProperty('InvalidPropertyName');
+          },
+              throwsA((e) =>
+                  e is ArgumentError &&
+                  e.message == 'Must start with an lower case letter'));
+        });
       });
 
-      test('Should return a call to 2 cascade methods', () {
-        String actual = Expression.callConstructor(Type('Person'))
-            .callMethod('tickle',
-                cascade: true,
-                parameterValues: ParameterValues(
-                    [ParameterValue(Expression.ofString('feather'))]))
-            .callMethod('kiss', cascade: true)
-            .assignVariable('person')
-            .toString();
-        String expected = 'var person = Person()\n'
-            '..tickle(\'feather\')\n'
-            '..kiss();\n';
-        expect(actual, expected);
-      });
+      group('setProperty() method', () {
+        test('Should return a get property', () {
+          String actual = Expression.callConstructor(Type('Person'))
+              .setProperty('name', Expression.ofString('James'))
+              .toString();
+          String expected = "Person().name = 'James'";
+          expect(actual, expected);
+        });
 
-      test('Should throw an exception invalid name ', () {
-        expect(() {
-          Expression.callConstructor(Type('AddressFinder'))
-              .callMethod('InvalidMethodName');
-        },
-            throwsA((e) =>
-                e is ArgumentError &&
-                e.message == 'Must start with an lower case letter'));
-      });
-    });
+        test('Should return a get property', () {
+          String actual = Expression.callConstructor(Type('Person'))
+              .setProperty('name', Expression.ofString('James'))
+              .toString();
+          String expected = "Person().name = 'James'";
+          expect(actual, expected);
+        });
 
-    group('getProperty() method', () {
-      test('Should return a get property', () {
-        String actual = Expression.callConstructor(Type('Person'))
-            .getProperty('name')
-            .toString();
-        String expected = "Person().name";
-        expect(actual, expected);
-      });
+        test('Should return a call to 2 cascade methods', () {
+          String actual = Expression.callConstructor(Type('Person'))
+              .callMethod('kiss', cascade: true)
+              .setProperty(
+                  'cheekColor', Expression.ofEnum(Type('CheekColors'), 'red'),
+                  cascade: true)
+              .assignVariable('person')
+              .toString();
+          String expected = 'var person = Person()\n'
+              '..kiss()\n'
+              '..cheekColor = CheekColors.red;\n'; //makes no sense: returns a kissed Person!
+          expect(actual, expected);
+        });
 
-      test('Should return a call to 2 cascade methods', () {
-        String actual = Expression.callConstructor(Type('Person'))
-            .callMethod('kiss', cascade: true)
-            .getProperty('cheekColor', cascade: true)
-            .assignVariable('person')
-            .toString();
-        String expected = 'var person = Person()\n'
-            '..kiss()\n'
-            '..cheekColor;\n'; //makes no sense: returns a kissed Person!
-        expect(actual, expected);
-      });
-
-      test('Should throw an invalid name exception', () {
-        expect(() {
-          Expression.callConstructor(Type('Person'))
-              .getProperty('InvalidPropertyName');
-        },
-            throwsA((e) =>
-                e is ArgumentError &&
-                e.message == 'Must start with an lower case letter'));
-      });
-    });
-
-    group('setProperty() method', () {
-      test('Should return a get property', () {
-        String actual = Expression.callConstructor(Type('Person'))
-            .setProperty('name', Expression.ofString('James'))
-            .toString();
-        String expected = "Person().name = 'James'";
-        expect(actual, expected);
-      });
-
-      test('Should return a get property', () {
-        String actual = Expression.callConstructor(Type('Person'))
-            .setProperty('name', Expression.ofString('James'))
-            .toString();
-        String expected = "Person().name = 'James'";
-        expect(actual, expected);
-      });
-
-      test('Should return a call to 2 cascade methods', () {
-        String actual = Expression.callConstructor(Type('Person'))
-            .callMethod('kiss', cascade: true)
-            .setProperty(
-                'cheekColor', Expression.ofEnum(Type('CheekColors'), 'red'),
-                cascade: true)
-            .assignVariable('person')
-            .toString();
-        String expected = 'var person = Person()\n'
-            '..kiss()\n'
-            '..cheekColor = CheekColors.red;\n'; //makes no sense: returns a kissed Person!
-        expect(actual, expected);
-      });
-
-      test('Should throw an invalid name exception', () {
-        expect(() {
-          Expression.callConstructor(Type('Person'))
-              .setProperty('InvalidPropertyName', Expression.ofString('Value'));
-        },
-            throwsA((e) =>
-                e is ArgumentError &&
-                e.message == 'Must start with an lower case letter'));
+        test('Should throw an invalid name exception', () {
+          expect(() {
+            Expression.callConstructor(Type('Person')).setProperty(
+                'InvalidPropertyName', Expression.ofString('Value'));
+          },
+              throwsA((e) =>
+                  e is ArgumentError &&
+                  e.message == 'Must start with an lower case letter'));
+        });
       });
     });
   });
