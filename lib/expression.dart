@@ -212,17 +212,8 @@ class Expression extends CodeModel {
       Statement.assignVariable(name, this, type: type, nullAware: nullAware);
 
   /// Return `final {name} = {this}`.
-  Statement assignFinal(String name, [Type type]) => Statement([
-        KeyWord.$final,
-        SpaceWhenNeeded(),
-        if (type != null) type,
-        SpaceWhenNeeded(),
-        IdentifierStartingWithLowerCase(name),
-        SpaceWhenNeeded(),
-        Code('='),
-        SpaceWhenNeeded(),
-        this
-      ]);
+  Statement assignFinal(String name, [Type type]) =>
+      Statement.assignFinal(name, this, type);
 
   /// Return `const {name} = {this}`.
   Statement assignConst(String name, [Type type]) => Statement([

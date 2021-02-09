@@ -20,6 +20,19 @@ class Statement extends CodeModel {
           value,
         ];
 
+  Statement.assignFinal(String name, Expression value, [Type type])
+      : nodes = [
+          KeyWord.$final,
+          SpaceWhenNeeded(),
+          if (type != null) type,
+          SpaceWhenNeeded(),
+          IdentifierStartingWithLowerCase(name),
+          SpaceWhenNeeded(),
+          Code('='),
+          SpaceWhenNeeded(),
+          value
+        ];
+
   @override
   List<CodeNode> codeNodes(Context context) => [
         for (CodeNode codeNode in nodes) codeNode,

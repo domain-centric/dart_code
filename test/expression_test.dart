@@ -411,7 +411,7 @@ main() {
       });
 
       group('assignFinal() method', () {
-        test('should result in a final assignment', () {
+        test("Should return: final greeting = 'Hello World';\n", () {
           String actual = Expression.ofString('Hello World')
               .assignFinal("greeting")
               .toString();
@@ -419,7 +419,7 @@ main() {
           expect(actual, expected);
         });
 
-        test('should result in a String final assignment', () {
+        test("Should return: final String greeting = 'Hello World';\n", () {
           String actual = Expression.ofString('Hello World')
               .assignFinal("greeting", Type.ofString())
               .toString();
@@ -427,14 +427,14 @@ main() {
           expect(actual, expected);
         });
 
-        test('should result in a final assignment of type Statement', () {
+        test('Should result in a final assignment of type Statement', () {
           bool actual = Expression.ofString('Hello World')
               .assignFinal("greeting") is Statement;
           bool expected = true;
           expect(actual, expected);
         });
 
-        test('should throw name exception', () {
+        test('Should throw name exception', () {
           expect(() {
             Expression.ofString('Hello World').assignFinal("Greeting");
           },
