@@ -445,7 +445,7 @@ main() {
       });
 
       group('assignConst() method', () {
-        test('should result in a const assignment', () {
+        test("Should return: const greeting = 'Hello World';\n", () {
           String actual = Expression.ofString('Hello World')
               .assignConst("greeting")
               .toString();
@@ -453,7 +453,7 @@ main() {
           expect(actual, expected);
         });
 
-        test('should result in a String const assignment', () {
+        test("Should return: const String greeting = 'Hello World';\n", () {
           String actual = Expression.ofString('Hello World')
               .assignConst("greeting", Type.ofString())
               .toString();
@@ -468,7 +468,7 @@ main() {
           expect(actual, expected);
         });
 
-        test('should throw name exception', () {
+        test('Should throw name exception', () {
           expect(() {
             Expression.ofString('Hello World').assignConst("Greeting");
           },

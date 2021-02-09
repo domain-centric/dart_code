@@ -33,6 +33,17 @@ class Statement extends CodeModel {
           value
         ];
 
+  Statement.assignConst(String name, Expression value, [Type type])
+      : nodes = [
+          KeyWord.$const,
+          SpaceWhenNeeded(),
+          if (type != null) type,
+          SpaceWhenNeeded(),
+          IdentifierStartingWithLowerCase(name),
+          Code(' = '),
+          value
+        ];
+
   @override
   List<CodeNode> codeNodes(Context context) => [
         for (CodeNode codeNode in nodes) codeNode,

@@ -90,6 +90,35 @@ main() {
     });
   });
 
+  group('Statement.assignConst() constructor', () {
+    test("Should return: const greeting = 'Hello World';\n", () {
+      String actual =
+          Statement.assignConst("greeting", Expression.ofString('Hello World'))
+              .toString();
+      String expected = "const greeting = 'Hello World';\n";
+      expect(actual, expected);
+    });
+
+    test("Should return: final String greeting = 'Hello World';\n", () {
+      String actual = Statement.assignConst(
+              "greeting", Expression.ofString('Hello World'), Type.ofString())
+          .toString();
+      String expected = "const String greeting = 'Hello World';\n";
+      expect(actual, expected);
+    });
+
+    test('Should throw name exception', () {
+      expect(() {
+        Statement.assignConst(
+                "InvalidVariableName", Expression.ofString('Hello World'))
+            .toString();
+      },
+          throwsA((e) =>
+              e is ArgumentError &&
+              e.message == 'Must start with an lower case letter'));
+    });
+  });
+
   group('Statements constructor', () {
     test('Given Statements => Returns the correct code', () {
       String actual = Statements([
