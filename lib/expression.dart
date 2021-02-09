@@ -87,8 +87,7 @@ class Expression extends CodeModel {
       [this, SpaceWhenNeeded(), Code('||'), SpaceWhenNeeded(), other]);
 
   /// Returns the result of `!this`.
-  Expression negate() =>
-      Expression([ Code('!'), this]);
+  Expression negate() => Expression([Code('!'), this]);
 
   /// Returns the result of `this` `as` [other].
   Expression asA(Expression other) => Expression(
@@ -164,10 +163,9 @@ class Expression extends CodeModel {
       ]);
 
   /// This expression preceded by `await`.
-  Expression  awaited() =>
-      Expression([Code('await'), SpaceWhenNeeded(), this]);
+  Expression awaited() => Expression([Code('await'), SpaceWhenNeeded(), this]);
 
-   /// Return `{other} ?? {this}`.
+  /// Return `{other} ?? {this}`.
   Expression ifNullThen(Expression other) => Expression(
       [other, SpaceWhenNeeded(), Code('??'), SpaceWhenNeeded(), this]);
 
@@ -210,16 +208,8 @@ class Expression extends CodeModel {
         value,
       ]);
 
-  Statement assignVariable(String name, [Type type]) => Statement([
-        if (type == null) Type.ofVar(),
-        if (type != null) type,
-        SpaceWhenNeeded(),
-        IdentifierStartingWithLowerCase(name),
-    SpaceWhenNeeded(),
-    Code('='),
-    SpaceWhenNeeded(),
-        this
-      ]);
+  Statement assignVariable(String name, {Type type, nullAware = false}) =>
+      Statement.assignVariable(name, this, type: type, nullAware: nullAware);
 
   /// Return `final {name} = {this}`.
   Statement assignFinal(String name, [Type type]) => Statement([
@@ -228,9 +218,9 @@ class Expression extends CodeModel {
         if (type != null) type,
         SpaceWhenNeeded(),
         IdentifierStartingWithLowerCase(name),
-    SpaceWhenNeeded(),
-    Code('='),
-    SpaceWhenNeeded(),
+        SpaceWhenNeeded(),
+        Code('='),
+        SpaceWhenNeeded(),
         this
       ]);
 

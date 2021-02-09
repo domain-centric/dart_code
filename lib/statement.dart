@@ -1,16 +1,30 @@
 import 'package:dart_code/basic.dart';
 import 'package:dart_code/model.dart';
 
-class Statement extends CodeModel {
-  final List<CodeNode> statementCodes;
+import 'expression.dart';
 
-  Statement(this.statementCodes);
+class Statement extends CodeModel {
+  final List<CodeNode> nodes;
+
+  Statement(this.nodes);
+
+  Statement.assignVariable(String name, Expression value,
+      {Type type, nullAware = false})
+      : nodes = [
+          type == null ? Type.ofVar() : type,
+          SpaceWhenNeeded(),
+          IdentifierStartingWithLowerCase(name),
+          SpaceWhenNeeded(),
+          nullAware ? Code('??=') : Code('='),
+          SpaceWhenNeeded(),
+          value,
+        ];
 
   @override
   List<CodeNode> codeNodes(Context context) => [
-    for (CodeNode codeNode in statementCodes) codeNode,
-    if (statementCodes.isNotEmpty) EndOfStatement(),
-  ];
+        for (CodeNode codeNode in nodes) codeNode,
+        if (nodes.isNotEmpty) EndOfStatement(),
+      ];
 }
 
 class Statements extends CodeModel {
@@ -26,7 +40,7 @@ class Statements extends CodeModel {
 class EndOfStatement extends CodeModel {
   @override
   List<CodeNode> codeNodes(Context context) => [
-    NoneRepeatingCode(';'),
-    NoneRepeatingCode(context.newLine),
-  ];
+        NoneRepeatingCode(';'),
+        NoneRepeatingCode(context.newLine),
+      ];
 }

@@ -361,7 +361,7 @@ main() {
 
     group('Other fluent methods', () {
       group('assignVariable() method', () {
-        test('should result in a variable assignment', () {
+        test("Should return: var greeting = 'Hello World';\n", () {
           String actual = Expression.ofString('Hello World')
               .assignVariable("greeting")
               .toString();
@@ -369,22 +369,38 @@ main() {
           expect(actual, expected);
         });
 
-        test('should result in a String variable assignment', () {
+        test("Should return: var greeting ??= 'Hello World';\n", () {
           String actual = Expression.ofString('Hello World')
-              .assignVariable("greeting", Type.ofString())
+              .assignVariable("greeting", nullAware: true)
+              .toString();
+          String expected = "var greeting ??= 'Hello World';\n";
+          expect(actual, expected);
+        });
+
+        test("Should return: String greeting = 'Hello World';\n", () {
+          String actual = Expression.ofString('Hello World')
+              .assignVariable("greeting", type:Type.ofString())
               .toString();
           String expected = "String greeting = 'Hello World';\n";
           expect(actual, expected);
         });
 
-        test('should result in a variable assignment of type Statement', () {
+        test("Should return: String greeting ??= 'Hello World';\n", () {
+          String actual = Expression.ofString('Hello World')
+              .assignVariable("greeting", type:Type.ofString(), nullAware: true)
+              .toString();
+          String expected = "String greeting ??= 'Hello World';\n";
+          expect(actual, expected);
+        });
+
+        test('Should return in a variable assignment of type Statement', () {
           bool actual = Expression.ofString('Hello World')
               .assignVariable("greeting") is Statement;
           bool expected = true;
           expect(actual, expected);
         });
 
-        test('should throw name exception', () {
+        test('Should throw name exception', () {
           expect(() {
             Expression.ofString('Hello World').assignVariable("Greeting");
           },
