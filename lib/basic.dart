@@ -60,128 +60,129 @@ class SpaceWhenNeeded extends CodeLeaf {
 /// A collection of reserved Dart (key)words
 /// Using a dollar prefix to prevent compiler issues (field names being keywords)
 class KeyWord {
-  static final Code $abstract = Code('abstract');
-  static final Code $as = Code('as');
-  static final Code $assert = Code('assert');
-  static final Code $async = Code('async');
-  static final Code $await = Code('await');
-  static final Code $break = Code('break');
-  static final Code $case = Code('case');
-  static final Code $catch = Code('catch');
-  static final Code $class = Code('class');
-  static final Code $const = Code('const');
-  static final Code $continue = Code('continue');
-  static final Code $covariant = Code('covariant');
-  static final Code $default = Code('default');
-  static final Code $deferred = Code('deferred');
-  static final Code $do = Code('do');
-  static final Code $dynamic = Code('dynamic');
-  static final Code $else = Code('else');
-  static final Code $enum = Code('enum');
-  static final Code $export = Code('export');
-  static final Code $extends = Code('extends');
-  static final Code $extension = Code('extension');
-  static final Code $external = Code('external');
-  static final Code $factory = Code('factory');
-  static final Code $false = Code('false');
-  static final Code $final = Code('final');
-  static final Code $finally = Code('finally');
-  static final Code $for = Code('for');
-  static final Code $function = Code('Function');
-  static final Code $get = Code('get');
-  static final Code $hide = Code('hide');
-  static final Code $if = Code('if');
-  static final Code $implements = Code('implements');
-  static final Code $import = Code('import');
-  static final Code $in = Code('in');
-  static final Code $interface = Code('interface');
-  static final Code $is = Code('is');
-  static final Code $library = Code('library');
-  static final Code $mixin = Code('mixin');
-  static final Code $new = Code('new');
-  static final Code $null = Code('null');
-  static final Code $on = Code('on');
-  static final Code $operator = Code('operator');
-  static final Code $part = Code('part');
-  static final Code $rethrow = Code('rethrow');
-  static final Code $return = Code('return');
-  static final Code $set = Code('set');
-  static final Code $show = Code('show');
-  static final Code $static = Code('static');
-  static final Code $super = Code('super');
-  static final Code $switch = Code('switch');
-  static final Code $sync = Code('sync');
-  static final Code $this = Code('this');
-  static final Code $throw = Code('throw');
-  static final Code $true = Code('true');
-  static final Code $try = Code('try');
-  static final Code $typedef = Code('typedef');
-  static final Code $var = Code('var');
-  static final Code $void = Code('void');
-  static final Code $while = Code('while');
-  static final Code $with = Code('with');
-  static final Code $yield = Code('yield');
+  static final Code abstract$ = Code('abstract');
+  static final Code as$ = Code('as');
+  static final Code assert$ = Code('assert');
+  static final Code async$ = Code('async');
+  static final Code await$ = Code('await');
+  static final Code break$ = Code('break');
+  static final Code case$ = Code('case');
+  static final Code catch$ = Code('catch');
+  static final Code class$ = Code('class');
+  static final Code const$ = Code('const');
+  static final Code continue$ = Code('continue');
+  static final Code covariant$ = Code('covariant');
+  static final Code default$ = Code('default');
+  static final Code deferred$ = Code('deferred');
+  static final Code do$ = Code('do');
+  static final Code dynamic$ = Code('dynamic');
+  static final Code else$ = Code('else');
+  static final Code enum$ = Code('enum');
+  static final Code export$ = Code('export');
+  static final Code extends$ = Code('extends');
+  static final Code extension$ = Code('extension');
+  static final Code external$ = Code('external');
+  static final Code factory$ = Code('factory');
+  static final Code false$ = Code('false');
+  static final Code final$ = Code('final');
+  static final Code finally$ = Code('finally');
+  static final Code for$ = Code('for');
+  static final Code function$ = Code('Function');
+  static final Code get$ = Code('get');
+  static final Code hide$ = Code('hide');
+  static final Code if$ = Code('if');
+  static final Code implements$ = Code('implements');
+  static final Code import$ = Code('import');
+  static final Code in$ = Code('in');
+  static final Code interface$ = Code('interface');
+  static final Code is$ = Code('is');
+  static final Code library$ = Code('library');
+  static final Code mixin$ = Code('mixin');
+  static final Code new$ = Code('new');
+  static final Code null$ = Code('null');
+  static final Code on$ = Code('on');
+  static final Code operator$ = Code('operator');
+  static final Code part$ = Code('part');
+  static final Code rethrow$ = Code('rethrow');
+  static final Code return$ = Code('return');
+  static final Code set$ = Code('set');
+  static final Code show$ = Code('show');
+  static final Code static$ = Code('static');
+  static final Code super$ = Code('super');
+  static final Code switch$ = Code('switch');
+  static final Code sync$ = Code('sync');
+  static final Code this$ = Code('this');
+  static final Code throw$ = Code('throw');
+  static final Code true$ = Code('true');
+  static final Code try$ = Code('try');
+  static final Code typedef$ = Code('typedef');
+  static final Code var$ = Code('var');
+  static final Code void$ = Code('void');
+  static final Code while$ = Code('while');
+  static final Code with$ = Code('with');
+  static final Code yield$ = Code('yield');
   static final List<Code> allCodes = [
-    $as,
-    $assert,
-    $async,
-    $await,
-    $break,
-    $case,
-    $catch,
-    $class,
-    $const,
-    $continue,
-    $covariant,
-    $default,
-    $deferred,
-    $do,
-    $dynamic,
-    $else,
-    $enum,
-    $export,
-    $extends,
-    $extension,
-    $external,
-    $factory,
-    $false,
-    $final,
-    $finally,
-    $for,
-    $function,
-    $get,
-    $hide,
-    $if,
-    $implements,
-    $import,
-    $in,
-    $interface,
-    $is,
-    $library,
-    $mixin,
-    $new,
-    $null,
-    $on,
-    $operator,
-    $part,
-    $rethrow,
-    $return,
-    $set,
-    $show,
-    $static,
-    $super,
-    $switch,
-    $sync,
-    $this,
-    $throw,
-    $true,
-    $try,
-    $typedef,
-    $var,
-    $void,
-    $while,
-    $with,
-    $yield,
+    abstract$,
+    as$,
+    assert$,
+    async$,
+    await$,
+    break$,
+    case$,
+    catch$,
+    class$,
+    const$,
+    continue$,
+    covariant$,
+    default$,
+    deferred$,
+    do$,
+    dynamic$,
+    else$,
+    enum$,
+    export$,
+    extends$,
+    extension$,
+    external$,
+    factory$,
+    false$,
+    final$,
+    finally$,
+    for$,
+    function$,
+    get$,
+    hide$,
+    if$,
+    implements$,
+    import$,
+    in$,
+    interface$,
+    is$,
+    library$,
+    mixin$,
+    new$,
+    null$,
+    on$,
+    operator$,
+    part$,
+    rethrow$,
+    return$,
+    set$,
+    show$,
+    static$,
+    super$,
+    switch$,
+    sync$,
+    this$,
+    throw$,
+    true$,
+    try$,
+    typedef$,
+    var$,
+    void$,
+    while$,
+    with$,
+    yield$,
   ];
   static final List<String> allNames = allCodes.map((c) => c.code).toList();
 }
@@ -237,11 +238,11 @@ class Import extends CodeModel {
   ///e.g.import 'package:reflect_framework/reflect_info_service.dart' as _i1;
   @override
   List<CodeNode> codeNodes(Context context) => [
-        KeyWord.$import,
+        KeyWord.import$,
         SpaceWhenNeeded(),
         Code("'$libraryUrl'"),
         SpaceWhenNeeded(),
-        KeyWord.$as,
+        KeyWord.as$,
         SpaceWhenNeeded(),
         Code(alias),
         EndOfStatement(),

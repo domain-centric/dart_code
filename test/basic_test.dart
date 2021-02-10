@@ -104,11 +104,11 @@ main() {
         'Given multiple sequential SpaceWhenNeeded, or a single SpaceWhenNeeded => Results in a single space',
         () {
       String actual = Statement([
-        KeyWord.$class,
+        KeyWord.class$,
         SpaceWhenNeeded(),
         SpaceWhenNeeded(),
         SpaceWhenNeeded(),
-        KeyWord.$extends,
+        KeyWord.extends$,
         SpaceWhenNeeded(),
         Code('OtherClass'),
         SpaceWhenNeeded(),
@@ -134,20 +134,20 @@ main() {
 
   group('KeyWord class', () {
     test('Given Keyword.\$class => Returns code string class', () {
-      String actual = CodeFormatter().format(KeyWord.$class);
+      String actual = CodeFormatter().format(KeyWord.class$);
       String expected = 'class';
       expect(actual, expected);
     });
 
     test('Given Keyword.allCodes=> Returns .. codes', () {
       int actual = KeyWord.allCodes.length;
-      int expected = 60;
+      int expected = 61;
       expect(actual, expected);
     });
 
     test('Given Keyword.allNames=> Returns .. strings', () {
       int actual = KeyWord.allNames.length;
-      int expected = 60;
+      int expected = 61;
       expect(actual, expected);
     });
 

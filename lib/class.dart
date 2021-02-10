@@ -92,13 +92,13 @@ class Class extends CodeModel {
   List<CodeNode> codeNodes(Context context) => [
         //TODO DocComments
         //TODO Annotations
-        if (abstract) KeyWord.$abstract,
+        if (abstract) KeyWord.abstract$,
         SpaceWhenNeeded(),
-        KeyWord.$class,
+        KeyWord.class$,
         SpaceWhenNeeded(),
         name,
         SpaceWhenNeeded(),
-        if (superClass != null) KeyWord.$extends,
+        if (superClass != null) KeyWord.extends$,
         SpaceWhenNeeded(),
         if (superClass != null) superClass,
         // TODO implements
