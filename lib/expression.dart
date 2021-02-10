@@ -3,6 +3,8 @@ import 'package:dart_code/formatting.dart';
 import 'package:dart_code/parameter.dart';
 import 'package:dart_code/statement.dart';
 
+import 'annotation.dart';
+import 'comment.dart';
 import 'model.dart';
 
 ///  A syntactic entity in the Dart programming language that may be evaluated to determine its value
@@ -34,9 +36,9 @@ class Expression extends CodeModel {
   static _createStringNodes(String value) {
     if (!betweenSingleQuotes.hasMatch(value) &&
         !betweenDoubleQuotes.hasMatch(value)) {
-      int nrSingleQoutes = singleQuote.allMatches(value).length;
-      int nrDoubleQoutes = doubleQuote.allMatches(value).length;
-      if (nrSingleQoutes > 0 && nrDoubleQoutes == 0) {
+      int nrSingleQuotes = singleQuote.allMatches(value).length;
+      int nrDoubleQuotes = doubleQuote.allMatches(value).length;
+      if (nrSingleQuotes > 0 && nrDoubleQuotes == 0) {
         value = '"$value"';
       } else {
         value = "'$value'";
@@ -209,13 +211,52 @@ class Expression extends CodeModel {
       ]);
 
   Statement assignVariable(String name, {Type type, nullAware = false}) =>
-      Statement.assignVariable(name, this, type: type, nullAware: nullAware);
+      Statement.assignVariable(name, this, nullAware: nullAware);
 
-  Statement assignFinal(String name, [Type type]) =>
-      Statement.assignFinal(name, this, type);
+  Statement defineVariable(String name,
+          {List<DocComment> docComments = const [],
+          List<Annotation> annotations = const [],
+          bool static = false,
+          Type type,
+          Expression value}) =>
+      VariableDefinition.var$(
+        name,
+        docComments: docComments,
+        annotations: annotations,
+        static: static,
+        type: type,
+        value: this,
+      );
 
-  Statement assignConst(String name, [Type type]) =>
-      Statement.assignConst(name, this, type);
+  Statement defineFinal(String name,
+      {List<DocComment> docComments = const [],
+        List<Annotation> annotations = const [],
+        bool static = false,
+        Type type,
+        Expression value}) =>
+      VariableDefinition.final$(
+        name,
+        this,
+        docComments: docComments,
+        annotations: annotations,
+        static: static,
+        type: type,
+      );
+
+  Statement defineConst(String name,
+      {List<DocComment> docComments = const [],
+        List<Annotation> annotations = const [],
+        bool static = false,
+        Type type,
+        Expression value}) =>
+      VariableDefinition.const$(
+        name,
+        this,
+        docComments: docComments,
+        annotations: annotations,
+        static: static,
+        type: type,
+      );
 
   ///===========================================================================
   ///                             codeNodes

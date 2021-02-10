@@ -42,7 +42,6 @@ class NoneRepeatingCode extends CodeLeaf {
   }
 }
 
-
 final RegExp endsWithWhiteSpace = RegExp(r'\s$');
 
 /// adds a space if last code line is not empty and does not end with a white space
@@ -222,14 +221,11 @@ class Type extends CodeModel {
         libraryUrl = null,
         generics = [];
 
-
   Type(this.name, {this.libraryUrl, this.generics = const []});
 
   @override
-  List<CodeNode> codeNodes(Context context) => Reference(this).codeNodes(context);
-
-
-
+  List<CodeNode> codeNodes(Context context) =>
+      Reference(this).codeNodes(context);
 }
 
 class Import extends CodeModel {
@@ -405,8 +401,6 @@ class CaseChecker {
     }
   }
 }
-
-
 
 class Block extends CodeModel {
   final List<CodeNode> codeInsideBlock;

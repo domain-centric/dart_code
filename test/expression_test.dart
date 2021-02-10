@@ -361,35 +361,19 @@ main() {
 
     group('Other fluent methods', () {
       group('assignVariable() method', () {
-        test("Should return: var greeting = 'Hello World';\n", () {
+        test("Should return: greeting = 'Hello World';\n", () {
           String actual = Expression.ofString('Hello World')
               .assignVariable("greeting")
               .toString();
-          String expected = "var greeting = 'Hello World';\n";
+          String expected = "greeting = 'Hello World';\n";
           expect(actual, expected);
         });
 
-        test("Should return: var greeting ??= 'Hello World';\n", () {
+        test("Should return: greeting ??= 'Hello World';\n", () {
           String actual = Expression.ofString('Hello World')
               .assignVariable("greeting", nullAware: true)
               .toString();
-          String expected = "var greeting ??= 'Hello World';\n";
-          expect(actual, expected);
-        });
-
-        test("Should return: String greeting = 'Hello World';\n", () {
-          String actual = Expression.ofString('Hello World')
-              .assignVariable("greeting", type:Type.ofString())
-              .toString();
-          String expected = "String greeting = 'Hello World';\n";
-          expect(actual, expected);
-        });
-
-        test("Should return: String greeting ??= 'Hello World';\n", () {
-          String actual = Expression.ofString('Hello World')
-              .assignVariable("greeting", type:Type.ofString(), nullAware: true)
-              .toString();
-          String expected = "String greeting ??= 'Hello World';\n";
+          String expected = "greeting ??= 'Hello World';\n";
           expect(actual, expected);
         });
 
@@ -410,10 +394,51 @@ main() {
         });
       });
 
-      group('assignFinal() method', () {
+      group('defineVariable() method', () {
+        test("Should return: var greeting = 'Hello World';\n", () {
+          String actual = Expression.ofString('Hello World')
+              .defineVariable("greeting")
+              .toString();
+          String expected = "var greeting = 'Hello World';\n";
+          expect(actual, expected);
+        });
+
+        test("Should return: String greeting = 'Hello World';\n", () {
+          String actual = Expression.ofString('Hello World')
+              .defineVariable("greeting", type:Type.ofString())
+              .toString();
+          String expected = "String greeting = 'Hello World';\n";
+          expect(actual, expected);
+        });
+
+        test("Should return: static String greeting = 'Hello World';\n", () {
+          String actual = Expression.ofString('Hello World')
+              .defineVariable("greeting", type:Type.ofString(),static: true)
+              .toString();
+          String expected = "static String greeting = 'Hello World';\n";
+          expect(actual, expected);
+        });
+
+        test('Should result in a variable assignment of type Statement', () {
+          bool actual = Expression.ofString('Hello World')
+              .defineVariable("greeting") is Statement;
+          bool expected = true;
+          expect(actual, expected);
+        });
+
+        test('Should throw name exception', () {
+          expect(() {
+            Expression.ofString('Hello World').defineVariable("Greeting");
+          },
+              throwsA((e) =>
+              e is ArgumentError &&
+                  e.message == 'Must start with an lower case letter'));
+        });
+      });
+      group('defineFinal() method', () {
         test("Should return: final greeting = 'Hello World';\n", () {
           String actual = Expression.ofString('Hello World')
-              .assignFinal("greeting")
+              .defineFinal("greeting")
               .toString();
           String expected = "final greeting = 'Hello World';\n";
           expect(actual, expected);
@@ -421,33 +446,41 @@ main() {
 
         test("Should return: final String greeting = 'Hello World';\n", () {
           String actual = Expression.ofString('Hello World')
-              .assignFinal("greeting", Type.ofString())
+              .defineFinal("greeting", type:Type.ofString())
               .toString();
           String expected = "final String greeting = 'Hello World';\n";
           expect(actual, expected);
         });
 
+        test("Should return: static final String greeting = 'Hello World';\n", () {
+          String actual = Expression.ofString('Hello World')
+              .defineFinal("greeting", type:Type.ofString(),static: true)
+              .toString();
+          String expected = "static final String greeting = 'Hello World';\n";
+          expect(actual, expected);
+        });
+
         test('Should result in a final assignment of type Statement', () {
           bool actual = Expression.ofString('Hello World')
-              .assignFinal("greeting") is Statement;
+              .defineFinal("greeting") is Statement;
           bool expected = true;
           expect(actual, expected);
         });
 
         test('Should throw name exception', () {
           expect(() {
-            Expression.ofString('Hello World').assignFinal("Greeting");
+            Expression.ofString('Hello World').defineFinal("Greeting");
           },
               throwsA((e) =>
-                  e is ArgumentError &&
+              e is ArgumentError &&
                   e.message == 'Must start with an lower case letter'));
         });
       });
 
-      group('assignConst() method', () {
+      group('defineConst() method', () {
         test("Should return: const greeting = 'Hello World';\n", () {
           String actual = Expression.ofString('Hello World')
-              .assignConst("greeting")
+              .defineConst("greeting")
               .toString();
           String expected = "const greeting = 'Hello World';\n";
           expect(actual, expected);
@@ -455,22 +488,30 @@ main() {
 
         test("Should return: const String greeting = 'Hello World';\n", () {
           String actual = Expression.ofString('Hello World')
-              .assignConst("greeting", Type.ofString())
+              .defineConst("greeting", type:Type.ofString())
               .toString();
           String expected = "const String greeting = 'Hello World';\n";
           expect(actual, expected);
         });
 
-        test('should result in a const assignment of type Statement', () {
+        test("Should return: static const String greeting = 'Hello World';\n", () {
+          String actual = Expression.ofString('Hello World')
+              .defineConst("greeting", type:Type.ofString(),static: true)
+              .toString();
+          String expected = "static const String greeting = 'Hello World';\n";
+          expect(actual, expected);
+        });
+
+        test('Should result in a final assignment of type Statement', () {
           bool actual = Expression.ofString('Hello World')
-              .assignConst("greeting") is Statement;
+              .defineConst("greeting") is Statement;
           bool expected = true;
           expect(actual, expected);
         });
 
         test('Should throw name exception', () {
           expect(() {
-            Expression.ofString('Hello World').assignConst("Greeting");
+            Expression.ofString('Hello World').defineConst("Greeting");
           },
               throwsA((e) =>
                   e is ArgumentError &&
@@ -478,12 +519,13 @@ main() {
         });
       });
 
+
       group('callMethod() method', () {
         test('Should return a call to a method without parameter values', () {
           String actual = Expression.callConstructor(Type('AddressFinder'))
-              .assignConst('findFirst')
+              .callMethod('findFirst')
               .toString();
-          String expected = 'const findFirst = AddressFinder();\n';
+          String expected = 'AddressFinder().findFirst()';
           expect(actual, expected);
         });
 
@@ -506,11 +548,12 @@ main() {
               .callMethod('kiss', cascade: true)
               .assignVariable('person')
               .toString();
-          String expected = 'var person = Person()\n'
+          String expected = 'person = Person()\n'
               '..tickle(\'feather\')\n'
               '..kiss();\n';
           expect(actual, expected);
         });
+
 
         test('Should throw an exception invalid name ', () {
           expect(() {
@@ -536,7 +579,7 @@ main() {
           String actual = Expression.callConstructor(Type('Person'))
               .callMethod('kiss', cascade: true)
               .getProperty('cheekColor', cascade: true)
-              .assignVariable('person')
+              .defineVariable('person')
               .toString();
           String expected = 'var person = Person()\n'
               '..kiss()\n'
@@ -580,7 +623,7 @@ main() {
                   cascade: true)
               .assignVariable('person')
               .toString();
-          String expected = 'var person = Person()\n'
+          String expected = 'person = Person()\n'
               '..kiss()\n'
               '..cheekColor = CheekColors.red;\n'; //makes no sense: returns a kissed Person!
           expect(actual, expected);
