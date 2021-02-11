@@ -36,7 +36,10 @@ class CodeBuffer {
   }
 
   bool _wrapLine(String code) {
-    return code.length > 0 && lineLength + code.length > context.maxLineLength;
+    return context.lastCode.trim().length>0 &&
+        context.lastCode!=context.newLine  &&
+        code.length > 0 &&
+        lineLength + code.length > context.maxLineLength;
   }
 
   void _appendNewLine() {
@@ -81,7 +84,7 @@ class CodeFormatter {
   CodeFormatter(
       {this.maxLineLength = 80,
       this.indent = '  ',
-      this.wrapIndent = '    ',
+      this.wrapIndent = '----',
       this.newLine = '\n'});
 
   String format(CodeNode codeNode) {
