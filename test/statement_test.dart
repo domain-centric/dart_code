@@ -5,44 +5,54 @@ import 'package:dart_code/statement.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 main() {
-  group('Statement constructor', () {
-    test('Given Statement => Returns the correct code', () {
-      String actual = Statement([Code('test()')]).toString();
-      String expected = "test();\n";
-      expect(actual, expected);
-    });
-  });
-
-  group('Statement.assignVariable() constructor', () {
-    test("Should return: greeting = 'Hello World';\n", () {
-      String actual = Statement.assignVariable(
-              "greeting", Expression.ofString('Hello World'))
-          .toString();
-      String expected = "greeting = 'Hello World';\n";
-      expect(actual, expected);
+  group('Statement class', () {
+    group('Statement() constructor', () {
+      test("Should return: 'test();\n'", () {
+        String actual = Statement([Code('test()')]).toString();
+        String expected = "test();\n";
+        expect(actual, expected);
+      });
     });
 
-    test("Should return: greeting ??= 'Hello World';\n", () {
-      String actual = Statement.assignVariable(
-              "greeting", Expression.ofString('Hello World'),
-              nullAware: true)
-          .toString();
-      String expected = "greeting ??= 'Hello World';\n";
-      expect(actual, expected);
+    group('Statement.return\$ constructor', () {
+      test("Should return: 'test();\n'", () {
+        String actual =
+            Statement.return$(Expression.ofString('Hello World')).toString();
+        String expected = "return 'Hello World';\n";
+        expect(actual, expected);
+      });
     });
 
-    test('Should throw name exception', () {
-      expect(() {
-        Statement.assignVariable(
-                "InvalidVariableName", Expression.ofString('Hello World'))
+    group('Statement.assignVariable() constructor', () {
+      test("Should return: greeting = 'Hello World';\n", () {
+        String actual = Statement.assignVariable(
+                "greeting", Expression.ofString('Hello World'))
             .toString();
-      },
-          throwsA((e) =>
-              e is ArgumentError &&
-              e.message == 'Must start with an lower case letter'));
+        String expected = "greeting = 'Hello World';\n";
+        expect(actual, expected);
+      });
+
+      test("Should return: greeting ??= 'Hello World';\n", () {
+        String actual = Statement.assignVariable(
+                "greeting", Expression.ofString('Hello World'),
+                nullAware: true)
+            .toString();
+        String expected = "greeting ??= 'Hello World';\n";
+        expect(actual, expected);
+      });
+
+      test('Should throw name exception', () {
+        expect(() {
+          Statement.assignVariable(
+                  "InvalidVariableName", Expression.ofString('Hello World'))
+              .toString();
+        },
+            throwsA((e) =>
+                e is ArgumentError &&
+                e.message == 'Must start with an lower case letter'));
+      });
     });
   });
-
   group('VariableDefinition class', () {
     group('var\$() constructor', () {
       test("Should return: var greeting;\n", () {

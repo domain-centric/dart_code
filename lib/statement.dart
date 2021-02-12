@@ -20,6 +20,9 @@ class Statement extends CodeModel {
           value,
         ]);
 
+  Statement.return$(Expression expression)
+      : this([KeyWord.return$, SpaceWhenNeeded(), expression]);
+
   @override
   List<CodeNode> codeNodes(Context context) => [
         for (CodeNode codeNode in nodes) codeNode,
@@ -27,9 +30,10 @@ class Statement extends CodeModel {
       ];
 }
 
-class VariableDefinition extends Statement  {
+class VariableDefinition extends Statement {
   final List<DocComment> docComments;
   final List<Annotation> annotations;
+
   /// If a static prefix is needed (only required for class fields)
   final bool static;
   final Modifier modifier;
