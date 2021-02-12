@@ -28,6 +28,8 @@ class Expression extends CodeModel {
 
   Expression.ofString(String value) : nodes = _createStringNodes(value);
 
+  Expression.ofList(List<Expression> expressions): nodes=[Code('['), CommaSeparatedValues(expressions), Code(']')];
+
   static RegExp singleQuote = RegExp("'");
   static RegExp doubleQuote = RegExp('"');
   static RegExp betweenSingleQuotes = RegExp("^'.*'\$");

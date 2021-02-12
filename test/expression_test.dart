@@ -81,6 +81,47 @@ main() {
         expect(actual, expected);
       });
 
+      group('Expression.ofList() constructor', () {
+        test(
+            'Should return: [1, 2, 3]',
+                () {
+              String actual =
+              Expression.ofList([
+                Expression.ofInt(1),
+                Expression.ofInt(2),
+                Expression.ofInt(3),
+              ]).toString();
+              String expected = "[1, 2, 3]";
+              expect(actual, expected);
+            });
+
+        test(
+            'Should return: [1, 2 + 3, 3]',
+                () {
+              String actual =
+              Expression.ofList([
+                Expression.ofInt(1),
+                Expression.ofInt(2).add(Expression.ofInt(3)),
+                Expression.ofInt(3),
+              ]).toString();
+              String expected = "[1, 2 + 3, 3]";
+              expect(actual, expected);
+            });
+
+        test(
+            'Should return: [1, 2, 3]',
+                () {
+              String actual =
+              Expression.ofList([
+                Expression.ofString('Hello'),
+                Expression.ofString('World'),
+              ]).toString();
+              String expected = "['Hello', 'World']";
+              expect(actual, expected);
+            });
+
+      });
+
       group('Expression.ofVariable constructor', () {
         test('Should returns the literal code variable name', () {
           String actual = Expression.ofVariable('myValue').toString();
