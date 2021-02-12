@@ -5,7 +5,7 @@ import 'expression.dart';
 import 'formatting.dart';
 
 class CommaSeparatedValues extends CodeModel {
-  final List<CodeNode> values;
+  final Iterable<CodeNode> values;
 
   CommaSeparatedValues(this.values);
 

@@ -28,7 +28,11 @@ class Expression extends CodeModel {
 
   Expression.ofString(String value) : nodes = _createStringNodes(value);
 
-  Expression.ofList(List<Expression> expressions): nodes=[Code('['), CommaSeparatedValues(expressions), Code(']')];
+  Expression.ofList(List<Expression> expressions)
+      : nodes = [Code('['), CommaSeparatedValues(expressions), Code(']')];
+
+  Expression.ofSet(Set<Expression> expressions)
+      : nodes = [Code('{'), CommaSeparatedValues(expressions), Code('}')];
 
   static RegExp singleQuote = RegExp("'");
   static RegExp doubleQuote = RegExp('"');
@@ -231,11 +235,11 @@ class Expression extends CodeModel {
       );
 
   Statement defineFinal(String name,
-      {List<DocComment> docComments = const [],
-        List<Annotation> annotations = const [],
-        bool static = false,
-        Type type,
-        Expression value}) =>
+          {List<DocComment> docComments = const [],
+          List<Annotation> annotations = const [],
+          bool static = false,
+          Type type,
+          Expression value}) =>
       VariableDefinition.final$(
         name,
         this,
@@ -246,11 +250,11 @@ class Expression extends CodeModel {
       );
 
   Statement defineConst(String name,
-      {List<DocComment> docComments = const [],
-        List<Annotation> annotations = const [],
-        bool static = false,
-        Type type,
-        Expression value}) =>
+          {List<DocComment> docComments = const [],
+          List<Annotation> annotations = const [],
+          bool static = false,
+          Type type,
+          Expression value}) =>
       VariableDefinition.const$(
         name,
         this,
