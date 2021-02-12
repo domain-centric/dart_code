@@ -163,6 +163,23 @@ main() {
 
       });
 
+      group('Expression.ofMap() constructor', () {
+
+        test(
+            "Should return: '{1 : 'Hello', 2 : 'World'}'",
+                () {
+              String actual =
+              Expression.ofMap({ Expression.ofInt(1): Expression.ofString('Hello'),
+                Expression.ofInt(2): Expression.ofString('World'),
+              }).toString();
+              String expected = "{1 : 'Hello', 2 : 'World'}";
+              expect(actual, expected);
+            });
+
+      });
+
+
+
       group('Expression.ofVariable constructor', () {
         test('Should returns the literal code variable name', () {
           String actual = Expression.ofVariable('myValue').toString();

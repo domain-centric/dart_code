@@ -34,6 +34,33 @@ class Expression extends CodeModel {
   Expression.ofSet(Set<Expression> expressions)
       : nodes = [Code('{'), CommaSeparatedValues(expressions), Code('}')];
 
+  Expression.ofMap(Map<Expression, Expression> expressions)
+      : nodes = _createMapNodes(expressions);
+
+  static List<CodeNode> _createMapNodes(
+          Map<Expression, Expression> expressions) =>
+      [
+        Code('{'),
+        CommaSeparatedValues(_createKeyValueExpressions(expressions)),
+        Code('}')
+      ];
+
+  static List<Expression> _createKeyValueExpressions(
+          Map<Expression, Expression> expressions) =>
+      expressions.keys
+          .map((key) => _createKeyValueExpression(key, expressions[key]))
+          .toList();
+
+  static Expression _createKeyValueExpression(
+          Expression key, Expression value) =>
+      Expression([
+        key,
+        SpaceWhenNeeded(),
+        Code(':'),
+        SpaceWhenNeeded(),
+        value,
+      ]);
+
   static RegExp singleQuote = RegExp("'");
   static RegExp doubleQuote = RegExp('"');
   static RegExp betweenSingleQuotes = RegExp("^'.*'\$");
