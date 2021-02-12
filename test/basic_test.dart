@@ -219,6 +219,17 @@ main() {
       expect(actual, expected);
     });
 
+    test("Should return: 'Map'", () {
+      String actual = Type.ofMap().toString();
+      String expected = "Map";
+      expect(actual, expected);
+    });
+
+    test("Should return: 'Map<int, String>'", () {
+      String actual = Type.ofGenericMap(Type.ofInt(), Type.ofString()).toString();
+      String expected = "Map<int, String>";
+      expect(actual, expected);
+    });
 
 
     test("Should return: '_i1.MyClass'", () {

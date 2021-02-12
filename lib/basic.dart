@@ -236,6 +236,17 @@ class Type extends CodeModel {
         libraryUrl=null,
         generics=[if (genericType!=null) genericType];
 
+  Type.ofMap() :
+        name='Map',
+        libraryUrl=null,
+        generics=[];
+
+  Type.ofGenericMap(Type keyType, Type valueType) :
+        name='Map',
+        libraryUrl=null,
+        generics=[keyType, valueType];
+
+
   Type(this.name, {this.libraryUrl, this.generics = const []});
 
   @override
