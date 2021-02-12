@@ -159,45 +159,57 @@ main() {
   });
 
   group('Type class', () {
-    test('should result in var', () {
+    test('Should result in var', () {
       String actual = Type.ofVar().toString();
       String expected = "var";
       expect(actual, expected);
     });
 
-    test('should result in bool', () {
+    test('Should result in bool', () {
       String actual = Type.ofBool().toString();
       String expected = "bool";
       expect(actual, expected);
     });
 
-    test('should result in int', () {
+    test('Should result in int', () {
       String actual = Type.ofInt().toString();
       String expected = "int";
       expect(actual, expected);
     });
 
-    test('should result in double', () {
+    test('Should result in double', () {
       String actual = Type.ofDouble().toString();
       String expected = "double";
       expect(actual, expected);
     });
 
-    test('should result in DateTime', () {
+    test('Should result in DateTime', () {
       String actual = Type.ofDateTime().toString();
       String expected = "DateTime";
       expect(actual, expected);
     });
 
-    test('should result in String', () {
+    test('Should result in String', () {
       String actual = Type.ofString().toString();
       String expected = "String";
       expect(actual, expected);
     });
 
+    test("Should return: 'List'", () {
+      String actual = Type.ofList().toString();
+      String expected = "List";
+      expect(actual, expected);
+    });
+
+    test("Should return: 'List<String>'", () {
+      String actual = Type.ofGenericList(Type.ofString()).toString();
+      String expected = "List<String>";
+      expect(actual, expected);
+    });
 
 
-    test('Given Custom Type => Returns correct code string', () {
+
+    test("Should return: '_i1.MyClass'", () {
       String actual =
           Type("MyClass", libraryUrl: "package:test/test.dart").toString();
       String expected = "_i1.MyClass";

@@ -222,6 +222,13 @@ class Type extends CodeModel {
         libraryUrl = null,
         generics = [];
 
+  Type.ofList() : this.ofGenericList(null);
+
+  Type.ofGenericList(Type genericType) :
+        name='List',
+        libraryUrl=null,
+        generics=[if (genericType!=null) genericType];
+
   Type(this.name, {this.libraryUrl, this.generics = const []});
 
   @override
