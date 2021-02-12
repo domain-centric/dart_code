@@ -229,6 +229,13 @@ class Type extends CodeModel {
         libraryUrl=null,
         generics=[if (genericType!=null) genericType];
 
+  Type.ofSet() : this.ofGenericSet(null);
+
+  Type.ofGenericSet(Type genericType) :
+        name='Set',
+        libraryUrl=null,
+        generics=[if (genericType!=null) genericType];
+
   Type(this.name, {this.libraryUrl, this.generics = const []});
 
   @override

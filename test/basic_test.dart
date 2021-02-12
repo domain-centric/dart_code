@@ -207,6 +207,18 @@ main() {
       expect(actual, expected);
     });
 
+    test("Should return: 'Set'", () {
+      String actual = Type.ofSet().toString();
+      String expected = "Set";
+      expect(actual, expected);
+    });
+
+    test("Should return: 'Set<String>'", () {
+      String actual = Type.ofGenericSet(Type.ofString()).toString();
+      String expected = "Set<String>";
+      expect(actual, expected);
+    });
+
 
 
     test("Should return: '_i1.MyClass'", () {
