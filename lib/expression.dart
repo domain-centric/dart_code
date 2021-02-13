@@ -61,16 +61,16 @@ class Expression extends CodeModel {
         value,
       ]);
 
-  static RegExp singleQuote = RegExp("'");
-  static RegExp doubleQuote = RegExp('"');
-  static RegExp betweenSingleQuotes = RegExp("^'.*'\$");
-  static RegExp betweenDoubleQuotes = RegExp('^".*"\$');
+  static RegExp _singleQuote = RegExp("'");
+  static RegExp _doubleQuote = RegExp('"');
+  static RegExp _betweenSingleQuotes = RegExp("^'.*'\$");
+  static RegExp _betweenDoubleQuotes = RegExp('^".*"\$');
 
   static _createStringNodes(String value) {
-    if (!betweenSingleQuotes.hasMatch(value) &&
-        !betweenDoubleQuotes.hasMatch(value)) {
-      int nrSingleQuotes = singleQuote.allMatches(value).length;
-      int nrDoubleQuotes = doubleQuote.allMatches(value).length;
+    if (!_betweenSingleQuotes.hasMatch(value) &&
+        !_betweenDoubleQuotes.hasMatch(value)) {
+      int nrSingleQuotes = _singleQuote.allMatches(value).length;
+      int nrDoubleQuotes = _doubleQuote.allMatches(value).length;
       if (nrSingleQuotes > 0 && nrDoubleQuotes == 0) {
         value = '"$value"';
       } else {

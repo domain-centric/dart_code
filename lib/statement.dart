@@ -23,11 +23,58 @@ class Statement extends CodeModel {
   Statement.return$(Expression expression)
       : this([KeyWord.return$, SpaceWhenNeeded(), expression]);
 
+  Statement.if$(Expression condition, Block ifBock, {Block elseBlock})
+      : this([
+          KeyWord.if$,
+          SpaceWhenNeeded(),
+          Code('('),
+          condition,
+          Code(')'),
+          ifBock,
+          if (elseBlock != null) SpaceWhenNeeded(),
+          if (elseBlock != null) KeyWord.else$,
+          if (elseBlock != null) SpaceWhenNeeded(),
+          if (elseBlock != null) elseBlock
+        ]);
+
+  Statement.ifChain$(Map<Expression,Block> conditionsAndBlocks, {Block elseBlock})
+      : this(_createIfChain(conditionsAndBlocks, elseBlock));
+
+  static List<CodeNode> _createIfChain(Map<Expression, Block> conditionsAndBlocks, Block elseBlock) {
+    List<CodeNode> nodes=[];
+    bool isFirst=true;
+    conditionsAndBlocks.forEach((condition, block) {
+      if (!isFirst) {
+        nodes.add(SpaceWhenNeeded());
+        nodes.add(KeyWord.else$);
+        nodes.add(SpaceWhenNeeded());
+      }
+      isFirst=false;
+      nodes.add(KeyWord.if$);
+      nodes.add(SpaceWhenNeeded());
+      nodes.add(Code('('));
+      nodes.add(condition);
+      nodes.add(Code(')'));
+      nodes.add(SpaceWhenNeeded());
+      nodes.add(block);
+    });
+    if (elseBlock!=null) {
+      nodes.add(SpaceWhenNeeded());
+      nodes.add(KeyWord.else$);
+      nodes.add(SpaceWhenNeeded());
+      nodes.add(elseBlock);
+    }
+    return nodes;
+  }
+
+
   @override
   List<CodeNode> codeNodes(Context context) => [
         for (CodeNode codeNode in nodes) codeNode,
         if (nodes.isNotEmpty) EndOfStatement(),
       ];
+
+
 }
 
 class VariableDefinition extends Statement {
