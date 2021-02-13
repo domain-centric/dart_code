@@ -184,15 +184,12 @@ class Statement extends CodeModel {
     return caseNodes;
   }
 
-  Statement.throwObject(Expression expression): this([
-    KeyWord.throw$,
-    SpaceWhenNeeded(),
-    expression,
-  ]);
-
-
-
-
+  Statement.throw$(Expression expression)
+      : this([
+          KeyWord.throw$,
+          SpaceWhenNeeded(),
+          expression,
+        ]);
 
   Statement.while$(Expression condition, Block loopBlock)
       : this([

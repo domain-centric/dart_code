@@ -188,11 +188,18 @@ main() {
       });
     });
 
-    group('Statement.throwObject() constructor', () {
+    group('Statement.throw\$() constructor', () {
       test("Should return: throw 'Out of camels!';\n", () {
-        String actual = Statement.throwObject(
+        String actual = Statement.throw$(
             Expression.ofString('Out of camels!')).toString();
         String expected = "throw 'Out of camels!';\n";
+        expect(actual, expected);
+      });
+
+      test("Should return: throw OutOfCamelException();\n", () {
+        String actual = Statement.throw$(
+            Expression.callConstructor(Type('OutOfCamelException'))).toString();
+        String expected = "throw OutOfCamelException();\n";
         expect(actual, expected);
       });
     });
