@@ -170,6 +170,27 @@ main() {
         expect(actual, expected);
       });
     });
+
+    group('Statement.doWhile\$ constructor', () {
+      test("Should return while loop statement ", () {
+        final counter = 'counter';
+        String actual = Statement.doWhile$(
+            Block([
+              Statement.print(Expression.ofVariable(counter)),
+              Expression.ofVariable(counter).increment(),
+            ]),
+            Expression.ofVariable(counter).lessThan(Expression.ofInt(5)),
+        )
+            .toString();
+        String expected = 'do {\n'
+            '  print(counter);\n'
+            '  counter++\n'
+            '} while (counter < 5);\n';
+        expect(actual, expected);
+      });
+    });
+
+
   });
 
   group('VariableDefinition class', () {

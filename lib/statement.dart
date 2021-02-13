@@ -125,6 +125,20 @@ class Statement extends CodeModel {
     loopBlock,
   ]);
 
+  Statement.doWhile$(Block loopBlock,Expression condition)
+      : this([
+    KeyWord.do$,
+    SpaceWhenNeeded(),
+    loopBlock,
+    SpaceWhenNeeded(),
+    KeyWord.while$,
+    SpaceWhenNeeded(),
+    Code('('),
+    condition,
+    Code(')'),
+  ]);
+
+
   @override
   List<CodeNode> codeNodes(Context context) => [
         for (CodeNode codeNode in nodes) codeNode,
