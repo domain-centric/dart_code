@@ -59,6 +59,20 @@ main() {
       });
     });
 
+    group('Statement.forEach\$ constructor', () {
+      test("Should return: for loop statements'", () {
+        String actual = Statement.forEach$(
+            VariableDefinition.var$('color',
+                type: Type('Color')),
+            Expression.ofVariable('colors'),
+            Block([Statement.print(Expression.ofVariable('color'))])).toString();
+        String expected = 'for ( Color color in colors) {\n'
+            '  print(color);\n'
+            '};\n';
+        expect(actual, expected);
+      });
+    });
+
     group('Statement.if\$() constructor', () {
       test("Should return if statement without else statement", () {
         String actual = Statement.if$(Expression.ofBool(true),

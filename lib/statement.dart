@@ -95,6 +95,24 @@ class Statement extends CodeModel {
           loopBlock,
         ]);
 
+  Statement.forEach$(Statement initialization, Expression in$,
+       Block loopBlock)
+      : this([
+    KeyWord.for$,
+    SpaceWhenNeeded(),
+    Code('('),
+    for (int i=0;i<initialization.nodes.length;i++)
+      initialization.nodes[i],
+  SpaceWhenNeeded(),
+    KeyWord.in$,
+    SpaceWhenNeeded(),
+    in$,
+    Code(')'),
+    SpaceWhenNeeded(),
+    loopBlock,
+  ]);
+
+
   @override
   List<CodeNode> codeNodes(Context context) => [
         for (CodeNode codeNode in nodes) codeNode,
