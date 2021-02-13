@@ -11,6 +11,15 @@ class Statement extends CodeModel {
 
   Statement(this.nodes);
 
+  Statement.assert$(Expression expression, {String message})
+      : this([
+          KeyWord.assert$,
+          Code('('),
+          CommaSeparatedValues(
+              [expression, if (message != null) Expression.ofString(message)]),
+          Code(')'),
+        ]);
+
   Statement.assignVariable(String name, Expression value,
       {bool nullAware = false})
       : this([
@@ -82,8 +91,8 @@ class Statement extends CodeModel {
           KeyWord.for$,
           SpaceWhenNeeded(),
           Code('('),
-          for (int i=0;i<initialization.nodes.length;i++)
-                  initialization.nodes[i],
+          for (int i = 0; i < initialization.nodes.length; i++)
+            initialization.nodes[i],
           Code(';'),
           SpaceWhenNeeded(),
           condition,
@@ -95,49 +104,45 @@ class Statement extends CodeModel {
           loopBlock,
         ]);
 
-  Statement.forEach$(Statement initialization, Expression in$,
-       Block loopBlock)
+  Statement.forEach$(Statement initialization, Expression in$, Block loopBlock)
       : this([
-    KeyWord.for$,
-    SpaceWhenNeeded(),
-    Code('('),
-    for (int i=0;i<initialization.nodes.length;i++)
-      initialization.nodes[i],
-  SpaceWhenNeeded(),
-    KeyWord.in$,
-    SpaceWhenNeeded(),
-    in$,
-    Code(')'),
-    SpaceWhenNeeded(),
-    loopBlock,
-  ]);
+          KeyWord.for$,
+          SpaceWhenNeeded(),
+          Code('('),
+          for (int i = 0; i < initialization.nodes.length; i++)
+            initialization.nodes[i],
+          SpaceWhenNeeded(),
+          KeyWord.in$,
+          SpaceWhenNeeded(),
+          in$,
+          Code(')'),
+          SpaceWhenNeeded(),
+          loopBlock,
+        ]);
 
-
-  Statement.while$(Expression condition,
-      Block loopBlock)
+  Statement.while$(Expression condition, Block loopBlock)
       : this([
-    KeyWord.while$,
-    SpaceWhenNeeded(),
-    Code('('),
-    condition,
-    Code(')'),
-    SpaceWhenNeeded(),
-    loopBlock,
-  ]);
+          KeyWord.while$,
+          SpaceWhenNeeded(),
+          Code('('),
+          condition,
+          Code(')'),
+          SpaceWhenNeeded(),
+          loopBlock,
+        ]);
 
-  Statement.doWhile$(Block loopBlock,Expression condition)
+  Statement.doWhile$(Block loopBlock, Expression condition)
       : this([
-    KeyWord.do$,
-    SpaceWhenNeeded(),
-    loopBlock,
-    SpaceWhenNeeded(),
-    KeyWord.while$,
-    SpaceWhenNeeded(),
-    Code('('),
-    condition,
-    Code(')'),
-  ]);
-
+          KeyWord.do$,
+          SpaceWhenNeeded(),
+          loopBlock,
+          SpaceWhenNeeded(),
+          KeyWord.while$,
+          SpaceWhenNeeded(),
+          Code('('),
+          condition,
+          Code(')'),
+        ]);
 
   @override
   List<CodeNode> codeNodes(Context context) => [

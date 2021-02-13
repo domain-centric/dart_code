@@ -14,6 +14,25 @@ main() {
       });
     });
 
+    group('Statement.assert() constructor', () {
+      test("Should return: 'assert(b==false);\n'", () {
+        String actual = Statement.assert$(
+                Expression.ofVariable('b').equalTo(Expression.ofBool(false)))
+            .toString();
+        String expected = "assert(b == false);\n";
+        expect(actual, expected);
+      });
+
+      test("Should return: greeting ??= 'Hello World';\n", () {
+        String actual = Statement.assert$(
+                Expression.ofVariable('b').equalTo(Expression.ofBool(false)),
+                message: 'b must be false')
+            .toString();
+        String expected = "assert(b == false, 'b must be false');\n";
+        expect(actual, expected);
+      });
+    });
+
     group('Statement.assignVariable() constructor', () {
       test("Should return: greeting = 'Hello World';\n", () {
         String actual = Statement.assignVariable(
@@ -157,12 +176,11 @@ main() {
       test("Should return while loop statement ", () {
         final counter = 'counter';
         String actual = Statement.while$(
-                Expression.ofVariable(counter).lessThan(Expression.ofInt(5)),
-                Block([
-                  Statement.print(Expression.ofVariable(counter)),
-                  Expression.ofVariable(counter).increment(),
-                ]))
-            .toString();
+            Expression.ofVariable(counter).lessThan(Expression.ofInt(5)),
+            Block([
+              Statement.print(Expression.ofVariable(counter)),
+              Expression.ofVariable(counter).increment(),
+            ])).toString();
         String expected = 'while (counter < 5) {\n'
             '  print(counter);\n'
             '  counter++\n'
@@ -175,13 +193,12 @@ main() {
       test("Should return while loop statement ", () {
         final counter = 'counter';
         String actual = Statement.doWhile$(
-            Block([
-              Statement.print(Expression.ofVariable(counter)),
-              Expression.ofVariable(counter).increment(),
-            ]),
-            Expression.ofVariable(counter).lessThan(Expression.ofInt(5)),
-        )
-            .toString();
+          Block([
+            Statement.print(Expression.ofVariable(counter)),
+            Expression.ofVariable(counter).increment(),
+          ]),
+          Expression.ofVariable(counter).lessThan(Expression.ofInt(5)),
+        ).toString();
         String expected = 'do {\n'
             '  print(counter);\n'
             '  counter++\n'
@@ -189,8 +206,6 @@ main() {
         expect(actual, expected);
       });
     });
-
-
   });
 
   group('VariableDefinition class', () {
