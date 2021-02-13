@@ -15,7 +15,7 @@ main() {
     });
 
     group('Statement.assert() constructor', () {
-      test("Should return: 'assert(b==false);\n'", () {
+      test("Should return: 'assert(b == false);\n'", () {
         String actual = Statement.assert$(
                 Expression.ofVariable('b').equalTo(Expression.ofBool(false)))
             .toString();
@@ -23,7 +23,7 @@ main() {
         expect(actual, expected);
       });
 
-      test("Should return: greeting ??= 'Hello World';\n", () {
+      test("Should return: 'assert(b == false, 'b must be false');\n'", () {
         String actual = Statement.assert$(
                 Expression.ofVariable('b').equalTo(Expression.ofBool(false)),
                 message: 'b must be false')
@@ -60,6 +60,22 @@ main() {
             throwsA((e) =>
                 e is ArgumentError &&
                 e.message == 'Must start with an lower case letter'));
+      });
+    });
+
+    group('Statement.break\$ constructor', () {
+      test("Should return: 'break;'", () {
+        String actual = Statement.break$().toString();
+        String expected = 'break;\n';
+        expect(actual, expected);
+      });
+    });
+
+    group('Statement.continue\$ constructor', () {
+      test("Should return: 'break;'", () {
+        String actual = Statement.continue$().toString();
+        String expected = 'continue;\n';
+        expect(actual, expected);
       });
     });
 
@@ -168,6 +184,66 @@ main() {
         String actual =
             Statement.return$(Expression.ofString('Hello World')).toString();
         String expected = "return 'Hello World';\n";
+        expect(actual, expected);
+      });
+    });
+
+    group('Statement.switch\$() constructor', () {
+      final number = 'number';
+
+      test("Should return: switch statement without else statement", () {
+        String actual = Statement.switch$(Expression.ofVariable(number), {
+          Expression.ofInt(1): Block([
+            Statement.print(Expression.ofString('One')),
+            Statement.break$(),
+          ]),
+          Expression.ofInt(2): Block([
+            Statement.print(Expression.ofString('Two')),
+            Statement.break$(),
+          ])
+        }).toString();
+        String expected = 'switch (number) {\n'
+            '  case 1: {\n'
+            '    print(\'One\');\n'
+            '    break;\n'
+            '  }\n'
+            '  case 2: {\n'
+            '    print(\'Two\');\n'
+            '    break;\n'
+            '  }\n'
+            '};\n';
+        expect(actual, expected);
+      });
+
+      test("Should return: switch statement with else statement", () {
+        String actual = Statement.switch$(
+                Expression.ofVariable(number),
+                {
+                  Expression.ofInt(1): Block([
+                    Statement.print(Expression.ofString('One')),
+                    Statement.break$(),
+                  ]),
+                  Expression.ofInt(2): Block([
+                    Statement.print(Expression.ofString('Two')),
+                    Statement.break$(),
+                  ])
+                },
+                defaultBlock:
+                    Block([Statement.print(Expression.ofString('Other'))]))
+            .toString();
+        String expected = 'switch (number) {\n'
+            '  case 1: {\n'
+            '    print(\'One\');\n'
+            '    break;\n'
+            '  }\n'
+            '  case 2: {\n'
+            '    print(\'Two\');\n'
+            '    break;\n'
+            '  }\n'
+            '  default: {\n'
+            '    print(\'Other\');\n'
+            '  }\n'
+            '};\n';
         expect(actual, expected);
       });
     });

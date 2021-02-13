@@ -1,6 +1,7 @@
 import 'package:dart_code/annotation.dart';
 import 'package:dart_code/basic.dart';
 import 'package:dart_code/comment.dart';
+import 'package:dart_code/formatting.dart';
 import 'package:dart_code/model.dart';
 import 'package:dart_code/parameter.dart';
 
@@ -29,6 +30,10 @@ class Statement extends CodeModel {
           SpaceWhenNeeded(),
           value,
         ]);
+
+  Statement.break$() : this([KeyWord.break$]);
+
+  Statement.continue$() : this([KeyWord.continue$]);
 
   Statement.return$(Expression expression)
       : this([KeyWord.return$, SpaceWhenNeeded(), expression]);
@@ -83,6 +88,52 @@ class Statement extends CodeModel {
       nodes.add(elseBlock);
     }
     return nodes;
+  }
+
+  Statement.switch$(
+      Expression condition, Map<Expression, Block> valuesAndBlocks,
+      {Block defaultBlock})
+      : this(_createSwitchNodes(condition, valuesAndBlocks, defaultBlock));
+
+  static List<CodeNode> _createSwitchNodes(Expression condition,
+      Map<Expression, Block> valuesAndBlocks, Block defaultBlock) {
+    List<CodeNode> nodes = [];
+    nodes.add(KeyWord.switch$);
+    nodes.add(SpaceWhenNeeded());
+    nodes.add(Code('('));
+    nodes.add(condition);
+    nodes.add(Code(')'));
+    nodes.add(SpaceWhenNeeded());
+    List<CodeNode> caseNodes = _createCaseNodes(valuesAndBlocks, defaultBlock);
+    nodes.add(Block(caseNodes));
+    return nodes;
+  }
+
+  static List<CodeNode> _createCaseNodes(
+      Map<Expression, Block> valuesAndBlocks, Block defaultBlock) {
+    List<CodeNode> caseNodes = [];
+    valuesAndBlocks.forEach((value, block) {
+      caseNodes.addAll(_createCaseNode(value, block));
+    });
+    if (defaultBlock != null) {
+      caseNodes.add(KeyWord.default$);
+      caseNodes.add(Code(':'));
+      caseNodes.add(SpaceWhenNeeded());
+      caseNodes.add(defaultBlock);
+    }
+    return caseNodes;
+  }
+
+  static List<CodeNode> _createCaseNode(Expression value, Block block) {
+    List<CodeNode> caseNodes = [];
+    caseNodes.add(KeyWord.case$);
+    caseNodes.add(SpaceWhenNeeded());
+    caseNodes.add(value);
+    caseNodes.add(Code(':'));
+    caseNodes.add(SpaceWhenNeeded());
+    caseNodes.add(block);
+    caseNodes.add(NewLine());
+    return caseNodes;
   }
 
   Statement.for$(Statement initialization, Expression condition,
