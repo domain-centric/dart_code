@@ -62,10 +62,10 @@ main() {
     group('Statement.forEach\$ constructor', () {
       test("Should return: for loop statements'", () {
         String actual = Statement.forEach$(
-            VariableDefinition.var$('color',
-                type: Type('Color')),
-            Expression.ofVariable('colors'),
-            Block([Statement.print(Expression.ofVariable('color'))])).toString();
+                VariableDefinition.var$('color', type: Type('Color')),
+                Expression.ofVariable('colors'),
+                Block([Statement.print(Expression.ofVariable('color'))]))
+            .toString();
         String expected = 'for ( Color color in colors) {\n'
             '  print(color);\n'
             '};\n';
@@ -99,11 +99,13 @@ main() {
     });
 
     group('Statement.ifChain\$() constructor', () {
+      final number = 'number';
+
       test("Should return if chain statement without else statement", () {
         String actual = Statement.ifChain$({
-          Expression.ofVariable('number').equalTo(Expression.ofInt(1)):
+          Expression.ofVariable(number).equalTo(Expression.ofInt(1)):
               Block([Statement.print(Expression.ofString('One'))]),
-          Expression.ofVariable('number').equalTo(Expression.ofInt(2)):
+          Expression.ofVariable(number).equalTo(Expression.ofInt(2)):
               Block([Statement.print(Expression.ofString('Two'))])
         }).toString();
         String expected = 'if (number == 1) {\n'
@@ -116,9 +118,9 @@ main() {
 
       test("Should return if chain statement with else statement", () {
         String actual = Statement.ifChain$({
-          Expression.ofVariable('number').equalTo(Expression.ofInt(1)):
+          Expression.ofVariable(number).equalTo(Expression.ofInt(1)):
               Block([Statement.print(Expression.ofString('One'))]),
-          Expression.ofVariable('number').equalTo(Expression.ofInt(2)):
+          Expression.ofVariable(number).equalTo(Expression.ofInt(2)):
               Block([Statement.print(Expression.ofString('Two'))])
         }, elseBlock: Block([Statement.print(Expression.ofString('Other'))]))
             .toString();
@@ -147,6 +149,24 @@ main() {
         String actual =
             Statement.return$(Expression.ofString('Hello World')).toString();
         String expected = "return 'Hello World';\n";
+        expect(actual, expected);
+      });
+    });
+
+    group('Statement.while\$ constructor', () {
+      test("Should return while loop statement ", () {
+        final counter = 'counter';
+        String actual = Statement.while$(
+                Expression.ofVariable(counter).lessThan(Expression.ofInt(5)),
+                Block([
+                  Statement.print(Expression.ofVariable(counter)),
+                  Expression.ofVariable(counter).increment(),
+                ]))
+            .toString();
+        String expected = 'while (counter < 5) {\n'
+            '  print(counter);\n'
+            '  counter++\n'
+            '};\n';
         expect(actual, expected);
       });
     });
