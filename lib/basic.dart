@@ -48,7 +48,7 @@ final RegExp endsWithWhiteSpace = RegExp(r'\s$');
 class SpaceWhenNeeded extends CodeLeaf {
   @override
   String convertToString(Context context) {
-    if (context.lastCode.isEmpty ||
+    if (context.lastCode.trim().isEmpty ||
         endsWithWhiteSpace.hasMatch(context.lastCode)) {
       return '';
     } else {
@@ -445,21 +445,23 @@ class Block extends CodeModel {
       ];
 }
 
-/// e.g. a body of a function, method, constructor
+/// e.g. a body of a function, method
 class Body extends CodeModel {
-  CodeNode body;
+  final List<CodeNode> nodes;
 
-  Body(this.body);
+  Body(this.nodes);
 
   @override
   List<CodeNode> codeNodes(Context context) {
     List<CodeNode> codeNodes = [];
-    if (body is Expression) {
-      codeNodes.add(Code("=> "));
-      codeNodes.add(body);
+    if (nodes.length==1 && nodes.first is Expression) {
+      codeNodes.add(SpaceWhenNeeded());
+      codeNodes.add(Code("=>"));
+      codeNodes.add(SpaceWhenNeeded());
+      codeNodes.add(nodes.first);
       codeNodes.add(EndOfStatement());
     } else {
-      codeNodes.add(Block([body]));
+      codeNodes.add(Block(nodes));
     }
     return codeNodes;
   }

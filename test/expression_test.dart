@@ -82,103 +82,77 @@ main() {
       });
 
       group('Expression.ofList() constructor', () {
-        test(
-            'Should return: [1, 2, 3]',
-                () {
-              String actual =
-              Expression.ofList([
-                Expression.ofInt(1),
-                Expression.ofInt(2),
-                Expression.ofInt(3),
-              ]).toString();
-              String expected = "[1, 2, 3]";
-              expect(actual, expected);
-            });
+        test('Should return: [1, 2, 3]', () {
+          String actual = Expression.ofList([
+            Expression.ofInt(1),
+            Expression.ofInt(2),
+            Expression.ofInt(3),
+          ]).toString();
+          String expected = "[1, 2, 3]";
+          expect(actual, expected);
+        });
 
-        test(
-            'Should return: [1, 2 + 3, 3]',
-                () {
-              String actual =
-              Expression.ofList([
-                Expression.ofInt(1),
-                Expression.ofInt(2).add(Expression.ofInt(3)),
-                Expression.ofInt(3),
-              ]).toString();
-              String expected = "[1, 2 + 3, 3]";
-              expect(actual, expected);
-            });
+        test('Should return: [1, 2 + 3, 3]', () {
+          String actual = Expression.ofList([
+            Expression.ofInt(1),
+            Expression.ofInt(2).add(Expression.ofInt(3)),
+            Expression.ofInt(3),
+          ]).toString();
+          String expected = "[1, 2 + 3, 3]";
+          expect(actual, expected);
+        });
 
-        test(
-            'Should return: [1, 2, 3]',
-                () {
-              String actual =
-              Expression.ofList([
-                Expression.ofString('Hello'),
-                Expression.ofString('World'),
-              ]).toString();
-              String expected = "['Hello', 'World']";
-              expect(actual, expected);
-            });
-
+        test('Should return: [1, 2, 3]', () {
+          String actual = Expression.ofList([
+            Expression.ofString('Hello'),
+            Expression.ofString('World'),
+          ]).toString();
+          String expected = "['Hello', 'World']";
+          expect(actual, expected);
+        });
       });
 
       group('Expression.ofSet() constructor', () {
-        test(
-            'Should return: {1, 2, 3}',
-                () {
-              String actual =
-              Expression.ofSet({
-                Expression.ofInt(1),
-                Expression.ofInt(2),
-                Expression.ofInt(3),
-              }).toString();
-              String expected = "{1, 2, 3}";
-              expect(actual, expected);
-            });
+        test('Should return: {1, 2, 3}', () {
+          String actual = Expression.ofSet({
+            Expression.ofInt(1),
+            Expression.ofInt(2),
+            Expression.ofInt(3),
+          }).toString();
+          String expected = "{1, 2, 3}";
+          expect(actual, expected);
+        });
 
-        test(
-            'Should return: {1, 2 + 3, 3}',
-                () {
-              String actual =
-              Expression.ofSet({
-                Expression.ofInt(1),
-                Expression.ofInt(2).add(Expression.ofInt(3)),
-                Expression.ofInt(3),
-              }).toString();
-              String expected = "{1, 2 + 3, 3}";
-              expect(actual, expected);
-            });
+        test('Should return: {1, 2 + 3, 3}', () {
+          String actual = Expression.ofSet({
+            Expression.ofInt(1),
+            Expression.ofInt(2).add(Expression.ofInt(3)),
+            Expression.ofInt(3),
+          }).toString();
+          String expected = "{1, 2 + 3, 3}";
+          expect(actual, expected);
+        });
 
-        test(
-            'Should return: {1, 2, 3}',
-                () {
-              String actual =
-              Expression.ofSet({
-                Expression.ofString('Hello'),
-                Expression.ofString('World'),
-              }).toString();
-              String expected = "{'Hello', 'World'}";
-              expect(actual, expected);
-            });
-
+        test('Should return: {1, 2, 3}', () {
+          String actual = Expression.ofSet({
+            Expression.ofString('Hello'),
+            Expression.ofString('World'),
+          }).toString();
+          String expected = "{'Hello', 'World'}";
+          expect(actual, expected);
+        });
       });
 
       group('Expression.ofMap() constructor', () {
-
-        test(
-            "Should return: '{1 : 'Hello', 2 : 'World'}'",
-                () {
-              String actual =
-              Expression.ofMap({ Expression.ofInt(1): Expression.ofString('Hello'),
-                Expression.ofInt(2): Expression.ofString('World'),
-              }).toString();
-              String expected = "{1 : 'Hello', 2 : 'World'}";
-              expect(actual, expected);
-            });
-
+        test("Should return: '{1 : 'Hello', 2 : 'World'}'", () {
+          String actual = Expression.ofMap({
+            Expression.ofInt(1): Expression.ofString('Hello'),
+            Expression.ofInt(2): Expression.ofString('World'),
+          }).toString();
+          String expected = "{1 : 'Hello', 2 : 'World'}";
+          expect(actual, expected);
+        });
       });
-
-
 
       group('Expression.ofVariable constructor', () {
         test('Should returns the literal code variable name', () {
@@ -404,7 +378,7 @@ main() {
 
       test('Should return me - other', () {
         String actual = Expression.ofVariable('me')
-            .substract(Expression.ofVariable('other'))
+            .subtract(Expression.ofVariable('other'))
             .toString();
         String expected = 'me - other';
         expect(actual, expected);
@@ -431,6 +405,38 @@ main() {
             .modulo(Expression.ofVariable('other'))
             .toString();
         String expected = 'me % other';
+        expect(actual, expected);
+      });
+
+      test('Should return me++', () {
+        String actual = Expression.ofVariable('me')
+            .increment()
+            .toString();
+        String expected = 'me++';
+        expect(actual, expected);
+      });
+
+      test('Should return ++me', () {
+        String actual = Expression.ofVariable('me')
+            .increment(after: false)
+            .toString();
+        String expected = '++me';
+        expect(actual, expected);
+      });
+
+      test('Should return me--', () {
+        String actual = Expression.ofVariable('me')
+            .decrement()
+            .toString();
+        String expected = 'me--';
+        expect(actual, expected);
+      });
+
+      test('Should return --me', () {
+        String actual = Expression.ofVariable('me')
+            .decrement(after: false)
+            .toString();
+        String expected = '--me';
         expect(actual, expected);
       });
 
@@ -504,7 +510,7 @@ main() {
 
         test("Should return: String greeting = 'Hello World';\n", () {
           String actual = Expression.ofString('Hello World')
-              .defineVariable("greeting", type:Type.ofString())
+              .defineVariable("greeting", type: Type.ofString())
               .toString();
           String expected = "String greeting = 'Hello World';\n";
           expect(actual, expected);
@@ -512,7 +518,7 @@ main() {
 
         test("Should return: static String greeting = 'Hello World';\n", () {
           String actual = Expression.ofString('Hello World')
-              .defineVariable("greeting", type:Type.ofString(),static: true)
+              .defineVariable("greeting", type: Type.ofString(), static: true)
               .toString();
           String expected = "static String greeting = 'Hello World';\n";
           expect(actual, expected);
@@ -530,7 +536,7 @@ main() {
             Expression.ofString('Hello World').defineVariable("Greeting");
           },
               throwsA((e) =>
-              e is ArgumentError &&
+                  e is ArgumentError &&
                   e.message == 'Must start with an lower case letter'));
         });
       });
@@ -545,15 +551,16 @@ main() {
 
         test("Should return: final String greeting = 'Hello World';\n", () {
           String actual = Expression.ofString('Hello World')
-              .defineFinal("greeting", type:Type.ofString())
+              .defineFinal("greeting", type: Type.ofString())
               .toString();
           String expected = "final String greeting = 'Hello World';\n";
           expect(actual, expected);
         });
 
-        test("Should return: static final String greeting = 'Hello World';\n", () {
+        test("Should return: static final String greeting = 'Hello World';\n",
+            () {
           String actual = Expression.ofString('Hello World')
-              .defineFinal("greeting", type:Type.ofString(),static: true)
+              .defineFinal("greeting", type: Type.ofString(), static: true)
               .toString();
           String expected = "static final String greeting = 'Hello World';\n";
           expect(actual, expected);
@@ -571,7 +578,7 @@ main() {
             Expression.ofString('Hello World').defineFinal("Greeting");
           },
               throwsA((e) =>
-              e is ArgumentError &&
+                  e is ArgumentError &&
                   e.message == 'Must start with an lower case letter'));
         });
       });
@@ -587,15 +594,16 @@ main() {
 
         test("Should return: const String greeting = 'Hello World';\n", () {
           String actual = Expression.ofString('Hello World')
-              .defineConst("greeting", type:Type.ofString())
+              .defineConst("greeting", type: Type.ofString())
               .toString();
           String expected = "const String greeting = 'Hello World';\n";
           expect(actual, expected);
         });
 
-        test("Should return: static const String greeting = 'Hello World';\n", () {
+        test("Should return: static const String greeting = 'Hello World';\n",
+            () {
           String actual = Expression.ofString('Hello World')
-              .defineConst("greeting", type:Type.ofString(),static: true)
+              .defineConst("greeting", type: Type.ofString(), static: true)
               .toString();
           String expected = "static const String greeting = 'Hello World';\n";
           expect(actual, expected);
@@ -617,7 +625,6 @@ main() {
                   e.message == 'Must start with an lower case letter'));
         });
       });
-
 
       group('callMethod() method', () {
         test('Should return a call to a method without parameter values', () {
@@ -652,7 +659,6 @@ main() {
               '..kiss();\n';
           expect(actual, expected);
         });
-
 
         test('Should throw an exception invalid name ', () {
           expect(() {

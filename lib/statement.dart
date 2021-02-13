@@ -24,10 +24,10 @@ class Statement extends CodeModel {
   Statement.return$(Expression expression)
       : this([KeyWord.return$, SpaceWhenNeeded(), expression]);
 
-  Statement.print(String text)
+  Statement.print(Expression expression)
       : this([
-          Expression.callFunction('print',
-              ParameterValues([ParameterValue(Expression.ofString(text))]))
+          Expression.callFunction(
+              'print', ParameterValues([ParameterValue(expression)]))
         ]);
 
   Statement.if$(Expression condition, Block ifBock, {Block elseBlock})
@@ -75,6 +75,25 @@ class Statement extends CodeModel {
     }
     return nodes;
   }
+
+  Statement.for$(Statement initialization, Expression condition,
+      Expression manipulation, Block loopBlock)
+      : this([
+          KeyWord.for$,
+          SpaceWhenNeeded(),
+          Code('('),
+          for (int i=0;i<initialization.nodes.length;i++)
+                  initialization.nodes[i],
+          Code(';'),
+          SpaceWhenNeeded(),
+          condition,
+          Code(';'),
+          SpaceWhenNeeded(),
+          manipulation,
+          Code(')'),
+          SpaceWhenNeeded(),
+          loopBlock,
+        ]);
 
   @override
   List<CodeNode> codeNodes(Context context) => [

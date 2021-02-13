@@ -11,17 +11,17 @@ class Function extends CodeModel {
 
   Function.withoutName(CodeNode body, {this.parameters, this.returnType})
       : name = null,
-        body = Body(body);
+        body = Body([body]);
 
   Function.withName(String name, CodeNode body,
       {this.parameters, this.returnType})
       : name = IdentifierStartingWithLowerCase(name),
-        body = Body(body);
+        body = Body([body]);
 
   Function.main(CodeNode body,{this.parameters})
       : returnType=null,
         name = IdentifierStartingWithLowerCase('main'),
-        body = Body(body);
+        body = Body([body]);
 
 
   @override

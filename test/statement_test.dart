@@ -14,15 +14,6 @@ main() {
       });
     });
 
-    group('Statement.return\$ constructor', () {
-      test("Should return: 'test();\n'", () {
-        String actual =
-            Statement.return$(Expression.ofString('Hello World')).toString();
-        String expected = "return 'Hello World';\n";
-        expect(actual, expected);
-      });
-    });
-
     group('Statement.assignVariable() constructor', () {
       test("Should return: greeting = 'Hello World';\n", () {
         String actual = Statement.assignVariable(
@@ -53,21 +44,25 @@ main() {
       });
     });
 
-    group('Statement.print() constructor', () {
-      test("Should return print statement", () {
-        String actual = Statement.print('Hello World').toString();
-        String expected = "print('Hello World');\n";
+    group('Statement.for\$ constructor', () {
+      test("Should return: for loop statements'", () {
+        String actual = Statement.for$(
+            VariableDefinition.var$('i',
+                type: Type.ofInt(), value: Expression.ofInt(10)),
+            Expression.ofVariable('i').greaterOrEqualTo(Expression.ofInt(0)),
+            Expression.ofVariable('i').increment(),
+            Block([Statement.print(Expression.ofVariable('i'))])).toString();
+        String expected = 'for ( int i = 10; i >= 0; i++) {\n'
+            '  print(i);\n'
+            '};\n';
         expect(actual, expected);
       });
     });
 
-
     group('Statement.if\$() constructor', () {
       test("Should return if statement without else statement", () {
-        String actual = Statement.if$(
-            Expression.ofBool(true),
-            Block([
-              Statement.print('True')])).toString();
+        String actual = Statement.if$(Expression.ofBool(true),
+            Block([Statement.print(Expression.ofString('True'))])).toString();
         String expected = 'if (true){\n'
             '  print(\'True\');\n'
             '};\n';
@@ -75,12 +70,11 @@ main() {
       });
 
       test("Should return if statement with else statement", () {
-        String actual = Statement.if$(
-            Expression.ofBool(true),
-            Block([
-              Statement.print('True')]),
-            elseBlock: Block([
-              Statement.print('False')])).toString();
+        String actual = Statement.if$(Expression.ofBool(true),
+                Block([Statement.print(Expression.ofString('True'))]),
+                elseBlock:
+                    Block([Statement.print(Expression.ofString('False'))]))
+            .toString();
         String expected = 'if (true){\n'
             '  print(\'True\');\n'
             '} else {\n'
@@ -93,10 +87,11 @@ main() {
     group('Statement.ifChain\$() constructor', () {
       test("Should return if chain statement without else statement", () {
         String actual = Statement.ifChain$({
-          Expression.ofVariable('number').equalTo(Expression.ofInt(1)): Block([
-            Statement.print('One')]),
-          Expression.ofVariable('number').equalTo(Expression.ofInt(2)): Block([
-            Statement.print('Two')])}).toString();
+          Expression.ofVariable('number').equalTo(Expression.ofInt(1)):
+              Block([Statement.print(Expression.ofString('One'))]),
+          Expression.ofVariable('number').equalTo(Expression.ofInt(2)):
+              Block([Statement.print(Expression.ofString('Two'))])
+        }).toString();
         String expected = 'if (number == 1) {\n'
             '  print(\'One\');\n'
             '} else if (number == 2) {\n'
@@ -107,13 +102,12 @@ main() {
 
       test("Should return if chain statement with else statement", () {
         String actual = Statement.ifChain$({
-          Expression.ofVariable('number').equalTo(Expression.ofInt(1)): Block([
-            Statement.print('One')]),
-          Expression.ofVariable('number').equalTo(Expression.ofInt(2)): Block([
-            Statement.print('Two')])
-        },
-            elseBlock: Block([
-              Statement.print('Other')])).toString();
+          Expression.ofVariable('number').equalTo(Expression.ofInt(1)):
+              Block([Statement.print(Expression.ofString('One'))]),
+          Expression.ofVariable('number').equalTo(Expression.ofInt(2)):
+              Block([Statement.print(Expression.ofString('Two'))])
+        }, elseBlock: Block([Statement.print(Expression.ofString('Other'))]))
+            .toString();
         String expected = 'if (number == 1) {\n'
             '  print(\'One\');\n'
             '} else if (number == 2) {\n'
@@ -121,6 +115,24 @@ main() {
             '} else {\n'
             '  print(\'Other\');\n'
             '};\n';
+        expect(actual, expected);
+      });
+    });
+
+    group('Statement.print() constructor', () {
+      test("Should return print statement", () {
+        String actual =
+            Statement.print(Expression.ofString('Hello World')).toString();
+        String expected = "print('Hello World');\n";
+        expect(actual, expected);
+      });
+    });
+
+    group('Statement.return\$ constructor', () {
+      test("Should return: 'test();\n'", () {
+        String actual =
+            Statement.return$(Expression.ofString('Hello World')).toString();
+        String expected = "return 'Hello World';\n";
         expect(actual, expected);
       });
     });

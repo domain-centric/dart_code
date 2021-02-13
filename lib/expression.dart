@@ -169,7 +169,7 @@ class Expression extends CodeModel {
       [this, SpaceWhenNeeded(), Code('+'), SpaceWhenNeeded(), other]);
 
   /// Returns the result of `this` `-` [other].
-  Expression substract(Expression other) => Expression(
+  Expression subtract(Expression other) => Expression(
       [this, SpaceWhenNeeded(), Code('-'), SpaceWhenNeeded(), other]);
 
   /// Returns the result of `this` `/` [other].
@@ -183,6 +183,14 @@ class Expression extends CodeModel {
   /// Returns the result of `this` `%` [other].
   Expression modulo(Expression other) => Expression(
       [this, SpaceWhenNeeded(), Code('%'), SpaceWhenNeeded(), other]);
+
+  /// Returns the result of this++ or ++this.
+  Expression increment({after = true}) =>
+      after ? Expression([this, Code('++')]) : Expression([Code('++'), this]);
+
+  /// Returns the result of this-- or --this.
+  Expression decrement({after = true}) =>
+      after ? Expression([this, Code('--')]) : Expression([Code('--'), this]);
 
   Expression conditional(Expression whenTrue, Expression whenFalse) =>
       Expression([
