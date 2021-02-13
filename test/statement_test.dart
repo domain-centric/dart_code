@@ -1,7 +1,6 @@
 import 'package:dart_code/basic.dart';
 import 'package:dart_code/expression.dart';
 import 'package:dart_code/model.dart';
-import 'package:dart_code/parameter.dart';
 import 'package:dart_code/statement.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -54,18 +53,23 @@ main() {
       });
     });
 
+    group('Statement.print() constructor', () {
+      test("Should return print statement", () {
+        String actual = Statement.print('Hello World').toString();
+        String expected = "print('Hello World');\n";
+        expect(actual, expected);
+      });
+    });
+
+
     group('Statement.if\$() constructor', () {
       test("Should return if statement without else statement", () {
         String actual = Statement.if$(
             Expression.ofBool(true),
             Block([
-              Expression.callFunction(
-                  'print',
-                  ParameterValues(
-                      [ParameterValue(Expression.ofString('True'))]))
-            ])).toString();
+              Statement.print('True')])).toString();
         String expected = 'if (true){\n'
-            '  print(\'True\')\n'
+            '  print(\'True\');\n'
             '};\n';
         expect(actual, expected);
       });
@@ -74,21 +78,13 @@ main() {
         String actual = Statement.if$(
             Expression.ofBool(true),
             Block([
-              Expression.callFunction(
-                  'print',
-                  ParameterValues(
-                      [ParameterValue(Expression.ofString('True'))]))
-            ]),
+              Statement.print('True')]),
             elseBlock: Block([
-              Expression.callFunction(
-                  'print',
-                  ParameterValues(
-                      [ParameterValue(Expression.ofString('False'))]))
-            ])).toString();
+              Statement.print('False')])).toString();
         String expected = 'if (true){\n'
-            '  print(\'True\')\n'
+            '  print(\'True\');\n'
             '} else {\n'
-            '  print(\'False\')\n'
+            '  print(\'False\');\n'
             '};\n';
         expect(actual, expected);
       });
@@ -98,18 +94,13 @@ main() {
       test("Should return if chain statement without else statement", () {
         String actual = Statement.ifChain$({
           Expression.ofVariable('number').equalTo(Expression.ofInt(1)): Block([
-            Expression.callFunction('print',
-                ParameterValues([ParameterValue(Expression.ofString('One'))]))
-          ]),
+            Statement.print('One')]),
           Expression.ofVariable('number').equalTo(Expression.ofInt(2)): Block([
-            Expression.callFunction('print',
-                ParameterValues([ParameterValue(Expression.ofString('Two'))]))
-          ])
-        }).toString();
+            Statement.print('Two')])}).toString();
         String expected = 'if (number == 1) {\n'
-            '  print(\'One\')\n'
+            '  print(\'One\');\n'
             '} else if (number == 2) {\n'
-            '  print(\'Two\')\n'
+            '  print(\'Two\');\n'
             '};\n';
         expect(actual, expected);
       });
@@ -117,26 +108,18 @@ main() {
       test("Should return if chain statement with else statement", () {
         String actual = Statement.ifChain$({
           Expression.ofVariable('number').equalTo(Expression.ofInt(1)): Block([
-            Expression.callFunction('print',
-                ParameterValues([ParameterValue(Expression.ofString('One'))]))
-          ]),
+            Statement.print('One')]),
           Expression.ofVariable('number').equalTo(Expression.ofInt(2)): Block([
-            Expression.callFunction('print',
-                ParameterValues([ParameterValue(Expression.ofString('Two'))]))
-          ])
+            Statement.print('Two')])
         },
             elseBlock: Block([
-              Expression.callFunction(
-                  'print',
-                  ParameterValues(
-                      [ParameterValue(Expression.ofString('Other'))]))
-            ])).toString();
+              Statement.print('Other')])).toString();
         String expected = 'if (number == 1) {\n'
-            '  print(\'One\')\n'
+            '  print(\'One\');\n'
             '} else if (number == 2) {\n'
-            '  print(\'Two\')\n'
+            '  print(\'Two\');\n'
             '} else {\n'
-            '  print(\'Other\')\n'
+            '  print(\'Other\');\n'
             '};\n';
         expect(actual, expected);
       });
