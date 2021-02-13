@@ -35,13 +35,52 @@ class Statement extends CodeModel {
 
   Statement.continue$() : this([KeyWord.continue$]);
 
-  Statement.return$(Expression expression)
-      : this([KeyWord.return$, SpaceWhenNeeded(), expression]);
-
-  Statement.print(Expression expression)
+  Statement.doWhile$(Block loopBlock, Expression condition)
       : this([
-          Expression.callFunction(
-              'print', ParameterValues([ParameterValue(expression)]))
+          KeyWord.do$,
+          SpaceWhenNeeded(),
+          loopBlock,
+          SpaceWhenNeeded(),
+          KeyWord.while$,
+          SpaceWhenNeeded(),
+          Code('('),
+          condition,
+          Code(')'),
+        ]);
+
+  Statement.for$(Statement initialization, Expression condition,
+      Expression manipulation, Block loopBlock)
+      : this([
+          KeyWord.for$,
+          SpaceWhenNeeded(),
+          Code('('),
+          for (int i = 0; i < initialization.nodes.length; i++)
+            initialization.nodes[i],
+          Code(';'),
+          SpaceWhenNeeded(),
+          condition,
+          Code(';'),
+          SpaceWhenNeeded(),
+          manipulation,
+          Code(')'),
+          SpaceWhenNeeded(),
+          loopBlock,
+        ]);
+
+  Statement.forEach$(Statement initialization, Expression in$, Block loopBlock)
+      : this([
+          KeyWord.for$,
+          SpaceWhenNeeded(),
+          Code('('),
+          for (int i = 0; i < initialization.nodes.length; i++)
+            initialization.nodes[i],
+          SpaceWhenNeeded(),
+          KeyWord.in$,
+          SpaceWhenNeeded(),
+          in$,
+          Code(')'),
+          SpaceWhenNeeded(),
+          loopBlock,
         ]);
 
   Statement.if$(Expression condition, Block ifBock, {Block elseBlock})
@@ -90,6 +129,15 @@ class Statement extends CodeModel {
     return nodes;
   }
 
+  Statement.print(Expression expression)
+      : this([
+          Expression.callFunction(
+              'print', ParameterValues([ParameterValue(expression)]))
+        ]);
+
+  Statement.return$(Expression expression)
+      : this([KeyWord.return$, SpaceWhenNeeded(), expression]);
+
   Statement.switch$(
       Expression condition, Map<Expression, Block> valuesAndBlocks,
       {Block defaultBlock})
@@ -136,40 +184,15 @@ class Statement extends CodeModel {
     return caseNodes;
   }
 
-  Statement.for$(Statement initialization, Expression condition,
-      Expression manipulation, Block loopBlock)
-      : this([
-          KeyWord.for$,
-          SpaceWhenNeeded(),
-          Code('('),
-          for (int i = 0; i < initialization.nodes.length; i++)
-            initialization.nodes[i],
-          Code(';'),
-          SpaceWhenNeeded(),
-          condition,
-          Code(';'),
-          SpaceWhenNeeded(),
-          manipulation,
-          Code(')'),
-          SpaceWhenNeeded(),
-          loopBlock,
-        ]);
+  Statement.throwObject(Expression expression): this([
+    KeyWord.throw$,
+    SpaceWhenNeeded(),
+    expression,
+  ]);
 
-  Statement.forEach$(Statement initialization, Expression in$, Block loopBlock)
-      : this([
-          KeyWord.for$,
-          SpaceWhenNeeded(),
-          Code('('),
-          for (int i = 0; i < initialization.nodes.length; i++)
-            initialization.nodes[i],
-          SpaceWhenNeeded(),
-          KeyWord.in$,
-          SpaceWhenNeeded(),
-          in$,
-          Code(')'),
-          SpaceWhenNeeded(),
-          loopBlock,
-        ]);
+
+
+
 
   Statement.while$(Expression condition, Block loopBlock)
       : this([
@@ -180,19 +203,6 @@ class Statement extends CodeModel {
           Code(')'),
           SpaceWhenNeeded(),
           loopBlock,
-        ]);
-
-  Statement.doWhile$(Block loopBlock, Expression condition)
-      : this([
-          KeyWord.do$,
-          SpaceWhenNeeded(),
-          loopBlock,
-          SpaceWhenNeeded(),
-          KeyWord.while$,
-          SpaceWhenNeeded(),
-          Code('('),
-          condition,
-          Code(')'),
         ]);
 
   @override
