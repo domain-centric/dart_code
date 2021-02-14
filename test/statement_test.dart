@@ -17,7 +17,7 @@ main() {
     group('Statement.assert() constructor', () {
       test("Should return: 'assert(b == false);\n'", () {
         String actual = Statement.assert$(
-            Expression.ofVariable('b').equalTo(Expression.ofBool(false)))
+                Expression.ofVariable('b').equalTo(Expression.ofBool(false)))
             .toString();
         String expected = "assert(b == false);\n";
         expect(actual, expected);
@@ -25,8 +25,8 @@ main() {
 
       test("Should return: 'assert(b == false, 'b must be false');\n'", () {
         String actual = Statement.assert$(
-            Expression.ofVariable('b').equalTo(Expression.ofBool(false)),
-            message: 'b must be false')
+                Expression.ofVariable('b').equalTo(Expression.ofBool(false)),
+                message: 'b must be false')
             .toString();
         String expected = "assert(b == false, 'b must be false');\n";
         expect(actual, expected);
@@ -36,7 +36,7 @@ main() {
     group('Statement.assignVariable() constructor', () {
       test("Should return: greeting = 'Hello World';\n", () {
         String actual = Statement.assignVariable(
-            "greeting", Expression.ofString('Hello World'))
+                "greeting", Expression.ofString('Hello World'))
             .toString();
         String expected = "greeting = 'Hello World';\n";
         expect(actual, expected);
@@ -44,8 +44,8 @@ main() {
 
       test("Should return: greeting ??= 'Hello World';\n", () {
         String actual = Statement.assignVariable(
-            "greeting", Expression.ofString('Hello World'),
-            nullAware: true)
+                "greeting", Expression.ofString('Hello World'),
+                nullAware: true)
             .toString();
         String expected = "greeting ??= 'Hello World';\n";
         expect(actual, expected);
@@ -54,11 +54,11 @@ main() {
       test('Should throw name exception', () {
         expect(() {
           Statement.assignVariable(
-              "InvalidVariableName", Expression.ofString('Hello World'))
+                  "InvalidVariableName", Expression.ofString('Hello World'))
               .toString();
         },
             throwsA((e) =>
-            e is ArgumentError &&
+                e is ArgumentError &&
                 e.message == 'Must start with an lower case letter'));
       });
     });
@@ -97,9 +97,9 @@ main() {
     group('Statement.forEach\$ constructor', () {
       test("Should return: for loop statements'", () {
         String actual = Statement.forEach$(
-            VariableDefinition.var$('color', type: Type('Color')),
-            Expression.ofVariable('colors'),
-            Block([Statement.print(Expression.ofVariable('color'))]))
+                VariableDefinition.var$('color', type: Type('Color')),
+                Expression.ofVariable('colors'),
+                Block([Statement.print(Expression.ofVariable('color'))]))
             .toString();
         String expected = 'for ( Color color in colors) {\n'
             '  print(color);\n'
@@ -120,9 +120,9 @@ main() {
 
       test("Should return if statement with else statement", () {
         String actual = Statement.if$(Expression.ofBool(true),
-            Block([Statement.print(Expression.ofString('True'))]),
-            elseBlock:
-            Block([Statement.print(Expression.ofString('False'))]))
+                Block([Statement.print(Expression.ofString('True'))]),
+                elseBlock:
+                    Block([Statement.print(Expression.ofString('False'))]))
             .toString();
         String expected = 'if (true){\n'
             '  print(\'True\');\n'
@@ -139,9 +139,9 @@ main() {
       test("Should return if chain statement without else statement", () {
         String actual = Statement.ifChain$({
           Expression.ofVariable(number).equalTo(Expression.ofInt(1)):
-          Block([Statement.print(Expression.ofString('One'))]),
+              Block([Statement.print(Expression.ofString('One'))]),
           Expression.ofVariable(number).equalTo(Expression.ofInt(2)):
-          Block([Statement.print(Expression.ofString('Two'))])
+              Block([Statement.print(Expression.ofString('Two'))])
         }).toString();
         String expected = 'if (number == 1) {\n'
             '  print(\'One\');\n'
@@ -154,9 +154,9 @@ main() {
       test("Should return if chain statement with else statement", () {
         String actual = Statement.ifChain$({
           Expression.ofVariable(number).equalTo(Expression.ofInt(1)):
-          Block([Statement.print(Expression.ofString('One'))]),
+              Block([Statement.print(Expression.ofString('One'))]),
           Expression.ofVariable(number).equalTo(Expression.ofInt(2)):
-          Block([Statement.print(Expression.ofString('Two'))])
+              Block([Statement.print(Expression.ofString('Two'))])
         }, elseBlock: Block([Statement.print(Expression.ofString('Other'))]))
             .toString();
         String expected = 'if (number == 1) {\n'
@@ -173,7 +173,7 @@ main() {
     group('Statement.print() constructor', () {
       test("Should return print statement", () {
         String actual =
-        Statement.print(Expression.ofString('Hello World')).toString();
+            Statement.print(Expression.ofString('Hello World')).toString();
         String expected = "print('Hello World');\n";
         expect(actual, expected);
       });
@@ -182,7 +182,7 @@ main() {
     group('Statement.return\$ constructor', () {
       test("Should return: 'test();\n'", () {
         String actual =
-        Statement.return$(Expression.ofString('Hello World')).toString();
+            Statement.return$(Expression.ofString('Hello World')).toString();
         String expected = "return 'Hello World';\n";
         expect(actual, expected);
       });
@@ -190,20 +190,103 @@ main() {
 
     group('Statement.throw\$() constructor', () {
       test("Should return: throw 'Out of camels!';\n", () {
-        String actual = Statement.throw$(
-            Expression.ofString('Out of camels!')).toString();
+        String actual =
+            Statement.throw$(Expression.ofString('Out of camels!')).toString();
         String expected = "throw 'Out of camels!';\n";
         expect(actual, expected);
       });
 
       test("Should return: throw OutOfCamelException();\n", () {
         String actual = Statement.throw$(
-            Expression.callConstructor(Type('OutOfCamelException'))).toString();
+                Expression.callConstructor(Type('OutOfCamelException')))
+            .toString();
         String expected = "throw OutOfCamelException();\n";
         expect(actual, expected);
       });
     });
 
+    group('Statement.try\$() constructor', () {
+      test("Should return: try statement", () {
+        String actual = Statement.try$(Block(
+                [Statement.print(Expression.ofString('Something to try'))]))
+            .toString();
+        String expected = 'try {\n'
+            '  print(\'Something to try\');\n'
+            '};\n';
+        expect(actual, expected);
+      });
+
+      test("Should return: try statement with on cause", () {
+        String actual = Statement.try$(
+            Block([
+              Statement.ofExpression(Expression.callFunction('breedMoreCamels'))
+            ]),
+            catches: [
+              Catch.onException(
+                  Type('OutOfCamelsException'),
+                  Block([
+                    Statement.ofExpression(
+                        Expression.callFunction('buyMoreCamels'))
+                  ]))
+            ]).toString();
+        String expected = 'try {\n'
+            '  breedMoreCamels();\n'
+            '} on OutOfCamelsException {\n'
+            '  buyMoreCamels();\n'
+            '};\n';
+        expect(actual, expected);
+      });
+
+      test("Should return: try statement with multiple on causes", () {
+        String actual = Statement.try$(
+            Block([
+              Statement.ofExpression(Expression.callFunction('breedMoreCamels'))
+            ]),
+            catches: [
+              Catch.onException(
+                  Type('OutOfCamelsException'),
+                  Block([
+                    Statement.ofExpression(
+                        Expression.callFunction('buyMoreCamels'))
+                  ])),
+              Catch.onException(
+                  Type('Exception'),
+                  Block([
+                    Statement.print(Expression.ofString('Unknown exception: \$e'))
+                  ]),exceptionVariableName: 'e'),
+              Catch(Block([
+                Statement.print(Expression.ofString('Something really unknown: \$e, \$s'))
+                  ]),"e","s"),
+            ]).toString();
+        String expected = 'try {\n'
+            '  breedMoreCamels();\n'
+            '} on OutOfCamelsException {\n'
+            '  buyMoreCamels();\n'
+            '} on Exception catch(e) {\n'
+            '  print(\'Unknown exception: \$e\');\n'
+            '} catch(e, s) {\n'
+            '  print(\'Something really unknown: \$e, \$s\');\n'
+            '};\n';
+        expect(actual, expected);
+      });
+
+      test("Should return: try statement with finally", () {
+        String actual = Statement.try$(Block(
+            [Statement.ofExpression(Expression.callFunction('breedMoreCamels'))]),
+          finallyBlock: Block(
+              [Statement.ofExpression(Expression.callFunction('cleanCamelStalls'))])
+        )
+            .toString();
+        String expected = 'try {\n'
+            '  breedMoreCamels();\n'
+            '} finally {\n'
+            '  cleanCamelStalls();\n'
+            '};\n';
+        expect(actual, expected);
+      });
+
+
+    });
 
     group('Statement.switch\$() constructor', () {
       final number = 'number';
@@ -234,19 +317,19 @@ main() {
 
       test("Should return: switch statement with else statement", () {
         String actual = Statement.switch$(
-            Expression.ofVariable(number),
-            {
-              Expression.ofInt(1): Block([
-                Statement.print(Expression.ofString('One')),
-                Statement.break$(),
-              ]),
-              Expression.ofInt(2): Block([
-                Statement.print(Expression.ofString('Two')),
-                Statement.break$(),
-              ])
-            },
-            defaultBlock:
-            Block([Statement.print(Expression.ofString('Other'))]))
+                Expression.ofVariable(number),
+                {
+                  Expression.ofInt(1): Block([
+                    Statement.print(Expression.ofString('One')),
+                    Statement.break$(),
+                  ]),
+                  Expression.ofInt(2): Block([
+                    Statement.print(Expression.ofString('Two')),
+                    Statement.break$(),
+                  ])
+                },
+                defaultBlock:
+                    Block([Statement.print(Expression.ofString('Other'))]))
             .toString();
         String expected = 'switch (number) {\n'
             '  case 1: {\n'
@@ -311,7 +394,7 @@ main() {
 
       test("Should return: var greeting = 'Hello World';\n", () {
         String actual = VariableDefinition.var$("greeting",
-            value: Expression.ofString('Hello World'))
+                value: Expression.ofString('Hello World'))
             .toString();
         String expected = "var greeting = 'Hello World';\n";
         expect(actual, expected);
@@ -319,8 +402,8 @@ main() {
 
       test("Should return: String greeting = 'Hello World';\n", () {
         String actual = VariableDefinition.var$("greeting",
-            value: Expression.ofString('Hello World'),
-            type: Type.ofString())
+                value: Expression.ofString('Hello World'),
+                type: Type.ofString())
             .toString();
         String expected = "String greeting = 'Hello World';\n";
         expect(actual, expected);
@@ -328,9 +411,9 @@ main() {
 
       test("Should return: static String greeting = 'Hello World';\n", () {
         String actual = VariableDefinition.var$("greeting",
-            value: Expression.ofString('Hello World'),
-            type: Type.ofString(),
-            static: true)
+                value: Expression.ofString('Hello World'),
+                type: Type.ofString(),
+                static: true)
             .toString();
         String expected = "static String greeting = 'Hello World';\n";
         expect(actual, expected);
@@ -341,7 +424,7 @@ main() {
           VariableDefinition.var$("InvalidVariableName").toString();
         },
             throwsA((e) =>
-            e is ArgumentError &&
+                e is ArgumentError &&
                 e.message == 'Must start with an lower case letter'));
       });
     });
@@ -349,7 +432,7 @@ main() {
     group('final\$() constructor', () {
       test("Should return: final greeting = 'Hello World';\n", () {
         String actual = VariableDefinition.final$(
-            "greeting", Expression.ofString('Hello World'))
+                "greeting", Expression.ofString('Hello World'))
             .toString();
         String expected = "final greeting = 'Hello World';\n";
         expect(actual, expected);
@@ -357,8 +440,8 @@ main() {
 
       test("Should return: final String greeting = 'Hello World';\n", () {
         String actual = VariableDefinition.final$(
-            "greeting", Expression.ofString('Hello World'),
-            type: Type.ofString())
+                "greeting", Expression.ofString('Hello World'),
+                type: Type.ofString())
             .toString();
         String expected = "final String greeting = 'Hello World';\n";
         expect(actual, expected);
@@ -366,8 +449,8 @@ main() {
 
       test("Should return: final String greeting = 'Hello World';\n", () {
         String actual = VariableDefinition.final$(
-            "greeting", Expression.ofString('Hello World'),
-            type: Type.ofString(), static: true)
+                "greeting", Expression.ofString('Hello World'),
+                type: Type.ofString(), static: true)
             .toString();
         String expected = "static final String greeting = 'Hello World';\n";
         expect(actual, expected);
@@ -376,11 +459,11 @@ main() {
       test('Should throw name exception', () {
         expect(() {
           VariableDefinition.final$(
-              "InvalidVariableName", Expression.ofString('Hello World'))
+                  "InvalidVariableName", Expression.ofString('Hello World'))
               .toString();
         },
             throwsA((e) =>
-            e is ArgumentError &&
+                e is ArgumentError &&
                 e.message == 'Must start with an lower case letter'));
       });
     });
@@ -388,7 +471,7 @@ main() {
     group('const\$() constructor', () {
       test("Should return: const greeting = 'Hello World';\n", () {
         String actual = VariableDefinition.const$(
-            "greeting", Expression.ofString('Hello World'))
+                "greeting", Expression.ofString('Hello World'))
             .toString();
         String expected = "const greeting = 'Hello World';\n";
         expect(actual, expected);
@@ -396,31 +479,31 @@ main() {
 
       test("Should return: const String greeting = 'Hello World';\n", () {
         String actual = VariableDefinition.const$(
-            "greeting", Expression.ofString('Hello World'),
-            type: Type.ofString())
+                "greeting", Expression.ofString('Hello World'),
+                type: Type.ofString())
             .toString();
         String expected = "const String greeting = 'Hello World';\n";
         expect(actual, expected);
       });
 
       test("Should return: static const String greeting = 'Hello World';\n",
-              () {
-            String actual = VariableDefinition.const$(
+          () {
+        String actual = VariableDefinition.const$(
                 "greeting", Expression.ofString('Hello World'),
                 type: Type.ofString(), static: true)
-                .toString();
-            String expected = "static const String greeting = 'Hello World';\n";
-            expect(actual, expected);
-          });
+            .toString();
+        String expected = "static const String greeting = 'Hello World';\n";
+        expect(actual, expected);
+      });
 
       test('Should throw name exception', () {
         expect(() {
           VariableDefinition.const$(
-              "InvalidVariableName", Expression.ofString('Hello World'))
+                  "InvalidVariableName", Expression.ofString('Hello World'))
               .toString();
         },
             throwsA((e) =>
-            e is ArgumentError &&
+                e is ArgumentError &&
                 e.message == 'Must start with an lower case letter'));
       });
     });

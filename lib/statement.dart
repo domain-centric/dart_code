@@ -12,6 +12,8 @@ class Statement extends CodeModel {
 
   Statement(this.nodes);
 
+  Statement.ofExpression(Expression expression) : this(expression.nodes);
+
   Statement.assert$(Expression expression, {String message})
       : this([
           KeyWord.assert$,
@@ -191,6 +193,18 @@ class Statement extends CodeModel {
           expression,
         ]);
 
+  Statement.try$(Block tryBlock,  {List<Catch> catches=const [],Block finallyBlock})
+      : this([
+          KeyWord.try$,
+          SpaceWhenNeeded(),
+          tryBlock,
+          ...catches,
+          if (finallyBlock != null) SpaceWhenNeeded(),
+          if (finallyBlock != null) KeyWord.finally$,
+          if (finallyBlock != null) SpaceWhenNeeded(),
+          if (finallyBlock != null) finallyBlock,
+        ]);
+
   Statement.while$(Expression condition, Block loopBlock)
       : this([
           KeyWord.while$,
@@ -207,6 +221,44 @@ class Statement extends CodeModel {
         for (CodeNode codeNode in nodes) codeNode,
         if (nodes.isNotEmpty) EndOfStatement(),
       ];
+
+
+}
+
+class Catch extends CodeModel {
+  final List<CodeNode> nodes;
+
+  Catch(Block exceptionBlock, [String exceptionVariableName,
+      String stackTraceVariableName])
+      : this.onException(null, exceptionBlock,
+            exceptionVariableName: exceptionVariableName,
+            stackTraceVariableName: stackTraceVariableName);
+
+  Catch.onException(Type exceptionType, Block exceptionBlock,
+      {String exceptionVariableName, String stackTraceVariableName})
+      : nodes = [
+          SpaceWhenNeeded(),
+          if (exceptionType != null) KeyWord.on$,
+          if (exceptionType != null) SpaceWhenNeeded(),
+          if (exceptionType != null) exceptionType,
+          if (exceptionType != null) SpaceWhenNeeded(),
+          if (exceptionVariableName != null) KeyWord.catch$,
+          if (exceptionVariableName != null) Code('('),
+          if (exceptionVariableName != null)
+            IdentifierStartingWithLowerCase(exceptionVariableName),
+          if (exceptionVariableName != null && stackTraceVariableName != null)
+            Code(","),
+          if (exceptionVariableName != null && stackTraceVariableName != null)
+            SpaceWhenNeeded(),
+          if (exceptionVariableName != null && stackTraceVariableName != null)
+            IdentifierStartingWithLowerCase(stackTraceVariableName),
+          if (exceptionVariableName != null) Code(')'),
+          if (exceptionVariableName != null) SpaceWhenNeeded(),
+          exceptionBlock,
+        ];
+
+  @override
+  List<CodeNode> codeNodes(Context context) => nodes;
 }
 
 class VariableDefinition extends Statement {
