@@ -137,6 +137,8 @@ class Statement extends CodeModel {
               'print', ParameterValues([ParameterValue(expression)]))
         ]);
 
+  Statement.rethrow$() : this([KeyWord.rethrow$]);
+
   Statement.return$(Expression expression)
       : this([KeyWord.return$, SpaceWhenNeeded(), expression]);
 

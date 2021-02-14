@@ -188,6 +188,16 @@ main() {
       });
     });
 
+    group('Statement.return\$ constructor', () {
+      test("Should return: 'rethrow;\n'", () {
+        String actual =
+        Statement.rethrow$().toString();
+        String expected = "rethrow;\n";
+        expect(actual, expected);
+      });
+    });
+
+
     group('Statement.throw\$() constructor', () {
       test("Should return: throw 'Out of camels!';\n", () {
         String actual =
