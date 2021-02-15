@@ -3,6 +3,7 @@ import 'basic.dart';
 import 'comment.dart';
 import 'expression.dart';
 import 'model.dart';
+import 'parameter.dart';
 import 'statement.dart';
 
 class Constructor extends Statement {
@@ -15,14 +16,64 @@ class Constructor extends Statement {
   Constructor(final List<CodeNode> nodes) : super(nodes);
 }
 
-class Method extends Statement {
-  // TODO final List<DocComment> docComments;
-  // TODO final List<Annotation> annotations;
-  // TODO final bool static;
-  // TODO final bool abstract;
-  // TODO final IdentifierStartingWithLowerCase name;
+class Method extends CodeModel {
+  final List<DocComment> docComments;
+  final List<Annotation> annotations;
+  final bool abstract;
+  final bool static;
+  final Type returnType;
+  final IdentifierStartingWithLowerCase name;
+  final Parameters parameters;
+  final Body body;
 
-  Method(List<CodeNode> nodes) : super(nodes);
+  Method.abstract(String name,
+      {this.docComments = const [],
+      this.annotations = const [],
+      this.parameters,
+      this.returnType})
+      : abstract = true,
+        static = false,
+        name = IdentifierStartingWithLowerCase(name),
+        body = null;
+
+  Method.static(String name, CodeNode body,
+      {this.docComments = const [],
+      this.annotations = const [],
+      this.parameters,
+      this.returnType})
+      : abstract = false,
+        static = true,
+        name = IdentifierStartingWithLowerCase(name),
+        body = Body([body]);
+
+  Method(String name, CodeNode body,
+      {this.docComments = const [],
+      this.annotations = const [],
+      this.parameters,
+      this.returnType})
+      : abstract = false,
+        static = false,
+        name = IdentifierStartingWithLowerCase(name),
+        body = Body([body]);
+
+  @override
+  List<CodeNode> codeNodes(Context context) => [
+        ...docComments,
+        ...annotations,
+        if (abstract) KeyWord.abstract$,
+        if (abstract) SpaceWhenNeeded(),
+        if (static) KeyWord.static$,
+        if (static) SpaceWhenNeeded(),
+        if (returnType != null) returnType,
+        if (returnType != null) SpaceWhenNeeded(),
+        name,
+        Code('('),
+        if (parameters != null) parameters,
+        Code(')'),
+        if (!abstract) SpaceWhenNeeded(),
+        if (!abstract) body,
+        if (abstract) EndOfStatement(),
+      ];
 }
 
 /// A [Field] is a [VariableDefinition] in a [Class].
@@ -109,4 +160,3 @@ class Class extends CodeModel {
         ]),
       ];
 }
-

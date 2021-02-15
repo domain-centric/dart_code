@@ -4,7 +4,7 @@ import 'basic.dart';
 import 'expression.dart';
 import 'model.dart';
 
-abstract class Parameter extends CodeModel {
+class Parameter extends CodeModel {
   final Type type;
   final IdentifierStartingWithLowerCase name;
   final Expression defaultValue;
