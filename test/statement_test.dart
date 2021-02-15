@@ -442,7 +442,7 @@ main() {
     group('final\$() constructor', () {
       test("Should return: final greeting = 'Hello World';\n", () {
         String actual = VariableDefinition.final$(
-                "greeting", Expression.ofString('Hello World'))
+                "greeting", value:Expression.ofString('Hello World'))
             .toString();
         String expected = "final greeting = 'Hello World';\n";
         expect(actual, expected);
@@ -450,7 +450,7 @@ main() {
 
       test("Should return: final String greeting = 'Hello World';\n", () {
         String actual = VariableDefinition.final$(
-                "greeting", Expression.ofString('Hello World'),
+                "greeting", value:Expression.ofString('Hello World'),
                 type: Type.ofString())
             .toString();
         String expected = "final String greeting = 'Hello World';\n";
@@ -459,7 +459,7 @@ main() {
 
       test("Should return: final String greeting = 'Hello World';\n", () {
         String actual = VariableDefinition.final$(
-                "greeting", Expression.ofString('Hello World'),
+                "greeting", value:Expression.ofString('Hello World'),
                 type: Type.ofString(), static: true)
             .toString();
         String expected = "static final String greeting = 'Hello World';\n";
@@ -469,7 +469,7 @@ main() {
       test('Should throw name exception', () {
         expect(() {
           VariableDefinition.final$(
-                  "InvalidVariableName", Expression.ofString('Hello World'))
+                  "InvalidVariableName", value:Expression.ofString('Hello World'))
               .toString();
         },
             throwsA((e) =>

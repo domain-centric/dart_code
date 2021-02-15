@@ -277,7 +277,7 @@ class Expression extends CodeModel {
           Expression value}) =>
       VariableDefinition.final$(
         name,
-        this,
+        value: this,
         docComments: docComments,
         annotations: annotations,
         static: static,

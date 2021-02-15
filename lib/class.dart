@@ -92,13 +92,14 @@ class Field extends VariableDefinition {
             value: value);
 
   Field.final$(
-    String name,
-    Expression value, {
+    String name, {
+    Expression value,
     List<DocComment> docComments = const [],
     List<Annotation> annotations = const [],
     bool static = false,
     Type type,
-  }) : super.final$(name, value,
+  }) : super.final$(name,
+            value: value,
             docComments: docComments,
             annotations: annotations,
             static: static,

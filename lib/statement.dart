@@ -195,7 +195,8 @@ class Statement extends CodeModel {
           expression,
         ]);
 
-  Statement.try$(Block tryBlock,  {List<Catch> catches=const [],Block finallyBlock})
+  Statement.try$(Block tryBlock,
+      {List<Catch> catches = const [], Block finallyBlock})
       : this([
           KeyWord.try$,
           SpaceWhenNeeded(),
@@ -223,15 +224,13 @@ class Statement extends CodeModel {
         for (CodeNode codeNode in nodes) codeNode,
         if (nodes.isNotEmpty) EndOfStatement(),
       ];
-
-
 }
 
 class Catch extends CodeModel {
   final List<CodeNode> nodes;
 
-  Catch(Block exceptionBlock, [String exceptionVariableName,
-      String stackTraceVariableName])
+  Catch(Block exceptionBlock,
+      [String exceptionVariableName, String stackTraceVariableName])
       : this.onException(null, exceptionBlock,
             exceptionVariableName: exceptionVariableName,
             stackTraceVariableName: stackTraceVariableName);
@@ -312,8 +311,8 @@ class VariableDefinition extends Statement {
             value: value);
 
   VariableDefinition.final$(
-    String name,
-    Expression value, {
+    String name, {
+    Expression value,
     List<DocComment> docComments = const [],
     List<Annotation> annotations = const [],
     bool static = false,
