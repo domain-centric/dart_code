@@ -1,7 +1,10 @@
+import 'package:dart_code/annotation.dart';
 import 'package:dart_code/basic.dart';
+import 'package:dart_code/comment.dart';
 import 'package:dart_code/expression.dart';
 import 'package:dart_code/function.dart';
 import 'package:dart_code/model.dart';
+import 'package:dart_code/parameter.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 main() {
@@ -14,6 +17,34 @@ main() {
       String expected = 'bool () => true;\n';
       expect(actual, expected);
     });
+
+    test(
+        'Returns a anonymous function that returns a boolean of value true, with DocComments and Annotations',
+        () {
+      String actual = Function.withoutName(Expression.ofBool(true),
+          returnType: Type.ofBool(),
+          docComments: [
+            DocComment.fromString("This function returns: true")
+          ],
+          annotations: [
+            Annotation(
+                Type('Visible'),
+                ParameterValues([
+                  NamedParameterValue('forRole', Expression.ofString('admin'))
+                ])),
+            Annotation(
+                Type('ExecutionMode'),
+                ParameterValues([
+                  ParameterValue(
+                      Expression.ofEnum(Type('ExecutionModes'), 'directly'))
+                ]))
+          ]).toString();
+      String expected = '/// This function returns: true\n'
+          '@Visible(forRole: \'admin\')\n'
+          '@ExecutionMode(ExecutionModes.directly)\n'
+          'bool () => true;\n';
+      expect(actual, expected);
+    });
   });
 
   group('Function.withName', () {
@@ -24,6 +55,34 @@ main() {
       var expected = 'bool returnTrue() => true;\n';
       expect(actual, expected);
     });
+
+    test(
+        'Returns a anonymous function that returns a boolean of value true, with DocComments and Annotations',
+            () {
+          String actual = Function.withName('returnTrue', Expression.ofBool(true),
+              returnType: Type.ofBool(),
+              docComments: [
+                DocComment.fromString("This function returns: true")
+              ],
+              annotations: [
+                Annotation(
+                    Type('Visible'),
+                    ParameterValues([
+                      NamedParameterValue('forRole', Expression.ofString('admin'))
+                    ])),
+                Annotation(
+                    Type('ExecutionMode'),
+                    ParameterValues([
+                      ParameterValue(
+                          Expression.ofEnum(Type('ExecutionModes'), 'directly'))
+                    ]))
+              ]).toString();
+          String expected = '/// This function returns: true\n'
+              '@Visible(forRole: \'admin\')\n'
+              '@ExecutionMode(ExecutionModes.directly)\n'
+              'bool returnTrue() => true;\n';
+          expect(actual, expected);
+        });
   });
 
   group('Function.main', () {
