@@ -6,14 +6,44 @@ import 'model.dart';
 import 'parameter.dart';
 import 'statement.dart';
 
-class Constructor extends Statement {
-  // TODO final List<DocComment> docComments;
-  // TODO final List<Annotation> annotations;
-  // TODO final bool static;
-  // TODO final bool abstract;
-  // TODO final IdentifierStartingWithUpperCase name;
+class Constructor extends CodeModel {
+  final List<DocComment> docComments;
+  final List<Annotation> annotations;
+  final bool static;
+  final bool abstract;
+  final Type type;
+  final IdentifierStartingWithUpperCase name;
+  final ConstructorParameters parameters;
+  final Block body;
 
-  Constructor(final List<CodeNode> nodes) : super(nodes);
+  Constructor(this.type,
+      {this.docComments = const [],
+      this.annotations = const [],
+      this.abstract,
+      this.static,
+      String name,
+      this.parameters,
+      this.body})
+      : name = IdentifierStartingWithUpperCase(name);
+
+  @override
+  List<CodeNode> codeNodes(Context context) => [
+        ...docComments,
+        ...annotations,
+        if (abstract) KeyWord.abstract$,
+        if (abstract) SpaceWhenNeeded(),
+        if (static) KeyWord.static$,
+        if (static) SpaceWhenNeeded(),
+        type,
+        if (name != null) Code('.'),
+        if (name != null) name,
+        Code('('),
+        if (parameters != null) parameters,
+        Code(')'),
+        if (body != null) SpaceWhenNeeded(),
+        if (body != null) body,
+        if (body != null) EndOfStatement(),
+      ];
 }
 
 class Method extends CodeModel {

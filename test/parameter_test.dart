@@ -28,6 +28,44 @@ main() {
     });
   });
 
+  group('RequiredConstructorParameter class', () {
+    test('should result in a named parameter without type', () {
+      String actual = RequiredConstructorParameter('name').toString();
+      String expected = 'var name';
+      expect(actual, expected);
+    });
+
+    test('should result in a named parameter without type with this', () {
+      String actual = RequiredConstructorParameter('name',this$: true).toString();
+      String expected = 'this.name';
+      expect(actual, expected);
+    });
+
+    test('should result in a named parameter with String type', () {
+      String actual =
+      RequiredConstructorParameter('name', type: Type.ofString()).toString();
+      String expected = 'String name';
+      expect(actual, expected);
+    });
+
+
+    test('should result in a named parameter with this even given a type ', () {
+      String actual =
+      RequiredConstructorParameter('name', type: Type.ofString(), this$: true).toString();
+      String expected = 'this.name';
+      expect(actual, expected);
+    });
+
+    test('should result in a named parameter with MyClass type', () {
+      String actual = RequiredConstructorParameter('name',
+          type: Type('MyClass',
+              libraryUrl: 'package:dart_code/my_class.dart'))
+          .toString();
+      String expected = '_i1.MyClass name';
+      expect(actual, expected);
+    });
+  });
+
   group('OptionalParameter class', () {
     test('should result in a optional parameter without type', () {
       String actual = OptionalParameter('name').toString();
@@ -64,6 +102,70 @@ main() {
     });
   });
 
+
+  group('OptionalConstructorParameter class', () {
+    test('should result in a optional parameter without type', () {
+      String actual = OptionalConstructorParameter('name').toString();
+      String expected = 'var name';
+      expect(actual, expected);
+    });
+
+    test('should result in a optional parameter with this', () {
+      String actual = OptionalConstructorParameter('name', this$: true).toString();
+      String expected = 'this.name';
+      expect(actual, expected);
+    });
+
+    test('should result in a optional parameter with String type', () {
+      String actual =
+      OptionalConstructorParameter('name', type: Type.ofString()).toString();
+      String expected = 'String name';
+      expect(actual, expected);
+    });
+
+
+    test('should result in a optional parameter with this even with given type', () {
+      String actual =
+      OptionalConstructorParameter('name', type: Type.ofString(), this$: true).toString();
+      String expected = 'this.name';
+      expect(actual, expected);
+    });
+
+
+    test('should result in a optional parameter with MyClass type', () {
+      String actual = OptionalConstructorParameter('name',
+          type: Type('MyClass',
+              libraryUrl: 'package:dart_code/my_class.dart'))
+          .toString();
+      String expected = '_i1.MyClass name';
+      expect(actual, expected);
+    });
+
+    test(
+        'should result in a optional parameter with String type and default value "Hello World"',
+            () {
+          String actual = OptionalConstructorParameter('name',
+              type: Type.ofString(),
+              defaultValue: Expression.ofString('Hello World'))
+              .toString();
+          String expected = "String name = 'Hello World'";
+          expect(actual, expected);
+          expect(actual, expected);
+        });
+
+    test(
+        'should result in a optional parameter with this type (even with given type) and default value "Hello World"',
+            () {
+          String actual = OptionalConstructorParameter('name',
+              type: Type.ofString(),
+              this$: true,
+              defaultValue: Expression.ofString('Hello World'))
+              .toString();
+          String expected = "this.name = 'Hello World'";
+          expect(actual, expected);
+        });
+  });
+
   group('NamedParameter class', () {
     test('should result in a named parameter without type', () {
       String actual = NamedParameter('name').toString();
@@ -95,7 +197,6 @@ main() {
           .toString();
       String expected = "String name = 'Hello World'";
       expect(actual, expected);
-      expect(actual, expected);
     });
 
     test(
@@ -108,9 +209,82 @@ main() {
           .toString();
       String expected = "@required String name = 'Hello World'";
       expect(actual, expected);
-      expect(actual, expected);
     });
   });
+
+  group('NamedConstructorParameter class', () {
+    test('should result in a named parameter without type', () {
+      String actual = NamedConstructorParameter('name').toString();
+      String expected = 'var name';
+      expect(actual, expected);
+    });
+
+    test('should result in a named parameter this', () {
+      String actual = NamedConstructorParameter('name', this$: true).toString();
+      String expected = 'this.name';
+      expect(actual, expected);
+    });
+
+    test('should result in a named parameter with String type', () {
+      String actual = NamedConstructorParameter('name', type: Type.ofString()).toString();
+      String expected = 'String name';
+      expect(actual, expected);
+    });
+
+    test('should result in a named parameter with this even with a given type', () {
+      String actual = NamedConstructorParameter('name', type: Type.ofString(), this$: true).toString();
+      String expected = 'this.name';
+      expect(actual, expected);
+    });
+
+    test('should result in a named parameter with MyClass type', () {
+      String actual = NamedConstructorParameter('name',
+          type: Type('MyClass',
+              libraryUrl: 'package:dart_code/my_class.dart'))
+          .toString();
+      String expected = '_i1.MyClass name';
+      expect(actual, expected);
+    });
+
+    test(
+        'should result in a named parameter with String type and default value "Hello World"',
+            () {
+          String actual = NamedConstructorParameter('name',
+              type: Type.ofString(),
+              defaultValue: Expression.ofString('Hello World'))
+              .toString();
+          String expected = "String name = 'Hello World'";
+          expect(actual, expected);
+          expect(actual, expected);
+        });
+
+    test(
+        'should result in a named parameter with this (even with a given type) and default value "Hello World"',
+            () {
+          String actual = NamedConstructorParameter('name',
+              type: Type.ofString(),
+              this$: true,
+              defaultValue: Expression.ofString('Hello World'))
+              .toString();
+          String expected = "this.name = 'Hello World'";
+          expect(actual, expected);
+        });
+
+    test(
+        'should result in a required named parameter with this (even with a given type) and default value "Hello World"',
+            () {
+          String actual = NamedConstructorParameter('name',
+              type: Type.ofString(),
+              this$: true,
+              defaultValue: Expression.ofString('Hello World'),
+              required: true)
+              .toString();
+          String expected = "@required this.name = 'Hello World'";
+          expect(actual, expected);
+        });
+  });
+
+
 
   group('Parameters class', () {
     test('should result in no parameters', () {

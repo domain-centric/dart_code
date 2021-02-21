@@ -1,41 +1,79 @@
-import 'package:dart_code/basic.dart';
-
 import 'basic.dart';
 import 'expression.dart';
 import 'model.dart';
 
-class Parameter extends CodeModel {
+abstract class Parameter extends CodeModel {
   final Type type;
+  final bool this$;
   final IdentifierStartingWithLowerCase name;
   final Expression defaultValue;
   final bool required;
 
-  Parameter(String name, [this.type, this.defaultValue, this.required = false])
+  Parameter(String name,
+      {this.type, this.defaultValue, this.required = false, this.this$ = false})
       : name = IdentifierStartingWithLowerCase(name);
 
   @override
   List<CodeNode> codeNodes(Context context) => [
-        if (required) Code('@required '),
-        type == null ? Code('var') : type,
-        SpaceWhenNeeded(),
+        if (required) Code('@required'),
+        if (required) SpaceWhenNeeded(),
+        if (this$) KeyWord.this$,
+        if (this$) Code('.'),
+        if (!this$ && type == null) Code('var'),
+        if (!this$ && type != null) type,
+        if (!this$) SpaceWhenNeeded(),
         name,
         if (defaultValue != null) Code(' = '),
         if (defaultValue != null) defaultValue,
       ];
 }
 
+abstract class ConstructorParameter extends Parameter {
+  ConstructorParameter(String name,
+      {Type type,
+      Expression defaultValue,
+      bool required = false,
+      bool this$ = false})
+      : super(name,
+            type: type,
+            defaultValue: defaultValue,
+            required: required,
+            this$: this$);
+}
+
 class RequiredParameter extends Parameter {
-  RequiredParameter(String name, {Type type}) : super(name, type);
+  RequiredParameter(String name, {Type type}) : super(name, type: type);
+}
+
+class RequiredConstructorParameter extends ConstructorParameter {
+  RequiredConstructorParameter(String name, {bool this$ = false, Type type})
+      : super(name, this$: this$, type: type);
 }
 
 class OptionalParameter extends Parameter {
   OptionalParameter(String name, {Type type, Expression defaultValue})
-      : super(name, type, defaultValue);
+      : super(name, type: type, defaultValue: defaultValue);
+}
+
+class OptionalConstructorParameter extends ConstructorParameter {
+  OptionalConstructorParameter(String name,
+      {bool this$ = false, Type type, Expression defaultValue})
+      : super(name, type: type, this$: this$, defaultValue: defaultValue);
 }
 
 class NamedParameter extends Parameter {
   NamedParameter(String name, {Type type, defaultValue, bool required = false})
-      : super(name, type, defaultValue, required);
+      : super(name, type: type, defaultValue: defaultValue, required: required);
+}
+
+class NamedConstructorParameter extends ConstructorParameter {
+  NamedConstructorParameter(String name,
+      {bool this$ = false, Type type, defaultValue, bool required = false})
+      : super(name,
+            this$: this$,
+            type: type,
+            defaultValue: defaultValue,
+            required: required);
 }
 
 /// [Parameters]  can have any number of required positional parameters.
@@ -103,6 +141,11 @@ class Parameters extends CodeModel {
   }
 }
 
+class ConstructorParameters extends Parameters {
+  ConstructorParameters(List<ConstructorParameter> constructorParameters)
+      : super(constructorParameters);
+}
+
 class ParameterValue extends CodeModel {
   final Expression value;
 
@@ -129,10 +172,13 @@ class ParameterValues extends CommaSeparatedValues {
 
   ParameterValues.none() : super([]);
 
-  static List<CodeNode> _orderedParameterValues(List<ParameterValue> parameterValues) {
-    List<ParameterValue> values=[];
-    values.addAll(parameterValues.where((pv) => !(pv is NamedParameterValue)).toList());
-    values.addAll(parameterValues.where((pv) => pv is NamedParameterValue).toList());
+  static List<CodeNode> _orderedParameterValues(
+      List<ParameterValue> parameterValues) {
+    List<ParameterValue> values = [];
+    values.addAll(
+        parameterValues.where((pv) => !(pv is NamedParameterValue)).toList());
+    values.addAll(
+        parameterValues.where((pv) => pv is NamedParameterValue).toList());
     return values;
   }
 }
