@@ -16,7 +16,7 @@ main() {
       String actual = Annotation(
           Type('Hidden'),
           ParameterValues([
-            NamedParameterValue('forRole', Expression.ofString('admin'))
+            ParameterValue.named('forRole', Expression.ofString('admin'))
           ])).toString();
       String expected = '@Hidden(forRole: \'admin\')\n';
       expect(actual, expected);

@@ -24,8 +24,10 @@ class Statement extends CodeModel {
         ]);
 
   Statement.assignVariable(String name, Expression value,
-      {bool nullAware = false})
+      {bool nullAware = false, bool this$ = false})
       : this([
+          if (this$) KeyWord.this$,
+          if (this$) Code('.'),
           IdentifierStartingWithLowerCase(name),
           SpaceWhenNeeded(),
           nullAware == true ? Code('??=') : Code('='),
@@ -280,8 +282,8 @@ class VariableDefinition extends Statement {
       this.type,
       this.value})
       : super([
-          for (DocComment docComment in docComments) docComment,
-          for (Annotation annotation in annotations) annotation,
+          if (docComments != null) ...docComments,
+          if (annotations != null) ...annotations,
           if (static == true) KeyWord.static$,
           SpaceWhenNeeded(),
           if (modifier == Modifier.var$ && type == null) KeyWord.var$,

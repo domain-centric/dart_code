@@ -30,7 +30,7 @@ main() {
             Annotation(
                 Type('Visible'),
                 ParameterValues([
-                  NamedParameterValue('forRole', Expression.ofString('admin'))
+                  ParameterValue.named('forRole', Expression.ofString('admin'))
                 ])),
             Annotation(
                 Type('ExecutionMode'),
@@ -68,7 +68,7 @@ main() {
                 Annotation(
                     Type('Visible'),
                     ParameterValues([
-                      NamedParameterValue('forRole', Expression.ofString('admin'))
+                      ParameterValue.named('forRole', Expression.ofString('admin'))
                     ])),
                 Annotation(
                     Type('ExecutionMode'),

@@ -84,7 +84,7 @@ class CodeFormatter {
   CodeFormatter(
       {this.maxLineLength = 80,
       this.indent = '  ',
-      this.wrapIndent = '----',
+      this.wrapIndent = '    ',
       this.newLine = '\n'});
 
   String format(CodeNode codeNode) {

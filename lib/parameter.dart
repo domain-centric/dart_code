@@ -2,16 +2,30 @@ import 'basic.dart';
 import 'expression.dart';
 import 'model.dart';
 
-abstract class Parameter extends CodeModel {
+enum ParameterCategory { required, named, optional }
+
+class Parameter extends CodeModel {
+  final ParameterCategory category;
   final Type type;
   final bool this$;
   final IdentifierStartingWithLowerCase name;
   final Expression defaultValue;
   final bool required;
 
-  Parameter(String name,
+  Parameter._(this.category, String name,
       {this.type, this.defaultValue, this.required = false, this.this$ = false})
       : name = IdentifierStartingWithLowerCase(name);
+
+  Parameter.required(String name, {Type type})
+      : this._(ParameterCategory.required, name, type: type);
+
+  Parameter.optional(String name, {Type type, Expression defaultValue})
+      : this._(ParameterCategory.optional, name,
+            type: type, defaultValue: defaultValue);
+
+  Parameter.named(String name, {Type type, defaultValue, bool required = false})
+      : this._(ParameterCategory.named, name,
+            type: type, defaultValue: defaultValue, required: required);
 
   @override
   List<CodeNode> codeNodes(Context context) => [
@@ -23,57 +37,11 @@ abstract class Parameter extends CodeModel {
         if (!this$ && type != null) type,
         if (!this$) SpaceWhenNeeded(),
         name,
-        if (defaultValue != null) Code(' = '),
+        if (defaultValue != null) SpaceWhenNeeded(),
+        if (defaultValue != null) Code('='),
+        if (defaultValue != null) SpaceWhenNeeded(),
         if (defaultValue != null) defaultValue,
       ];
-}
-
-abstract class ConstructorParameter extends Parameter {
-  ConstructorParameter(String name,
-      {Type type,
-      Expression defaultValue,
-      bool required = false,
-      bool this$ = false})
-      : super(name,
-            type: type,
-            defaultValue: defaultValue,
-            required: required,
-            this$: this$);
-}
-
-class RequiredParameter extends Parameter {
-  RequiredParameter(String name, {Type type}) : super(name, type: type);
-}
-
-class RequiredConstructorParameter extends ConstructorParameter {
-  RequiredConstructorParameter(String name, {bool this$ = false, Type type})
-      : super(name, this$: this$, type: type);
-}
-
-class OptionalParameter extends Parameter {
-  OptionalParameter(String name, {Type type, Expression defaultValue})
-      : super(name, type: type, defaultValue: defaultValue);
-}
-
-class OptionalConstructorParameter extends ConstructorParameter {
-  OptionalConstructorParameter(String name,
-      {bool this$ = false, Type type, Expression defaultValue})
-      : super(name, type: type, this$: this$, defaultValue: defaultValue);
-}
-
-class NamedParameter extends Parameter {
-  NamedParameter(String name, {Type type, defaultValue, bool required = false})
-      : super(name, type: type, defaultValue: defaultValue, required: required);
-}
-
-class NamedConstructorParameter extends ConstructorParameter {
-  NamedConstructorParameter(String name,
-      {bool this$ = false, Type type, defaultValue, bool required = false})
-      : super(name,
-            this$: this$,
-            type: type,
-            defaultValue: defaultValue,
-            required: required);
 }
 
 /// [Parameters]  can have any number of required positional parameters.
@@ -82,7 +50,7 @@ class NamedConstructorParameter extends ConstructorParameter {
 class Parameters extends CodeModel {
   final List<Parameter> parameters;
 
-  Parameters.none() : parameters = [];
+  Parameters.empty() : parameters = [];
 
   Parameters(this.parameters) {
     _validate(this.parameters);
@@ -94,8 +62,10 @@ class Parameters extends CodeModel {
   }
 
   void _validateOnlyOptionalOrNamed(List<Parameter> parameters) {
-    var hasOptionalParameters = parameters.any((p) => p is OptionalParameter);
-    var hasNamedParameters = parameters.any((p) => p is NamedParameter);
+    var hasOptionalParameters =
+        parameters.any((p) => p.category == ParameterCategory.optional);
+    var hasNamedParameters =
+        parameters.any((p) => p.category == ParameterCategory.named);
     if (hasOptionalParameters && hasNamedParameters)
       throw new ArgumentError.value(parameters, 'parameters',
           'Parameters may not contain both optional parameters and named parameters');
@@ -114,12 +84,15 @@ class Parameters extends CodeModel {
   List<CodeNode> codeNodes(Context context) {
     List<CodeNode> nodes = [];
     if (parameters != null) {
-      var _requiredParameters =
-          parameters.where((p) => p is RequiredParameter).toList();
-      var _optionalParameters =
-          parameters.where((p) => p is OptionalParameter).toList();
-      var _namedParameters =
-          parameters.where((p) => p is NamedParameter).toList();
+      var _requiredParameters = parameters
+          .where((p) => p.category == ParameterCategory.required)
+          .toList();
+      var _optionalParameters = parameters
+          .where((p) => p.category == ParameterCategory.optional)
+          .toList();
+      var _namedParameters = parameters
+          .where((p) => p.category == ParameterCategory.named)
+          .toList();
 
       nodes.add(CommaSeparatedValues(_requiredParameters));
 
@@ -141,29 +114,44 @@ class Parameters extends CodeModel {
   }
 }
 
+class ConstructorParameter extends Parameter {
+  ConstructorParameter.required(String name, {bool this$ = false, Type type})
+      : super._(ParameterCategory.required, name, this$: this$, type: type);
+
+  ConstructorParameter.optional(String name,
+      {bool this$ = false, Type type, Expression defaultValue})
+      : super._(ParameterCategory.optional, name,
+            type: type, this$: this$, defaultValue: defaultValue);
+
+  ConstructorParameter.named(String name,
+      {bool this$ = false, Type type, defaultValue, bool required = false})
+      : super._(ParameterCategory.named, name,
+            this$: this$,
+            type: type,
+            defaultValue: defaultValue,
+            required: required);
+}
+
 class ConstructorParameters extends Parameters {
+  ConstructorParameters.empty() : super(const []);
+
   ConstructorParameters(List<ConstructorParameter> constructorParameters)
       : super(constructorParameters);
 }
 
 class ParameterValue extends CodeModel {
+  final IdentifierStartingWithLowerCase name;
   final Expression value;
 
-  ParameterValue(this.value);
+  ParameterValue(this.value)
+      : name = null;
+
+  ParameterValue.named(String name, this.value)
+      : name = (name == null) ? null : IdentifierStartingWithLowerCase(name);
 
   @override
-  List<CodeNode> codeNodes(Context context) => value.codeNodes(context);
-}
-
-class NamedParameterValue extends ParameterValue {
-  final IdentifierStartingWithLowerCase name;
-
-  NamedParameterValue(String name, Expression value)
-      : name = IdentifierStartingWithLowerCase(name),
-        super(value);
-
-  @override
-  List<CodeNode> codeNodes(Context context) => [name, Code(': '), value];
+  List<CodeNode> codeNodes(Context context) =>
+      [if (name != null) name, if (name != null) Code(': '), value];
 }
 
 class ParameterValues extends CommaSeparatedValues {
@@ -175,10 +163,8 @@ class ParameterValues extends CommaSeparatedValues {
   static List<CodeNode> _orderedParameterValues(
       List<ParameterValue> parameterValues) {
     List<ParameterValue> values = [];
-    values.addAll(
-        parameterValues.where((pv) => !(pv is NamedParameterValue)).toList());
-    values.addAll(
-        parameterValues.where((pv) => pv is NamedParameterValue).toList());
+    values.addAll(parameterValues.where((pv) => pv.name == null).toList());
+    values.addAll(parameterValues.where((pv) => pv.name != null).toList());
     return values;
   }
 }

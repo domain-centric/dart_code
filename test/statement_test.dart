@@ -51,6 +51,16 @@ main() {
         expect(actual, expected);
       });
 
+      test("Should return: greeting ??= 'Hello World';\n", () {
+        String actual = Statement.assignVariable(
+            "greeting", Expression.ofString('Hello World'),
+            nullAware: true,
+        this$: true)
+            .toString();
+        String expected = "this.greeting ??= 'Hello World';\n";
+        expect(actual, expected);
+      });
+
       test('Should throw name exception', () {
         expect(() {
           Statement.assignVariable(
@@ -519,7 +529,7 @@ main() {
     });
   });
 
-  group('Statements constructor', () {
+  group('Statements class', () {
     test('Given Statements => Returns the correct code', () {
       String actual = Statements([
         Statement([Code('test1()')]),

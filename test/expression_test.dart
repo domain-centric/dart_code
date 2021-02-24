@@ -181,8 +181,8 @@ main() {
         test('Should return a call to a constructor with parameter values', () {
           String actual = Expression.callConstructor(Type('Point'),
               parameterValues: ParameterValues([
-                NamedParameterValue('x', Expression.ofInt(20)),
-                NamedParameterValue('y', Expression.ofInt(30))
+                ParameterValue.named('x', Expression.ofInt(20)),
+                ParameterValue.named('y', Expression.ofInt(30))
               ])).toString();
           String expected = "Point(x: 20, y: 30)";
           expect(actual, expected);
