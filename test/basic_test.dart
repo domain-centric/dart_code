@@ -28,7 +28,10 @@ main() {
         Expression.ofInt(2),
         Expression.ofInt(3),
       ]).toString();
-      String expected = "1, 2, 3";
+      String expected = '\n'
+          '  1,\n'
+          '  2,\n'
+          '  3';
       expect(actual, expected);
     });
   });
@@ -227,7 +230,9 @@ main() {
 
     test("Should return: 'Map<int, String>'", () {
       String actual = Type.ofGenericMap(Type.ofInt(), Type.ofString()).toString();
-      String expected = "Map<int, String>";
+      String expected = 'Map<\n'
+          '  int,\n'
+          '  String>';
       expect(actual, expected);
     });
 

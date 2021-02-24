@@ -88,7 +88,10 @@ main() {
             Expression.ofInt(2),
             Expression.ofInt(3),
           ]).toString();
-          String expected = "[1, 2, 3]";
+          String expected = '[\n'
+              '  1,\n'
+              '  2,\n'
+              '  3]';
           expect(actual, expected);
         });
 
@@ -98,7 +101,10 @@ main() {
             Expression.ofInt(2).add(Expression.ofInt(3)),
             Expression.ofInt(3),
           ]).toString();
-          String expected = "[1, 2 + 3, 3]";
+          String expected = '[\n'
+              '  1,\n'
+              '  2 + 3,\n'
+              '  3]';
           expect(actual, expected);
         });
 
@@ -107,7 +113,9 @@ main() {
             Expression.ofString('Hello'),
             Expression.ofString('World'),
           ]).toString();
-          String expected = "['Hello', 'World']";
+          String expected = '[\n'
+              '  \'Hello\',\n'
+              '  \'World\']';
           expect(actual, expected);
         });
       });
@@ -119,7 +127,10 @@ main() {
             Expression.ofInt(2),
             Expression.ofInt(3),
           }).toString();
-          String expected = "{1, 2, 3}";
+          String expected = '{\n'
+              '  1,\n'
+              '  2,\n'
+              '  3}';
           expect(actual, expected);
         });
 
@@ -129,7 +140,10 @@ main() {
             Expression.ofInt(2).add(Expression.ofInt(3)),
             Expression.ofInt(3),
           }).toString();
-          String expected = "{1, 2 + 3, 3}";
+          String expected = '{\n'
+              '  1,\n'
+              '  2 + 3,\n'
+              '  3}';
           expect(actual, expected);
         });
 
@@ -138,7 +152,9 @@ main() {
             Expression.ofString('Hello'),
             Expression.ofString('World'),
           }).toString();
-          String expected = "{'Hello', 'World'}";
+          String expected = '{\n'
+              '  \'Hello\',\n'
+              '  \'World\'}';
           expect(actual, expected);
         });
       });
@@ -149,7 +165,9 @@ main() {
             Expression.ofInt(1): Expression.ofString('Hello'),
             Expression.ofInt(2): Expression.ofString('World'),
           }).toString();
-          String expected = "{1 : 'Hello', 2 : 'World'}";
+          String expected = '{\n'
+              '  1 : \'Hello\',\n'
+              '  2 : \'World\'}';
           expect(actual, expected);
         });
       });
@@ -184,7 +202,9 @@ main() {
                 ParameterValue.named('x', Expression.ofInt(20)),
                 ParameterValue.named('y', Expression.ofInt(30))
               ])).toString();
-          String expected = "Point(x: 20, y: 30)";
+          String expected = 'Point(\n'
+              '  x: 20,\n'
+              '  y: 30)';
           expect(actual, expected);
         });
 
@@ -250,7 +270,9 @@ main() {
                 ParameterValue(Expression.ofInt(2)),
                 ParameterValue(Expression.ofInt(3))
               ])).toString();
-          String expected = "add(2, 3)";
+          String expected = 'add(\n'
+              '  2,\n'
+              '  3)';
           expect(actual, expected);
         });
 

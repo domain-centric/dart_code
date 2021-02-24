@@ -28,7 +28,9 @@ main() {
                 Expression.ofVariable('b').equalTo(Expression.ofBool(false)),
                 message: 'b must be false')
             .toString();
-        String expected = "assert(b == false, 'b must be false');\n";
+        String expected = 'assert(\n'
+            '  b == false,\n'
+            '  \'b must be false\');\n';
         expect(actual, expected);
       });
     });

@@ -12,15 +12,21 @@ class CommaSeparatedValues extends CodeModel {
   @override
   List<CodeNode> codeNodes(Context context) {
     List<CodeNode> nodes = [];
-    if (values != null) {
+    if (values != null && values.isNotEmpty) {
+      if (values.length > 1) {
+        nodes.add(NewLine());
+        nodes.add(IncreaseIndent());
+      }
       CodeNode previousValue;
       for (CodeNode value in values) {
         if (previousValue != null && !(previousValue is FormattingCodeLeaf)) {
-          nodes.add(Code(', '));
+          nodes.add(Code(','));
+          nodes.add(NewLine());
         }
         nodes.add(value);
         previousValue = value;
       }
+      if (values.length > 1) nodes.add(DecreaseIndent());
     }
     return nodes;
   }
@@ -224,28 +230,27 @@ class Type extends CodeModel {
 
   Type.ofList() : this.ofGenericList(null);
 
-  Type.ofGenericList(Type genericType) :
-        name='List',
-        libraryUrl=null,
-        generics=[if (genericType!=null) genericType];
+  Type.ofGenericList(Type genericType)
+      : name = 'List',
+        libraryUrl = null,
+        generics = [if (genericType != null) genericType];
 
   Type.ofSet() : this.ofGenericSet(null);
 
-  Type.ofGenericSet(Type genericType) :
-        name='Set',
-        libraryUrl=null,
-        generics=[if (genericType!=null) genericType];
+  Type.ofGenericSet(Type genericType)
+      : name = 'Set',
+        libraryUrl = null,
+        generics = [if (genericType != null) genericType];
 
-  Type.ofMap() :
-        name='Map',
-        libraryUrl=null,
-        generics=[];
+  Type.ofMap()
+      : name = 'Map',
+        libraryUrl = null,
+        generics = [];
 
-  Type.ofGenericMap(Type keyType, Type valueType) :
-        name='Map',
-        libraryUrl=null,
-        generics=[keyType, valueType];
-
+  Type.ofGenericMap(Type keyType, Type valueType)
+      : name = 'Map',
+        libraryUrl = null,
+        generics = [keyType, valueType];
 
   Type(this.name, {this.libraryUrl, this.generics = const []});
 
@@ -454,7 +459,7 @@ class Body extends CodeModel {
   @override
   List<CodeNode> codeNodes(Context context) {
     List<CodeNode> codeNodes = [];
-    if (nodes.length==1 && nodes.first is Expression) {
+    if (nodes.length == 1 && nodes.first is Expression) {
       codeNodes.add(SpaceWhenNeeded());
       codeNodes.add(Code("=>"));
       codeNodes.add(SpaceWhenNeeded());

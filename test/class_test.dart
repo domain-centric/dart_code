@@ -45,7 +45,9 @@ main() {
             ParameterValue.named('x', Expression.ofInt(5)),
             ParameterValue.named('y', Expression.ofInt(10)),
           ])).toString();
-      String expected = "this.point(x: 5, y: 10)";
+      String expected = 'this.point(\n'
+          '  x: 5,\n'
+          '  y: 10)';
       expect(actual, expected);
     });
 
@@ -82,7 +84,9 @@ main() {
             ParameterValue.named('x', Expression.ofInt(5)),
             ParameterValue.named('y', Expression.ofInt(10)),
           ])).toString();
-      String expected = "super.point(x: 5, y: 10)";
+      String expected = 'super.point(\n'
+          '  x: 5,\n'
+          '  y: 10)';
       expect(actual, expected);
     });
   });
@@ -94,7 +98,9 @@ main() {
         FieldInitializer('age', Expression.ofInt(30)),
       ]).toString();
 
-      String expected = "name = 'Nils', age = 30";
+      String expected = '\n'
+          '  name = \'Nils\',\n'
+          '  age = 30';
       expect(actual, expected);
     });
 
@@ -117,7 +123,9 @@ main() {
         FieldInitializer('age', Expression.ofInt(30)),
       ]).toString();
 
-      String expected = "name = 'Nils', age = 30";
+      String expected = '\n'
+          '  name = \'Nils\',\n'
+          '  age = 30';
       expect(actual, expected);
     });
 
@@ -133,7 +141,10 @@ main() {
               parameterValues: ParameterValues([
                 ParameterValue.named('name', Expression.ofString('Nils'))
               ]))).toString();
-      String expected = "gender = Gender.male, age = 30, super(name: 'Nils')";
+      String expected = '\n'
+          '  gender = Gender.male,\n'
+          '  age = 30,\n'
+          '  super(name: \'Nils\')';
       expect(actual, expected);
     });
   });
@@ -214,7 +225,9 @@ main() {
             ConstructorParameter.required('x', type: Type.ofInt()),
             ConstructorParameter.required('y', type: Type.ofInt())
           ])).toString();
-      String expected = 'Point(int x, int y);\n';
+      String expected = 'Point(\n'
+          '  int x,\n'
+          '  int y);\n';
       expect(actual, expected);
     });
 
@@ -225,7 +238,9 @@ main() {
             FieldInitializer('x', Expression.ofInt(0)),
             FieldInitializer('y', Expression.ofInt(0)),
           ])).toString();
-      String expected = 'Point.origin() : x = 0, y = 0;\n';
+      String expected = 'Point.origin() : \n'
+          '  x = 0,\n'
+          '  y = 0;\n';
       expect(actual, expected);
     });
 
@@ -238,7 +253,9 @@ main() {
             ParameterValue.named('x', Expression.ofInt(0)),
             ParameterValue.named('y', Expression.ofInt(0))
           ])))).toString();
-      String expected = 'Point.origin() : this(x: 0, y: 0);\n';
+      String expected = 'Point.origin() : this(\n'
+          '  x: 0,\n'
+          '  y: 0);\n';
       expect(actual, expected);
     });
 
@@ -282,9 +299,15 @@ main() {
                     ])),
                 this$: true),
           ])).toString();
-      String expected = 'Person() : givenName = \'Nils\', familyName = \'ten Hoeve\', this(gender: Gender.\n'
-          '    male, age: 30) {\n'
-          '  this.fullName = _appendNames(givenName, familyName);\n'
+      String expected = 'Person() : \n'
+          '  givenName = \'Nils\',\n'
+          '  familyName = \'ten Hoeve\',\n'
+          '  this(\n'
+          '    gender: Gender.male,\n'
+          '    age: 30) {\n'
+          '  this.fullName = _appendNames(\n'
+          '    givenName,\n'
+          '    familyName);\n'
           '};\n';
       expect(actual, expected);
     });

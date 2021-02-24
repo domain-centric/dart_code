@@ -137,7 +137,9 @@ main() {
         Parameter.required('name', type: Type.ofString()),
         Parameter.required('age', type: Type.ofInt())
       ]).toString();
-      String expected = 'String name, int age';
+      String expected = '\n'
+          '  String name,\n'
+          '  int age';
       expect(actual, expected);
     });
 
@@ -150,8 +152,11 @@ main() {
         Parameter.optional('email', type: Type.ofString()),
         Parameter.optional('phoneNumber', type: Type.ofString()),
       ]).toString();
-      String expected =
-          'String name, DateTime dateOfBirth, [String email, String phoneNumber]';
+      String expected =       '\n'
+          '  String name,\n'
+          '  DateTime dateOfBirth, [\n'
+          '  String email,\n'
+          '  String phoneNumber]';
       expect(actual, expected);
     });
 
@@ -164,8 +169,11 @@ main() {
         Parameter.named('email', type: Type.ofString()),
         Parameter.named('phoneNumber', type: Type.ofString()),
       ]).toString();
-      String expected =
-          'String name, DateTime dateOfBirth, {String email, String phoneNumber}';
+      String expected ='\n'
+          '  String name,\n'
+          '  DateTime dateOfBirth, {\n'
+          '  String email,\n'
+          '  String phoneNumber}';
       expect(actual, expected);
     });
 
@@ -412,7 +420,9 @@ main() {
         ConstructorParameter.required('name', type: Type.ofString()),
         ConstructorParameter.required('age', type: Type.ofInt())
       ]).toString();
-      String expected = 'String name, int age';
+      String expected = '\n'
+          '  String name,\n'
+          '  int age';
       expect(actual, expected);
     });
 
@@ -425,8 +435,11 @@ main() {
         ConstructorParameter.optional('email', type: Type.ofString()),
         ConstructorParameter.optional('phoneNumber', type: Type.ofString()),
       ]).toString();
-      String expected =
-          'String name, DateTime dateOfBirth, [String email, String phoneNumber]';
+      String expected ='\n'
+          '  String name,\n'
+          '  DateTime dateOfBirth, [\n'
+          '  String email,\n'
+          '  String phoneNumber]';
       expect(actual, expected);
     });
 
@@ -439,8 +452,11 @@ main() {
         ConstructorParameter.named('email', type: Type.ofString()),
         ConstructorParameter.named('phoneNumber', type: Type.ofString()),
       ]).toString();
-      String expected =
-          'String name, DateTime dateOfBirth, {String email, String phoneNumber}';
+      String expected =          '\n'
+          '  String name,\n'
+          '  DateTime dateOfBirth, {\n'
+          '  String email,\n'
+          '  String phoneNumber}';
       expect(actual, expected);
     });
 
@@ -535,7 +551,9 @@ main() {
         ParameterValue(Expression.ofString("James")),
         ParameterValue(Expression.ofInt(30)),
       ]).toString();
-      String expected = "'James', 30";
+      String expected = '\n'
+          '  \'James\',\n'
+          '  30';
       expect(actual, expected);
     });
 
@@ -544,7 +562,9 @@ main() {
         ParameterValue.named('name', Expression.ofString("James")),
         ParameterValue(Expression.ofInt(30)),
       ]).toString();
-      String expected = "30, name: 'James'";
+      String expected = '\n'
+          '  30,\n'
+          '  name: \'James\'';
       expect(actual, expected);
     });
 
@@ -553,7 +573,9 @@ main() {
         ParameterValue.named('name', Expression.ofString("James")),
         ParameterValue.named('age', Expression.ofInt(30)),
       ]).toString();
-      String expected = "name: 'James', age: 30";
+      String expected = '\n'
+          '  name: \'James\',\n'
+          '  age: 30';
       expect(actual, expected);
     });
   });
