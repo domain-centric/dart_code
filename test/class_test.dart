@@ -587,7 +587,8 @@ main() {
             value: Expression.ofString('Nils'),
             type: Type.ofString(),
             docComments: [DocComment.fromString('A valid name')]).toString();
-        String expected = '/// A valid name\n'
+        String expected =
+            '/// A valid name\n'
             "final String name = 'Nils';\n";
         expect(actual, expected);
       });
@@ -599,11 +600,63 @@ main() {
             type: Type.ofString(),
             docComments: [DocComment.fromString('A valid name')],
             annotations: [Annotation(Type('Hidden'))]).toString();
-        String expected = '/// A valid name\n'
+        String expected =
+            '/// A valid name\n'
             '@Hidden()\n'
             "final String name = 'Nils';\n";
         expect(actual, expected);
       });
     });
+  });
+
+  group('Class class', () {
+    test("Should return: class", () {
+      String actual = Class('Person').toString();
+      String expected =
+          'class Person {\n'
+          '}';
+      expect(actual, expected);
+    });
+
+    test("Should return: class with DocComment and annotation", () {
+      String actual = Class('Person', docComments: [
+        DocComment.fromString(
+            'A Person that can be converted to and from Json format')
+      ], annotations: [
+        Annotation(Type('JsonSerializable',
+            libraryUrl: 'package:json_annotation/json_annotation.dart'))
+      ]).toString();
+      String expected =
+          '/// A Person that can be converted to and from Json format\n'
+          '@_i1.JsonSerializable()\n'
+          'class Person {\n'
+          '}';
+      expect(actual, expected);
+    });
+
+    test("Should return: abstract class", () {
+      String actual = Class('Person', abstract: true).toString();
+      String expected =
+          'abstract class Person {\n'
+          '}';
+      expect(actual, expected);
+    });
+
+    test("Should return: class with super class", () {
+      String actual = Class('Person', superClass: Type('Contact', libraryUrl:'package:my_lib/contact.dart')).toString();
+      String expected =
+          'class Person extends _i1.Contact {\n'
+          '}';
+      expect(actual, expected);
+    });
+
+    /// TODO implements,
+    /// TODO mixins,
+    /// TODO fields,
+    /// TODO constructors,
+    /// TODO methods,
+    /// TODO getter methods
+    /// TODO setter methods
+
   });
 }

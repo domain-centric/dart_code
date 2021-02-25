@@ -1,3 +1,5 @@
+import 'package:dart_code/formatting.dart';
+
 import 'annotation.dart';
 import 'basic.dart';
 import 'comment.dart';
@@ -65,12 +67,15 @@ class Initializers extends CommaSeparatedValues {
 class Constructor extends CodeModel {
   final List<DocComment> docComments;
   final List<Annotation> annotations;
+
   /// Whether the constructor should be prefixed with `external`.
   final bool external;
+
   /// Whether the constructor should be prefixed with `const`.
-  final bool  constant;
+  final bool constant;
+
   /// Whether this constructor should be prefixed with `factory`.
-  final bool  factory;
+  final bool factory;
   final Type type;
   final IdentifierStartingWithLowerCase name;
   final ConstructorParameters parameters;
@@ -80,9 +85,9 @@ class Constructor extends CodeModel {
   Constructor(this.type,
       {this.docComments = const [],
       this.annotations = const [],
-      this.external=false,
-      this.constant=false,
-        this.factory=false,
+      this.external = false,
+      this.constant = false,
+      this.factory = false,
       String name,
       this.parameters,
       this.initializers,
@@ -124,6 +129,8 @@ class Method extends CodeModel {
   final IdentifierStartingWithLowerCase name;
   final Parameters parameters;
   final Body body;
+
+  //TODO add getters and setters
 
   Method.abstract(String name,
       {this.docComments = const [],
@@ -222,41 +229,60 @@ class Field extends VariableDefinition {
 }
 
 class Class extends CodeModel {
-  // TODO final List<DocComment> docComments;
-  // TODO final List<Annotation> annotations;
-  bool abstract;
-
-  // TODO bool static;
+  final List<DocComment> docComments;
+  final List<Annotation> annotations;
+  final bool abstract;
   final IdentifierStartingWithUpperCase name;
-  Type superClass;
+  final Type superClass;
+  final List<Type> implements;
+  final List<Type> mixins;
 
-  // TODO List<Type> implements = [];
-  // TODO List<Type> mixins = [];
-  // TODO List<Field> fields;
-  // TODO List<PropertyAccessor> propertyAccessors;
-  // TODO List<Constructor> constructors;
-  // TODO List<Method> methods;
+  final List<Field> fields;
+  final List<Constructor> constructors;
+  final List<Method> methods;
 
-  Class(String name) : this.name = IdentifierStartingWithUpperCase(name);
+  Class(
+    String name, {
+    this.docComments,
+    this.annotations,
+    this.abstract,
+    this.superClass,
+    this.implements,
+    this.mixins,
+    this.fields,
+    this.constructors,
+    this.methods,
+  }) : this.name = IdentifierStartingWithUpperCase(name);
 
   @override
   List<CodeNode> codeNodes(Context context) => [
-        //TODO DocComments
-        //TODO Annotations
-        if (abstract) KeyWord.abstract$,
-        SpaceWhenNeeded(),
+        if (docComments != null) ...docComments,
+        if (annotations != null) ...annotations,
+        if (abstract != null && abstract) KeyWord.abstract$,
+        if (abstract != null && abstract) SpaceWhenNeeded(),
         KeyWord.class$,
         SpaceWhenNeeded(),
         name,
         SpaceWhenNeeded(),
         if (superClass != null) KeyWord.extends$,
-        SpaceWhenNeeded(),
+        if (superClass != null) SpaceWhenNeeded(),
         if (superClass != null) superClass,
-        // TODO implements
-        //TODO with mixins
-        SpaceWhenNeeded(),
+        if (superClass != null) SpaceWhenNeeded(),
+        if (implements != null) KeyWord.implements$,
+        if (implements != null) SpaceWhenNeeded(),
+        if (implements != null) CommaSeparatedValues(implements),
+        if (implements != null) SpaceWhenNeeded(),
+        if (mixins != null) KeyWord.with$,
+        if (mixins != null) SpaceWhenNeeded(),
+        if (mixins != null) CommaSeparatedValues(mixins),
+        if (mixins != null) SpaceWhenNeeded(),
         Block([
-          Code(";"), //TODO  fields, propertyAccessors, constructors, methods
+          if (fields != null) ...fields,
+          if (fields != null) NewLine(),
+          if (constructors != null) ...constructors,
+          if (constructors != null) NewLine(),
+          if (methods != null) ...methods,
+          if (methods != null) NewLine(),
         ]),
       ];
 }
