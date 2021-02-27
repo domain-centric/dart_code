@@ -152,8 +152,7 @@ main() {
   group('Constructor class', () {
     test("Should return: Person();\n", () {
       String actual = Constructor(Type('Person')).toString();
-      String expected =
-          '\n'
+      String expected = '\n'
           'Person();\n';
       expect(actual, expected);
     });
@@ -163,8 +162,7 @@ main() {
         Annotation(Type('JsonSerializable',
             libraryUrl: 'package:json_annotation/json_annotation.dart'))
       ]).toString();
-      String expected =
-          '\n'
+      String expected = '\n'
           '@_i1.JsonSerializable()\n'
           'Person();\n';
       expect(actual, expected);
@@ -178,8 +176,7 @@ main() {
               'A Person that can be converted to and from Json format')
         ],
       ).toString();
-      String expected =
-          '\n'
+      String expected = '\n'
           '/// A Person that can be converted to and from Json format\n'
           'Person();\n';
       expect(actual, expected);
@@ -193,8 +190,7 @@ main() {
         Annotation(Type('JsonSerializable',
             libraryUrl: 'package:json_annotation/json_annotation.dart'))
       ]).toString();
-      String expected =
-          '\n'
+      String expected = '\n'
           '/// A Person that can be converted to and from Json format\n'
           '@_i1.JsonSerializable()\n'
           'Person();\n';
@@ -203,32 +199,28 @@ main() {
 
     test("Should return: external Person();\n", () {
       String actual = Constructor(Type('Person'), external: true).toString();
-      String expected =
-          '\n'
+      String expected = '\n'
           'external Person();\n';
       expect(actual, expected);
     });
 
     test("Should return: const Person();\n", () {
       String actual = Constructor(Type('Person'), constant: true).toString();
-      String expected =
-          '\n'
+      String expected = '\n'
           'const Person();\n';
       expect(actual, expected);
     });
 
     test("Should return: factory Person();\n", () {
       String actual = Constructor(Type('Person'), factory: true).toString();
-      String expected =
-          '\n'
+      String expected = '\n'
           'factory Person();\n';
       expect(actual, expected);
     });
 
     test("Should return: factory Point.origin();\n", () {
       String actual = Constructor(Type('Point'), name: 'origin').toString();
-      String expected =
-          '\n'
+      String expected = '\n'
           'Point.origin();\n';
       expect(actual, expected);
     });
@@ -239,8 +231,7 @@ main() {
             ConstructorParameter.required('x', type: Type.ofInt()),
             ConstructorParameter.required('y', type: Type.ofInt())
           ])).toString();
-      String expected =
-          '\n'
+      String expected = '\n'
           'Point(\n'
           '  int x,\n'
           '  int y);\n';
@@ -254,8 +245,7 @@ main() {
             FieldInitializer('x', Expression.ofInt(0)),
             FieldInitializer('y', Expression.ofInt(0)),
           ])).toString();
-      String expected =
-          '\n'
+      String expected = '\n'
           'Point.origin() : \n'
           '  x = 0,\n'
           '  y = 0;\n';
@@ -271,8 +261,7 @@ main() {
             ParameterValue.named('x', Expression.ofInt(0)),
             ParameterValue.named('y', Expression.ofInt(0))
           ])))).toString();
-      String expected =
-          '\n'
+      String expected = '\n'
           'Point.origin() : this(\n'
           '  x: 0,\n'
           '  y: 0);\n';
@@ -286,8 +275,7 @@ main() {
             Statement.assignVariable('x', Expression.ofInt(5), this$: true),
             Statement.assignVariable('y', Expression.ofInt(10), this$: true),
           ])).toString();
-      String expected =
-          '\n'
+      String expected = '\n'
           'Point.origin() {\n'
           '  this.x = 5;\n'
           '  this.y = 10;\n'
@@ -321,8 +309,7 @@ main() {
                     ])),
                 this$: true),
           ])).toString();
-      String expected =
-          '\n'
+      String expected = '\n'
           'Person() : \n'
           '  givenName = \'Nils\',\n'
           '  familyName = \'ten Hoeve\',\n'
@@ -611,8 +598,7 @@ main() {
             value: Expression.ofString('Nils'),
             type: Type.ofString(),
             docComments: [DocComment.fromString('A valid name')]).toString();
-        String expected =
-            '/// A valid name\n'
+        String expected = '/// A valid name\n'
             "final String name = 'Nils';\n";
         expect(actual, expected);
       });
@@ -624,8 +610,7 @@ main() {
             type: Type.ofString(),
             docComments: [DocComment.fromString('A valid name')],
             annotations: [Annotation(Type('Hidden'))]).toString();
-        String expected =
-            '/// A valid name\n'
+        String expected = '/// A valid name\n'
             '@Hidden()\n'
             "final String name = 'Nils';\n";
         expect(actual, expected);
@@ -636,8 +621,7 @@ main() {
   group('Class class', () {
     test("Should return: class", () {
       String actual = Class('Person').toString();
-      String expected =
-          'class Person {\n'
+      String expected = 'class Person {\n'
           '}';
       expect(actual, expected);
     });
@@ -660,26 +644,27 @@ main() {
 
     test("Should return: abstract class", () {
       String actual = Class('Person', abstract: true).toString();
-      String expected =
-          'abstract class Person {\n'
+      String expected = 'abstract class Person {\n'
           '}';
       expect(actual, expected);
     });
 
     test("Should return: class with super class", () {
-      String actual = Class('Person', superClass: Type('Contact', libraryUrl:'package:my_lib/contact.dart')).toString();
-      String expected =
-          'class Person extends _i1.Contact {\n'
+      String actual = Class('Person',
+              superClass:
+                  Type('Contact', libraryUrl: 'package:my_lib/contact.dart'))
+          .toString();
+      String expected = 'class Person extends _i1.Contact {\n'
           '}';
       expect(actual, expected);
     });
 
     test("Should return: class with implements", () {
       String actual = Class('Person', implements: [
-        Type('Musician', libraryUrl:'package:my_lib/musician.dart'),
-        Type('Technician', libraryUrl:'package:my_lib/technician.dart')
+        Type('Musician', libraryUrl: 'package:my_lib/musician.dart'),
+        Type('Technician', libraryUrl: 'package:my_lib/technician.dart')
       ]).toString();
-      String expected ='class Person implements \n'
+      String expected = 'class Person implements \n'
           '  _i1.Musician,\n'
           '  _i2.Technician {\n'
           '}';
@@ -688,10 +673,10 @@ main() {
 
     test("Should return: class with mixins", () {
       String actual = Class('Person', mixins: [
-        Type('Musician', libraryUrl:'package:my_lib/musician.dart'),
-        Type('Technician', libraryUrl:'package:my_lib/technician.dart')
+        Type('Musician', libraryUrl: 'package:my_lib/musician.dart'),
+        Type('Technician', libraryUrl: 'package:my_lib/technician.dart')
       ]).toString();
-      String expected ='class Person with \n'
+      String expected = 'class Person with \n'
           '  _i1.Musician,\n'
           '  _i2.Technician {\n'
           '}';
@@ -704,7 +689,7 @@ main() {
         Field.const$('human', Expression.ofBool(true), static: true),
         Field.var$('gender', value: Expression.ofEnum(Type('Gender'), "male")),
       ]).toString();
-      String expected ='class Person {\n'
+      String expected = 'class Person {\n'
           '  final String name;\n'
           '  static const human = true;\n'
           '  var gender = Gender.male;\n'
@@ -715,14 +700,14 @@ main() {
 
     test("Should return: class with constructors", () {
       String actual = Class('Point', constructors: [
-          Constructor(Type('Point'),
-          name: 'origin',
-      initializers: Initializers(
-      constructorCall: ConstructorCall(
-      parameterValues: ParameterValues([
-      ParameterValue.named('x', Expression.ofInt(0)),
-      ParameterValue.named('y', Expression.ofInt(0))
-      ])))),
+        Constructor(Type('Point'),
+            name: 'origin',
+            initializers: Initializers(
+                constructorCall: ConstructorCall(
+                    parameterValues: ParameterValues([
+              ParameterValue.named('x', Expression.ofInt(0)),
+              ParameterValue.named('y', Expression.ofInt(0))
+            ])))),
         Constructor(Type('Point'),
             name: 'origin',
             initializers: Initializers(fieldInitializers: [
@@ -730,7 +715,7 @@ main() {
               FieldInitializer('y', Expression.ofInt(0)),
             ]))
       ]).toString();
-      String expected ='class Point {\n'
+      String expected = 'class Point {\n'
           '  \n'
           '  Point.origin() : this(\n'
           '    x: 0,\n'
@@ -744,10 +729,22 @@ main() {
       expect(actual, expected);
     });
 
-    /// TODO methods,
+    test("Should return: class with methods", () {
+      String actual = Class('Person', methods: [
+        Method('greetingMessage',
+            Statement.return$(Expression.ofString('Hello \$name.')),
+            returnType: Type.ofString())
+      ]).toString();
+      String expected = 'class Person {\n'
+          '  String greetingMessage() {\n'
+          '    return \'Hello \$name.\';\n'
+          '  }\n'
+          '}';
+      expect(actual, expected);
+    });
+
     /// TODO getter methods
     /// TODO setter methods
     /// TODO combined
-
   });
 }
