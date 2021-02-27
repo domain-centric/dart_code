@@ -674,6 +674,21 @@ main() {
       expect(actual, expected);
     });
 
+    test("Should return: class with fields", () {
+      String actual = Class('Person', fields: [
+        Field.final$('name', type: Type.ofString()),
+        Field.const$('human', Expression.ofBool(true), static: true),
+        Field.var$('gender', value: Expression.ofEnum(Type('Gender'), "male")),
+      ]).toString();
+      String expected ='class Person {\n'
+          '  final String name;\n'
+          '  static const human = true;\n'
+          '  var gender = Gender.male;\n'
+          '  \n'
+          '}';
+      expect(actual, expected);
+    });
+
     /// TODO fields,
     /// TODO constructors,
     /// TODO methods,
