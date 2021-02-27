@@ -326,6 +326,20 @@ main() {
 
   group('Method class', () {
     group('Method() constructor', () {
+      test("Should return: asynch method", () {
+        String actual = Method(
+          'randomNumber',
+          Statement.return$(Expression.callFunction("randomIntGenerator")),
+          asynchrony: Asynchrony.async,
+          returnType: Type.ofFuture(Type.ofInt()),
+        ).toString();
+        String expected =
+            'Future<int> randomNumber() async {\n'
+            '  return randomIntGenerator();\n'
+            '}';
+        expect(actual, expected);
+      });
+
       test('Should return: code of a method that returns a greeting string',
           () {
         String actual = Method('greetingMessage',
