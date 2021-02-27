@@ -800,8 +800,22 @@ main() {
       expect(actual, expected);
     });
 
-    /// TODO getter methods
-    /// TODO setter methods
-    /// TODO combined
+
+    test("Should return: class with getter method", () {
+      String actual = Class('Person', methods: [
+        Method.setter(
+          'age',
+          Statement.assignVariable('age', Expression.ofVariable('age'), this$: true),
+          type: Type.ofInt(),
+        )
+      ]).toString();
+      String expected = 'class Person {\n'
+          '  set age(int age) {\n'
+          '    this.age = age;\n'
+          '  }\n'
+          '}';
+      expect(actual, expected);
+    });
+
   });
 }
