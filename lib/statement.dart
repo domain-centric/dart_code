@@ -35,6 +35,7 @@ class Statement extends CodeModel {
           value,
         ]);
 
+
   Statement.break$() : this([KeyWord.break$]);
 
   Statement.continue$() : this([KeyWord.continue$]);
@@ -226,6 +227,7 @@ class Statement extends CodeModel {
         for (CodeNode codeNode in nodes) codeNode,
         if (nodes.isNotEmpty) EndOfStatement(),
       ];
+
 }
 
 class Catch extends CodeModel {

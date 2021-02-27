@@ -83,6 +83,13 @@ class Expression extends CodeModel {
   Expression.ofVariable(String name)
       : nodes = [IdentifierStartingWithLowerCase(name)];
 
+  Expression.ofThisField(String name)
+      : nodes = [KeyWord.this$,Code('.'), IdentifierStartingWithLowerCase(name)];
+
+  Expression.ofSuperField(String name)
+      : nodes = [KeyWord.super$,Code('.'), IdentifierStartingWithLowerCase(name)];
+
+
   Expression.callFunction(String name, [ParameterValues parameterValues])
       : nodes = [
           if (name != null) IdentifierStartingWithLowerCase(name),
@@ -305,4 +312,5 @@ class Expression extends CodeModel {
 
   @override
   List<CodeNode> codeNodes(Context context) => nodes;
+
 }

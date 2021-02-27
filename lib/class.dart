@@ -121,7 +121,7 @@ class Constructor extends CodeModel {
       ];
 }
 
-enum MethodType {
+enum PropertyAccessor {
   getter,
   setter,
 }
@@ -131,8 +131,8 @@ class Method extends CodeModel {
   final List<Annotation> annotations;
   final bool abstract;
   final bool static;
-  final Type returnType;
-  final MethodType methodType;
+  final Type type;
+  final PropertyAccessor propertyAccessor;
   final Asynchrony asynchrony;
   final IdentifierStartingWithLowerCase name;
   final Parameters parameters;
@@ -144,13 +144,13 @@ class Method extends CodeModel {
     String name, {
     this.docComments = const [],
     this.annotations = const [],
-    this.returnType,
-    this.methodType,
+    this.type,
     this.parameters,
     this.asynchrony,
   })  : abstract = true,
         static = false,
         name = IdentifierStartingWithLowerCase(name),
+        propertyAccessor = null,
         body = null;
 
   Method.static(
@@ -158,13 +158,13 @@ class Method extends CodeModel {
     CodeNode body, {
     this.docComments = const [],
     this.annotations = const [],
-    this.returnType,
-    this.methodType,
+    this.type,
     this.parameters,
     this.asynchrony,
   })  : abstract = false,
         static = true,
         name = IdentifierStartingWithLowerCase(name),
+        propertyAccessor = null,
         body = Body([body]);
 
   Method(
@@ -172,14 +172,43 @@ class Method extends CodeModel {
     CodeNode body, {
     this.docComments = const [],
     this.annotations = const [],
-    this.returnType,
-    this.methodType,
+    this.type,
     this.parameters,
     this.asynchrony,
   })  : abstract = false,
         static = false,
         name = IdentifierStartingWithLowerCase(name),
+        propertyAccessor = null,
         body = Body([body]);
+
+  Method.getter(
+    String name,
+    CodeNode body, {
+    this.docComments = const [],
+    this.annotations = const [],
+    this.type,
+    this.parameters,
+    this.asynchrony,
+  })  : abstract = false,
+        static = false,
+        name = IdentifierStartingWithLowerCase(name),
+        propertyAccessor = PropertyAccessor.getter,
+        body = Body([body]);
+
+  Method.setter(
+      String name,
+      CodeNode body, {
+        this.docComments = const [],
+        this.annotations = const [],
+        this.type,
+        this.parameters,
+        this.asynchrony,
+      })  : abstract = false,
+        static = false,
+        name = IdentifierStartingWithLowerCase(name),
+        propertyAccessor = PropertyAccessor.setter,
+        body = Body([body]);
+
 
   @override
   List<CodeNode> codeNodes(Context context) => [
@@ -189,12 +218,32 @@ class Method extends CodeModel {
         if (abstract) SpaceWhenNeeded(),
         if (static) KeyWord.static$,
         if (static) SpaceWhenNeeded(),
-        if (returnType != null) returnType,
-        if (returnType != null) SpaceWhenNeeded(),
+        if (type != null &&
+            (propertyAccessor == null ||
+                propertyAccessor != PropertyAccessor.setter))
+          type,
+        if (type != null &&
+            (propertyAccessor == null ||
+                propertyAccessor != PropertyAccessor.setter))
+          SpaceWhenNeeded(),
+        if (propertyAccessor != null &&
+            propertyAccessor == PropertyAccessor.getter)
+          KeyWord.get$,
+        if (propertyAccessor != null &&
+            propertyAccessor == PropertyAccessor.setter)
+          KeyWord.set$,
+        if (propertyAccessor != null) SpaceWhenNeeded(),
         name,
-        Code('('),
-        if (parameters != null) parameters,
-        Code(')'),
+        if (propertyAccessor == null ||
+            propertyAccessor != PropertyAccessor.getter)
+          Code('('),
+        if (propertyAccessor != null &&
+            propertyAccessor == PropertyAccessor.setter)
+          Parameter.required(name.name, type: type),
+        if (parameters != null && propertyAccessor == null) parameters,
+        if (propertyAccessor == null ||
+            propertyAccessor != PropertyAccessor.getter)
+          Code(')'),
         if (asynchrony != null) SpaceWhenNeeded(),
         if (asynchrony != null && asynchrony == Asynchrony.async)
           KeyWord.async$,
