@@ -152,7 +152,9 @@ main() {
   group('Constructor class', () {
     test("Should return: Person();\n", () {
       String actual = Constructor(Type('Person')).toString();
-      String expected = 'Person();\n';
+      String expected =
+          '\n'
+          'Person();\n';
       expect(actual, expected);
     });
 
@@ -161,7 +163,9 @@ main() {
         Annotation(Type('JsonSerializable',
             libraryUrl: 'package:json_annotation/json_annotation.dart'))
       ]).toString();
-      String expected = '@_i1.JsonSerializable()\n'
+      String expected =
+          '\n'
+          '@_i1.JsonSerializable()\n'
           'Person();\n';
       expect(actual, expected);
     });
@@ -175,6 +179,7 @@ main() {
         ],
       ).toString();
       String expected =
+          '\n'
           '/// A Person that can be converted to and from Json format\n'
           'Person();\n';
       expect(actual, expected);
@@ -189,6 +194,7 @@ main() {
             libraryUrl: 'package:json_annotation/json_annotation.dart'))
       ]).toString();
       String expected =
+          '\n'
           '/// A Person that can be converted to and from Json format\n'
           '@_i1.JsonSerializable()\n'
           'Person();\n';
@@ -197,25 +203,33 @@ main() {
 
     test("Should return: external Person();\n", () {
       String actual = Constructor(Type('Person'), external: true).toString();
-      String expected = 'external Person();\n';
+      String expected =
+          '\n'
+          'external Person();\n';
       expect(actual, expected);
     });
 
     test("Should return: const Person();\n", () {
       String actual = Constructor(Type('Person'), constant: true).toString();
-      String expected = 'const Person();\n';
+      String expected =
+          '\n'
+          'const Person();\n';
       expect(actual, expected);
     });
 
     test("Should return: factory Person();\n", () {
       String actual = Constructor(Type('Person'), factory: true).toString();
-      String expected = 'factory Person();\n';
+      String expected =
+          '\n'
+          'factory Person();\n';
       expect(actual, expected);
     });
 
     test("Should return: factory Point.origin();\n", () {
       String actual = Constructor(Type('Point'), name: 'origin').toString();
-      String expected = 'Point.origin();\n';
+      String expected =
+          '\n'
+          'Point.origin();\n';
       expect(actual, expected);
     });
 
@@ -225,7 +239,9 @@ main() {
             ConstructorParameter.required('x', type: Type.ofInt()),
             ConstructorParameter.required('y', type: Type.ofInt())
           ])).toString();
-      String expected = 'Point(\n'
+      String expected =
+          '\n'
+          'Point(\n'
           '  int x,\n'
           '  int y);\n';
       expect(actual, expected);
@@ -238,7 +254,9 @@ main() {
             FieldInitializer('x', Expression.ofInt(0)),
             FieldInitializer('y', Expression.ofInt(0)),
           ])).toString();
-      String expected = 'Point.origin() : \n'
+      String expected =
+          '\n'
+          'Point.origin() : \n'
           '  x = 0,\n'
           '  y = 0;\n';
       expect(actual, expected);
@@ -253,7 +271,9 @@ main() {
             ParameterValue.named('x', Expression.ofInt(0)),
             ParameterValue.named('y', Expression.ofInt(0))
           ])))).toString();
-      String expected = 'Point.origin() : this(\n'
+      String expected =
+          '\n'
+          'Point.origin() : this(\n'
           '  x: 0,\n'
           '  y: 0);\n';
       expect(actual, expected);
@@ -266,7 +286,9 @@ main() {
             Statement.assignVariable('x', Expression.ofInt(5), this$: true),
             Statement.assignVariable('y', Expression.ofInt(10), this$: true),
           ])).toString();
-      String expected = 'Point.origin() {\n'
+      String expected =
+          '\n'
+          'Point.origin() {\n'
           '  this.x = 5;\n'
           '  this.y = 10;\n'
           '};\n';
@@ -299,7 +321,9 @@ main() {
                     ])),
                 this$: true),
           ])).toString();
-      String expected = 'Person() : \n'
+      String expected =
+          '\n'
+          'Person() : \n'
           '  givenName = \'Nils\',\n'
           '  familyName = \'ten Hoeve\',\n'
           '  this(\n'
@@ -689,8 +713,37 @@ main() {
       expect(actual, expected);
     });
 
-    /// TODO fields,
-    /// TODO constructors,
+    test("Should return: class with constructors", () {
+      String actual = Class('Point', constructors: [
+          Constructor(Type('Point'),
+          name: 'origin',
+      initializers: Initializers(
+      constructorCall: ConstructorCall(
+      parameterValues: ParameterValues([
+      ParameterValue.named('x', Expression.ofInt(0)),
+      ParameterValue.named('y', Expression.ofInt(0))
+      ])))),
+        Constructor(Type('Point'),
+            name: 'origin',
+            initializers: Initializers(fieldInitializers: [
+              FieldInitializer('x', Expression.ofInt(0)),
+              FieldInitializer('y', Expression.ofInt(0)),
+            ]))
+      ]).toString();
+      String expected ='class Point {\n'
+          '  \n'
+          '  Point.origin() : this(\n'
+          '    x: 0,\n'
+          '    y: 0);\n'
+          '  \n'
+          '  Point.origin() : \n'
+          '    x = 0,\n'
+          '    y = 0;\n'
+          '  \n'
+          '}';
+      expect(actual, expected);
+    });
+
     /// TODO methods,
     /// TODO getter methods
     /// TODO setter methods

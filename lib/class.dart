@@ -96,6 +96,7 @@ class Constructor extends CodeModel {
 
   @override
   List<CodeNode> codeNodes(Context context) => [
+        NewLine(),
         ...docComments,
         ...annotations,
         if (external) KeyWord.external$,
