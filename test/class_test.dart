@@ -785,6 +785,21 @@ main() {
       expect(actual, expected);
     });
 
+    test("Should return: class with getter method", () {
+      String actual = Class('Person', methods: [
+        Method.getter(
+          'age',
+          Expression.ofThisField('age'),
+          type: Type.ofInt(),
+        )
+      ]).toString();
+      String expected = 'class Person {\n'
+          '  int get age => this.age;\n'
+          '  \n'
+          '}';
+      expect(actual, expected);
+    });
+
     /// TODO getter methods
     /// TODO setter methods
     /// TODO combined
