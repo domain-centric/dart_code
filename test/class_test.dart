@@ -650,13 +650,36 @@ main() {
       expect(actual, expected);
     });
 
-    /// TODO implements,
-    /// TODO mixins,
+    test("Should return: class with implements", () {
+      String actual = Class('Person', implements: [
+        Type('Musician', libraryUrl:'package:my_lib/musician.dart'),
+        Type('Technician', libraryUrl:'package:my_lib/technician.dart')
+      ]).toString();
+      String expected ='class Person implements \n'
+          '  _i1.Musician,\n'
+          '  _i2.Technician {\n'
+          '}';
+      expect(actual, expected);
+    });
+
+    test("Should return: class with mixins", () {
+      String actual = Class('Person', mixins: [
+        Type('Musician', libraryUrl:'package:my_lib/musician.dart'),
+        Type('Technician', libraryUrl:'package:my_lib/technician.dart')
+      ]).toString();
+      String expected ='class Person with \n'
+          '  _i1.Musician,\n'
+          '  _i2.Technician {\n'
+          '}';
+      expect(actual, expected);
+    });
+
     /// TODO fields,
     /// TODO constructors,
     /// TODO methods,
     /// TODO getter methods
     /// TODO setter methods
+    /// TODO combined
 
   });
 }
