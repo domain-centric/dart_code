@@ -144,13 +144,13 @@ main() {
 
     test('Given Keyword.allCodes=> Returns .. codes', () {
       int actual = KeyWord.allCodes.length;
-      int expected = 61;
+      int expected = 63;
       expect(actual, expected);
     });
 
     test('Given Keyword.allNames=> Returns .. strings', () {
       int actual = KeyWord.allNames.length;
-      int expected = 61;
+      int expected = 63;
       expect(actual, expected);
     });
 

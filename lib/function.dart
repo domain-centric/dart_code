@@ -11,29 +11,37 @@ class Function extends CodeModel {
   final Type returnType;
   final IdentifierStartingWithLowerCase name;
   final Parameters parameters;
+  final Asynchrony asynchrony;
   final Body body;
 
-  Function.withoutName(CodeNode body,
-      {this.docComments = const [],
-      this.annotations = const [],
-      this.parameters,
-      this.returnType})
-      : name = null,
+  Function.withoutName(
+    CodeNode body, {
+    this.docComments = const [],
+    this.annotations = const [],
+    this.returnType,
+    this.parameters,
+    this.asynchrony,
+  })  : name = null,
         body = Body([body]);
 
-  Function.withName(String name, CodeNode body,
-      {this.docComments = const [],
-      this.annotations = const [],
-      this.parameters,
-      this.returnType})
-      : name = IdentifierStartingWithLowerCase(name),
+  Function.withName(
+    String name,
+    CodeNode body, {
+    this.docComments = const [],
+    this.annotations = const [],
+    this.returnType,
+    this.parameters,
+    this.asynchrony,
+  })  : name = IdentifierStartingWithLowerCase(name),
         body = Body([body]);
 
-  Function.main(CodeNode body,
-      {this.docComments = const [],
-      this.annotations = const [],
-      this.parameters})
-      : returnType = null,
+  Function.main(
+    CodeNode body, {
+    this.docComments = const [],
+    this.annotations = const [],
+    this.parameters,
+    this.asynchrony,
+  })  : returnType = null,
         name = IdentifierStartingWithLowerCase('main'),
         body = Body([body]);
 
@@ -48,6 +56,15 @@ class Function extends CodeModel {
         Code('('),
         if (parameters != null) parameters,
         Code(')'),
+        if (asynchrony != null) SpaceWhenNeeded(),
+        if (asynchrony != null && asynchrony == Asynchrony.async)
+          KeyWord.async$,
+        if (asynchrony != null && asynchrony == Asynchrony.asyncStar)
+          KeyWord.asyncStar$,
+    if (asynchrony != null && asynchrony == Asynchrony.sync)
+      KeyWord.sync$,
+        if (asynchrony != null && asynchrony == Asynchrony.syncStar)
+          KeyWord.syncStar$,
         SpaceWhenNeeded(),
         body,
       ];

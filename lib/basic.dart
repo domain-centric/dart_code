@@ -70,6 +70,7 @@ class KeyWord {
   static final Code as$ = Code('as');
   static final Code assert$ = Code('assert');
   static final Code async$ = Code('async');
+  static final Code asyncStar$ = Code('async*');
   static final Code await$ = Code('await');
   static final Code break$ = Code('break');
   static final Code case$ = Code('case');
@@ -117,6 +118,7 @@ class KeyWord {
   static final Code super$ = Code('super');
   static final Code switch$ = Code('switch');
   static final Code sync$ = Code('sync');
+  static final Code syncStar$ = Code('sync*');
   static final Code this$ = Code('this');
   static final Code throw$ = Code('throw');
   static final Code true$ = Code('true');
@@ -132,6 +134,7 @@ class KeyWord {
     as$,
     assert$,
     async$,
+    asyncStar$,
     await$,
     break$,
     case$,
@@ -179,6 +182,7 @@ class KeyWord {
     super$,
     switch$,
     sync$,
+    syncStar$,
     this$,
     throw$,
     true$,
@@ -251,6 +255,16 @@ class Type extends CodeModel {
       : name = 'Map',
         libraryUrl = null,
         generics = [keyType, valueType];
+
+  Type.ofFuture(Type type)
+      : name = 'Future',
+        libraryUrl = null,
+        generics = [type];
+
+  Type.ofStream(Type type)
+      : name = 'Stream',
+        libraryUrl = null,
+        generics = [type];
 
   Type(this.name, {this.libraryUrl, this.generics = const []});
 
@@ -470,4 +484,11 @@ class Body extends CodeModel {
     }
     return codeNodes;
   }
+}
+
+enum Asynchrony {
+  async,
+  asyncStar,
+  sync,
+  syncStar,
 }

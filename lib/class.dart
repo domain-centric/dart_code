@@ -121,44 +121,62 @@ class Constructor extends CodeModel {
       ];
 }
 
+enum MethodType {
+  getter,
+  setter,
+}
+
 class Method extends CodeModel {
   final List<DocComment> docComments;
   final List<Annotation> annotations;
   final bool abstract;
   final bool static;
   final Type returnType;
+  final MethodType methodType;
+  final Asynchrony asynchrony;
   final IdentifierStartingWithLowerCase name;
   final Parameters parameters;
   final Body body;
 
   //TODO add getters and setters
 
-  Method.abstract(String name,
-      {this.docComments = const [],
-      this.annotations = const [],
-      this.parameters,
-      this.returnType})
-      : abstract = true,
+  Method.abstract(
+    String name, {
+    this.docComments = const [],
+    this.annotations = const [],
+    this.returnType,
+    this.methodType,
+    this.parameters,
+    this.asynchrony,
+  })  : abstract = true,
         static = false,
         name = IdentifierStartingWithLowerCase(name),
         body = null;
 
-  Method.static(String name, CodeNode body,
-      {this.docComments = const [],
-      this.annotations = const [],
-      this.parameters,
-      this.returnType})
-      : abstract = false,
+  Method.static(
+    String name,
+    CodeNode body, {
+    this.docComments = const [],
+    this.annotations = const [],
+    this.returnType,
+    this.methodType,
+    this.parameters,
+    this.asynchrony,
+  })  : abstract = false,
         static = true,
         name = IdentifierStartingWithLowerCase(name),
         body = Body([body]);
 
-  Method(String name, CodeNode body,
-      {this.docComments = const [],
-      this.annotations = const [],
-      this.parameters,
-      this.returnType})
-      : abstract = false,
+  Method(
+    String name,
+    CodeNode body, {
+    this.docComments = const [],
+    this.annotations = const [],
+    this.returnType,
+    this.methodType,
+    this.parameters,
+    this.asynchrony,
+  })  : abstract = false,
         static = false,
         name = IdentifierStartingWithLowerCase(name),
         body = Body([body]);
@@ -177,6 +195,14 @@ class Method extends CodeModel {
         Code('('),
         if (parameters != null) parameters,
         Code(')'),
+        if (asynchrony != null) SpaceWhenNeeded(),
+        if (asynchrony != null && asynchrony == Asynchrony.async)
+          KeyWord.async$,
+        if (asynchrony != null && asynchrony == Asynchrony.asyncStar)
+          KeyWord.asyncStar$,
+        if (asynchrony != null && asynchrony == Asynchrony.sync) KeyWord.sync$,
+        if (asynchrony != null && asynchrony == Asynchrony.syncStar)
+          KeyWord.syncStar$,
         if (!abstract) SpaceWhenNeeded(),
         if (!abstract) body,
         if (abstract) EndOfStatement(),
