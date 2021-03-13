@@ -10,12 +10,12 @@ main() {
 
   group('CommaSeparatedValues class', () {
     test('Given no expressions => Returns the literal code string', () {
-      String actual = CommaSeparatedValues([]).toString();
+      String actual = SeparatedValues.forParameters([]).toString();
       String expected = "";
       expect(actual, expected);
     });
     test('Given 1 expressions => Returns the literal code string', () {
-      String actual = CommaSeparatedValues([
+      String actual = SeparatedValues.forParameters([
         Expression.ofInt(1),
       ]).toString();
       String expected = "1";
@@ -23,7 +23,7 @@ main() {
     });
 
     test('Given 3 expressions => Returns the literal code string', () {
-      String actual = CommaSeparatedValues([
+      String actual = SeparatedValues.forParameters([
         Expression.ofInt(1),
         Expression.ofInt(2),
         Expression.ofInt(3),
@@ -34,6 +34,7 @@ main() {
           '  3';
       expect(actual, expected);
     });
+
   });
 
 

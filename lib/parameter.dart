@@ -94,7 +94,7 @@ class Parameters extends CodeModel {
           .where((p) => p.category == ParameterCategory.named)
           .toList();
 
-      nodes.add(CommaSeparatedValues(_requiredParameters));
+      nodes.add(SeparatedValues.forParameters(_requiredParameters));
 
       if (_requiredParameters.isNotEmpty &&
           (_optionalParameters.isNotEmpty || _namedParameters.isNotEmpty))
@@ -102,11 +102,11 @@ class Parameters extends CodeModel {
 
       if (_optionalParameters.isNotEmpty) {
         nodes.add(Code('['));
-        nodes.add(CommaSeparatedValues(_optionalParameters));
+        nodes.add(SeparatedValues.forParameters(_optionalParameters));
         nodes.add(Code(']'));
       } else if (_namedParameters.isNotEmpty) {
         nodes.add(Code('{'));
-        nodes.add(CommaSeparatedValues(_namedParameters));
+        nodes.add(SeparatedValues.forParameters(_namedParameters));
         nodes.add(Code('}'));
       }
     }
@@ -154,11 +154,11 @@ class ParameterValue extends CodeModel {
       [if (name != null) name, if (name != null) Code(': '), value];
 }
 
-class ParameterValues extends CommaSeparatedValues {
+class ParameterValues extends SeparatedValues {
   ParameterValues(List<ParameterValue> parameterValues)
-      : super(_orderedParameterValues(parameterValues));
+      : super.forParameters(_orderedParameterValues(parameterValues));
 
-  ParameterValues.none() : super([]);
+  ParameterValues.none() : super.forParameters([]);
 
   static List<CodeNode> _orderedParameterValues(
       List<ParameterValue> parameterValues) {

@@ -9,8 +9,8 @@ import 'expression.dart';
 
 class Statement extends CodeModel {
   final List<CodeNode> nodes;
-
-  Statement(this.nodes);
+  final bool hasEndOfStatement;
+  Statement(this.nodes, {this.hasEndOfStatement=true});
 
   Statement.ofExpression(Expression expression) : this(expression.nodes);
 
@@ -18,7 +18,7 @@ class Statement extends CodeModel {
       : this([
           KeyWord.assert$,
           Code('('),
-          CommaSeparatedValues(
+          SeparatedValues.forParameters(
               [expression, if (message != null) Expression.ofString(message)]),
           Code(')'),
         ]);
@@ -99,8 +99,9 @@ class Statement extends CodeModel {
           if (elseBlock != null) SpaceWhenNeeded(),
           if (elseBlock != null) KeyWord.else$,
           if (elseBlock != null) SpaceWhenNeeded(),
-          if (elseBlock != null) elseBlock
-        ]);
+          if (elseBlock != null) elseBlock,
+          NewLine(),
+        ], hasEndOfStatement:false);
 
   Statement.ifChain$(Map<Expression, Block> conditionsAndBlocks,
       {Block elseBlock})
@@ -224,8 +225,8 @@ class Statement extends CodeModel {
 
   @override
   List<CodeNode> codeNodes(Context context) => [
-        for (CodeNode codeNode in nodes) codeNode,
-        if (nodes.isNotEmpty) EndOfStatement(),
+        ...nodes,
+        if (nodes.isNotEmpty && hasEndOfStatement) EndOfStatement(),
       ];
 
 }
@@ -359,6 +360,6 @@ class EndOfStatement extends CodeModel {
   @override
   List<CodeNode> codeNodes(Context context) => [
         NoneRepeatingCode(';'),
-        NoneRepeatingCode(context.newLine),
+        NewLine(),
       ];
 }

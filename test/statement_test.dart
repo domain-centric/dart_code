@@ -126,7 +126,7 @@ main() {
             Block([Statement.print(Expression.ofString('True'))])).toString();
         String expected = 'if (true){\n'
             '  print(\'True\');\n'
-            '};\n';
+            '}\n';
         expect(actual, expected);
       });
 
@@ -140,7 +140,7 @@ main() {
             '  print(\'True\');\n'
             '} else {\n'
             '  print(\'False\');\n'
-            '};\n';
+            '}\n';
         expect(actual, expected);
       });
     });

@@ -4,29 +4,51 @@ import 'package:dart_code/statement.dart';
 import 'expression.dart';
 import 'formatting.dart';
 
-class CommaSeparatedValues extends CodeModel {
+class SeparatedValues extends CodeModel {
   final Iterable<CodeNode> values;
+  final bool startWithNewLine;
+  final bool withIndent;
+  final bool withCommas;
+  final bool withNewLines;
 
-  CommaSeparatedValues(this.values);
+  SeparatedValues.forStatements(this.values)
+      : startWithNewLine = false,
+        withIndent = false,
+        withCommas = false,
+        withNewLines = true;
+
+  SeparatedValues.forParameters(this.values)
+      : startWithNewLine = true,
+        withIndent = true,
+        withCommas = true,
+        withNewLines = true;
 
   @override
   List<CodeNode> codeNodes(Context context) {
     List<CodeNode> nodes = [];
     if (values != null && values.isNotEmpty) {
       if (values.length > 1) {
-        nodes.add(NewLine());
-        nodes.add(IncreaseIndent());
+        if (startWithNewLine) {
+          nodes.add(NewLine());
+        }
+        if (withIndent) {
+          nodes.add(IncreaseIndent());
+        }
       }
       CodeNode previousValue;
       for (CodeNode value in values) {
         if (previousValue != null && !(previousValue is FormattingCodeLeaf)) {
-          nodes.add(Code(','));
-          nodes.add(NewLine());
+          if (withCommas) {
+            nodes.add(Code(','));
+          }
+          if (withNewLines) {
+            nodes.add(NewLine());
+          }
         }
         nodes.add(value);
         previousValue = value;
       }
-      if (values.length > 1) nodes.add(DecreaseIndent());
+      if (values.length > 1 && withIndent) nodes.add(DecreaseIndent());
     }
     return nodes;
   }
@@ -367,14 +389,14 @@ class Reference extends CodeModel {
     return typeNodes;
   }
 
-  CommaSeparatedValues _genericNodes(Type type) {
+  SeparatedValues _genericNodes(Type type) {
     List<CodeNode> genericNodes = [];
     for (Type genericType in type.generics) {
       if (type != genericType) {
         genericNodes.add(Reference(genericType));
       }
     }
-    return CommaSeparatedValues(genericNodes);
+    return SeparatedValues.forParameters(genericNodes);
   }
 }
 
@@ -457,10 +479,10 @@ class Block extends CodeModel {
         Code('{'),
         NewLine(),
         IncreaseIndent(),
-        for (CodeNode codeNode in codeInsideBlock) codeNode,
+        ...codeInsideBlock,
         DecreaseIndent(),
         NoneRepeatingCode(context.newLine),
-        Code('}')
+        Code('}'),
       ];
 }
 
@@ -479,8 +501,12 @@ class Body extends CodeModel {
       codeNodes.add(SpaceWhenNeeded());
       codeNodes.add(nodes.first);
       codeNodes.add(EndOfStatement());
+    } else if (nodes.length == 1 && nodes.first is Block) {
+      codeNodes.add(nodes.first);
+      codeNodes.add(NewLine());
     } else {
       codeNodes.add(Block(nodes));
+      codeNodes.add(NewLine());
     }
     return codeNodes;
   }

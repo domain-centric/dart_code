@@ -3,6 +3,7 @@ import 'package:dart_code/basic.dart';
 import 'package:dart_code/class.dart';
 import 'package:dart_code/comment.dart';
 import 'package:dart_code/expression.dart';
+import 'package:dart_code/method.dart';
 import 'package:dart_code/parameter.dart';
 import 'package:dart_code/statement.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -152,8 +153,7 @@ main() {
   group('Constructor class', () {
     test("Should return: Person();\n", () {
       String actual = Constructor(Type('Person')).toString();
-      String expected = '\n'
-          'Person();\n';
+      String expected = 'Person();\n';
       expect(actual, expected);
     });
 
@@ -162,8 +162,7 @@ main() {
         Annotation(Type('JsonSerializable',
             libraryUrl: 'package:json_annotation/json_annotation.dart'))
       ]).toString();
-      String expected = '\n'
-          '@_i1.JsonSerializable()\n'
+      String expected = '@_i1.JsonSerializable()\n'
           'Person();\n';
       expect(actual, expected);
     });
@@ -176,7 +175,7 @@ main() {
               'A Person that can be converted to and from Json format')
         ],
       ).toString();
-      String expected = '\n'
+      String expected =
           '/// A Person that can be converted to and from Json format\n'
           'Person();\n';
       expect(actual, expected);
@@ -190,7 +189,7 @@ main() {
         Annotation(Type('JsonSerializable',
             libraryUrl: 'package:json_annotation/json_annotation.dart'))
       ]).toString();
-      String expected = '\n'
+      String expected =
           '/// A Person that can be converted to and from Json format\n'
           '@_i1.JsonSerializable()\n'
           'Person();\n';
@@ -199,29 +198,25 @@ main() {
 
     test("Should return: external Person();\n", () {
       String actual = Constructor(Type('Person'), external: true).toString();
-      String expected = '\n'
-          'external Person();\n';
+      String expected = 'external Person();\n';
       expect(actual, expected);
     });
 
     test("Should return: const Person();\n", () {
       String actual = Constructor(Type('Person'), constant: true).toString();
-      String expected = '\n'
-          'const Person();\n';
+      String expected = 'const Person();\n';
       expect(actual, expected);
     });
 
     test("Should return: factory Person();\n", () {
       String actual = Constructor(Type('Person'), factory: true).toString();
-      String expected = '\n'
-          'factory Person();\n';
+      String expected = 'factory Person();\n';
       expect(actual, expected);
     });
 
     test("Should return: factory Point.origin();\n", () {
       String actual = Constructor(Type('Point'), name: 'origin').toString();
-      String expected = '\n'
-          'Point.origin();\n';
+      String expected = 'Point.origin();\n';
       expect(actual, expected);
     });
 
@@ -231,8 +226,7 @@ main() {
             ConstructorParameter.required('x', type: Type.ofInt()),
             ConstructorParameter.required('y', type: Type.ofInt())
           ])).toString();
-      String expected = '\n'
-          'Point(\n'
+      String expected = 'Point(\n'
           '  int x,\n'
           '  int y);\n';
       expect(actual, expected);
@@ -245,8 +239,7 @@ main() {
             FieldInitializer('x', Expression.ofInt(0)),
             FieldInitializer('y', Expression.ofInt(0)),
           ])).toString();
-      String expected = '\n'
-          'Point.origin() : \n'
+      String expected = 'Point.origin() : \n'
           '  x = 0,\n'
           '  y = 0;\n';
       expect(actual, expected);
@@ -261,8 +254,7 @@ main() {
             ParameterValue.named('x', Expression.ofInt(0)),
             ParameterValue.named('y', Expression.ofInt(0))
           ])))).toString();
-      String expected = '\n'
-          'Point.origin() : this(\n'
+      String expected = 'Point.origin() : this(\n'
           '  x: 0,\n'
           '  y: 0);\n';
       expect(actual, expected);
@@ -275,8 +267,7 @@ main() {
             Statement.assignVariable('x', Expression.ofInt(5), this$: true),
             Statement.assignVariable('y', Expression.ofInt(10), this$: true),
           ])).toString();
-      String expected = '\n'
-          'Point.origin() {\n'
+      String expected = 'Point.origin() {\n'
           '  this.x = 5;\n'
           '  this.y = 10;\n'
           '};\n';
@@ -309,8 +300,7 @@ main() {
                     ])),
                 this$: true),
           ])).toString();
-      String expected = '\n'
-          'Person() : \n'
+      String expected = 'Person() : \n'
           '  givenName = \'Nils\',\n'
           '  familyName = \'ten Hoeve\',\n'
           '  this(\n'
@@ -324,195 +314,6 @@ main() {
     });
   });
 
-  group('Method class', () {
-    group('Method() constructor', () {
-      test("Should return: asynch method", () {
-        String actual = Method(
-          'randomNumber',
-          Statement.return$(Expression.callFunction("randomIntGenerator")),
-          asynchrony: Asynchrony.async,
-          type: Type.ofFuture(Type.ofInt()),
-        ).toString();
-        String expected =
-            'Future<int> randomNumber() async {\n'
-            '  return randomIntGenerator();\n'
-            '}';
-        expect(actual, expected);
-      });
-
-      test('Should return: code of a method that returns a greeting string',
-          () {
-        String actual = Method('greetingMessage',
-                Statement.return$(Expression.ofString('Hello \$name.')),
-                parameters: Parameters(
-                    [Parameter.required('name', type: Type.ofString())]),
-                type: Type.ofString())
-            .toString();
-        String expected = 'String greetingMessage(String name) {\n'
-            '  return \'Hello \$name.\';\n'
-            '}';
-        expect(actual, expected);
-      });
-
-      test(
-          'Should return: code of a method that returns a greeting string, with DocComments and Annotations',
-          () {
-        String actual = Method('greetingMessage',
-            Statement.return$(Expression.ofString('Hello \$name.')),
-            parameters:
-                Parameters([Parameter.required('name', type: Type.ofString())]),
-            type: Type.ofString(),
-            docComments: [
-              DocComment.fromString("This method returns a greeting string")
-            ],
-            annotations: [
-              Annotation(
-                  Type('Visible'),
-                  ParameterValues([
-                    ParameterValue.named(
-                        'forRole', Expression.ofString('admin'))
-                  ])),
-              Annotation(
-                  Type('ExecutionMode'),
-                  ParameterValues([
-                    ParameterValue(
-                        Expression.ofEnum(Type('ExecutionModes'), 'directly'))
-                  ]))
-            ]).toString();
-        String expected = '/// This method returns a greeting string\n'
-            '@Visible(forRole: \'admin\')\n'
-            '@ExecutionMode(ExecutionModes.directly)\n'
-            'String greetingMessage(String name) {\n'
-            '  return \'Hello \$name.\';\n'
-            '}';
-        expect(actual, expected);
-      });
-    });
-
-    group('Method.static() constructor', () {
-      test(
-          'Should return: code of a static method that returns a greeting string',
-          () {
-        String actual = Method.static('greetingMessage',
-                Statement.return$(Expression.ofString('Hello \$name.')),
-                parameters: Parameters(
-                    [Parameter.required('name', type: Type.ofString())]),
-                type: Type.ofString())
-            .toString();
-        String expected = 'static String greetingMessage(String name) {\n'
-            '  return \'Hello \$name.\';\n'
-            '}';
-        expect(actual, expected);
-      });
-
-      test(
-          'Should return: code of a static method that returns a greeting string, with DocComments and Annotations',
-          () {
-        String actual = Method.static('greetingMessage',
-            Statement.return$(Expression.ofString('Hello \$name.')),
-            parameters:
-                Parameters([Parameter.required('name', type: Type.ofString())]),
-            type: Type.ofString(),
-            docComments: [
-              DocComment.fromString("This method returns a greeting string")
-            ],
-            annotations: [
-              Annotation(
-                  Type('Visible'),
-                  ParameterValues([
-                    ParameterValue.named(
-                        'forRole', Expression.ofString('admin'))
-                  ])),
-              Annotation(
-                  Type('ExecutionMode'),
-                  ParameterValues([
-                    ParameterValue(
-                        Expression.ofEnum(Type('ExecutionModes'), 'directly'))
-                  ]))
-            ]).toString();
-        String expected = '/// This method returns a greeting string\n'
-            '@Visible(forRole: \'admin\')\n'
-            '@ExecutionMode(ExecutionModes.directly)\n'
-            'static String greetingMessage(String name) {\n'
-            '  return \'Hello \$name.\';\n'
-            '}';
-        expect(actual, expected);
-      });
-    });
-
-    group('Method.abstract() constructor', () {
-      test(
-          'Should return: code of a abstract method that returns a greeting string',
-          () {
-        String actual = Method.abstract('greetingMessage',
-                parameters: Parameters(
-                    [Parameter.required('name', type: Type.ofString())]),
-                type: Type.ofString())
-            .toString();
-        String expected = 'abstract String greetingMessage(String name);\n';
-        expect(actual, expected);
-      });
-
-      test(
-          'Should return: code of a abstract method that returns a greeting string, with DocComments and Annotations',
-          () {
-        String actual = Method.abstract('greetingMessage',
-            parameters:
-                Parameters([Parameter.required('name', type: Type.ofString())]),
-            type: Type.ofString(),
-            docComments: [
-              DocComment.fromString("This method returns a greeting string")
-            ],
-            annotations: [
-              Annotation(
-                  Type('Visible'),
-                  ParameterValues([
-                    ParameterValue.named(
-                        'forRole', Expression.ofString('admin'))
-                  ])),
-              Annotation(
-                  Type('ExecutionMode'),
-                  ParameterValues([
-                    ParameterValue(
-                        Expression.ofEnum(Type('ExecutionModes'), 'directly'))
-                  ]))
-            ]).toString();
-        String expected = '/// This method returns a greeting string\n'
-            '@Visible(forRole: \'admin\')\n'
-            '@ExecutionMode(ExecutionModes.directly)\n'
-            'abstract String greetingMessage(String name);\n';
-        expect(actual, expected);
-      });
-    });
-
-    group('Method.getter() constructor', () {
-      test("Should return: 'int get age => this.age;\n'", () {
-        String actual = Method.getter(
-          'age',
-          Expression.ofThisField('age'),
-          type: Type.ofInt(),
-        ).toString();
-        String expected =
-            'int get age => this.age;\n';
-        expect(actual, expected);
-      });
-    });
-
-    group('Method.setter() constructor', () {
-      test("Should return: setter method", () {
-        String actual = Method.setter(
-          'age',
-          Statement.assignVariable('age', Expression.ofVariable('age'), this$: true),
-          type: Type.ofInt(),
-        ).toString();
-        String expected =
-            'set age(int age) {\n'
-        '  this.age = age;\n'
-        '}';
-        expect(actual, expected);
-      });
-    });
-  });
 
   group('Field class', () {
     group('Field.var\$ constructor', () {
@@ -664,6 +465,7 @@ main() {
     test("Should return: class", () {
       String actual = Class('Person').toString();
       String expected = 'class Person {\n'
+          '  \n'
           '}';
       expect(actual, expected);
     });
@@ -680,6 +482,7 @@ main() {
           '/// A Person that can be converted to and from Json format\n'
           '@_i1.JsonSerializable()\n'
           'class Person {\n'
+          '  \n'
           '}';
       expect(actual, expected);
     });
@@ -687,6 +490,7 @@ main() {
     test("Should return: abstract class", () {
       String actual = Class('Person', abstract: true).toString();
       String expected = 'abstract class Person {\n'
+          '  \n'
           '}';
       expect(actual, expected);
     });
@@ -697,6 +501,7 @@ main() {
                   Type('Contact', libraryUrl: 'package:my_lib/contact.dart'))
           .toString();
       String expected = 'class Person extends _i1.Contact {\n'
+          '  \n'
           '}';
       expect(actual, expected);
     });
@@ -709,6 +514,7 @@ main() {
       String expected = 'class Person implements \n'
           '  _i1.Musician,\n'
           '  _i2.Technician {\n'
+          '  \n'
           '}';
       expect(actual, expected);
     });
@@ -718,9 +524,10 @@ main() {
         Type('Musician', libraryUrl: 'package:my_lib/musician.dart'),
         Type('Technician', libraryUrl: 'package:my_lib/technician.dart')
       ]).toString();
-      String expected = 'class Person with \n'
+      String expected ='class Person with \n'
           '  _i1.Musician,\n'
           '  _i2.Technician {\n'
+          '  \n'
           '}';
       expect(actual, expected);
     });
@@ -732,6 +539,7 @@ main() {
         Field.var$('gender', value: Expression.ofEnum(Type('Gender'), "male")),
       ]).toString();
       String expected = 'class Person {\n'
+          '  \n'
           '  final String name;\n'
           '  static const human = true;\n'
           '  var gender = Gender.male;\n'
@@ -743,13 +551,10 @@ main() {
     test("Should return: class with constructors", () {
       String actual = Class('Point', constructors: [
         Constructor(Type('Point'),
-            name: 'origin',
-            initializers: Initializers(
-                constructorCall: ConstructorCall(
-                    parameterValues: ParameterValues([
-              ParameterValue.named('x', Expression.ofInt(0)),
-              ParameterValue.named('y', Expression.ofInt(0))
-            ])))),
+            parameters: ConstructorParameters([
+              ConstructorParameter.required('x', this$: true),
+              ConstructorParameter.required('y', this$: true),
+            ])),
         Constructor(Type('Point'),
             name: 'origin',
             initializers: Initializers(fieldInitializers: [
@@ -759,9 +564,9 @@ main() {
       ]).toString();
       String expected = 'class Point {\n'
           '  \n'
-          '  Point.origin() : this(\n'
-          '    x: 0,\n'
-          '    y: 0);\n'
+          '  Point(\n'
+          '    this.x,\n'
+          '    this.y);\n'
           '  \n'
           '  Point.origin() : \n'
           '    x = 0,\n'
@@ -778,9 +583,11 @@ main() {
             type: Type.ofString())
       ]).toString();
       String expected = 'class Person {\n'
+          '  \n'
           '  String greetingMessage() {\n'
           '    return \'Hello \$name.\';\n'
           '  }\n'
+          '  \n'
           '}';
       expect(actual, expected);
     });
@@ -794,28 +601,175 @@ main() {
         )
       ]).toString();
       String expected = 'class Person {\n'
+          '  \n'
           '  int get age => this.age;\n'
           '  \n'
           '}';
       expect(actual, expected);
     });
 
-
     test("Should return: class with getter method", () {
       String actual = Class('Person', methods: [
         Method.setter(
           'age',
-          Statement.assignVariable('age', Expression.ofVariable('age'), this$: true),
+          Statement.assignVariable('age', Expression.ofVariable('age'),
+              this$: true),
           type: Type.ofInt(),
         )
       ]).toString();
-      String expected = 'class Person {\n'
+      String expected ='class Person {\n'
+          '  \n'
           '  set age(int age) {\n'
           '    this.age = age;\n'
           '  }\n'
+          '  \n'
           '}';
       expect(actual, expected);
     });
 
+    test("Should return: a composed class", () {
+      String actual = Class('Person', fields: [
+        Field.final$('givenName', type: Type.ofString()),
+        Field.final$('familyName', type: Type.ofString()),
+        Field.final$('fullName', type: Type.ofString()),
+        Field.final$('dateOfBirth', type: Type.ofDateTime()),
+      ], constructors: [
+        Constructor(Type('Person'),
+            parameters: ConstructorParameters([
+              ConstructorParameter.required('givenName', this$: true),
+              ConstructorParameter.required('familyName', this$: true),
+              ConstructorParameter.required('dateOfBirth', this$: true),
+            ]),
+            initializers: Initializers(fieldInitializers: [
+              FieldInitializer(
+                  'fullName', Expression.ofString('\$givenName \$familyName'))
+            ]))
+      ], methods: [
+        Method('greetingMessage',
+            Statement.return$(Expression.ofString('Hello \$fullName.')),
+            type: Type.ofString()),
+        Method.getter(
+            'ageInYears',
+            Block([
+              VariableDefinition.var$('now',
+                  type: Type.ofDateTime(),
+                  value: Expression.callConstructor(Type.ofDateTime(),
+                      name: "now")),
+              VariableDefinition.var$('years',
+                  type: Type.ofInt(),
+                  value: Expression.ofVariable('now')
+                      .getProperty('year')
+                      .subtract(Expression.ofVariable('dateOfBirth')
+                          .getProperty('year'))),
+              VariableDefinition.var$('months',
+                  type: Type.ofInt(),
+                  value: Expression.ofVariable('now')
+                      .getProperty('month')
+                      .subtract(Expression.ofVariable('dateOfBirth')
+                          .getProperty('month'))),
+              VariableDefinition.var$('days',
+                  type: Type.ofInt(),
+                  value: Expression.ofVariable('now')
+                      .getProperty('day')
+                      .subtract(Expression.ofVariable('dateOfBirth')
+                          .getProperty('day'))),
+              Statement.if$(
+                  Expression.ofVariable('months')
+                      .lessThan(Expression.ofInt(0))
+                      .or(Expression.betweenParentheses(
+                          Expression.ofVariable('months')
+                              .equalTo(Expression.ofInt(0))
+                              .and(Expression.ofVariable('days')
+                                  .lessThan(Expression.ofInt(0))))),
+                  Block([
+                    Statement.ofExpression(
+                        Expression.ofVariable('years').decrement())
+                  ])),
+              Statement.return$(Expression.ofVariable('years')),
+            ]))
+      ]).toString();
+      String expected = 'class Person {\n'
+          '  \n'
+          '  final String givenName;\n'
+          '  final String familyName;\n'
+          '  final String fullName;\n'
+          '  final DateTime dateOfBirth;\n'
+          '  \n'
+          '  Person(\n'
+          '    this.givenName,\n'
+          '    this.familyName,\n'
+          '    this.dateOfBirth) : fullName = \'\$givenName \$familyName\';\n'
+          '  \n'
+          '  String greetingMessage() {\n'
+          '    return \'Hello \$fullName.\';\n'
+          '  }\n'
+          '  \n'
+          '  get ageInYears {\n'
+          '    DateTime now = DateTime.now();\n'
+          '    int years = now.year - dateOfBirth.year;\n'
+          '    int months = now.month - dateOfBirth.month;\n'
+          '    int days = now.day - dateOfBirth.day;\n'
+          '    if (months < 0 || (months == 0 && days < 0)){\n'
+          '      years--;\n'
+          '    }\n'
+          '    return years;\n'
+          '  }\n'
+          '  \n'
+          '}';
+      expect(actual, expected);
+    });
   });
+
+  group("Person class", () {
+    test('Person.fullName property', () {
+      var dateOfBirth = DateTime.utc(1977,6,7);
+      String actual=Person('Nils', 'ten Hoeve', dateOfBirth).fullName;
+      String expected='Nils ten Hoeve';
+      expect(actual, expected);
+    });
+
+    test('Person.ageInYears property', () {
+      var ageInYears = 30;
+      var dateOfBirth = DateTime.now().subtract(Duration(days: 366*ageInYears));
+      int actual=Person('Nils', 'ten Hoeve', dateOfBirth).ageInYears;
+      expect(actual, ageInYears);
+    });
+
+
+    test('Person.greetingMessage() method', () {
+      var dateOfBirth = DateTime.utc(1977,6,7);
+      String actual=Person('Nils', 'ten Hoeve', dateOfBirth).greetingMessage();
+      String expected="Hello Nils ten Hoeve.";
+      expect(actual,expected);
+    });
+
+  });
+}
+class Person {
+
+  final String givenName;
+  final String familyName;
+  final String fullName;
+  final DateTime dateOfBirth;
+
+  Person(
+      this.givenName,
+      this.familyName,
+      this.dateOfBirth) : fullName = '$givenName $familyName';
+
+  String greetingMessage() {
+    return 'Hello $fullName.';
+  }
+
+  get ageInYears {
+    DateTime now = DateTime.now();
+    int years = now.year - dateOfBirth.year;
+    int months = now.month - dateOfBirth.month;
+    int days = now.day - dateOfBirth.day;
+    if (months < 0 || (months == 0 && days < 0)){
+      years--;
+    }
+    return years;
+  }
+
 }

@@ -182,7 +182,7 @@ main() {
       var actual = Function.main(Code("print('Hello World.');")).toString();
       var expected = 'main() {\n'
           '  print(\'Hello World.\');\n'
-          '}';
+          '}\n';
       expect(actual, expected);
     });
 

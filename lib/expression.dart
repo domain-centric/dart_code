@@ -29,10 +29,10 @@ class Expression extends CodeModel {
   Expression.ofString(String value) : nodes = _createStringNodes(value);
 
   Expression.ofList(List<Expression> expressions)
-      : nodes = [Code('['), CommaSeparatedValues(expressions), Code(']')];
+      : nodes = [Code('['), SeparatedValues.forParameters(expressions), Code(']')];
 
   Expression.ofSet(Set<Expression> expressions)
-      : nodes = [Code('{'), CommaSeparatedValues(expressions), Code('}')];
+      : nodes = [Code('{'), SeparatedValues.forParameters(expressions), Code('}')];
 
   Expression.ofMap(Map<Expression, Expression> expressions)
       : nodes = _createMapNodes(expressions);
@@ -41,7 +41,7 @@ class Expression extends CodeModel {
           Map<Expression, Expression> expressions) =>
       [
         Code('{'),
-        CommaSeparatedValues(_createKeyValueExpressions(expressions)),
+        SeparatedValues.forParameters(_createKeyValueExpressions(expressions)),
         Code('}')
       ];
 
@@ -84,11 +84,18 @@ class Expression extends CodeModel {
       : nodes = [IdentifierStartingWithLowerCase(name)];
 
   Expression.ofThisField(String name)
-      : nodes = [KeyWord.this$,Code('.'), IdentifierStartingWithLowerCase(name)];
+      : nodes = [
+          KeyWord.this$,
+          Code('.'),
+          IdentifierStartingWithLowerCase(name)
+        ];
 
   Expression.ofSuperField(String name)
-      : nodes = [KeyWord.super$,Code('.'), IdentifierStartingWithLowerCase(name)];
-
+      : nodes = [
+          KeyWord.super$,
+          Code('.'),
+          IdentifierStartingWithLowerCase(name)
+        ];
 
   Expression.callFunction(String name, [ParameterValues parameterValues])
       : nodes = [
@@ -115,6 +122,9 @@ class Expression extends CodeModel {
           Code('.'),
           IdentifierStartingWithLowerCase(value),
         ];
+
+  Expression.betweenParentheses(Expression expression)
+      : nodes = [Code('('), expression, Code(')')];
 
   /// =========================================================================
   ///                        OPERATORS AS FLUENT METHODS
@@ -312,5 +322,4 @@ class Expression extends CodeModel {
 
   @override
   List<CodeNode> codeNodes(Context context) => nodes;
-
 }

@@ -4,6 +4,7 @@ import 'annotation.dart';
 import 'basic.dart';
 import 'comment.dart';
 import 'expression.dart';
+import 'method.dart';
 import 'model.dart';
 import 'parameter.dart';
 import 'statement.dart';
@@ -39,11 +40,11 @@ class ConstructorCall extends CodeModel {
       ];
 }
 
-class Initializers extends CommaSeparatedValues {
+class Initializers extends SeparatedValues {
   Initializers(
       {List<FieldInitializer> fieldInitializers,
       ConstructorCall constructorCall})
-      : super([
+      : super.forParameters([
           if (fieldInitializers != null) ...fieldInitializers,
           if (constructorCall != null) constructorCall
         ]) {
@@ -96,7 +97,6 @@ class Constructor extends CodeModel {
 
   @override
   List<CodeNode> codeNodes(Context context) => [
-        NewLine(),
         ...docComments,
         ...annotations,
         if (external) KeyWord.external$,
@@ -121,142 +121,7 @@ class Constructor extends CodeModel {
       ];
 }
 
-enum PropertyAccessor {
-  getter,
-  setter,
-}
 
-class Method extends CodeModel {
-  final List<DocComment> docComments;
-  final List<Annotation> annotations;
-  final bool abstract;
-  final bool static;
-  final Type type;
-  final PropertyAccessor propertyAccessor;
-  final Asynchrony asynchrony;
-  final IdentifierStartingWithLowerCase name;
-  final Parameters parameters;
-  final Body body;
-
-  //TODO add getters and setters
-
-  Method.abstract(
-    String name, {
-    this.docComments = const [],
-    this.annotations = const [],
-    this.type,
-    this.parameters,
-    this.asynchrony,
-  })  : abstract = true,
-        static = false,
-        name = IdentifierStartingWithLowerCase(name),
-        propertyAccessor = null,
-        body = null;
-
-  Method.static(
-    String name,
-    CodeNode body, {
-    this.docComments = const [],
-    this.annotations = const [],
-    this.type,
-    this.parameters,
-    this.asynchrony,
-  })  : abstract = false,
-        static = true,
-        name = IdentifierStartingWithLowerCase(name),
-        propertyAccessor = null,
-        body = Body([body]);
-
-  Method(
-    String name,
-    CodeNode body, {
-    this.docComments = const [],
-    this.annotations = const [],
-    this.type,
-    this.parameters,
-    this.asynchrony,
-  })  : abstract = false,
-        static = false,
-        name = IdentifierStartingWithLowerCase(name),
-        propertyAccessor = null,
-        body = Body([body]);
-
-  Method.getter(
-    String name,
-    CodeNode body, {
-    this.docComments = const [],
-    this.annotations = const [],
-    this.type,
-    this.parameters,
-    this.asynchrony,
-  })  : abstract = false,
-        static = false,
-        name = IdentifierStartingWithLowerCase(name),
-        propertyAccessor = PropertyAccessor.getter,
-        body = Body([body]);
-
-  Method.setter(
-      String name,
-      CodeNode body, {
-        this.docComments = const [],
-        this.annotations = const [],
-        this.type,
-        this.parameters,
-        this.asynchrony,
-      })  : abstract = false,
-        static = false,
-        name = IdentifierStartingWithLowerCase(name),
-        propertyAccessor = PropertyAccessor.setter,
-        body = Body([body]);
-
-
-  @override
-  List<CodeNode> codeNodes(Context context) => [
-        if (docComments != null) ...docComments,
-        if (annotations != null) ...annotations,
-        if (abstract) KeyWord.abstract$,
-        if (abstract) SpaceWhenNeeded(),
-        if (static) KeyWord.static$,
-        if (static) SpaceWhenNeeded(),
-        if (type != null &&
-            (propertyAccessor == null ||
-                propertyAccessor != PropertyAccessor.setter))
-          type,
-        if (type != null &&
-            (propertyAccessor == null ||
-                propertyAccessor != PropertyAccessor.setter))
-          SpaceWhenNeeded(),
-        if (propertyAccessor != null &&
-            propertyAccessor == PropertyAccessor.getter)
-          KeyWord.get$,
-        if (propertyAccessor != null &&
-            propertyAccessor == PropertyAccessor.setter)
-          KeyWord.set$,
-        if (propertyAccessor != null) SpaceWhenNeeded(),
-        name,
-        if (propertyAccessor == null ||
-            propertyAccessor != PropertyAccessor.getter)
-          Code('('),
-        if (propertyAccessor != null &&
-            propertyAccessor == PropertyAccessor.setter)
-          Parameter.required(name.name, type: type),
-        if (parameters != null && propertyAccessor == null) parameters,
-        if (propertyAccessor == null ||
-            propertyAccessor != PropertyAccessor.getter)
-          Code(')'),
-        if (asynchrony != null) SpaceWhenNeeded(),
-        if (asynchrony != null && asynchrony == Asynchrony.async)
-          KeyWord.async$,
-        if (asynchrony != null && asynchrony == Asynchrony.asyncStar)
-          KeyWord.asyncStar$,
-        if (asynchrony != null && asynchrony == Asynchrony.sync) KeyWord.sync$,
-        if (asynchrony != null && asynchrony == Asynchrony.syncStar)
-          KeyWord.syncStar$,
-        if (!abstract) SpaceWhenNeeded(),
-        if (!abstract) body,
-        if (abstract) EndOfStatement(),
-      ];
-}
 
 /// A [Field] is a [VariableDefinition] in a [Class].
 class Field extends VariableDefinition {
@@ -346,18 +211,19 @@ class Class extends CodeModel {
         if (superClass != null) SpaceWhenNeeded(),
         if (implements != null) KeyWord.implements$,
         if (implements != null) SpaceWhenNeeded(),
-        if (implements != null) CommaSeparatedValues(implements),
+        if (implements != null) SeparatedValues.forParameters(implements),
         if (implements != null) SpaceWhenNeeded(),
         if (mixins != null) KeyWord.with$,
         if (mixins != null) SpaceWhenNeeded(),
-        if (mixins != null) CommaSeparatedValues(mixins),
+        if (mixins != null) SeparatedValues.forParameters(mixins),
         if (mixins != null) SpaceWhenNeeded(),
         Block([
+           NewLine(),
           if (fields != null) ...fields,
           if (fields != null) NewLine(),
-          if (constructors != null) ...constructors,
+          if (constructors != null) SeparatedValues.forStatements(constructors),
           if (constructors != null) NewLine(),
-          if (methods != null) ...methods,
+          if (methods != null) SeparatedValues.forStatements(methods),
           if (methods != null) NewLine(),
         ]),
       ];
