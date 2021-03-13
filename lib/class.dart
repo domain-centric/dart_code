@@ -1,4 +1,5 @@
 import 'package:dart_code/formatting.dart';
+import 'package:dart_code/variable_definition.dart';
 
 import 'annotation.dart';
 import 'basic.dart';
@@ -123,51 +124,6 @@ class Constructor extends CodeModel {
 
 
 
-/// A [Field] is a [VariableDefinition] in a [Class].
-class Field extends VariableDefinition {
-  Field.var$(String name,
-      {List<DocComment> docComments = const [],
-      List<Annotation> annotations = const [],
-      bool static = false,
-      Type type,
-      Expression value})
-      : super.var$(name,
-            docComments: docComments,
-            annotations: annotations,
-            static: static,
-            type: type,
-            value: value);
-
-  Field.final$(
-    String name, {
-    Expression value,
-    List<DocComment> docComments = const [],
-    List<Annotation> annotations = const [],
-    bool static = false,
-    Type type,
-  }) : super.final$(name,
-            value: value,
-            docComments: docComments,
-            annotations: annotations,
-            static: static,
-            type: type);
-
-  Field.const$(
-    String name,
-    Expression value, {
-    List<DocComment> docComments = const [],
-    List<Annotation> annotations = const [],
-    bool static = false,
-    Type type,
-  }) : super.const$(
-          name,
-          value,
-          docComments: docComments,
-          annotations: annotations,
-          static: static,
-          type: type,
-        );
-}
 
 class Class extends CodeModel {
   final List<DocComment> docComments;
