@@ -1,9 +1,8 @@
-import 'package:dart_code/basic.dart';
-import 'package:dart_code/formatting.dart';
-import 'package:dart_code/parameter.dart';
-import 'package:dart_code/statement.dart';
-import 'package:dart_code/variable_definition.dart';
-
+import 'basic.dart';
+import 'formatting.dart';
+import 'parameter.dart';
+import 'statement.dart';
+import 'variable_definition.dart';
 import 'annotation.dart';
 import 'comment.dart';
 import 'model.dart';

@@ -3,6 +3,7 @@ import 'package:dart_code/basic.dart';
 import 'package:dart_code/class.dart';
 import 'package:dart_code/comment.dart';
 import 'package:dart_code/expression.dart';
+import 'package:dart_code/field.dart';
 import 'package:dart_code/method.dart';
 import 'package:dart_code/parameter.dart';
 import 'package:dart_code/statement.dart';
@@ -10,14 +11,7 @@ import 'package:dart_code/variable_definition.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 main() {
-  group('FieldInitializer class', () {
-    test("Should return: name='Nils'", () {
-      String actual =
-          FieldInitializer('name', Expression.ofString('Nils')).toString();
-      String expected = "name = 'Nils'";
-      expect(actual, expected);
-    });
-  });
+
 
   group('ConstructorCall class', () {
     test("Should return: this()", () {

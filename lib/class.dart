@@ -1,26 +1,12 @@
-import 'package:dart_code/formatting.dart';
-import 'package:dart_code/variable_definition.dart';
-
 import 'annotation.dart';
 import 'basic.dart';
 import 'comment.dart';
-import 'expression.dart';
+import 'field.dart';
+import 'formatting.dart';
 import 'method.dart';
 import 'model.dart';
 import 'parameter.dart';
 import 'statement.dart';
-
-class FieldInitializer extends CodeModel {
-  final IdentifierStartingWithLowerCase name;
-  final Expression value;
-
-  FieldInitializer(String fieldName, this.value)
-      : name = IdentifierStartingWithLowerCase(fieldName);
-
-  @override
-  List<CodeNode> codeNodes(Context context) =>
-      [name, SpaceWhenNeeded(), Code('='), SpaceWhenNeeded(), value];
-}
 
 class ConstructorCall extends CodeModel {
   final String name;
@@ -122,9 +108,6 @@ class Constructor extends CodeModel {
       ];
 }
 
-
-
-
 class Class extends CodeModel {
   final List<DocComment> docComments;
   final List<Annotation> annotations;
@@ -174,7 +157,7 @@ class Class extends CodeModel {
         if (mixins != null) SeparatedValues.forParameters(mixins),
         if (mixins != null) SpaceWhenNeeded(),
         Block([
-           NewLine(),
+          NewLine(),
           if (fields != null) ...fields,
           if (fields != null) NewLine(),
           if (constructors != null) SeparatedValues.forStatements(constructors),

@@ -1,8 +1,7 @@
-import 'package:dart_code/basic.dart';
-import 'package:dart_code/formatting.dart';
-import 'package:dart_code/model.dart';
-import 'package:dart_code/parameter.dart';
-
+import 'basic.dart';
+import 'formatting.dart';
+import 'model.dart';
+import 'parameter.dart';
 import 'expression.dart';
 
 class Statement extends CodeModel {

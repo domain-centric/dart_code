@@ -1,6 +1,5 @@
-import 'package:dart_code/model.dart';
-import 'package:dart_code/statement.dart';
-
+import 'model.dart';
+import 'statement.dart';
 import 'expression.dart';
 import 'formatting.dart';
 

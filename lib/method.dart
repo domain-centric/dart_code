@@ -1,6 +1,5 @@
-import 'package:dart_code/parameter.dart';
-import 'package:dart_code/statement.dart';
-
+import 'parameter.dart';
+import 'statement.dart';
 import 'annotation.dart';
 import 'basic.dart';
 import 'comment.dart';
