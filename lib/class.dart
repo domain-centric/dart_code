@@ -7,8 +7,6 @@ import 'formatting.dart';
 import 'method.dart';
 import 'model.dart';
 
-
-
 class Class extends CodeModel {
   final List<DocComment> docComments;
   final List<Annotation> annotations;
@@ -17,7 +15,6 @@ class Class extends CodeModel {
   final Type superClass;
   final List<Type> implements;
   final List<Type> mixins;
-
   final List<Field> fields;
   final List<Constructor> constructors;
   final List<Method> methods;
@@ -66,5 +63,6 @@ class Class extends CodeModel {
           if (methods != null) SeparatedValues.forStatements(methods),
           if (methods != null) NewLine(),
         ]),
+        NewLine(),
       ];
 }

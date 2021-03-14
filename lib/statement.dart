@@ -132,6 +132,12 @@ class Statement extends CodeModel {
     return nodes;
   }
 
+  Statement.library(String name) : this([
+    KeyWord.library$,
+    SpaceWhenNeeded(),
+    IdentifierStartingWithLowerCase(name),
+  ]);
+
   Statement.print(Expression expression)
       : this([
           Expression.callFunction(

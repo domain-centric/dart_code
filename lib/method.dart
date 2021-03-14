@@ -27,12 +27,12 @@ class Method extends CodeModel {
         this.docComments = const [],
         this.annotations = const [],
         this.type,
+        this.propertyAccessor,
         this.parameters,
         this.asynchrony,
       })  : abstract = true,
         static = false,
         name = IdentifierStartingWithLowerCase(name),
-        propertyAccessor = null,
         body = null;
 
   Method.static(
@@ -96,8 +96,6 @@ class Method extends CodeModel {
   List<CodeNode> codeNodes(Context context) => [
     if (docComments != null) ...docComments,
     if (annotations != null) ...annotations,
-    if (abstract) KeyWord.abstract$,
-    if (abstract) SpaceWhenNeeded(),
     if (static) KeyWord.static$,
     if (static) SpaceWhenNeeded(),
     if (type != null &&

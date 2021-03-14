@@ -13,15 +13,12 @@ import 'package:flutter_test/flutter_test.dart';
 
 main() {
 
-
-
-
   group('Class class', () {
     test("Should return: class", () {
       String actual = Class('Person').toString();
       String expected = 'class Person {\n'
           '  \n'
-          '}';
+          '}\n';
       expect(actual, expected);
     });
 
@@ -38,7 +35,7 @@ main() {
           '@_i1.JsonSerializable()\n'
           'class Person {\n'
           '  \n'
-          '}';
+          '}\n';
       expect(actual, expected);
     });
 
@@ -46,7 +43,7 @@ main() {
       String actual = Class('Person', abstract: true).toString();
       String expected = 'abstract class Person {\n'
           '  \n'
-          '}';
+          '}\n';
       expect(actual, expected);
     });
 
@@ -57,7 +54,7 @@ main() {
           .toString();
       String expected = 'class Person extends _i1.Contact {\n'
           '  \n'
-          '}';
+          '}\n';
       expect(actual, expected);
     });
 
@@ -70,7 +67,7 @@ main() {
           '  _i1.Musician,\n'
           '  _i2.Technician {\n'
           '  \n'
-          '}';
+          '}\n';
       expect(actual, expected);
     });
 
@@ -83,7 +80,7 @@ main() {
           '  _i1.Musician,\n'
           '  _i2.Technician {\n'
           '  \n'
-          '}';
+          '}\n';
       expect(actual, expected);
     });
 
@@ -99,7 +96,7 @@ main() {
           '  static const human = true;\n'
           '  var gender = Gender.male;\n'
           '  \n'
-          '}';
+          '}\n';
       expect(actual, expected);
     });
 
@@ -127,7 +124,7 @@ main() {
           '    x = 0,\n'
           '    y = 0;\n'
           '  \n'
-          '}';
+          '}\n';
       expect(actual, expected);
     });
 
@@ -143,7 +140,7 @@ main() {
           '    return \'Hello \$name.\';\n'
           '  }\n'
           '  \n'
-          '}';
+          '}\n';
       expect(actual, expected);
     });
 
@@ -159,7 +156,7 @@ main() {
           '  \n'
           '  int get age => this.age;\n'
           '  \n'
-          '}';
+          '}\n';
       expect(actual, expected);
     });
 
@@ -178,7 +175,7 @@ main() {
           '    this.age = age;\n'
           '  }\n'
           '  \n'
-          '}';
+          '}\n';
       expect(actual, expected);
     });
 
@@ -270,7 +267,7 @@ main() {
           '    return years;\n'
           '  }\n'
           '  \n'
-          '}';
+          '}\n';
       expect(actual, expected);
     });
   });

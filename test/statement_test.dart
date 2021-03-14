@@ -192,6 +192,34 @@ main() {
       });
     });
 
+    group('Statement.library() constructor', () {
+      test("Should return: greeting = 'library contacts;\n'", () {
+        String actual = Statement.library("contacts")
+            .toString();
+        String expected = 'library contacts;\n';
+        expect(actual, expected);
+      });
+
+      test("Should throw name exception: 'Must not be null'", () {
+        expect(() {
+          Statement.library(null).toString();
+        },
+            throwsA((e) =>
+            e is ArgumentError &&
+                e.message == 'Must not be null'));
+      });
+
+      test("Should throw name exception: 'Must start with an lower case letter'", () {
+        expect(() {
+          Statement.library('InvalidCase').toString();
+        },
+            throwsA((e) =>
+            e is ArgumentError &&
+                e.message == 'Must start with an lower case letter'));
+      });
+    });
+
+
     group('Statement.return\$ constructor', () {
       test("Should return: 'test();\n'", () {
         String actual =

@@ -61,8 +61,7 @@ class Function extends CodeModel {
           KeyWord.async$,
         if (asynchrony != null && asynchrony == Asynchrony.asyncStar)
           KeyWord.asyncStar$,
-    if (asynchrony != null && asynchrony == Asynchrony.sync)
-      KeyWord.sync$,
+        if (asynchrony != null && asynchrony == Asynchrony.sync) KeyWord.sync$,
         if (asynchrony != null && asynchrony == Asynchrony.syncStar)
           KeyWord.syncStar$,
         SpaceWhenNeeded(),

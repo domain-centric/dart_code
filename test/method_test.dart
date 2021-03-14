@@ -131,7 +131,7 @@ main() {
                   [Parameter.required('name', type: Type.ofString())]),
               type: Type.ofString())
               .toString();
-          String expected = 'abstract String greetingMessage(String name);\n';
+          String expected = 'String greetingMessage(String name);\n';
           expect(actual, expected);
         });
 
@@ -162,7 +162,7 @@ main() {
           String expected = '/// This method returns a greeting string\n'
               '@Visible(forRole: \'admin\')\n'
               '@ExecutionMode(ExecutionModes.directly)\n'
-              'abstract String greetingMessage(String name);\n';
+              'String greetingMessage(String name);\n';
           expect(actual, expected);
         });
   });
