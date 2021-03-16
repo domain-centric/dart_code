@@ -69,6 +69,23 @@ main() {
       expect(actual, expected);
     });
 
+    test('constructor with classes parameter with imports', () {
+      String actual = Library(classes: [
+        Class('Employee',
+            superClass: Type('Person', libraryUrl:'package:my_package/person.dart'),
+            implements: [Type('Skills', libraryUrl:'package:my_package/skills.dart')],
+            abstract: true,
+        )]).toString();
+      String expected='import \'package:my_package/person.dart\' as _i1;\n'
+          'import \'package:my_package/skills.dart\' as _i2;\n'
+          '\n'
+          'abstract class Employee extends _i1.Person implements _i2.Skills {\n'
+          '  \n'
+          '}\n';
+      expect(actual,expected);
+    });
+
+
     test('constructor with classes parameter', () {
       String actual = Library(classes: [
         Class('Person', fields: [

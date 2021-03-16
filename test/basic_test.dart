@@ -263,8 +263,9 @@ main() {
             [Type("MySecondClass", libraryUrl: "package:test/test2.dart")]),
       ]);
       String actual = Imports(statements, Context(statements)).toString();
-      String expected = "import 'package:test/test1.dart' as _i1;\n"
-          "import 'package:test/test2.dart' as _i2;\n";
+      String expected = 'import \'package:test/test1.dart\' as _i1;\n'
+          'import \'package:test/test2.dart\' as _i2;\n'
+          '\n';
       expect(actual, expected);
     });
 

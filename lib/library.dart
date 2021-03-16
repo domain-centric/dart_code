@@ -1,12 +1,11 @@
-import 'formatting.dart';
-import 'statement.dart';
 import 'annotation.dart';
 import 'basic.dart';
-import 'comment.dart';
 import 'class.dart';
+import 'comment.dart';
+import 'formatting.dart';
 import 'function.dart';
 import 'model.dart';
-
+import 'statement.dart';
 
 class Library extends CodeModel {
   final List<DocComment> docComments;
@@ -21,11 +20,10 @@ class Library extends CodeModel {
     this.annotations,
     this.functions,
     this.classes,
-  }) : libraryStatement=name == null ? null : Statement.library(name);
+  }) : libraryStatement = name == null ? null : Statement.library(name);
 
   @override
-  List<CodeNode> codeNodes(Context context) =>
-      [
+  List<CodeNode> codeNodes(Context context) => [
         if (libraryStatement != null) libraryStatement,
         if (libraryStatement != null) NewLine(),
         context.imports,

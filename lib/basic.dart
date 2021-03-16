@@ -1,7 +1,7 @@
-import 'model.dart';
-import 'statement.dart';
 import 'expression.dart';
 import 'formatting.dart';
+import 'model.dart';
+import 'statement.dart';
 
 class SeparatedValues extends CodeModel {
   final Iterable<CodeNode> values;
@@ -315,7 +315,7 @@ class Import extends CodeModel {
 }
 
 class Imports extends CodeModel {
-  final Map<String, String> imports = {};
+  final Map<String, String> _imports = {};
 
   Imports(CodeNode codeNode, Context context) {
     _registerTypesInCodeNode(codeNode, context);
@@ -339,8 +339,8 @@ class Imports extends CodeModel {
   void _registerType(Type type) {
     if (type.libraryUrl != null) {
       var libraryUrl = type.libraryUrl.toLowerCase();
-      if (!imports.containsKey(libraryUrl)) {
-        imports[libraryUrl] = '_i${imports.length + 1}';
+      if (!_imports.containsKey(libraryUrl)) {
+        _imports[libraryUrl] = '_i${_imports.length + 1}';
       }
       for (Type genericType in type.generics) {
         //recursive call
@@ -350,13 +350,20 @@ class Imports extends CodeModel {
   }
 
   @override
-  List<CodeNode> codeNodes(Context context) => imports.keys
-      .map((libraryUrl) => Import(libraryUrl, imports[libraryUrl]))
-      .toList();
+  List<CodeNode> codeNodes(Context context) {
+    List<CodeNode> imports = [];
+    imports.addAll(_imports.keys
+        .map((libraryUrl) => Import(libraryUrl, _imports[libraryUrl]))
+        .toList());
+    if (imports.isNotEmpty) {
+      imports.add(NewLine());
+    }
+    return imports;
+  }
 
-  bool containsKey(String libraryUrl) => imports.containsKey(libraryUrl);
+  bool containsKey(String libraryUrl) => _imports.containsKey(libraryUrl);
 
-  String aliasOf(String libraryUrl) => imports[libraryUrl];
+  String aliasOf(String libraryUrl) => _imports[libraryUrl];
 }
 
 class Reference extends CodeModel {
