@@ -1,6 +1,7 @@
 import 'basic.dart';
 import 'expression.dart';
 import 'model.dart';
+import 'type.dart';
 
 enum ParameterCategory { required, named, optional }
 
@@ -143,8 +144,7 @@ class ParameterValue extends CodeModel {
   final IdentifierStartingWithLowerCase name;
   final Expression value;
 
-  ParameterValue(this.value)
-      : name = null;
+  ParameterValue(this.value) : name = null;
 
   ParameterValue.named(String name, this.value)
       : name = (name == null) ? null : IdentifierStartingWithLowerCase(name);

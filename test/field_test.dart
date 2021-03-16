@@ -2,8 +2,7 @@ import 'package:dart_code/annotation.dart';
 import 'package:dart_code/comment.dart';
 import 'package:dart_code/expression.dart';
 import 'package:dart_code/field.dart';
-import 'package:dart_code/basic.dart';
-
+import 'package:dart_code/type.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 main() {
@@ -23,7 +22,7 @@ main() {
 
       test("Should return: 'static String name;\n'", () {
         String actual =
-        Field.var$('name', type: Type.ofString(), static: true).toString();
+            Field.var$('name', type: Type.ofString(), static: true).toString();
         String expected = 'static String name;\n';
         expect(actual, expected);
       });
@@ -38,29 +37,29 @@ main() {
       });
 
       test("Should return:  a string field name with docComment and annotation",
-              () {
-            String actual = Field.var$('name',
-                type: Type.ofString(),
-                docComments: [DocComment.fromString('A valid name')],
-                annotations: [Annotation(Type('Hidden'))]).toString();
-            String expected = '/// A valid name\n'
-                '@Hidden()\n'
-                'String name;\n';
-            expect(actual, expected);
-          });
+          () {
+        String actual = Field.var$('name',
+            type: Type.ofString(),
+            docComments: [DocComment.fromString('A valid name')],
+            annotations: [Annotation(Type('Hidden'))]).toString();
+        String expected = '/// A valid name\n'
+            '@Hidden()\n'
+            'String name;\n';
+        expect(actual, expected);
+      });
     });
 
     group('Field.const\$ constructor', () {
       test("Should return: 'const name = 'Nils';\n'", () {
         String actual =
-        Field.const$('name', Expression.ofString('Nils')).toString();
+            Field.const$('name', Expression.ofString('Nils')).toString();
         String expected = "const name = 'Nils';\n";
         expect(actual, expected);
       });
 
       test("Should return: 'const String name = 'Nils';\n'", () {
         String actual = Field.const$('name', Expression.ofString('Nils'),
-            type: Type.ofString())
+                type: Type.ofString())
             .toString();
         String expected = "const String name = 'Nils';\n";
         expect(actual, expected);
@@ -68,7 +67,7 @@ main() {
 
       test("Should return: 'static const String name = 'Nils';\n'", () {
         String actual = Field.const$('name', Expression.ofString('Nils'),
-            type: Type.ofString(), static: true)
+                type: Type.ofString(), static: true)
             .toString();
         String expected = "static const String name = 'Nils';\n";
         expect(actual, expected);
@@ -84,16 +83,16 @@ main() {
       });
 
       test("Should return:  a string field name with docComment and annotation",
-              () {
-            String actual = Field.const$('name', Expression.ofString('Nils'),
-                type: Type.ofString(),
-                docComments: [DocComment.fromString('A valid name')],
-                annotations: [Annotation(Type('Hidden'))]).toString();
-            String expected = '/// A valid name\n'
-                '@Hidden()\n'
-                "const String name = 'Nils';\n";
-            expect(actual, expected);
-          });
+          () {
+        String actual = Field.const$('name', Expression.ofString('Nils'),
+            type: Type.ofString(),
+            docComments: [DocComment.fromString('A valid name')],
+            annotations: [Annotation(Type('Hidden'))]).toString();
+        String expected = '/// A valid name\n'
+            '@Hidden()\n'
+            "const String name = 'Nils';\n";
+        expect(actual, expected);
+      });
     });
 
     group('Field.final\$ constructor', () {
@@ -105,14 +104,14 @@ main() {
 
       test("Should return: 'final name = 'Nils';\n'", () {
         String actual =
-        Field.final$('name', value: Expression.ofString('Nils')).toString();
+            Field.final$('name', value: Expression.ofString('Nils')).toString();
         String expected = "final name = 'Nils';\n";
         expect(actual, expected);
       });
 
       test("Should return: 'final String name = 'Nils';\n'", () {
         String actual = Field.final$('name',
-            value: Expression.ofString('Nils'), type: Type.ofString())
+                value: Expression.ofString('Nils'), type: Type.ofString())
             .toString();
         String expected = "final String name = 'Nils';\n";
         expect(actual, expected);
@@ -120,9 +119,9 @@ main() {
 
       test("Should return: 'static final String name;\n'", () {
         String actual = Field.final$('name',
-            value: Expression.ofString('Nils'),
-            type: Type.ofString(),
-            static: true)
+                value: Expression.ofString('Nils'),
+                type: Type.ofString(),
+                static: true)
             .toString();
         String expected = "static final String name = 'Nils';\n";
         expect(actual, expected);
@@ -139,24 +138,24 @@ main() {
       });
 
       test("Should return:  a string field name with docComment and annotation",
-              () {
-            String actual = Field.final$('name',
-                value: Expression.ofString('Nils'),
-                type: Type.ofString(),
-                docComments: [DocComment.fromString('A valid name')],
-                annotations: [Annotation(Type('Hidden'))]).toString();
-            String expected = '/// A valid name\n'
-                '@Hidden()\n'
-                "final String name = 'Nils';\n";
-            expect(actual, expected);
-          });
+          () {
+        String actual = Field.final$('name',
+            value: Expression.ofString('Nils'),
+            type: Type.ofString(),
+            docComments: [DocComment.fromString('A valid name')],
+            annotations: [Annotation(Type('Hidden'))]).toString();
+        String expected = '/// A valid name\n'
+            '@Hidden()\n'
+            "final String name = 'Nils';\n";
+        expect(actual, expected);
+      });
     });
   });
 
   group('FieldInitializer class', () {
     test("Should return: name='Nils'", () {
       String actual =
-      FieldInitializer('name', Expression.ofString('Nils')).toString();
+          FieldInitializer('name', Expression.ofString('Nils')).toString();
       String expected = "name = 'Nils'";
       expect(actual, expected);
     });

@@ -1,11 +1,12 @@
+import 'annotation.dart';
 import 'basic.dart';
+import 'comment.dart';
 import 'formatting.dart';
+import 'model.dart';
 import 'parameter.dart';
 import 'statement.dart';
+import 'type.dart';
 import 'variable_definition.dart';
-import 'annotation.dart';
-import 'comment.dart';
-import 'model.dart';
 
 ///  A syntactic entity in the Dart programming language that may be evaluated to determine its value
 ///  e.g.: 1 or or 1.1 or 1+2 or 1*2 or 'hello' or 'hello' + ' world' or user.name
@@ -29,10 +30,18 @@ class Expression extends CodeModel {
   Expression.ofString(String value) : nodes = _createStringNodes(value);
 
   Expression.ofList(List<Expression> expressions)
-      : nodes = [Code('['), SeparatedValues.forParameters(expressions), Code(']')];
+      : nodes = [
+          Code('['),
+          SeparatedValues.forParameters(expressions),
+          Code(']')
+        ];
 
   Expression.ofSet(Set<Expression> expressions)
-      : nodes = [Code('{'), SeparatedValues.forParameters(expressions), Code('}')];
+      : nodes = [
+          Code('{'),
+          SeparatedValues.forParameters(expressions),
+          Code('}')
+        ];
 
   Expression.ofMap(Map<Expression, Expression> expressions)
       : nodes = _createMapNodes(expressions);

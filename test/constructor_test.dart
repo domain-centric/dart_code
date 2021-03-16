@@ -1,11 +1,12 @@
 import 'package:dart_code/annotation.dart';
+import 'package:dart_code/basic.dart';
 import 'package:dart_code/comment.dart';
 import 'package:dart_code/constructor.dart';
 import 'package:dart_code/expression.dart';
 import 'package:dart_code/field.dart';
 import 'package:dart_code/parameter.dart';
-import 'package:dart_code/basic.dart';
 import 'package:dart_code/statement.dart';
+import 'package:dart_code/type.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 main() {
@@ -24,9 +25,9 @@ main() {
 
     test("Should throw invalid name exception", () {
       expect(
-              () => {ConstructorCall(name: 'InvalidConstructorName').toString()},
+          () => {ConstructorCall(name: 'InvalidConstructorName').toString()},
           throwsA(predicate((e) =>
-          e is ArgumentError &&
+              e is ArgumentError &&
               e.message == 'Must start with an lower case letter')));
     });
 
@@ -57,14 +58,14 @@ main() {
 
     test("Should throw invalid name exception", () {
       expect(
-              () => {
-            ConstructorCall(
-              name: 'InvalidConstructorName',
-              super$: true,
-            ).toString()
-          },
+          () => {
+                ConstructorCall(
+                  name: 'InvalidConstructorName',
+                  super$: true,
+                ).toString()
+              },
           throwsA(predicate((e) =>
-          e is ArgumentError &&
+              e is ArgumentError &&
               e.message == 'Must start with an lower case letter')));
     });
 
@@ -98,14 +99,14 @@ main() {
 
     test("Should throw parameter value names not unique exception", () {
       expect(
-              () => {
-            Initializers(fieldInitializers: [
-              FieldInitializer('name', Expression.ofString('Nils')),
-              FieldInitializer('name', Expression.ofString('Bianca')),
-            ]).toString()
-          },
+          () => {
+                Initializers(fieldInitializers: [
+                  FieldInitializer('name', Expression.ofString('Nils')),
+                  FieldInitializer('name', Expression.ofString('Bianca')),
+                ]).toString()
+              },
           throwsA(predicate((e) =>
-          e is ArgumentError &&
+              e is ArgumentError &&
               e.message == 'Field names must be unique')));
     });
 
@@ -242,9 +243,9 @@ main() {
           initializers: Initializers(
               constructorCall: ConstructorCall(
                   parameterValues: ParameterValues([
-                    ParameterValue.named('x', Expression.ofInt(0)),
-                    ParameterValue.named('y', Expression.ofInt(0))
-                  ])))).toString();
+            ParameterValue.named('x', Expression.ofInt(0)),
+            ParameterValue.named('y', Expression.ofInt(0))
+          ])))).toString();
       String expected = 'Point.origin() : this(\n'
           '  x: 0,\n'
           '  y: 0);\n';
@@ -276,10 +277,10 @@ main() {
               ],
               constructorCall: ConstructorCall(
                   parameterValues: ParameterValues([
-                    ParameterValue.named(
-                        'gender', Expression.ofEnum(Type('Gender'), 'male')),
-                    ParameterValue.named('age', Expression.ofInt(30))
-                  ]))),
+                ParameterValue.named(
+                    'gender', Expression.ofEnum(Type('Gender'), 'male')),
+                ParameterValue.named('age', Expression.ofInt(30))
+              ]))),
           body: Block([
             Statement.assignVariable(
                 'fullName',
@@ -304,7 +305,4 @@ main() {
       expect(actual, expected);
     });
   });
-
-
-
 }

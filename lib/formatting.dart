@@ -1,8 +1,6 @@
 import 'model.dart';
 
-abstract class FormattingCodeLeaf extends CodeLeaf {
-
-}
+abstract class FormattingCodeLeaf extends CodeLeaf {}
 
 /// Increases the [Context.indentCount] by one
 class IncreaseIndent extends FormattingCodeLeaf {

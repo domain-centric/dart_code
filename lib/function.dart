@@ -3,6 +3,7 @@ import 'basic.dart';
 import 'comment.dart';
 import 'model.dart';
 import 'parameter.dart';
+import 'type.dart';
 
 // ignore: deprecated_function_class_declaration
 class Function extends CodeModel {

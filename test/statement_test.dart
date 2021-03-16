@@ -2,6 +2,7 @@ import 'package:dart_code/basic.dart';
 import 'package:dart_code/expression.dart';
 import 'package:dart_code/model.dart';
 import 'package:dart_code/statement.dart';
+import 'package:dart_code/type.dart';
 import 'package:dart_code/variable_definition.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -56,9 +57,8 @@ main() {
 
       test("Should return: greeting ??= 'Hello World';\n", () {
         String actual = Statement.assignVariable(
-            "greeting", Expression.ofString('Hello World'),
-            nullAware: true,
-        this$: true)
+                "greeting", Expression.ofString('Hello World'),
+                nullAware: true, this$: true)
             .toString();
         String expected = "this.greeting ??= 'Hello World';\n";
         expect(actual, expected);
@@ -194,8 +194,7 @@ main() {
 
     group('Statement.library() constructor', () {
       test("Should return: greeting = 'library contacts;\n'", () {
-        String actual = Statement.library("contacts")
-            .toString();
+        String actual = Statement.library("contacts").toString();
         String expected = 'library contacts;\n';
         expect(actual, expected);
       });
@@ -204,21 +203,21 @@ main() {
         expect(() {
           Statement.library(null).toString();
         },
-            throwsA((e) =>
-            e is ArgumentError &&
-                e.message == 'Must not be null'));
+            throwsA(
+                (e) => e is ArgumentError && e.message == 'Must not be null'));
       });
 
-      test("Should throw name exception: 'Must start with an lower case letter'", () {
+      test(
+          "Should throw name exception: 'Must start with an lower case letter'",
+          () {
         expect(() {
           Statement.library('InvalidCase').toString();
         },
             throwsA((e) =>
-            e is ArgumentError &&
+                e is ArgumentError &&
                 e.message == 'Must start with an lower case letter'));
       });
     });
-
 
     group('Statement.return\$ constructor', () {
       test("Should return: 'test();\n'", () {
@@ -231,13 +230,11 @@ main() {
 
     group('Statement.return\$ constructor', () {
       test("Should return: 'rethrow;\n'", () {
-        String actual =
-        Statement.rethrow$().toString();
+        String actual = Statement.rethrow$().toString();
         String expected = "rethrow;\n";
         expect(actual, expected);
       });
     });
-
 
     group('Statement.throw\$() constructor', () {
       test("Should return: throw 'Out of camels!';\n", () {
@@ -303,11 +300,17 @@ main() {
               Catch.onException(
                   Type('Exception'),
                   Block([
-                    Statement.print(Expression.ofString('Unknown exception: \$e'))
-                  ]),exceptionVariableName: 'e'),
-              Catch(Block([
-                Statement.print(Expression.ofString('Something really unknown: \$e, \$s'))
-                  ]),"e","s"),
+                    Statement.print(
+                        Expression.ofString('Unknown exception: \$e'))
+                  ]),
+                  exceptionVariableName: 'e'),
+              Catch(
+                  Block([
+                    Statement.print(Expression.ofString(
+                        'Something really unknown: \$e, \$s'))
+                  ]),
+                  "e",
+                  "s"),
             ]).toString();
         String expected = 'try {\n'
             '  breedMoreCamels();\n'
@@ -322,12 +325,14 @@ main() {
       });
 
       test("Should return: try statement with finally", () {
-        String actual = Statement.try$(Block(
-            [Statement.ofExpression(Expression.callFunction('breedMoreCamels'))]),
-          finallyBlock: Block(
-              [Statement.ofExpression(Expression.callFunction('cleanCamelStalls'))])
-        )
-            .toString();
+        String actual = Statement.try$(
+            Block([
+              Statement.ofExpression(Expression.callFunction('breedMoreCamels'))
+            ]),
+            finallyBlock: Block([
+              Statement.ofExpression(
+                  Expression.callFunction('cleanCamelStalls'))
+            ])).toString();
         String expected = 'try {\n'
             '  breedMoreCamels();\n'
             '} finally {\n'
@@ -335,8 +340,6 @@ main() {
             '};\n';
         expect(actual, expected);
       });
-
-
     });
 
     group('Statement.switch\$() constructor', () {

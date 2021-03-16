@@ -1,6 +1,6 @@
-import 'package:dart_code/basic.dart';
 import 'package:dart_code/expression.dart';
 import 'package:dart_code/parameter.dart';
+import 'package:dart_code/type.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 main() {
@@ -152,7 +152,7 @@ main() {
         Parameter.optional('email', type: Type.ofString()),
         Parameter.optional('phoneNumber', type: Type.ofString()),
       ]).toString();
-      String expected =       '\n'
+      String expected = '\n'
           '  String name,\n'
           '  DateTime dateOfBirth, [\n'
           '  String email,\n'
@@ -169,7 +169,7 @@ main() {
         Parameter.named('email', type: Type.ofString()),
         Parameter.named('phoneNumber', type: Type.ofString()),
       ]).toString();
-      String expected ='\n'
+      String expected = '\n'
           '  String name,\n'
           '  DateTime dateOfBirth, {\n'
           '  String email,\n'
@@ -435,7 +435,7 @@ main() {
         ConstructorParameter.optional('email', type: Type.ofString()),
         ConstructorParameter.optional('phoneNumber', type: Type.ofString()),
       ]).toString();
-      String expected ='\n'
+      String expected = '\n'
           '  String name,\n'
           '  DateTime dateOfBirth, [\n'
           '  String email,\n'
@@ -452,7 +452,7 @@ main() {
         ConstructorParameter.named('email', type: Type.ofString()),
         ConstructorParameter.named('phoneNumber', type: Type.ofString()),
       ]).toString();
-      String expected =          '\n'
+      String expected = '\n'
           '  String name,\n'
           '  DateTime dateOfBirth, {\n'
           '  String email,\n'
@@ -497,7 +497,7 @@ main() {
     group('ParameterValue constructor', () {
       test('should result in a String parameter value', () {
         String actual =
-        ParameterValue(Expression.ofString('Hello World')).toString();
+            ParameterValue(Expression.ofString('Hello World')).toString();
         String expected = "'Hello World'";
         expect(actual, expected);
       });
@@ -506,24 +506,22 @@ main() {
     group('ParameterValue.named constructor', () {
       test('should result in a named String parameter value', () {
         String actual =
-        ParameterValue.named('greeting', Expression.ofString('Hello World'))
-            .toString();
+            ParameterValue.named('greeting', Expression.ofString('Hello World'))
+                .toString();
         String expected = "greeting: 'Hello World'";
         expect(actual, expected);
       });
 
       test('should throw invalid name exception', () {
         expect(
-                () => ParameterValue.named(
+            () => ParameterValue.named(
                 'Greeting', Expression.ofString('Hello World')),
             throwsA((e) =>
-            e is ArgumentError &&
+                e is ArgumentError &&
                 e.message == 'Must start with an lower case letter'));
       });
     });
   });
-
-
 
   group('ParameterValues class', () {
     test('should result in no parameter values', () {

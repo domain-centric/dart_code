@@ -8,11 +8,11 @@ import 'package:dart_code/field.dart';
 import 'package:dart_code/method.dart';
 import 'package:dart_code/parameter.dart';
 import 'package:dart_code/statement.dart';
+import 'package:dart_code/type.dart';
 import 'package:dart_code/variable_definition.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 main() {
-
   group('Class class', () {
     test("Should return: class", () {
       String actual = Class('Person').toString();
@@ -76,7 +76,7 @@ main() {
         Type('Musician', libraryUrl: 'package:my_lib/musician.dart'),
         Type('Technician', libraryUrl: 'package:my_lib/technician.dart')
       ]).toString();
-      String expected ='class Person with \n'
+      String expected = 'class Person with \n'
           '  _i1.Musician,\n'
           '  _i2.Technician {\n'
           '  \n'
@@ -169,7 +169,7 @@ main() {
           type: Type.ofInt(),
         )
       ]).toString();
-      String expected ='class Person {\n'
+      String expected = 'class Person {\n'
           '  \n'
           '  set age(int age) {\n'
           '    this.age = age;\n'
@@ -274,40 +274,38 @@ main() {
 
   group("Person class", () {
     test('Person.fullName property', () {
-      var dateOfBirth = DateTime.utc(1977,6,7);
-      String actual=Person('Nils', 'ten Hoeve', dateOfBirth).fullName;
-      String expected='Nils ten Hoeve';
+      var dateOfBirth = DateTime.utc(1977, 6, 7);
+      String actual = Person('Nils', 'ten Hoeve', dateOfBirth).fullName;
+      String expected = 'Nils ten Hoeve';
       expect(actual, expected);
     });
 
     test('Person.ageInYears property', () {
       var ageInYears = 30;
-      var dateOfBirth = DateTime.now().subtract(Duration(days: 366*ageInYears));
-      int actual=Person('Nils', 'ten Hoeve', dateOfBirth).ageInYears;
+      var dateOfBirth =
+          DateTime.now().subtract(Duration(days: 366 * ageInYears));
+      int actual = Person('Nils', 'ten Hoeve', dateOfBirth).ageInYears;
       expect(actual, ageInYears);
     });
 
-
     test('Person.greetingMessage() method', () {
-      var dateOfBirth = DateTime.utc(1977,6,7);
-      String actual=Person('Nils', 'ten Hoeve', dateOfBirth).greetingMessage();
-      String expected="Hello Nils ten Hoeve.";
-      expect(actual,expected);
+      var dateOfBirth = DateTime.utc(1977, 6, 7);
+      String actual =
+          Person('Nils', 'ten Hoeve', dateOfBirth).greetingMessage();
+      String expected = "Hello Nils ten Hoeve.";
+      expect(actual, expected);
     });
-
   });
 }
-class Person {
 
+class Person {
   final String givenName;
   final String familyName;
   final String fullName;
   final DateTime dateOfBirth;
 
-  Person(
-      this.givenName,
-      this.familyName,
-      this.dateOfBirth) : fullName = '$givenName $familyName';
+  Person(this.givenName, this.familyName, this.dateOfBirth)
+      : fullName = '$givenName $familyName';
 
   String greetingMessage() {
     return 'Hello $fullName.';
@@ -318,10 +316,9 @@ class Person {
     int years = now.year - dateOfBirth.year;
     int months = now.month - dateOfBirth.month;
     int days = now.day - dateOfBirth.day;
-    if (months < 0 || (months == 0 && days < 0)){
+    if (months < 0 || (months == 0 && days < 0)) {
       years--;
     }
     return years;
   }
-
 }

@@ -1,13 +1,15 @@
 import 'basic.dart';
+import 'expression.dart';
 import 'formatting.dart';
 import 'model.dart';
 import 'parameter.dart';
-import 'expression.dart';
+import 'type.dart';
 
 class Statement extends CodeModel {
   final List<CodeNode> nodes;
   final bool hasEndOfStatement;
-  Statement(this.nodes, {this.hasEndOfStatement=true});
+
+  Statement(this.nodes, {this.hasEndOfStatement = true});
 
   Statement.ofExpression(Expression expression) : this(expression.nodes);
 
@@ -31,7 +33,6 @@ class Statement extends CodeModel {
           SpaceWhenNeeded(),
           value,
         ]);
-
 
   Statement.break$() : this([KeyWord.break$]);
 
@@ -98,7 +99,7 @@ class Statement extends CodeModel {
           if (elseBlock != null) SpaceWhenNeeded(),
           if (elseBlock != null) elseBlock,
           NewLine(),
-        ], hasEndOfStatement:false);
+        ], hasEndOfStatement: false);
 
   Statement.ifChain$(Map<Expression, Block> conditionsAndBlocks,
       {Block elseBlock})
@@ -132,11 +133,12 @@ class Statement extends CodeModel {
     return nodes;
   }
 
-  Statement.library(String name) : this([
-    KeyWord.library$,
-    SpaceWhenNeeded(),
-    IdentifierStartingWithLowerCase(name),
-  ]);
+  Statement.library(String name)
+      : this([
+          KeyWord.library$,
+          SpaceWhenNeeded(),
+          IdentifierStartingWithLowerCase(name),
+        ]);
 
   Statement.print(Expression expression)
       : this([
@@ -231,7 +233,6 @@ class Statement extends CodeModel {
         ...nodes,
         if (nodes.isNotEmpty && hasEndOfStatement) EndOfStatement(),
       ];
-
 }
 
 class Catch extends CodeModel {
@@ -269,7 +270,6 @@ class Catch extends CodeModel {
   @override
   List<CodeNode> codeNodes(Context context) => nodes;
 }
-
 
 class Statements extends CodeModel {
   final List<Statement> statements;

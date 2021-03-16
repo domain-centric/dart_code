@@ -1,7 +1,7 @@
-import 'package:dart_code/basic.dart';
 import 'package:dart_code/expression.dart';
 import 'package:dart_code/parameter.dart';
 import 'package:dart_code/statement.dart';
+import 'package:dart_code/type.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 main() {
@@ -431,33 +431,27 @@ main() {
       });
 
       test('Should return me++', () {
-        String actual = Expression.ofVariable('me')
-            .increment()
-            .toString();
+        String actual = Expression.ofVariable('me').increment().toString();
         String expected = 'me++';
         expect(actual, expected);
       });
 
       test('Should return ++me', () {
-        String actual = Expression.ofVariable('me')
-            .increment(after: false)
-            .toString();
+        String actual =
+            Expression.ofVariable('me').increment(after: false).toString();
         String expected = '++me';
         expect(actual, expected);
       });
 
       test('Should return me--', () {
-        String actual = Expression.ofVariable('me')
-            .decrement()
-            .toString();
+        String actual = Expression.ofVariable('me').decrement().toString();
         String expected = 'me--';
         expect(actual, expected);
       });
 
       test('Should return --me', () {
-        String actual = Expression.ofVariable('me')
-            .decrement(after: false)
-            .toString();
+        String actual =
+            Expression.ofVariable('me').decrement(after: false).toString();
         String expected = '--me';
         expect(actual, expected);
       });

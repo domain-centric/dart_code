@@ -1,10 +1,11 @@
-import 'parameter.dart';
-import 'statement.dart';
 import 'annotation.dart';
 import 'basic.dart';
 import 'comment.dart';
 import 'field.dart';
 import 'model.dart';
+import 'parameter.dart';
+import 'statement.dart';
+import 'type.dart';
 
 class ConstructorCall extends CodeModel {
   final String name;
@@ -15,24 +16,24 @@ class ConstructorCall extends CodeModel {
 
   @override
   List<CodeNode> codeNodes(Context context) => [
-    if (super$) KeyWord.super$,
-    if (!super$) KeyWord.this$,
-    if (name != null) Code('.'),
-    if (name != null) IdentifierStartingWithLowerCase(name),
-    Code('('),
-    if (parameterValues != null) parameterValues,
-    Code(')')
-  ];
+        if (super$) KeyWord.super$,
+        if (!super$) KeyWord.this$,
+        if (name != null) Code('.'),
+        if (name != null) IdentifierStartingWithLowerCase(name),
+        Code('('),
+        if (parameterValues != null) parameterValues,
+        Code(')')
+      ];
 }
 
 class Initializers extends SeparatedValues {
   Initializers(
       {List<FieldInitializer> fieldInitializers,
-        ConstructorCall constructorCall})
+      ConstructorCall constructorCall})
       : super.forParameters([
-    if (fieldInitializers != null) ...fieldInitializers,
-    if (constructorCall != null) constructorCall
-  ]) {
+          if (fieldInitializers != null) ...fieldInitializers,
+          if (constructorCall != null) constructorCall
+        ]) {
     _validateIfFieldInitializerNamesAreUnique(fieldInitializers);
   }
 
@@ -41,7 +42,7 @@ class Initializers extends SeparatedValues {
     if (fieldInitializers != null) {
       var allNames = fieldInitializers.map((p) => p.name.toString()).toList();
       var allUniqueNames =
-      fieldInitializers.map((p) => p.name.toString()).toSet();
+          fieldInitializers.map((p) => p.name.toString()).toSet();
       var namesAreUnique = allNames.length == allUniqueNames.length;
       if (!namesAreUnique)
         throw new ArgumentError.value(fieldInitializers, 'fieldInitializers',
@@ -70,38 +71,38 @@ class Constructor extends CodeModel {
 
   Constructor(this.type,
       {this.docComments = const [],
-        this.annotations = const [],
-        this.external = false,
-        this.constant = false,
-        this.factory = false,
-        String name,
-        this.parameters,
-        this.initializers,
-        this.body})
+      this.annotations = const [],
+      this.external = false,
+      this.constant = false,
+      this.factory = false,
+      String name,
+      this.parameters,
+      this.initializers,
+      this.body})
       : name = name == null ? null : IdentifierStartingWithLowerCase(name);
 
   @override
   List<CodeNode> codeNodes(Context context) => [
-    ...docComments,
-    ...annotations,
-    if (external) KeyWord.external$,
-    if (external) SpaceWhenNeeded(),
-    if (constant) KeyWord.const$,
-    if (constant) SpaceWhenNeeded(),
-    if (factory) KeyWord.factory$,
-    if (factory) SpaceWhenNeeded(),
-    type,
-    if (name != null) Code('.'),
-    if (name != null) name,
-    Code('('),
-    if (parameters != null) parameters,
-    Code(')'),
-    if (initializers != null) SpaceWhenNeeded(),
-    if (initializers != null) Code(':'),
-    if (initializers != null) SpaceWhenNeeded(),
-    if (initializers != null) initializers,
-    if (body != null) SpaceWhenNeeded(),
-    if (body != null) body,
-    EndOfStatement(),
-  ];
+        ...docComments,
+        ...annotations,
+        if (external) KeyWord.external$,
+        if (external) SpaceWhenNeeded(),
+        if (constant) KeyWord.const$,
+        if (constant) SpaceWhenNeeded(),
+        if (factory) KeyWord.factory$,
+        if (factory) SpaceWhenNeeded(),
+        type,
+        if (name != null) Code('.'),
+        if (name != null) name,
+        Code('('),
+        if (parameters != null) parameters,
+        Code(')'),
+        if (initializers != null) SpaceWhenNeeded(),
+        if (initializers != null) Code(':'),
+        if (initializers != null) SpaceWhenNeeded(),
+        if (initializers != null) initializers,
+        if (body != null) SpaceWhenNeeded(),
+        if (body != null) body,
+        EndOfStatement(),
+      ];
 }

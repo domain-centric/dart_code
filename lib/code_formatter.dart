@@ -36,8 +36,8 @@ class CodeBuffer {
   }
 
   bool _wrapLine(String code) {
-    return context.lastCode.trim().length>0 &&
-        context.lastCode!=context.newLine  &&
+    return context.lastCode.trim().length > 0 &&
+        context.lastCode != context.newLine &&
         code.length > 0 &&
         lineLength + code.length > context.maxLineLength;
   }
@@ -48,7 +48,7 @@ class CodeBuffer {
   }
 
   void _appendIndent() {
-    String indent =  context.indent * context.indentCount;
+    String indent = context.indent * context.indentCount;
     codeBuffer.write(indent);
     lineLength += indent.length;
   }

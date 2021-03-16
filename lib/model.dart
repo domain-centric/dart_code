@@ -1,5 +1,5 @@
-import 'basic.dart';
 import 'code_formatter.dart';
+import 'type.dart';
 
 class Context {
   Imports imports;
@@ -8,14 +8,15 @@ class Context {
   final String wrapIndent;
   int indentCount = 0;
   int maxLineLength;
-  String lastCode='';
+  String lastCode = '';
 
   Context(CodeNode codeNode,
-      {this.indent='  ', this.wrapIndent='    ', this.newLine, this.maxLineLength}) {
+      {this.indent = '  ',
+      this.wrapIndent = '    ',
+      this.newLine,
+      this.maxLineLength}) {
     imports = Imports(codeNode, this);
   }
-
-
 }
 
 ///a tree model that represents DartCode

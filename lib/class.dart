@@ -6,6 +6,7 @@ import 'field.dart';
 import 'formatting.dart';
 import 'method.dart';
 import 'model.dart';
+import 'type.dart';
 
 class Class extends CodeModel {
   final List<DocComment> docComments;

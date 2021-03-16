@@ -4,12 +4,14 @@ import 'comment.dart';
 import 'expression.dart';
 import 'model.dart';
 import 'statement.dart';
+import 'type.dart';
 
 enum Modifier { var$, final$, const$ }
 
 class VariableDefinition extends Statement {
   final List<DocComment> docComments;
   final List<Annotation> annotations;
+
   /// If a static prefix is needed (only required for class fields)
   final bool static;
   final Modifier modifier;
