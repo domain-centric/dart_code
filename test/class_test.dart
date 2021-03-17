@@ -1,16 +1,5 @@
-import 'package:dart_code/annotation.dart';
-import 'package:dart_code/basic.dart';
-import 'package:dart_code/class.dart';
-import 'package:dart_code/comment.dart';
-import 'package:dart_code/constructor.dart';
-import 'package:dart_code/expression.dart';
-import 'package:dart_code/field.dart';
-import 'package:dart_code/method.dart';
-import 'package:dart_code/parameter.dart';
-import 'package:dart_code/statement.dart';
-import 'package:dart_code/type.dart';
-import 'package:dart_code/variable_definition.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:dart_code/dart_code.dart';
+import 'package:test/test.dart';
 
 main() {
   group('Class class', () {

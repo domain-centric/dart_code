@@ -1,5 +1,5 @@
-import 'package:dart_code/comment.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:dart_code/dart_code.dart';
+import 'package:test/test.dart';
 
 main() {
   group('Comment class', () {

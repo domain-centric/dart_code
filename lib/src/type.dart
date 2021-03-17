@@ -1,8 +1,7 @@
-import 'package:dart_code/statement.dart';
-
 import 'basic.dart';
 import 'formatting.dart';
 import 'model.dart';
+import 'statement.dart';
 
 class Type extends CodeModel {
   final String name;

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:dart_code/formatting.dart';
-import 'package:dart_code/model.dart';
+import 'formatting.dart';
+import 'model.dart';
 
 class Comment extends CodeModel {
   final List<CodeNode> nodes;

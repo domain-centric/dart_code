@@ -1,11 +1,9 @@
-import 'package:dart_code/code_formatter.dart';
-import 'package:dart_code/model.dart';
-import 'package:dart_code/statement.dart';
-import 'package:test/test.dart' as code_formatter_test;
+import 'package:dart_code/dart_code.dart';
+import 'package:test/test.dart';
 
 main() {
-  code_formatter_test.group('CodeFormatter class', () {
-    code_formatter_test.test('format()', () {
+  group('CodeFormatter class', () {
+    test('format()', () {
       Statement statement = Statement([
         Code("print("),
         Code("'" + ('1234567890' * 8) + "'"),
@@ -16,7 +14,7 @@ main() {
       String expected = 'print(\n'
           '\t\t\'12345678901234567890123456789012345678901234567890123456789012345678901234567890\'\n'
           '\t\t);\n';
-      code_formatter_test.expect(actual, expected);
+      expect(actual, expected);
     });
   });
 }

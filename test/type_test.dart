@@ -1,7 +1,5 @@
-import 'package:dart_code/model.dart';
-import 'package:dart_code/statement.dart';
-import 'package:dart_code/type.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:dart_code/dart_code.dart';
+import 'package:test/test.dart';
 
 main() {
   group('Type class', () {

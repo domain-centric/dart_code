@@ -1,9 +1,4 @@
-import 'package:dart_code/basic.dart';
-import 'package:dart_code/code_formatter.dart';
-import 'package:dart_code/expression.dart';
-import 'package:dart_code/formatting.dart';
-import 'package:dart_code/model.dart';
-import 'package:dart_code/statement.dart';
+import 'package:dart_code/dart_code.dart';
 import 'package:test/test.dart';
 
 main() {

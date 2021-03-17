@@ -1,7 +1,5 @@
-import 'package:dart_code/expression.dart';
-import 'package:dart_code/parameter.dart';
-import 'package:dart_code/type.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:dart_code/dart_code.dart';
+import 'package:test/test.dart';
 
 main() {
   group('Parameter class', () {
