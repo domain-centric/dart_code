@@ -1,7 +1,6 @@
 name: dart_code
-description: A new Flutter package project.
-version: 0.0.1
-author: Nils ten Hoeve
+description: A package for creating valid and formatted code, e.g. when writing code builders.
+version: 0.0.2
 homepage: https://github.com/efficientyboosters/dart_code
 
 environment:
