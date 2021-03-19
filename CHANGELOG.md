@@ -6,3 +6,7 @@
 
 * Added examples
 * Improved README.md
+
+## [0.0.3]
+
+* Improved example 

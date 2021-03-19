@@ -17,7 +17,7 @@ main() {
 Outputs:
 ```dart
 main() {
-  print(\'Hello World.\');
+  print('Hello World.');
 }
 ```
 
@@ -27,7 +27,7 @@ Use the CodeFormatter class for alternative formatting. The CodeFormatter has th
 - String wrapIndent
 - String newLine
 
-Alternative formatting:
+Alternative formatting example:
 ```dart
 import 'package:dart_code/dart_code.dart';
 
@@ -40,11 +40,11 @@ main() {
 Outputs:
 ```dart
 main() {
-    print(\'Hello World.\');
+    print('Hello World.');
 }
 ```
 
-The dart_code package manages imports for you:
+An example of a library with unique imports:
 ```dart
 import 'package:dart_code/dart_code.dart';
 
@@ -70,7 +70,7 @@ abstract class Employee extends _i1.Person implements _i2.Skills {
 For more examples see: https://github.com/efficientyboosters/dart_code/tree/main/test
 
 ## Most important classes to use
-You will probably using the following code modeling classes:
+You will probably be using the following code modeling classes:
 
 - Library
   - Function
