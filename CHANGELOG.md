@@ -1,12 +1,15 @@
-## [0.0.1]
+## [0.0.3]
 
-* First version.
+* Improved example
 
 ## [0.0.2]
 
 * Added examples
 * Improved README.md
 
-## [0.0.3]
+## [0.0.1]
 
-* Improved example 
+* First version.
+
+
+
