@@ -18,5 +18,23 @@ main() {
       String expected = '@Hidden(forRole: \'admin\')\n';
       expect(actual, expected);
     });
+
+    test("Should return: '@override\n'", () {
+      String actual = Annotation.override().toString();
+      String expected = '@override\n';
+      expect(actual, expected);
+    });
+
+    test("Should return: '@required\n'", () {
+      String actual = Annotation.required().toString();
+      String expected = '@required\n';
+      expect(actual, expected);
+    });
+
+    test("Should return: '@deprecated\n'", () {
+      String actual = Annotation.deprecated().toString();
+      String expected = '@deprecated\n';
+      expect(actual, expected);
+    });
   });
 }

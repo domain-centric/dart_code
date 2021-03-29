@@ -1,3 +1,7 @@
+## [0.0.4]
+
+* Added @deprecated @override @required annotations
+
 ## [0.0.3]
 
 * Improved example
