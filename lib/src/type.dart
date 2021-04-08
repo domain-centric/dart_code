@@ -164,7 +164,7 @@ class Reference extends CodeModel {
       String libraryUrl = type.libraryUrl.toLowerCase();
       if (!imports.containsKey(libraryUrl)) {
         throw Exception(
-            'Types need to be registered to Imports, before getting a reference');
+            'Types need to be registered to Imports, before getting a reference, for libraryUrl: $libraryUrl');
       }
       String alias = imports.aliasOf(libraryUrl);
       typeNodes.add(Code(alias));
