@@ -8,6 +8,9 @@ import 'type.dart';
 
 enum Modifier { var$, final$, const$ }
 
+/// A Variable is used to store the value and refer the memory location in computer memory.
+/// When we create a variable (with a [VariableDefinition] also known as variable declaration), the Dart compiler allocates some space in memory.
+/// The size of the memory block of memory is depended upon the type of variable.
 class VariableDefinition extends Statement {
   final List<DocComment> docComments;
   final List<Annotation> annotations;
@@ -29,17 +32,17 @@ class VariableDefinition extends Statement {
           if (docComments != null) ...docComments,
           if (annotations != null) ...annotations,
           if (static == true) KeyWord.static$,
-          SpaceWhenNeeded(),
+          Space(),
           if (modifier == Modifier.var$ && type == null) KeyWord.var$,
           if (modifier == Modifier.final$) KeyWord.final$,
           if (modifier == Modifier.const$) KeyWord.const$,
-          SpaceWhenNeeded(),
+          Space(),
           if (type != null) type,
-          SpaceWhenNeeded(),
+          Space(),
           name,
-          if (value != null) SpaceWhenNeeded(),
+          if (value != null) Space(),
           if (value != null) Code('='),
-          if (value != null) SpaceWhenNeeded(),
+          if (value != null) Space(),
           if (value != null) value,
         ]);
 

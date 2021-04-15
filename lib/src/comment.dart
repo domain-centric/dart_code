@@ -1,8 +1,10 @@
 import 'dart:convert';
 
-import 'formatting.dart';
+import 'basic.dart';
 import 'model.dart';
 
+/// Represents a [Comment].
+/// See: [https://dart.dev/guides/language/language-tour#comments]
 class Comment extends CodeModel {
   final List<CodeNode> nodes;
   static const String commentPrefix = '// ';
@@ -17,6 +19,8 @@ class Comment extends CodeModel {
   List<CodeNode> codeNodes(Context context) => nodes;
 }
 
+/// Represents a [DocComment].
+/// See: [https://dart.dev/guides/language/language-tour#documentation-comments]
 class DocComment extends CodeModel {
   final List<CodeNode> nodes;
   static const String docCommentPrefix = '/// ';

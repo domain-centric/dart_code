@@ -3,18 +3,9 @@ import 'type.dart';
 
 class Context {
   Imports imports;
-  final String newLine;
-  final String indent;
-  final String wrapIndent;
-  int indentCount = 0;
-  int maxLineLength;
   String lastCode = '';
 
-  Context(CodeNode codeNode,
-      {this.indent = '  ',
-      this.wrapIndent = '    ',
-      this.newLine,
-      this.maxLineLength}) {
+  Context(CodeNode codeNode) {
     imports = Imports(codeNode, this);
   }
 }
@@ -25,11 +16,8 @@ abstract class CodeNode {
   String toString() {
     return CodeFormatter().format(this);
   }
-}
 
-/// a part of a the Dart code model that can be converted to a string
-abstract class CodeLeaf extends CodeNode {
-  String convertToString(Context context);
+  String toUnFormattedString(Context context);
 }
 
 /// A (tree) model that represents Dart Code.
@@ -39,16 +27,30 @@ abstract class CodeLeaf extends CodeNode {
 /// - Other [CodeModel]s that represent part of the code (e.g. a Library, Class, Annotation, Function, Method, Block, Statement, etc)
 abstract class CodeModel extends CodeNode {
   List<CodeNode> codeNodes(Context context);
+
+  /// Recursive call to get the unformatted code from all nodes
+  @override
+  String toUnFormattedString(Context context) {
+    StringBuffer buffer = StringBuffer();
+    for (CodeNode codeNode in codeNodes(context)) {
+      String unformattedCode = codeNode.toUnFormattedString(context);
+      if (codeNode is! CodeModel) {
+        context.lastCode = unformattedCode;
+      }
+      buffer.write(unformattedCode);
+    }
+    return buffer.toString();
+  }
 }
 
 /// a String representing a piece of Dart code
-class Code extends CodeLeaf {
+class Code extends CodeNode {
   final String code;
 
   Code(this.code);
 
   @override
-  String convertToString(Context context) {
+  String toUnFormattedString(Context context) {
     return code;
   }
 }

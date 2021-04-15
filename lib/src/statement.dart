@@ -1,10 +1,11 @@
 import 'basic.dart';
 import 'expression.dart';
-import 'formatting.dart';
 import 'model.dart';
 import 'parameter.dart';
 import 'type.dart';
 
+/// A [Statement] is a syntactic unit of an imperative programming language that expresses some action to be carried out.
+/// See: [https://dart.dev/guides/language/language-tour#control-flow-statements]
 class Statement extends CodeModel {
   final List<CodeNode> nodes;
   final bool hasEndOfStatement;
@@ -28,9 +29,9 @@ class Statement extends CodeModel {
           if (this$) KeyWord.this$,
           if (this$) Code('.'),
           IdentifierStartingWithLowerCase(name),
-          SpaceWhenNeeded(),
+          Space(),
           nullAware == true ? Code('??=') : Code('='),
-          SpaceWhenNeeded(),
+          Space(),
           value,
         ]);
 
@@ -41,11 +42,11 @@ class Statement extends CodeModel {
   Statement.doWhile$(Block loopBlock, Expression condition)
       : this([
           KeyWord.do$,
-          SpaceWhenNeeded(),
+          Space(),
           loopBlock,
-          SpaceWhenNeeded(),
+          Space(),
           KeyWord.while$,
-          SpaceWhenNeeded(),
+          Space(),
           Code('('),
           condition,
           Code(')'),
@@ -55,50 +56,49 @@ class Statement extends CodeModel {
       Expression manipulation, Block loopBlock)
       : this([
           KeyWord.for$,
-          SpaceWhenNeeded(),
+          Space(),
           Code('('),
           for (int i = 0; i < initialization.nodes.length; i++)
             initialization.nodes[i],
           Code(';'),
-          SpaceWhenNeeded(),
+          Space(),
           condition,
           Code(';'),
-          SpaceWhenNeeded(),
+          Space(),
           manipulation,
           Code(')'),
-          SpaceWhenNeeded(),
+          Space(),
           loopBlock,
         ]);
 
   Statement.forEach$(Statement initialization, Expression in$, Block loopBlock)
       : this([
           KeyWord.for$,
-          SpaceWhenNeeded(),
+          Space(),
           Code('('),
           for (int i = 0; i < initialization.nodes.length; i++)
             initialization.nodes[i],
-          SpaceWhenNeeded(),
+          Space(),
           KeyWord.in$,
-          SpaceWhenNeeded(),
+          Space(),
           in$,
           Code(')'),
-          SpaceWhenNeeded(),
+          Space(),
           loopBlock,
         ]);
 
   Statement.if$(Expression condition, Block ifBock, {Block elseBlock})
       : this([
           KeyWord.if$,
-          SpaceWhenNeeded(),
+          Space(),
           Code('('),
           condition,
           Code(')'),
           ifBock,
-          if (elseBlock != null) SpaceWhenNeeded(),
+          if (elseBlock != null) Space(),
           if (elseBlock != null) KeyWord.else$,
-          if (elseBlock != null) SpaceWhenNeeded(),
+          if (elseBlock != null) Space(),
           if (elseBlock != null) elseBlock,
-          NewLine(),
         ], hasEndOfStatement: false);
 
   Statement.ifChain$(Map<Expression, Block> conditionsAndBlocks,
@@ -111,23 +111,23 @@ class Statement extends CodeModel {
     bool isFirst = true;
     conditionsAndBlocks.forEach((condition, block) {
       if (!isFirst) {
-        nodes.add(SpaceWhenNeeded());
+        nodes.add(Space());
         nodes.add(KeyWord.else$);
-        nodes.add(SpaceWhenNeeded());
+        nodes.add(Space());
       }
       isFirst = false;
       nodes.add(KeyWord.if$);
-      nodes.add(SpaceWhenNeeded());
+      nodes.add(Space());
       nodes.add(Code('('));
       nodes.add(condition);
       nodes.add(Code(')'));
-      nodes.add(SpaceWhenNeeded());
+      nodes.add(Space());
       nodes.add(block);
     });
     if (elseBlock != null) {
-      nodes.add(SpaceWhenNeeded());
+      nodes.add(Space());
       nodes.add(KeyWord.else$);
-      nodes.add(SpaceWhenNeeded());
+      nodes.add(Space());
       nodes.add(elseBlock);
     }
     return nodes;
@@ -136,7 +136,7 @@ class Statement extends CodeModel {
   Statement.library(String name)
       : this([
           KeyWord.library$,
-          SpaceWhenNeeded(),
+          Space(),
           IdentifierStartingWithLowerCase(name),
         ]);
 
@@ -149,7 +149,7 @@ class Statement extends CodeModel {
   Statement.rethrow$() : this([KeyWord.rethrow$]);
 
   Statement.return$(Expression expression)
-      : this([KeyWord.return$, SpaceWhenNeeded(), expression]);
+      : this([KeyWord.return$, Space(), expression]);
 
   Statement.switch$(
       Expression condition, Map<Expression, Block> valuesAndBlocks,
@@ -160,11 +160,11 @@ class Statement extends CodeModel {
       Map<Expression, Block> valuesAndBlocks, Block defaultBlock) {
     List<CodeNode> nodes = [];
     nodes.add(KeyWord.switch$);
-    nodes.add(SpaceWhenNeeded());
+    nodes.add(Space());
     nodes.add(Code('('));
     nodes.add(condition);
     nodes.add(Code(')'));
-    nodes.add(SpaceWhenNeeded());
+    nodes.add(Space());
     List<CodeNode> caseNodes = _createCaseNodes(valuesAndBlocks, defaultBlock);
     nodes.add(Block(caseNodes));
     return nodes;
@@ -179,7 +179,7 @@ class Statement extends CodeModel {
     if (defaultBlock != null) {
       caseNodes.add(KeyWord.default$);
       caseNodes.add(Code(':'));
-      caseNodes.add(SpaceWhenNeeded());
+      caseNodes.add(Space());
       caseNodes.add(defaultBlock);
     }
     return caseNodes;
@@ -188,19 +188,18 @@ class Statement extends CodeModel {
   static List<CodeNode> _createCaseNode(Expression value, Block block) {
     List<CodeNode> caseNodes = [];
     caseNodes.add(KeyWord.case$);
-    caseNodes.add(SpaceWhenNeeded());
+    caseNodes.add(Space());
     caseNodes.add(value);
     caseNodes.add(Code(':'));
-    caseNodes.add(SpaceWhenNeeded());
+    caseNodes.add(Space());
     caseNodes.add(block);
-    caseNodes.add(NewLine());
     return caseNodes;
   }
 
   Statement.throw$(Expression expression)
       : this([
           KeyWord.throw$,
-          SpaceWhenNeeded(),
+          Space(),
           expression,
         ]);
 
@@ -208,23 +207,23 @@ class Statement extends CodeModel {
       {List<Catch> catches = const [], Block finallyBlock})
       : this([
           KeyWord.try$,
-          SpaceWhenNeeded(),
+          Space(),
           tryBlock,
           ...catches,
-          if (finallyBlock != null) SpaceWhenNeeded(),
+          if (finallyBlock != null) Space(),
           if (finallyBlock != null) KeyWord.finally$,
-          if (finallyBlock != null) SpaceWhenNeeded(),
+          if (finallyBlock != null) Space(),
           if (finallyBlock != null) finallyBlock,
         ]);
 
   Statement.while$(Expression condition, Block loopBlock)
       : this([
           KeyWord.while$,
-          SpaceWhenNeeded(),
+          Space(),
           Code('('),
           condition,
           Code(')'),
-          SpaceWhenNeeded(),
+          Space(),
           loopBlock,
         ]);
 
@@ -247,11 +246,11 @@ class Catch extends CodeModel {
   Catch.onException(Type exceptionType, Block exceptionBlock,
       {String exceptionVariableName, String stackTraceVariableName})
       : nodes = [
-          SpaceWhenNeeded(),
+          Space(),
           if (exceptionType != null) KeyWord.on$,
-          if (exceptionType != null) SpaceWhenNeeded(),
+          if (exceptionType != null) Space(),
           if (exceptionType != null) exceptionType,
-          if (exceptionType != null) SpaceWhenNeeded(),
+          if (exceptionType != null) Space(),
           if (exceptionVariableName != null) KeyWord.catch$,
           if (exceptionVariableName != null) Code('('),
           if (exceptionVariableName != null)
@@ -259,11 +258,11 @@ class Catch extends CodeModel {
           if (exceptionVariableName != null && stackTraceVariableName != null)
             Code(","),
           if (exceptionVariableName != null && stackTraceVariableName != null)
-            SpaceWhenNeeded(),
+            Space(),
           if (exceptionVariableName != null && stackTraceVariableName != null)
             IdentifierStartingWithLowerCase(stackTraceVariableName),
           if (exceptionVariableName != null) Code(')'),
-          if (exceptionVariableName != null) SpaceWhenNeeded(),
+          if (exceptionVariableName != null) Space(),
           exceptionBlock,
         ];
 
@@ -285,6 +284,5 @@ class EndOfStatement extends CodeModel {
   @override
   List<CodeNode> codeNodes(Context context) => [
         NoneRepeatingCode(';'),
-        NewLine(),
       ];
 }

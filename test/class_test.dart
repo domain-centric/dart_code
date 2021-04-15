@@ -5,9 +5,7 @@ main() {
   group('Class class', () {
     test("Should return: class", () {
       String actual = Class('Person').toString();
-      String expected = 'class Person {\n'
-          '  \n'
-          '}\n';
+      String expected = 'class Person {}\n';
       expect(actual, expected);
     });
 
@@ -22,17 +20,13 @@ main() {
       String expected =
           '/// A Person that can be converted to and from Json format\n'
           '@_i1.JsonSerializable()\n'
-          'class Person {\n'
-          '  \n'
-          '}\n';
+          'class Person {}\n';
       expect(actual, expected);
     });
 
     test("Should return: abstract class", () {
       String actual = Class('Person', abstract: true).toString();
-      String expected = 'abstract class Person {\n'
-          '  \n'
-          '}\n';
+      String expected = 'abstract class Person {}\n';
       expect(actual, expected);
     });
 
@@ -41,9 +35,7 @@ main() {
               superClass:
                   Type('Contact', libraryUrl: 'package:my_lib/contact.dart'))
           .toString();
-      String expected = 'class Person extends _i1.Contact {\n'
-          '  \n'
-          '}\n';
+      String expected = 'class Person extends _i1.Contact {}\n';
       expect(actual, expected);
     });
 
@@ -52,11 +44,8 @@ main() {
         Type('Musician', libraryUrl: 'package:my_lib/musician.dart'),
         Type('Technician', libraryUrl: 'package:my_lib/technician.dart')
       ]).toString();
-      String expected = 'class Person implements \n'
-          '  _i1.Musician,\n'
-          '  _i2.Technician {\n'
-          '  \n'
-          '}\n';
+      String expected =
+          'class Person implements _i1.Musician, _i2.Technician {}\n';
       expect(actual, expected);
     });
 
@@ -65,11 +54,7 @@ main() {
         Type('Musician', libraryUrl: 'package:my_lib/musician.dart'),
         Type('Technician', libraryUrl: 'package:my_lib/technician.dart')
       ]).toString();
-      String expected = 'class Person with \n'
-          '  _i1.Musician,\n'
-          '  _i2.Technician {\n'
-          '  \n'
-          '}\n';
+      String expected = 'class Person with _i1.Musician, _i2.Technician {}\n';
       expect(actual, expected);
     });
 
@@ -80,11 +65,9 @@ main() {
         Field.var$('gender', value: Expression.ofEnum(Type('Gender'), "male")),
       ]).toString();
       String expected = 'class Person {\n'
-          '  \n'
           '  final String name;\n'
           '  static const human = true;\n'
           '  var gender = Gender.male;\n'
-          '  \n'
           '}\n';
       expect(actual, expected);
     });
@@ -104,15 +87,10 @@ main() {
             ]))
       ]).toString();
       String expected = 'class Point {\n'
-          '  \n'
-          '  Point(\n'
-          '    this.x,\n'
-          '    this.y);\n'
-          '  \n'
-          '  Point.origin() : \n'
-          '    x = 0,\n'
-          '    y = 0;\n'
-          '  \n'
+          '  Point(this.x, this.y);\n'
+          '  Point.origin()\n'
+          '      : x = 0,\n'
+          '        y = 0;\n'
           '}\n';
       expect(actual, expected);
     });
@@ -124,11 +102,9 @@ main() {
             type: Type.ofString())
       ]).toString();
       String expected = 'class Person {\n'
-          '  \n'
           '  String greetingMessage() {\n'
           '    return \'Hello \$name.\';\n'
           '  }\n'
-          '  \n'
           '}\n';
       expect(actual, expected);
     });
@@ -142,9 +118,7 @@ main() {
         )
       ]).toString();
       String expected = 'class Person {\n'
-          '  \n'
           '  int get age => this.age;\n'
-          '  \n'
           '}\n';
       expect(actual, expected);
     });
@@ -159,11 +133,9 @@ main() {
         )
       ]).toString();
       String expected = 'class Person {\n'
-          '  \n'
           '  set age(int age) {\n'
           '    this.age = age;\n'
           '  }\n'
-          '  \n'
           '}\n';
       expect(actual, expected);
     });
@@ -230,32 +202,26 @@ main() {
             ]))
       ]).toString();
       String expected = 'class Person {\n'
-          '  \n'
           '  final String givenName;\n'
           '  final String familyName;\n'
           '  final String fullName;\n'
           '  final DateTime dateOfBirth;\n'
-          '  \n'
-          '  Person(\n'
-          '    this.givenName,\n'
-          '    this.familyName,\n'
-          '    this.dateOfBirth) : fullName = \'\$givenName \$familyName\';\n'
-          '  \n'
+          '  Person(this.givenName, this.familyName, this.dateOfBirth)\n'
+          '      : fullName = \'\$givenName \$familyName\';\n'
           '  String greetingMessage() {\n'
           '    return \'Hello \$fullName.\';\n'
           '  }\n'
-          '  \n'
+          '\n'
           '  get ageInYears {\n'
           '    DateTime now = DateTime.now();\n'
           '    int years = now.year - dateOfBirth.year;\n'
           '    int months = now.month - dateOfBirth.month;\n'
           '    int days = now.day - dateOfBirth.day;\n'
-          '    if (months < 0 || (months == 0 && days < 0)){\n'
+          '    if (months < 0 || (months == 0 && days < 0)) {\n'
           '      years--;\n'
           '    }\n'
           '    return years;\n'
           '  }\n'
-          '  \n'
           '}\n';
       expect(actual, expected);
     });

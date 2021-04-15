@@ -3,11 +3,12 @@ import 'basic.dart';
 import 'comment.dart';
 import 'constructor.dart';
 import 'field.dart';
-import 'formatting.dart';
 import 'method.dart';
 import 'model.dart';
 import 'type.dart';
 
+/// Represents a [Class]
+/// See [https://dart.dev/guides/language/language-tour#classes]
 class Class extends CodeModel {
   final List<DocComment> docComments;
   final List<Annotation> annotations;
@@ -34,36 +35,32 @@ class Class extends CodeModel {
   }) : this.name = IdentifierStartingWithUpperCase(name);
 
   @override
-  List<CodeNode> codeNodes(Context context) => [
+  List<CodeNode> codeNodes(Context context) =>
+      [
         if (docComments != null) ...docComments,
         if (annotations != null) ...annotations,
         if (abstract != null && abstract) KeyWord.abstract$,
-        if (abstract != null && abstract) SpaceWhenNeeded(),
+        if (abstract != null && abstract) Space(),
         KeyWord.class$,
-        SpaceWhenNeeded(),
+        Space(),
         name,
-        SpaceWhenNeeded(),
+        Space(),
         if (superClass != null) KeyWord.extends$,
-        if (superClass != null) SpaceWhenNeeded(),
+        if (superClass != null) Space(),
         if (superClass != null) superClass,
-        if (superClass != null) SpaceWhenNeeded(),
+        if (superClass != null) Space(),
         if (implements != null) KeyWord.implements$,
-        if (implements != null) SpaceWhenNeeded(),
+        if (implements != null) Space(),
         if (implements != null) SeparatedValues.forParameters(implements),
-        if (implements != null) SpaceWhenNeeded(),
+        if (implements != null) Space(),
         if (mixins != null) KeyWord.with$,
-        if (mixins != null) SpaceWhenNeeded(),
+        if (mixins != null) Space(),
         if (mixins != null) SeparatedValues.forParameters(mixins),
-        if (mixins != null) SpaceWhenNeeded(),
+        if (mixins != null) Space(),
         Block([
-          NewLine(),
           if (fields != null) ...fields,
-          if (fields != null) NewLine(),
           if (constructors != null) SeparatedValues.forStatements(constructors),
-          if (constructors != null) NewLine(),
           if (methods != null) SeparatedValues.forStatements(methods),
-          if (methods != null) NewLine(),
         ]),
-        NewLine(),
       ];
 }

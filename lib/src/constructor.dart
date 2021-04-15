@@ -7,6 +7,8 @@ import 'parameter.dart';
 import 'statement.dart';
 import 'type.dart';
 
+/// Represents a [ConstructorCall]
+/// See [https://dart.dev/guides/language/language-tour#constructors]
 class ConstructorCall extends CodeModel {
   final String name;
   final ParameterValues parameterValues;
@@ -26,6 +28,8 @@ class ConstructorCall extends CodeModel {
       ];
 }
 
+/// Represents a [Constructor] [Initializers]
+/// See: [https://dart.dev/guides/language/language-tour#instance-variables]
 class Initializers extends SeparatedValues {
   Initializers(
       {List<FieldInitializer> fieldInitializers,
@@ -40,9 +44,12 @@ class Initializers extends SeparatedValues {
   void _validateIfFieldInitializerNamesAreUnique(
       List<FieldInitializer> fieldInitializers) {
     if (fieldInitializers != null) {
-      var allNames = fieldInitializers.map((p) => p.name.toString()).toList();
-      var allUniqueNames =
-          fieldInitializers.map((p) => p.name.toString()).toSet();
+      var allNames = fieldInitializers
+          .map((p) => p.name.toUnFormattedString(null))
+          .toList();
+      var allUniqueNames = fieldInitializers
+          .map((p) => p.name.toUnFormattedString(null))
+          .toSet();
       var namesAreUnique = allNames.length == allUniqueNames.length;
       if (!namesAreUnique)
         throw new ArgumentError.value(fieldInitializers, 'fieldInitializers',
@@ -51,6 +58,8 @@ class Initializers extends SeparatedValues {
   }
 }
 
+/// Represents a [Class] [Constructor]
+/// See [https://dart.dev/guides/language/language-tour#constructors]
 class Constructor extends CodeModel {
   final List<DocComment> docComments;
   final List<Annotation> annotations;
@@ -82,26 +91,27 @@ class Constructor extends CodeModel {
       : name = name == null ? null : IdentifierStartingWithLowerCase(name);
 
   @override
-  List<CodeNode> codeNodes(Context context) => [
+  List<CodeNode> codeNodes(Context context) =>
+      [
         ...docComments,
         ...annotations,
         if (external) KeyWord.external$,
-        if (external) SpaceWhenNeeded(),
+        if (external) Space(),
         if (constant) KeyWord.const$,
-        if (constant) SpaceWhenNeeded(),
+        if (constant) Space(),
         if (factory) KeyWord.factory$,
-        if (factory) SpaceWhenNeeded(),
+        if (factory) Space(),
         type,
         if (name != null) Code('.'),
         if (name != null) name,
         Code('('),
         if (parameters != null) parameters,
         Code(')'),
-        if (initializers != null) SpaceWhenNeeded(),
+        if (initializers != null) Space(),
         if (initializers != null) Code(':'),
-        if (initializers != null) SpaceWhenNeeded(),
+        if (initializers != null) Space(),
         if (initializers != null) initializers,
-        if (body != null) SpaceWhenNeeded(),
+        if (body != null) Space(),
         if (body != null) body,
         EndOfStatement(),
       ];

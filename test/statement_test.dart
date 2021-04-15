@@ -5,65 +5,58 @@ main() {
   group('Statement class', () {
     group('Statement() constructor', () {
       test("Should return: 'test();\n'", () {
-        String actual = Statement([Code('test()')]).toString();
-        String expected = "test();\n";
+        String actual =
+            CodeFormatter().unFormatted(Statement([Code('test()')]));
+        String expected = 'test();';
         expect(actual, expected);
       });
     });
 
     group('Statement.assert() constructor', () {
       test("Should return: 'assert(b == false);\n'", () {
-        String actual = Statement.assert$(
-                Expression.ofVariable('b').equalTo(Expression.ofBool(false)))
-            .toString();
-        String expected = "assert(b == false);\n";
+        String actual = CodeFormatter().unFormatted(Statement.assert$(
+            Expression.ofVariable('b').equalTo(Expression.ofBool(false))));
+        String expected = 'assert(b == false);';
         expect(actual, expected);
       });
 
       test("Should return: 'assert(b == false, 'b must be false');\n'", () {
-        String actual = Statement.assert$(
-                Expression.ofVariable('b').equalTo(Expression.ofBool(false)),
-                message: 'b must be false')
-            .toString();
-        String expected = 'assert(\n'
-            '  b == false,\n'
-            '  \'b must be false\');\n';
+        String actual = CodeFormatter().unFormatted(Statement.assert$(
+            Expression.ofVariable('b').equalTo(Expression.ofBool(false)),
+            message: 'b must be false'));
+        String expected = 'assert(b == false,\'b must be false\');';
         expect(actual, expected);
       });
     });
 
     group('Statement.assignVariable() constructor', () {
       test("Should return: greeting = 'Hello World';\n", () {
-        String actual = Statement.assignVariable(
-                "greeting", Expression.ofString('Hello World'))
-            .toString();
-        String expected = "greeting = 'Hello World';\n";
+        String actual = CodeFormatter().unFormatted(Statement.assignVariable(
+            "greeting", Expression.ofString('Hello World')));
+        String expected = 'greeting = \'Hello World\';';
         expect(actual, expected);
       });
 
       test("Should return: greeting ??= 'Hello World';\n", () {
-        String actual = Statement.assignVariable(
-                "greeting", Expression.ofString('Hello World'),
-                nullAware: true)
-            .toString();
-        String expected = "greeting ??= 'Hello World';\n";
+        String actual = CodeFormatter().unFormatted(Statement.assignVariable(
+            "greeting", Expression.ofString('Hello World'),
+            nullAware: true));
+        String expected = 'greeting ??= \'Hello World\';';
         expect(actual, expected);
       });
 
       test("Should return: greeting ??= 'Hello World';\n", () {
-        String actual = Statement.assignVariable(
-                "greeting", Expression.ofString('Hello World'),
-                nullAware: true, this$: true)
-            .toString();
-        String expected = "this.greeting ??= 'Hello World';\n";
+        String actual = CodeFormatter().unFormatted(Statement.assignVariable(
+            "greeting", Expression.ofString('Hello World'),
+            nullAware: true, this$: true));
+        String expected = 'this.greeting ??= \'Hello World\';';
         expect(actual, expected);
       });
 
       test('Should throw name exception', () {
         expect(() {
           Statement.assignVariable(
-                  "InvalidVariableName", Expression.ofString('Hello World'))
-              .toString();
+              "InvalidVariableName", Expression.ofString('Hello World'));
         },
             throwsA((e) =>
                 e is ArgumentError &&
@@ -73,70 +66,60 @@ main() {
 
     group('Statement.break\$ constructor', () {
       test("Should return: 'break;'", () {
-        String actual = Statement.break$().toString();
-        String expected = 'break;\n';
+        String actual = CodeFormatter().unFormatted(Statement.break$());
+        String expected = 'break;';
         expect(actual, expected);
       });
     });
 
     group('Statement.continue\$ constructor', () {
-      test("Should return: 'break;'", () {
-        String actual = Statement.continue$().toString();
-        String expected = 'continue;\n';
+      test("Should return: 'continue;'", () {
+        String actual = CodeFormatter().unFormatted(Statement.continue$());
+        String expected = 'continue;';
         expect(actual, expected);
       });
     });
 
     group('Statement.for\$ constructor', () {
       test("Should return: for loop statements'", () {
-        String actual = Statement.for$(
+        String actual = CodeFormatter().unFormatted(Statement.for$(
             VariableDefinition.var$('i',
                 type: Type.ofInt(), value: Expression.ofInt(10)),
             Expression.ofVariable('i').greaterOrEqualTo(Expression.ofInt(0)),
             Expression.ofVariable('i').increment(),
-            Block([Statement.print(Expression.ofVariable('i'))])).toString();
-        String expected = 'for ( int i = 10; i >= 0; i++) {\n'
-            '  print(i);\n'
-            '};\n';
+            Block([Statement.print(Expression.ofVariable('i'))])));
+        String expected = 'for (  int i = 10; i >= 0; i++) {print(i);};';
         expect(actual, expected);
       });
     });
 
     group('Statement.forEach\$ constructor', () {
       test("Should return: for loop statements'", () {
-        String actual = Statement.forEach$(
-                VariableDefinition.var$('color', type: Type('Color')),
-                Expression.ofVariable('colors'),
-                Block([Statement.print(Expression.ofVariable('color'))]))
-            .toString();
-        String expected = 'for ( Color color in colors) {\n'
-            '  print(color);\n'
-            '};\n';
+        String actual = CodeFormatter().unFormatted(Statement.forEach$(
+            VariableDefinition.var$('color', type: Type('Color')),
+            Expression.ofVariable('colors'),
+            Block([Statement.print(Expression.ofVariable('color'))])));
+        String expected = 'for (  Color color in colors) {print(color);};';
         expect(actual, expected);
       });
     });
 
     group('Statement.if\$() constructor', () {
       test("Should return if statement without else statement", () {
-        String actual = Statement.if$(Expression.ofBool(true),
-            Block([Statement.print(Expression.ofString('True'))])).toString();
-        String expected = 'if (true){\n'
-            '  print(\'True\');\n'
-            '}\n';
+        String actual = CodeFormatter().unFormatted(Statement.if$(
+            Expression.ofBool(true),
+            Block([Statement.print(Expression.ofString('True'))])));
+        String expected = 'if (true){print(\'True\');}';
         expect(actual, expected);
       });
 
       test("Should return if statement with else statement", () {
-        String actual = Statement.if$(Expression.ofBool(true),
-                Block([Statement.print(Expression.ofString('True'))]),
-                elseBlock:
-                    Block([Statement.print(Expression.ofString('False'))]))
-            .toString();
-        String expected = 'if (true){\n'
-            '  print(\'True\');\n'
-            '} else {\n'
-            '  print(\'False\');\n'
-            '}\n';
+        String actual = CodeFormatter().unFormatted(Statement.if$(
+            Expression.ofBool(true),
+            Block([Statement.print(Expression.ofString('True'))]),
+            elseBlock: Block([Statement.print(Expression.ofString('False'))])));
+        String expected =
+            'if (true){print(\'True\');} else {print(\'False\');}';
         expect(actual, expected);
       });
     });
@@ -145,58 +128,50 @@ main() {
       final number = 'number';
 
       test("Should return if chain statement without else statement", () {
-        String actual = Statement.ifChain$({
+        String actual = CodeFormatter().unFormatted(Statement.ifChain$({
           Expression.ofVariable(number).equalTo(Expression.ofInt(1)):
               Block([Statement.print(Expression.ofString('One'))]),
           Expression.ofVariable(number).equalTo(Expression.ofInt(2)):
               Block([Statement.print(Expression.ofString('Two'))])
-        }).toString();
-        String expected = 'if (number == 1) {\n'
-            '  print(\'One\');\n'
-            '} else if (number == 2) {\n'
-            '  print(\'Two\');\n'
-            '};\n';
+        }));
+        String expected =
+            'if (number == 1) {print(\'One\');} else if (number == 2) {print(\'Two\');};';
         expect(actual, expected);
       });
 
       test("Should return if chain statement with else statement", () {
-        String actual = Statement.ifChain$({
+        String actual = CodeFormatter().unFormatted(Statement.ifChain$({
           Expression.ofVariable(number).equalTo(Expression.ofInt(1)):
               Block([Statement.print(Expression.ofString('One'))]),
           Expression.ofVariable(number).equalTo(Expression.ofInt(2)):
               Block([Statement.print(Expression.ofString('Two'))])
-        }, elseBlock: Block([Statement.print(Expression.ofString('Other'))]))
-            .toString();
-        String expected = 'if (number == 1) {\n'
-            '  print(\'One\');\n'
-            '} else if (number == 2) {\n'
-            '  print(\'Two\');\n'
-            '} else {\n'
-            '  print(\'Other\');\n'
-            '};\n';
+        }, elseBlock: Block([Statement.print(Expression.ofString('Other'))])));
+        String expected =
+            'if (number == 1) {print(\'One\');} else if (number == 2) {print(\'Two\');} else {print(\'Other\');};';
         expect(actual, expected);
       });
     });
 
     group('Statement.print() constructor', () {
       test("Should return print statement", () {
-        String actual =
-            Statement.print(Expression.ofString('Hello World')).toString();
-        String expected = "print('Hello World');\n";
+        String actual = CodeFormatter()
+            .unFormatted(Statement.print(Expression.ofString('Hello World')));
+        String expected = 'print(\'Hello World\');';
         expect(actual, expected);
       });
     });
 
     group('Statement.library() constructor', () {
       test("Should return: greeting = 'library contacts;\n'", () {
-        String actual = Statement.library("contacts").toString();
-        String expected = 'library contacts;\n';
+        String actual =
+            CodeFormatter().unFormatted(Statement.library("contacts"));
+        String expected = 'library contacts;';
         expect(actual, expected);
       });
 
       test("Should throw name exception: 'Must not be null'", () {
         expect(() {
-          Statement.library(null).toString();
+          Statement.library(null);
         },
             throwsA(
                 (e) => e is ArgumentError && e.message == 'Must not be null'));
@@ -206,7 +181,7 @@ main() {
           "Should throw name exception: 'Must start with an lower case letter'",
           () {
         expect(() {
-          Statement.library('InvalidCase').toString();
+          Statement.library('InvalidCase');
         },
             throwsA((e) =>
                 e is ArgumentError &&
@@ -216,51 +191,47 @@ main() {
 
     group('Statement.return\$ constructor', () {
       test("Should return: 'test();\n'", () {
-        String actual =
-            Statement.return$(Expression.ofString('Hello World')).toString();
-        String expected = "return 'Hello World';\n";
+        String actual = CodeFormatter()
+            .unFormatted(Statement.return$(Expression.ofString('Hello World')));
+        String expected = 'return \'Hello World\';';
         expect(actual, expected);
       });
     });
 
     group('Statement.return\$ constructor', () {
       test("Should return: 'rethrow;\n'", () {
-        String actual = Statement.rethrow$().toString();
-        String expected = "rethrow;\n";
+        String actual = CodeFormatter().unFormatted(Statement.rethrow$());
+        String expected = 'rethrow;';
         expect(actual, expected);
       });
     });
 
     group('Statement.throw\$() constructor', () {
       test("Should return: throw 'Out of camels!';\n", () {
-        String actual =
-            Statement.throw$(Expression.ofString('Out of camels!')).toString();
-        String expected = "throw 'Out of camels!';\n";
+        String actual = CodeFormatter().unFormatted(
+            Statement.throw$(Expression.ofString('Out of camels!')));
+        String expected = 'throw \'Out of camels!\';';
         expect(actual, expected);
       });
 
       test("Should return: throw OutOfCamelException();\n", () {
-        String actual = Statement.throw$(
-                Expression.callConstructor(Type('OutOfCamelException')))
-            .toString();
-        String expected = "throw OutOfCamelException();\n";
+        String actual = CodeFormatter().unFormatted(Statement.throw$(
+            Expression.callConstructor(Type('OutOfCamelException'))));
+        String expected = 'throw OutOfCamelException();';
         expect(actual, expected);
       });
     });
 
     group('Statement.try\$() constructor', () {
       test("Should return: try statement", () {
-        String actual = Statement.try$(Block(
-                [Statement.print(Expression.ofString('Something to try'))]))
-            .toString();
-        String expected = 'try {\n'
-            '  print(\'Something to try\');\n'
-            '};\n';
+        String actual = CodeFormatter().unFormatted(Statement.try$(
+            Block([Statement.print(Expression.ofString('Something to try'))])));
+        String expected = 'try {print(\'Something to try\');};';
         expect(actual, expected);
       });
 
       test("Should return: try statement with on cause", () {
-        String actual = Statement.try$(
+        String actual = CodeFormatter().unFormatted(Statement.try$(
             Block([
               Statement.ofExpression(Expression.callFunction('breedMoreCamels'))
             ]),
@@ -271,17 +242,14 @@ main() {
                     Statement.ofExpression(
                         Expression.callFunction('buyMoreCamels'))
                   ]))
-            ]).toString();
-        String expected = 'try {\n'
-            '  breedMoreCamels();\n'
-            '} on OutOfCamelsException {\n'
-            '  buyMoreCamels();\n'
-            '};\n';
+            ]));
+        String expected =
+            'try {breedMoreCamels();} on OutOfCamelsException {buyMoreCamels();};';
         expect(actual, expected);
       });
 
       test("Should return: try statement with multiple on causes", () {
-        String actual = Statement.try$(
+        String actual = CodeFormatter().unFormatted(Statement.try$(
             Block([
               Statement.ofExpression(Expression.callFunction('breedMoreCamels'))
             ]),
@@ -306,33 +274,23 @@ main() {
                   ]),
                   "e",
                   "s"),
-            ]).toString();
-        String expected = 'try {\n'
-            '  breedMoreCamels();\n'
-            '} on OutOfCamelsException {\n'
-            '  buyMoreCamels();\n'
-            '} on Exception catch(e) {\n'
-            '  print(\'Unknown exception: \$e\');\n'
-            '} catch(e, s) {\n'
-            '  print(\'Something really unknown: \$e, \$s\');\n'
-            '};\n';
+            ]));
+        String expected =
+            'try {breedMoreCamels();} on OutOfCamelsException {buyMoreCamels();} on Exception catch(e) {print(\'Unknown exception: \$e\');} catch(e, s) {print(\'Something really unknown: \$e, \$s\');};';
         expect(actual, expected);
       });
 
       test("Should return: try statement with finally", () {
-        String actual = Statement.try$(
+        String actual = CodeFormatter().unFormatted(Statement.try$(
             Block([
               Statement.ofExpression(Expression.callFunction('breedMoreCamels'))
             ]),
             finallyBlock: Block([
               Statement.ofExpression(
                   Expression.callFunction('cleanCamelStalls'))
-            ])).toString();
-        String expected = 'try {\n'
-            '  breedMoreCamels();\n'
-            '} finally {\n'
-            '  cleanCamelStalls();\n'
-            '};\n';
+            ])));
+        String expected =
+            'try {breedMoreCamels();} finally {cleanCamelStalls();};';
         expect(actual, expected);
       });
     });
@@ -341,7 +299,8 @@ main() {
       final number = 'number';
 
       test("Should return: switch statement without else statement", () {
-        String actual = Statement.switch$(Expression.ofVariable(number), {
+        String actual = CodeFormatter()
+            .unFormatted(Statement.switch$(Expression.ofVariable(number), {
           Expression.ofInt(1): Block([
             Statement.print(Expression.ofString('One')),
             Statement.break$(),
@@ -350,49 +309,29 @@ main() {
             Statement.print(Expression.ofString('Two')),
             Statement.break$(),
           ])
-        }).toString();
-        String expected = 'switch (number) {\n'
-            '  case 1: {\n'
-            '    print(\'One\');\n'
-            '    break;\n'
-            '  }\n'
-            '  case 2: {\n'
-            '    print(\'Two\');\n'
-            '    break;\n'
-            '  }\n'
-            '};\n';
+        }));
+        String expected =
+            'switch (number) {case 1: {print(\'One\');break;}case 2: {print(\'Two\');break;}};';
         expect(actual, expected);
       });
 
       test("Should return: switch statement with else statement", () {
-        String actual = Statement.switch$(
-                Expression.ofVariable(number),
-                {
-                  Expression.ofInt(1): Block([
-                    Statement.print(Expression.ofString('One')),
-                    Statement.break$(),
-                  ]),
-                  Expression.ofInt(2): Block([
-                    Statement.print(Expression.ofString('Two')),
-                    Statement.break$(),
-                  ])
-                },
-                defaultBlock:
-                    Block([Statement.print(Expression.ofString('Other'))]))
-            .toString();
-        String expected = 'switch (number) {\n'
-            '  case 1: {\n'
-            '    print(\'One\');\n'
-            '    break;\n'
-            '  }\n'
-            '  case 2: {\n'
-            '    print(\'Two\');\n'
-            '    break;\n'
-            '  }\n'
-            '  default: {\n'
-            '    print(\'Other\');\n'
-            '  }\n'
-            '};\n';
+        String actual = CodeFormatter().unFormatted(Statement.switch$(
+            Expression.ofVariable(number),
+            {
+              Expression.ofInt(1): Block([
+                Statement.print(Expression.ofString('One')),
+                Statement.break$(),
+              ]),
+              Expression.ofInt(2): Block([
+                Statement.print(Expression.ofString('Two')),
+                Statement.break$(),
+              ])
+            },
+            defaultBlock:
+                Block([Statement.print(Expression.ofString('Other'))])));
+        String expected =
+            'switch (number) {case 1: {print(\'One\');break;}case 2: {print(\'Two\');break;}default: {print(\'Other\');}};';
         expect(actual, expected);
       });
     });
@@ -400,16 +339,13 @@ main() {
     group('Statement.while\$ constructor', () {
       test("Should return while loop statement ", () {
         final counter = 'counter';
-        String actual = Statement.while$(
+        String actual = CodeFormatter().unFormatted(Statement.while$(
             Expression.ofVariable(counter).lessThan(Expression.ofInt(5)),
             Block([
               Statement.print(Expression.ofVariable(counter)),
               Expression.ofVariable(counter).increment(),
-            ])).toString();
-        String expected = 'while (counter < 5) {\n'
-            '  print(counter);\n'
-            '  counter++\n'
-            '};\n';
+            ])));
+        String expected = 'while (counter < 5) {print(counter);counter++};';
         expect(actual, expected);
       });
     });
@@ -417,17 +353,14 @@ main() {
     group('Statement.doWhile\$ constructor', () {
       test("Should return while loop statement ", () {
         final counter = 'counter';
-        String actual = Statement.doWhile$(
+        String actual = CodeFormatter().unFormatted(Statement.doWhile$(
           Block([
             Statement.print(Expression.ofVariable(counter)),
             Expression.ofVariable(counter).increment(),
           ]),
           Expression.ofVariable(counter).lessThan(Expression.ofInt(5)),
-        ).toString();
-        String expected = 'do {\n'
-            '  print(counter);\n'
-            '  counter++\n'
-            '} while (counter < 5);\n';
+        ));
+        String expected = 'do {print(counter);counter++} while (counter < 5);';
         expect(actual, expected);
       });
     });
@@ -435,12 +368,11 @@ main() {
 
   group('Statements class', () {
     test('Given Statements => Returns the correct code', () {
-      String actual = Statements([
+      String actual = CodeFormatter().unFormatted(Statements([
         Statement([Code('test1()')]),
         Statement([Code('test2()')])
-      ]).toString();
-      String expected = "test1();\n"
-          "test2();\n";
+      ]));
+      String expected = 'test1();test2();';
       expect(actual, expected);
     });
   });

@@ -28,12 +28,12 @@ main() {
       });
 
       test("Should return: static String greeting = 'Hello World';\n", () {
-        String actual = VariableDefinition.var$("greeting",
-                value: Expression.ofString('Hello World'),
-                type: Type.ofString(),
-                static: true)
-            .toString();
-        String expected = "static String greeting = 'Hello World';\n";
+        String actual = CodeFormatter().unFormatted(VariableDefinition.var$(
+            "greeting",
+            value: Expression.ofString('Hello World'),
+            type: Type.ofString(),
+            static: true));
+        String expected = 'static  String greeting = \'Hello World\';';
         expect(actual, expected);
       });
 
@@ -66,12 +66,12 @@ main() {
       });
 
       test("Should return: final String greeting = 'Hello World';\n", () {
-        String actual = VariableDefinition.final$("greeting",
-                value: Expression.ofString('Hello World'),
-                type: Type.ofString(),
-                static: true)
-            .toString();
-        String expected = "static final String greeting = 'Hello World';\n";
+        String actual = CodeFormatter().unFormatted(VariableDefinition.final$(
+            "greeting",
+            value: Expression.ofString('Hello World'),
+            type: Type.ofString(),
+            static: true));
+        String expected = 'static final String greeting = \'Hello World\';';
         expect(actual, expected);
       });
 
@@ -107,11 +107,10 @@ main() {
 
       test("Should return: static const String greeting = 'Hello World';\n",
           () {
-        String actual = VariableDefinition.const$(
-                "greeting", Expression.ofString('Hello World'),
-                type: Type.ofString(), static: true)
-            .toString();
-        String expected = "static const String greeting = 'Hello World';\n";
+            String actual = CodeFormatter().unFormatted(VariableDefinition.const$(
+            "greeting", Expression.ofString('Hello World'),
+            type: Type.ofString(), static: true));
+        String expected = 'static const String greeting = \'Hello World\';';
         expect(actual, expected);
       });
 

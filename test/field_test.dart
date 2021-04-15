@@ -16,31 +16,31 @@ main() {
         expect(actual, expected);
       });
 
-      test("Should return: 'static String name;\n'", () {
-        String actual =
-            Field.var$('name', type: Type.ofString(), static: true).toString();
-        String expected = 'static String name;\n';
+      test("Should return: 'static String name;'", () {
+        String actual = CodeFormatter().unFormatted(
+            Field.var$('name', type: Type.ofString(), static: true));
+        String expected = 'static  String name;';
         expect(actual, expected);
       });
 
       test("Should return: a string field name;\n'", () {
-        String actual = Field.var$('name',
+        String actual = CodeFormatter().unFormatted(Field.var$('name',
             type: Type.ofString(),
-            docComments: [DocComment.fromString('A valid name')]).toString();
+            docComments: [DocComment.fromString('A valid name')]));
         String expected = '/// A valid name\n'
-            'String name;\n';
+            '  String name;';
         expect(actual, expected);
       });
 
       test("Should return:  a string field name with docComment and annotation",
           () {
-        String actual = Field.var$('name',
+            String actual = CodeFormatter().unFormatted(Field.var$('name',
             type: Type.ofString(),
             docComments: [DocComment.fromString('A valid name')],
-            annotations: [Annotation(Type('Hidden'))]).toString();
+            annotations: [Annotation(Type('Hidden'))]));
         String expected = '/// A valid name\n'
             '@Hidden()\n'
-            'String name;\n';
+            '  String name;';
         expect(actual, expected);
       });
     });
@@ -61,20 +61,21 @@ main() {
         expect(actual, expected);
       });
 
-      test("Should return: 'static const String name = 'Nils';\n'", () {
-        String actual = Field.const$('name', Expression.ofString('Nils'),
-                type: Type.ofString(), static: true)
-            .toString();
-        String expected = "static const String name = 'Nils';\n";
+      test("Should return: 'static const String name = 'Nils';'", () {
+        String actual = CodeFormatter().unFormatted(Field.const$(
+            'name', Expression.ofString('Nils'),
+            type: Type.ofString(), static: true));
+        String expected = "static const String name = 'Nils';";
         expect(actual, expected);
       });
 
       test("Should return: a string field name;\n'", () {
-        String actual = Field.const$('name', Expression.ofString('Nils'),
+        String actual = CodeFormatter().unFormatted(Field.const$(
+            'name', Expression.ofString('Nils'),
             type: Type.ofString(),
-            docComments: [DocComment.fromString('A valid name')]).toString();
+            docComments: [DocComment.fromString('A valid name')]));
         String expected = '/// A valid name\n'
-            "const String name = 'Nils';\n";
+            ' const String name = \'Nils\';';
         expect(actual, expected);
       });
 
@@ -113,13 +114,12 @@ main() {
         expect(actual, expected);
       });
 
-      test("Should return: 'static final String name;\n'", () {
-        String actual = Field.final$('name',
-                value: Expression.ofString('Nils'),
-                type: Type.ofString(),
-                static: true)
-            .toString();
-        String expected = "static final String name = 'Nils';\n";
+      test("Should return: 'static final String name;'", () {
+        String actual = CodeFormatter().unFormatted(Field.final$('name',
+            value: Expression.ofString('Nils'),
+            type: Type.ofString(),
+            static: true));
+        String expected = "static final String name = 'Nils';";
         expect(actual, expected);
       });
 
@@ -150,8 +150,8 @@ main() {
 
   group('FieldInitializer class', () {
     test("Should return: name='Nils'", () {
-      String actual =
-          FieldInitializer('name', Expression.ofString('Nils')).toString();
+      String actual = CodeFormatter()
+          .unFormatted(FieldInitializer('name', Expression.ofString('Nils')));
       String expected = "name = 'Nils'";
       expect(actual, expected);
     });

@@ -2,147 +2,78 @@ import 'package:dart_code/dart_code.dart';
 import 'package:test/test.dart';
 
 main() {
-  group('CommaSeparatedValues class', () {
+  group('SeparatedValues class', () {
     test('Given no expressions => Returns the literal code string', () {
-      String actual = SeparatedValues.forParameters([]).toString();
+      String actual =
+          CodeFormatter().unFormatted(SeparatedValues.forParameters([]));
       String expected = "";
       expect(actual, expected);
     });
     test('Given 1 expressions => Returns the literal code string', () {
-      String actual = SeparatedValues.forParameters([
+      String actual =
+          CodeFormatter().unFormatted(SeparatedValues.forParameters([
         Expression.ofInt(1),
-      ]).toString();
+      ]));
       String expected = "1";
       expect(actual, expected);
     });
 
     test('Given 3 expressions => Returns the literal code string', () {
-      String actual = SeparatedValues.forParameters([
+      String actual =
+          CodeFormatter().unFormatted(SeparatedValues.forParameters([
         Expression.ofInt(1),
         Expression.ofInt(2),
         Expression.ofInt(3),
-      ]).toString();
-      String expected = '\n'
-          '  1,\n'
-          '  2,\n'
-          '  3';
+      ]));
+      String expected = '1,2,3';
       expect(actual, expected);
     });
   });
 
-  group('IncreaseIndent class', () {
-    test(
-        'Given IncreaseIndent => Returns a formatted code with increased indent',
-        () {
-      String actual = Block([
-        Statement([Code("test()")]),
-        IncreaseIndent(),
-        Statement([Code("test()")]),
-      ]).toString();
-      String expected = '{\n'
-          '  test();\n'
-          '    test();\n'
-          '  }';
-      expect(actual, expected);
-    });
-  });
-
-  group('DecreaseIndent class', () {
-    test(
-        'Given DecreaseIndent => Returns a formatted code with decreased indent',
-        () {
-      String actual = Block([
-        Statement([Code("test()")]),
-        DecreaseIndent(),
-        Statement([Code("test()")]),
-      ]).toString();
-      String expected = '{\n'
-          '  test();\n'
-          'test();\n'
-          '}';
-      expect(actual, expected);
-    });
-  });
-
-  group('NewLine class', () {
-    test('Given NewLine will go to add a new line character', () {
-      String actual = Block([
-        Code("test1();"),
-        NewLine(),
-        Code("test2();"),
-      ]).toString();
-      String expected = '{\n'
-          '  test1();\n'
-          '  test2();\n'
-          '}';
-      expect(actual, expected);
-    });
-
-    test('Given een alternative NewLine will go to add a new line character',
-        () {
-      Block block = Block([
-        Code("test1();"),
-        NewLine(),
-        Code("test2();"),
-      ]);
-      String actual = CodeFormatter(newLine: '\r\n').format(block);
-      String expected = '{\r\n'
-          '  test1();\r\n'
-          '  test2();\r\n'
-          '}';
-      expect(actual, expected);
-    });
-  });
-
-  group('SpaceWhenNeeded class', () {
+  group('Space class', () {
     test(
         'Given multiple sequential SpaceWhenNeeded, or a single SpaceWhenNeeded => Results in a single space',
         () {
       String actual = Statement([
         KeyWord.class$,
-        SpaceWhenNeeded(),
-        SpaceWhenNeeded(),
-        SpaceWhenNeeded(),
+        Space(),
+        Code('Test'),
+        Space(),
+        Space(),
         KeyWord.extends$,
-        SpaceWhenNeeded(),
+        Space(),
         Code('OtherClass'),
-        SpaceWhenNeeded(),
+        Space(),
         Code('{}'),
-      ]).toString();
-      String expected = 'class extends OtherClass {};\n';
+      ], hasEndOfStatement: false)
+          .toString();
+      String expected = 'class Test extends OtherClass {}\n';
       expect(actual, expected);
     });
 
     test('Given an empty line => Does not ad a space', () {
-      String actual = SpaceWhenNeeded().toString();
-      String expected = '';
-      expect(actual, expected);
-    });
-
-    test('Given space after new line => No space after new line', () {
-      String actual = Statement([NewLine(), SpaceWhenNeeded()]).toString();
-      String expected = '\n'
-          ';\n';
+      String actual = Space().toString();
+      String expected = '\n';
       expect(actual, expected);
     });
   });
 
   group('KeyWord class', () {
     test('Given Keyword.\$class => Returns code string class', () {
-      String actual = CodeFormatter().format(KeyWord.class$);
+      String actual = CodeFormatter().unFormatted(KeyWord.class$);
       String expected = 'class';
       expect(actual, expected);
     });
 
     test('Given Keyword.allCodes=> Returns .. codes', () {
       int actual = KeyWord.allCodes.length;
-      int expected = 63;
+      int expected = 61;
       expect(actual, expected);
     });
 
     test('Given Keyword.allNames=> Returns .. strings', () {
       int actual = KeyWord.allNames.length;
-      int expected = 63;
+      int expected = 61;
       expect(actual, expected);
     });
 
@@ -314,12 +245,14 @@ main() {
 
   group('Block class', () {
     test('Given a Block class => Returns a formatted code string', () {
-      String actual = Block([
-        Statement([Code('test()')]),
-      ]).toString();
-      String expected = '{\n'
-          '  test();\n'
-          '}';
+      String actual = Function.withName(
+          'test',
+          Block([
+            Statement.return$(Expression.ofInt(1)),
+          ])).toString();
+      String expected = 'test() {\n'
+          '  return 1;\n'
+          '}\n';
       expect(actual, expected);
     });
   });

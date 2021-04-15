@@ -1,3 +1,9 @@
+## [0.0.6]
+
+* Now uses the official Dart formatter
+* Added more doc comments
+* Updated documentation and examples accordingly
+
 ## [0.0.4]
 
 * Added @deprecated @override @required annotations

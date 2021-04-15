@@ -10,7 +10,7 @@ Example of a main function with a print statement:
 import 'package:dart_code/dart_code.dart';
 
 main() {
-  print(Function.main(Statement.print(Expression.ofString('Hello World.'))).toString());
+  print(Function.main(Statement.print(Expression.ofString('Hello World.'))));
 }
 ```
 
@@ -21,26 +21,31 @@ main() {
 }
 ```
 
-Use the CodeFormatter class for alternative formatting. The CodeFormatter has the following optional parameters:
-- int maxLineLength
-- String indent
-- String wrapIndent
-- String newLine
+Use the CodeFormatter class for alternative formatting.
+It uses the official (dartfmt)[https://github.com/dart-lang/dart_style/wiki/Formatting-Rules] with the dart_style package
+You can use the following CodeFormatter constructor parameters:
+- String lineEnding
+- int pageWidth
+- int indent
+
+Note that this formatter may throw parsing exceptions.
+You can use the [CodeFormatter.unFormatted] method when you need a code partial that can not be parsed by the Dart formatter
 
 Alternative formatting example:
 ```dart
 import 'package:dart_code/dart_code.dart';
 
 main() {
-    print(CodeFormatter(indent: '    ').format(
-        Function.main(Statement.print(Expression.ofString('Hello World.')))));
+  print(CodeFormatter(pageWidth: 20).format(
+      Function.main(Statement.print(Expression.ofString('Hello World.')))));
 }
 ```
 
 Outputs:
 ```dart
 main() {
-    print('Hello World.');
+  print(
+      'Hello World.');
 }
 ```
 
@@ -49,11 +54,16 @@ An example of a library with unique imports:
 import 'package:dart_code/dart_code.dart';
 
 main() {
-    print(Class('Employee',
-            superClass: Type('Person', libraryUrl:'package:my_package/person.dart'),
-            implements: [Type('Skills', libraryUrl:'package:my_package/skills.dart')],
-            abstract: true,
-         )]).toString());
+   print(Library(classes: [
+     Class(
+       'Employee',
+       superClass: Type('Person', libraryUrl: 'package:my_package/person.dart'),
+       implements: [
+         Type('Skills', libraryUrl: 'package:my_package/skills.dart')
+       ],
+       abstract: true,
+     )
+   ]));
 }
 ```
 
@@ -62,9 +72,7 @@ Outputs:
 import 'package:my_package/person.dart' as _i1;
 import 'package:my_package/skills.dart' as _i2;
 
-abstract class Employee extends _i1.Person implements _i2.Skills {
-
-}
+abstract class Employee extends _i1.Person implements _i2.Skills {}
 ```
 
 For more examples see: https://github.com/efficientyboosters/dart_code/tree/main/test
@@ -83,9 +91,10 @@ You will probably be using the following code modeling classes:
 - Comment
 - DocComment
 - Annotation
+- Code (for anything else)
 
 ## Inspiration
 This package was inspired by the code_builder package.
 - dart_code is simpler and likely less complete
-- dart_code classes can extended (no fluent builders used) so that code model logic can be included in extended classes.
+- dart_code classes can extended (no fluent builders used) so that code model logic can be writien inside the constructor of the extended classes.
 - dart_code allows you to directly use the toString() method on the code classes or use the CodeFormatter class for alternative formatting settings.

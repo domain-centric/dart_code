@@ -67,22 +67,22 @@ main() {
     test(
         'Should return: code of a static method that returns a greeting string',
         () {
-      String actual = Method.static('greetingMessage',
-              Statement.return$(Expression.ofString('Hello \$name.')),
-              parameters: Parameters(
-                  [Parameter.required('name', type: Type.ofString())]),
-              type: Type.ofString())
-          .toString();
-      String expected = 'static String greetingMessage(String name) {\n'
-          '  return \'Hello \$name.\';\n'
-          '}\n';
+      String actual = CodeFormatter().unFormatted(Method.static(
+          'greetingMessage',
+          Statement.return$(Expression.ofString('Hello \$name.')),
+          parameters:
+              Parameters([Parameter.required('name', type: Type.ofString())]),
+          type: Type.ofString()));
+      String expected =
+          'static String greetingMessage(String name) {return \'Hello \$name.\';}';
       expect(actual, expected);
     });
 
     test(
         'Should return: code of a static method that returns a greeting string, with DocComments and Annotations',
         () {
-      String actual = Method.static('greetingMessage',
+          String actual = CodeFormatter().unFormatted(Method.static(
+          'greetingMessage',
           Statement.return$(Expression.ofString('Hello \$name.')),
           parameters:
               Parameters([Parameter.required('name', type: Type.ofString())]),
@@ -102,13 +102,11 @@ main() {
                   ParameterValue(
                       Expression.ofEnum(Type('ExecutionModes'), 'directly'))
                 ]))
-          ]).toString();
+          ]));
       String expected = '/// This method returns a greeting string\n'
           '@Visible(forRole: \'admin\')\n'
           '@ExecutionMode(ExecutionModes.directly)\n'
-          'static String greetingMessage(String name) {\n'
-          '  return \'Hello \$name.\';\n'
-          '}\n';
+          'static String greetingMessage(String name) {return \'Hello \$name.\';}';
       expect(actual, expected);
     });
   });
@@ -117,19 +115,20 @@ main() {
     test(
         'Should return: code of a abstract method that returns a greeting string',
         () {
-      String actual = Method.abstract('greetingMessage',
-              parameters: Parameters(
-                  [Parameter.required('name', type: Type.ofString())]),
-              type: Type.ofString())
-          .toString();
-      String expected = 'String greetingMessage(String name);\n';
+          String actual = CodeFormatter().unFormatted(Method.abstract(
+          'greetingMessage',
+          parameters:
+              Parameters([Parameter.required('name', type: Type.ofString())]),
+          type: Type.ofString()));
+      String expected = 'String greetingMessage(String name);';
       expect(actual, expected);
     });
 
     test(
         'Should return: code of a abstract method that returns a greeting string, with DocComments and Annotations',
         () {
-      String actual = Method.abstract('greetingMessage',
+          String actual = CodeFormatter().unFormatted(Method.abstract(
+          'greetingMessage',
           parameters:
               Parameters([Parameter.required('name', type: Type.ofString())]),
           type: Type.ofString(),
@@ -148,11 +147,11 @@ main() {
                   ParameterValue(
                       Expression.ofEnum(Type('ExecutionModes'), 'directly'))
                 ]))
-          ]).toString();
+          ]));
       String expected = '/// This method returns a greeting string\n'
           '@Visible(forRole: \'admin\')\n'
           '@ExecutionMode(ExecutionModes.directly)\n'
-          'String greetingMessage(String name);\n';
+          'String greetingMessage(String name);';
       expect(actual, expected);
     });
   });

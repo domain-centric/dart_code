@@ -1,15 +1,15 @@
 import 'annotation.dart';
 import 'basic.dart';
 import 'comment.dart';
-import 'formatting.dart';
 import 'model.dart';
 import 'parameter.dart';
 import 'statement.dart';
 import 'type.dart';
 import 'variable_definition.dart';
 
-///  A syntactic entity in the Dart programming language that may be evaluated to determine its value
+///  An [Expression] is a syntactic entity in the Dart programming language that may be evaluated to determine its value
 ///  e.g.: 1 or or 1.1 or 1+2 or 1*2 or 'hello' or 'hello' + ' world' or user.name
+///  See: [https://dart.dev/guides/language/language-tour#operators]
 class Expression extends CodeModel {
   final List<CodeNode> nodes;
 
@@ -64,9 +64,9 @@ class Expression extends CodeModel {
           Expression key, Expression value) =>
       Expression([
         key,
-        SpaceWhenNeeded(),
+        Space(),
         Code(':'),
-        SpaceWhenNeeded(),
+        Space(),
         value,
       ]);
 
@@ -140,75 +140,75 @@ class Expression extends CodeModel {
   /// =========================================================================
 
   /// Returns the result of `this` `&&` [other].
-  Expression and(Expression other) => Expression(
-      [this, SpaceWhenNeeded(), Code('&&'), SpaceWhenNeeded(), other]);
+  Expression and(Expression other) =>
+      Expression([this, Space(), Code('&&'), Space(), other]);
 
   /// Returns the result of `this` `||` [other].
-  Expression or(Expression other) => Expression(
-      [this, SpaceWhenNeeded(), Code('||'), SpaceWhenNeeded(), other]);
+  Expression or(Expression other) =>
+      Expression([this, Space(), Code('||'), Space(), other]);
 
   /// Returns the result of `!this`.
   Expression negate() => Expression([Code('!'), this]);
 
   /// Returns the result of `this` `as` [other].
-  Expression asA(Expression other) => Expression(
-      [this, SpaceWhenNeeded(), Code('as'), SpaceWhenNeeded(), other]);
+  Expression asA(Expression other) =>
+      Expression([this, Space(), Code('as'), Space(), other]);
 
   /// Returns accessing the index operator (`[]`) on `this`.
   Expression index(Expression index) =>
       Expression([this, Code('['), index, Code(']')]);
 
   /// Returns the result of `this` `is` [other].
-  Expression isA(Expression other) => Expression(
-      [this, SpaceWhenNeeded(), Code('is'), SpaceWhenNeeded(), other]);
+  Expression isA(Expression other) =>
+      Expression([this, Space(), Code('is'), Space(), other]);
 
   /// Returns the result of `this` `is!` [other].
-  Expression isNotA(Expression other) => Expression(
-      [this, SpaceWhenNeeded(), Code('is!'), SpaceWhenNeeded(), other]);
+  Expression isNotA(Expression other) =>
+      Expression([this, Space(), Code('is!'), Space(), other]);
 
   /// Returns the result of `this` `==` [other].
-  Expression equalTo(Expression other) => Expression(
-      [this, SpaceWhenNeeded(), Code('=='), SpaceWhenNeeded(), other]);
+  Expression equalTo(Expression other) =>
+      Expression([this, Space(), Code('=='), Space(), other]);
 
   /// Returns the result of `this` `!=` [other].
-  Expression notEqualTo(Expression other) => Expression(
-      [this, SpaceWhenNeeded(), Code('!='), SpaceWhenNeeded(), other]);
+  Expression notEqualTo(Expression other) =>
+      Expression([this, Space(), Code('!='), Space(), other]);
 
   /// Returns the result of `this` `>` [other].
-  Expression greaterThan(Expression other) => Expression(
-      [this, SpaceWhenNeeded(), Code('>'), SpaceWhenNeeded(), other]);
+  Expression greaterThan(Expression other) =>
+      Expression([this, Space(), Code('>'), Space(), other]);
 
   /// Returns the result of `this` `<` [other].
-  Expression lessThan(Expression other) => Expression(
-      [this, SpaceWhenNeeded(), Code('<'), SpaceWhenNeeded(), other]);
+  Expression lessThan(Expression other) =>
+      Expression([this, Space(), Code('<'), Space(), other]);
 
   /// Returns the result of `this` `>=` [other].
-  Expression greaterOrEqualTo(Expression other) => Expression(
-      [this, SpaceWhenNeeded(), Code('>='), SpaceWhenNeeded(), other]);
+  Expression greaterOrEqualTo(Expression other) =>
+      Expression([this, Space(), Code('>='), Space(), other]);
 
   /// Returns the result of `this` `<=` [other].
-  Expression lessOrEqualTo(Expression other) => Expression(
-      [this, SpaceWhenNeeded(), Code('<='), SpaceWhenNeeded(), other]);
+  Expression lessOrEqualTo(Expression other) =>
+      Expression([this, Space(), Code('<='), Space(), other]);
 
   /// Returns the result of `this` `+` [other].
-  Expression add(Expression other) => Expression(
-      [this, SpaceWhenNeeded(), Code('+'), SpaceWhenNeeded(), other]);
+  Expression add(Expression other) =>
+      Expression([this, Space(), Code('+'), Space(), other]);
 
   /// Returns the result of `this` `-` [other].
-  Expression subtract(Expression other) => Expression(
-      [this, SpaceWhenNeeded(), Code('-'), SpaceWhenNeeded(), other]);
+  Expression subtract(Expression other) =>
+      Expression([this, Space(), Code('-'), Space(), other]);
 
   /// Returns the result of `this` `/` [other].
-  Expression divide(Expression other) => Expression(
-      [this, SpaceWhenNeeded(), Code('/'), SpaceWhenNeeded(), other]);
+  Expression divide(Expression other) =>
+      Expression([this, Space(), Code('/'), Space(), other]);
 
   /// Returns the result of `this` `*` [other].
-  Expression multiply(Expression other) => Expression(
-      [this, SpaceWhenNeeded(), Code('*'), SpaceWhenNeeded(), other]);
+  Expression multiply(Expression other) =>
+      Expression([this, Space(), Code('*'), Space(), other]);
 
   /// Returns the result of `this` `%` [other].
-  Expression modulo(Expression other) => Expression(
-      [this, SpaceWhenNeeded(), Code('%'), SpaceWhenNeeded(), other]);
+  Expression modulo(Expression other) =>
+      Expression([this, Space(), Code('%'), Space(), other]);
 
   /// Returns the result of this++ or ++this.
   Expression increment({after = true}) =>
@@ -221,22 +221,22 @@ class Expression extends CodeModel {
   Expression conditional(Expression whenTrue, Expression whenFalse) =>
       Expression([
         this,
-        SpaceWhenNeeded(),
+        Space(),
         Code('?'),
-        SpaceWhenNeeded(),
+        Space(),
         whenTrue,
-        SpaceWhenNeeded(),
+        Space(),
         Code(':'),
-        SpaceWhenNeeded(),
+        Space(),
         whenFalse
       ]);
 
   /// This expression preceded by `await`.
-  Expression awaited() => Expression([Code('await'), SpaceWhenNeeded(), this]);
+  Expression awaited() => Expression([Code('await'), Space(), this]);
 
   /// Return `{other} ?? {this}`.
-  Expression ifNullThen(Expression other) => Expression(
-      [other, SpaceWhenNeeded(), Code('??'), SpaceWhenNeeded(), this]);
+  Expression ifNullThen(Expression other) =>
+      Expression([other, Space(), Code('??'), Space(), this]);
 
   ///===========================================================================
   ///                     OTHER FLUENT METHODS
@@ -247,7 +247,6 @@ class Expression extends CodeModel {
       Expression([
         this,
         if (!cascade) Code('.'),
-        if (cascade) NewLine(),
         if (cascade) Code('..'),
         IdentifierStartingWithLowerCase(name),
         Code('('),
@@ -258,7 +257,6 @@ class Expression extends CodeModel {
   Expression getProperty(String name, {bool cascade = false}) => Expression([
         this,
         if (!cascade) Code('.'),
-        if (cascade) NewLine(),
         if (cascade) Code('..'),
         IdentifierStartingWithLowerCase(name),
       ]);
@@ -268,12 +266,11 @@ class Expression extends CodeModel {
       Expression([
         this,
         if (!cascade) Code('.'),
-        if (cascade) NewLine(),
         if (cascade) Code('..'),
         IdentifierStartingWithLowerCase(name),
-        SpaceWhenNeeded(),
+        Space(),
         Code('='),
-        SpaceWhenNeeded(),
+        Space(),
         value,
       ]);
 

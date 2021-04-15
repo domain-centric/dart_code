@@ -5,6 +5,8 @@ import 'model.dart';
 import 'parameter.dart';
 import 'type.dart';
 
+/// Represents a [Function]
+/// See: [https://dart.dev/guides/language/language-tour#functions]
 // ignore: deprecated_function_class_declaration
 class Function extends CodeModel {
   final List<DocComment> docComments;
@@ -47,25 +49,22 @@ class Function extends CodeModel {
         body = Body([body]);
 
   @override
-  List<CodeNode> codeNodes(Context context) => [
+  List<CodeNode> codeNodes(Context context) =>
+      [
         ...docComments,
         ...annotations,
-        SpaceWhenNeeded(),
+        Space(),
         if (returnType != null) returnType,
-        SpaceWhenNeeded(),
+        Space(),
         if (name != null) name,
         Code('('),
         if (parameters != null) parameters,
         Code(')'),
-        if (asynchrony != null) SpaceWhenNeeded(),
+        if (asynchrony != null) Space(),
         if (asynchrony != null && asynchrony == Asynchrony.async)
           KeyWord.async$,
-        if (asynchrony != null && asynchrony == Asynchrony.asyncStar)
-          KeyWord.asyncStar$,
         if (asynchrony != null && asynchrony == Asynchrony.sync) KeyWord.sync$,
-        if (asynchrony != null && asynchrony == Asynchrony.syncStar)
-          KeyWord.syncStar$,
-        SpaceWhenNeeded(),
+        Space(),
         body,
       ];
 }

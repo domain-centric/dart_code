@@ -2,11 +2,12 @@ import 'annotation.dart';
 import 'basic.dart';
 import 'class.dart';
 import 'comment.dart';
-import 'formatting.dart';
 import 'function.dart';
 import 'model.dart';
 import 'statement.dart';
 
+/// Represents a [Library] containing optional [DocComment]s, [Annotation]s, [Function]s and [Class]es
+/// See: [https://www.tutorialspoint.com/dart_programming/dart_programming_libraries.htm#:~:text=A%20library%20in%20a%20programming,typedefs%2C%20properties%2C%20and%20exceptions.]
 class Library extends CodeModel {
   final List<DocComment> docComments;
   final List<Annotation> annotations;
@@ -25,12 +26,10 @@ class Library extends CodeModel {
   @override
   List<CodeNode> codeNodes(Context context) => [
         if (libraryStatement != null) libraryStatement,
-        if (libraryStatement != null) NewLine(),
         context.imports,
         if (docComments != null) ...docComments,
         if (annotations != null) ...annotations,
         if (functions != null) SeparatedValues.forStatements(functions),
-        if (functions != null) NewLine(),
         if (classes != null) SeparatedValues.forStatements(classes),
       ];
 }

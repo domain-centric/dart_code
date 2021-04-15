@@ -7,6 +7,7 @@ import 'type.dart';
 import 'variable_definition.dart';
 
 /// A [Field] is a [VariableDefinition] in a [Class].
+/// See [https://dart.dev/guides/language/language-tour#using-class-members]
 class Field extends VariableDefinition {
   Field.var$(String name,
       {List<DocComment> docComments = const [],
@@ -52,6 +53,8 @@ class Field extends VariableDefinition {
         );
 }
 
+/// A [FieldInitializer] is a [VariableDefinition] with a value assignment within a [Class].
+/// See [https://dart.dev/guides/language/language-tour#using-class-members]
 class FieldInitializer extends CodeModel {
   final IdentifierStartingWithLowerCase name;
   final Expression value;
@@ -61,5 +64,5 @@ class FieldInitializer extends CodeModel {
 
   @override
   List<CodeNode> codeNodes(Context context) =>
-      [name, SpaceWhenNeeded(), Code('='), SpaceWhenNeeded(), value];
+      [name, Space(), Code('='), Space(), value];
 }

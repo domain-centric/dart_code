@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 main() {
   group('Code class', () {
     test('Given a Code => Returns the literal code string', () {
-      String actual = Code("test();").toString();
+      String actual = CodeFormatter().unFormatted(Code("test();"));
       String expected = 'test();';
       expect(actual, expected);
     });

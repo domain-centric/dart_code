@@ -5,8 +5,7 @@ main() {
   group('Library class', () {
     test('constructor with name parameter', () {
       String actual = Library(name: 'contacts').toString();
-      String expected = 'library contacts;\n'
-          '\n';
+      String expected = 'library contacts;\n';
       expect(actual, expected);
     });
 
@@ -19,10 +18,10 @@ main() {
     });
 
     test('constructor with annotations parameter', () {
-      String actual = Library(annotations: [
+      String actual = CodeFormatter().unFormatted(Library(annotations: [
         Annotation(Type('Foo'),
             ParameterValues([ParameterValue(Expression.ofInt(42))]))
-      ]).toString();
+      ]));
       String expected = '@Foo(42)\n';
       expect(actual, expected);
     });
@@ -52,8 +51,7 @@ main() {
       String expected = '/// This function returns: true\n'
           '@Visible(forRole: \'admin\')\n'
           '@ExecutionMode(ExecutionModes.directly)\n'
-          'bool returnTrue() => true;\n'
-          '\n';
+          'bool returnTrue() => true;\n';
       expect(actual, expected);
     });
 
@@ -72,9 +70,7 @@ main() {
       String expected = 'import \'package:my_package/person.dart\' as _i1;\n'
           'import \'package:my_package/skills.dart\' as _i2;\n'
           '\n'
-          'abstract class Employee extends _i1.Person implements _i2.Skills {\n'
-          '  \n'
-          '}\n';
+          'abstract class Employee extends _i1.Person implements _i2.Skills {}\n';
       expect(actual, expected);
     });
 
@@ -142,32 +138,26 @@ main() {
         ])
       ]).toString();
       String expected = 'class Person {\n'
-          '  \n'
           '  final String givenName;\n'
           '  final String familyName;\n'
           '  final String fullName;\n'
           '  final DateTime dateOfBirth;\n'
-          '  \n'
-          '  Person(\n'
-          '    this.givenName,\n'
-          '    this.familyName,\n'
-          '    this.dateOfBirth) : fullName = \'\$givenName \$familyName\';\n'
-          '  \n'
+          '  Person(this.givenName, this.familyName, this.dateOfBirth)\n'
+          '      : fullName = \'\$givenName \$familyName\';\n'
           '  String greetingMessage() {\n'
           '    return \'Hello \$fullName.\';\n'
           '  }\n'
-          '  \n'
+          '\n'
           '  get ageInYears {\n'
           '    DateTime now = DateTime.now();\n'
           '    int years = now.year - dateOfBirth.year;\n'
           '    int months = now.month - dateOfBirth.month;\n'
           '    int days = now.day - dateOfBirth.day;\n'
-          '    if (months < 0 || (months == 0 && days < 0)){\n'
+          '    if (months < 0 || (months == 0 && days < 0)) {\n'
           '      years--;\n'
           '    }\n'
           '    return years;\n'
           '  }\n'
-          '  \n'
           '}\n';
       expect(actual, expected);
     });
@@ -238,7 +228,7 @@ class CalculateAgeInYearsFunction extends Function {
       '  int years = now.year - dateOfBirth.year;\n'
       '  int months = now.month - dateOfBirth.month;\n'
       '  int days = now.day - dateOfBirth.day;\n'
-      '  if (months < 0 || (months == 0 && days < 0)){\n'
+      '  if (months < 0 || (months == 0 && days < 0)) {\n'
       '    years--;\n'
       '  }\n'
       '  return years;\n'
@@ -260,10 +250,7 @@ class SoftWareEngineerClass extends Class {
         );
 
   String expectedCode = 'abstract class SoftWareEngineer {\n'
-      '  \n'
-      '  List<String> get familiarProgramingLanguages;\n'
-      '  \n'
-      '}\n';
+      '  List<String> get familiarProgramingLanguages;\n}\n';
 }
 
 class PersonClass extends Class {
@@ -303,24 +290,16 @@ class PersonClass extends Class {
         ]);
 
   String expectedCode = 'class Person implements SoftWareEngineer {\n'
-      '  \n'
       '  final String givenName;\n'
       '  final String familyName;\n'
       '  final String fullName;\n'
       '  final DateTime dateOfBirth;\n'
       '  final List<String> familiarProgramingLanguages;\n'
-      '  \n'
-      '  Person(\n'
-      '    this.givenName,\n'
-      '    this.familyName,\n'
-      '    this.dateOfBirth,\n'
-      '    this.familiarProgramingLanguages) : fullName = \'\$givenName \$familyName\';\n'
-      '  \n'
+      '  Person(this.givenName, this.familyName, this.dateOfBirth,\n'
+      '      this.familiarProgramingLanguages)\n'
+      '      : fullName = \'\$givenName \$familyName\';\n'
       '  String greetingMessage() {\n'
       '    return \'Hello \$fullName.\';\n'
-      '  }\n'
-      '  \n'
-      '  get ageInYears => calculateAgeInYears(dateOfBirth);\n'
-      '  \n'
-      '}\n';
+      '  }\n\n'
+      '  get ageInYears => calculateAgeInYears(dateOfBirth);\n}\n';
 }

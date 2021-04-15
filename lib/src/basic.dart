@@ -1,66 +1,45 @@
+import 'package:dart_code/dart_code.dart';
+
 import 'expression.dart';
-import 'formatting.dart';
 import 'model.dart';
 import 'statement.dart';
 
 class SeparatedValues extends CodeModel {
   final Iterable<CodeNode> values;
-  final bool startWithNewLine;
-  final bool withIndent;
   final bool withCommas;
-  final bool withNewLines;
 
-  SeparatedValues.forStatements(this.values)
-      : startWithNewLine = false,
-        withIndent = false,
-        withCommas = false,
-        withNewLines = true;
+  SeparatedValues.forStatements(this.values) : withCommas = false;
 
-  SeparatedValues.forParameters(this.values)
-      : startWithNewLine = true,
-        withIndent = true,
-        withCommas = true,
-        withNewLines = true;
+  SeparatedValues.forParameters(this.values) : withCommas = true;
 
   @override
   List<CodeNode> codeNodes(Context context) {
     List<CodeNode> nodes = [];
     if (values != null && values.isNotEmpty) {
-      if (values.length > 1) {
-        if (startWithNewLine) {
-          nodes.add(NewLine());
-        }
-        if (withIndent) {
-          nodes.add(IncreaseIndent());
-        }
-      }
-      CodeNode previousValue;
+      bool first = true;
       for (CodeNode value in values) {
-        if (previousValue != null && !(previousValue is FormattingCodeLeaf)) {
-          if (withCommas) {
+        if (value != null) {
+          if (withCommas && !first) {
             nodes.add(Code(','));
+          } else {
+            first = false;
           }
-          if (withNewLines) {
-            nodes.add(NewLine());
-          }
+          nodes.add(value);
         }
-        nodes.add(value);
-        previousValue = value;
       }
-      if (values.length > 1 && withIndent) nodes.add(DecreaseIndent());
     }
     return nodes;
   }
 }
 
 ///Adds code only when it is not repeating itself (ignoring spaces)
-class NoneRepeatingCode extends CodeLeaf {
+class NoneRepeatingCode extends CodeNode {
   final String code;
 
   NoneRepeatingCode(this.code);
 
   @override
-  String convertToString(Context context) {
+  String toUnFormattedString(Context context) {
     if (code == context.lastCode) {
       return ''; //add nothing
     } else {
@@ -71,27 +50,30 @@ class NoneRepeatingCode extends CodeLeaf {
 
 final RegExp endsWithWhiteSpace = RegExp(r'\s$');
 
-/// adds a space if last code line is not empty and does not end with a white space
-class SpaceWhenNeeded extends CodeLeaf {
-  @override
-  String convertToString(Context context) {
-    if (context.lastCode.trim().isEmpty ||
-        endsWithWhiteSpace.hasMatch(context.lastCode)) {
-      return '';
-    } else {
-      return ' ';
-    }
-  }
+/// adds a space.
+/// Note that [CodeFormatter] may add additional spaces or remove unneeded spaces
+class Space extends Code {
+  Space() : super(' ');
+}
+
+/// adds a carriage return (CR) character.
+/// This character is used as a new line character in most other non-Unix operating systems
+/// Note that [CodeFormatter] may
+/// - add additional cr characters
+/// - or remove unneeded cr characters
+/// - or replace it with different end of line characters.
+class NewLine extends Code {
+  NewLine() : super('\n');
 }
 
 /// A collection of reserved Dart (key)words
 /// Using a dollar prefix to prevent compiler issues (field names being keywords)
+/// See [https://dart.dev/guides/language/language-tour#keywords]
 class KeyWord {
   static final Code abstract$ = Code('abstract');
   static final Code as$ = Code('as');
   static final Code assert$ = Code('assert');
   static final Code async$ = Code('async');
-  static final Code asyncStar$ = Code('async*');
   static final Code await$ = Code('await');
   static final Code break$ = Code('break');
   static final Code case$ = Code('case');
@@ -139,7 +121,6 @@ class KeyWord {
   static final Code super$ = Code('super');
   static final Code switch$ = Code('switch');
   static final Code sync$ = Code('sync');
-  static final Code syncStar$ = Code('sync*');
   static final Code this$ = Code('this');
   static final Code throw$ = Code('throw');
   static final Code true$ = Code('true');
@@ -155,7 +136,6 @@ class KeyWord {
     as$,
     assert$,
     async$,
-    asyncStar$,
     await$,
     break$,
     case$,
@@ -203,7 +183,6 @@ class KeyWord {
     super$,
     switch$,
     sync$,
-    syncStar$,
     this$,
     throw$,
     true$,
@@ -226,11 +205,13 @@ final RegExp _lettersNumbersUnderscoreOrDollar =
 
 final RegExp _successiveUnderscores = RegExp(r"__");
 
-abstract class _Identifier extends CodeLeaf {
-  final String name;
+/// Identifiers are names of [Class]es, [Field]s, [Method]s, [Function]s etc.
+/// See [https://dart.dev/guides/language/language-tour#important-concepts]
+abstract class _Identifier extends CodeNode {
+  final String _name;
 
-  _Identifier(this.name, CaseChecker firstLetterCaseChecker) {
-    _validateName(name, firstLetterCaseChecker);
+  _Identifier(this._name, CaseChecker firstLetterCaseChecker) {
+    _validateName(_name, firstLetterCaseChecker);
   }
 
   void _validateName(String name, CaseChecker firstLetterCaseChecker) {
@@ -255,8 +236,8 @@ abstract class _Identifier extends CodeLeaf {
   }
 
   @override
-  String convertToString(Context context) {
-    return name;
+  String toUnFormattedString(Context context) {
+    return _name;
   }
 }
 
@@ -287,6 +268,8 @@ class CaseChecker {
   }
 }
 
+/// Represents a block statement
+/// See [https://dart.dev/guides/language/language-tour#functions]
 class Block extends CodeModel {
   final List<CodeNode> codeInsideBlock;
 
@@ -295,16 +278,13 @@ class Block extends CodeModel {
   @override
   List<CodeNode> codeNodes(Context context) => [
         Code('{'),
-        NewLine(),
-        IncreaseIndent(),
         ...codeInsideBlock,
-        DecreaseIndent(),
-        NoneRepeatingCode(context.newLine),
         Code('}'),
       ];
 }
 
-/// e.g. a body of a function, method
+/// Represent a body of e.g. a [Function] or [Method]
+/// A body can be a block (e.g. with a return statement) or a functional block (using =>)
 class Body extends CodeModel {
   final List<CodeNode> nodes;
 
@@ -314,17 +294,15 @@ class Body extends CodeModel {
   List<CodeNode> codeNodes(Context context) {
     List<CodeNode> codeNodes = [];
     if (nodes.length == 1 && nodes.first is Expression) {
-      codeNodes.add(SpaceWhenNeeded());
+      codeNodes.add(Space());
       codeNodes.add(Code("=>"));
-      codeNodes.add(SpaceWhenNeeded());
+      codeNodes.add(Space());
       codeNodes.add(nodes.first);
       codeNodes.add(EndOfStatement());
     } else if (nodes.length == 1 && nodes.first is Block) {
       codeNodes.add(nodes.first);
-      codeNodes.add(NewLine());
     } else {
       codeNodes.add(Block(nodes));
-      codeNodes.add(NewLine());
     }
     return codeNodes;
   }
@@ -332,7 +310,5 @@ class Body extends CodeModel {
 
 enum Asynchrony {
   async,
-  asyncStar,
   sync,
-  syncStar,
 }

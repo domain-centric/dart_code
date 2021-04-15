@@ -11,6 +11,8 @@ enum PropertyAccessor {
   setter,
 }
 
+/// Represents a [Class] [Method] or [PropertyAccessor]
+/// See: [https://dart.dev/guides/language/language-tour#methods]
 class Method extends CodeModel {
   final List<DocComment> docComments;
   final List<Annotation> annotations;
@@ -93,11 +95,12 @@ class Method extends CodeModel {
         body = Body([body]);
 
   @override
-  List<CodeNode> codeNodes(Context context) => [
+  List<CodeNode> codeNodes(Context context) =>
+      [
         if (docComments != null) ...docComments,
         if (annotations != null) ...annotations,
         if (static) KeyWord.static$,
-        if (static) SpaceWhenNeeded(),
+        if (static) Space(),
         if (type != null &&
             (propertyAccessor == null ||
                 propertyAccessor != PropertyAccessor.setter))
@@ -105,34 +108,30 @@ class Method extends CodeModel {
         if (type != null &&
             (propertyAccessor == null ||
                 propertyAccessor != PropertyAccessor.setter))
-          SpaceWhenNeeded(),
+          Space(),
         if (propertyAccessor != null &&
             propertyAccessor == PropertyAccessor.getter)
           KeyWord.get$,
         if (propertyAccessor != null &&
             propertyAccessor == PropertyAccessor.setter)
           KeyWord.set$,
-        if (propertyAccessor != null) SpaceWhenNeeded(),
+        if (propertyAccessor != null) Space(),
         name,
         if (propertyAccessor == null ||
             propertyAccessor != PropertyAccessor.getter)
           Code('('),
         if (propertyAccessor != null &&
             propertyAccessor == PropertyAccessor.setter)
-          Parameter.required(name.name, type: type),
+          Parameter.required(name.toUnFormattedString(null), type: type),
         if (parameters != null && propertyAccessor == null) parameters,
         if (propertyAccessor == null ||
             propertyAccessor != PropertyAccessor.getter)
           Code(')'),
-        if (asynchrony != null) SpaceWhenNeeded(),
+        if (asynchrony != null) Space(),
         if (asynchrony != null && asynchrony == Asynchrony.async)
           KeyWord.async$,
-        if (asynchrony != null && asynchrony == Asynchrony.asyncStar)
-          KeyWord.asyncStar$,
         if (asynchrony != null && asynchrony == Asynchrony.sync) KeyWord.sync$,
-        if (asynchrony != null && asynchrony == Asynchrony.syncStar)
-          KeyWord.syncStar$,
-        if (!abstract) SpaceWhenNeeded(),
+        if (!abstract) Space(),
         if (!abstract) body,
         if (abstract) EndOfStatement(),
       ];
