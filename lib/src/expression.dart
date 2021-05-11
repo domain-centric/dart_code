@@ -92,12 +92,16 @@ class Expression extends CodeModel {
   Expression.ofVariable(String name)
       : nodes = [IdentifierStartingWithLowerCase(name)];
 
+  Expression.ofThis() : nodes = [KeyWord.this$];
+
   Expression.ofThisField(String name)
       : nodes = [
           KeyWord.this$,
           Code('.'),
           IdentifierStartingWithLowerCase(name)
         ];
+
+  Expression.ofSuper() : nodes = [KeyWord.super$];
 
   Expression.ofSuperField(String name)
       : nodes = [
