@@ -101,7 +101,7 @@ class Constructor extends CodeModel {
         if (constant) Space(),
         if (factory) KeyWord.factory$,
         if (factory) Space(),
-        type,
+        Code(type.name),
         if (name != null) Code('.'),
         if (name != null) name,
         Code('('),
