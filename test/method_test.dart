@@ -166,6 +166,17 @@ main() {
       String expected = 'int get age => this.age;\n';
       expect(actual, expected);
     });
+
+    test("Should return: 'final int get age => this.age;\n'", () {
+      String actual = CodeFormatter().unFormatted(Method.getter(
+        'age',
+        Expression.ofThisField('age'),
+        type: Type.ofInt(),
+        final$: true,
+      ));
+      String expected = 'final int get age  => this.age;';
+      expect(actual, expected);
+    });
   });
 
   group('Method.setter() constructor', () {

@@ -18,6 +18,7 @@ class Method extends CodeModel {
   final List<Annotation> annotations;
   final bool abstract;
   final bool static;
+  final bool final$;
   final Type type;
   final PropertyAccessor propertyAccessor;
   final Asynchrony asynchrony;
@@ -33,8 +34,10 @@ class Method extends CodeModel {
     this.propertyAccessor,
     this.parameters,
     this.asynchrony,
-  })  : abstract = true,
+  })
+      : abstract = true,
         static = false,
+        final$ = false,
         name = IdentifierStartingWithLowerCase(name),
         body = null;
 
@@ -46,8 +49,10 @@ class Method extends CodeModel {
     this.type,
     this.parameters,
     this.asynchrony,
-  })  : abstract = false,
+  })
+      : abstract = false,
         static = true,
+        final$ = false,
         name = IdentifierStartingWithLowerCase(name),
         propertyAccessor = null,
         body = Body([body]);
@@ -60,8 +65,10 @@ class Method extends CodeModel {
     this.type,
     this.parameters,
     this.asynchrony,
-  })  : abstract = false,
+  })
+      : abstract = false,
         static = false,
+        final$ = false,
         name = IdentifierStartingWithLowerCase(name),
         propertyAccessor = null,
         body = Body([body]);
@@ -71,6 +78,7 @@ class Method extends CodeModel {
     CodeNode body, {
     this.docComments = const [],
     this.annotations = const [],
+    this.final$ = false,
     this.type,
     this.parameters,
     this.asynchrony,
@@ -88,19 +96,22 @@ class Method extends CodeModel {
     this.type,
     this.parameters,
     this.asynchrony,
-  })  : abstract = false,
+  })
+      : abstract = false,
         static = false,
+        final$ = false,
         name = IdentifierStartingWithLowerCase(name),
         propertyAccessor = PropertyAccessor.setter,
         body = Body([body]);
 
   @override
-  List<CodeNode> codeNodes(Context context) =>
-      [
+  List<CodeNode> codeNodes(Context context) => [
         if (docComments != null) ...docComments,
         if (annotations != null) ...annotations,
         if (static) KeyWord.static$,
         if (static) Space(),
+        if (final$) KeyWord.final$,
+        if (final$) Space(),
         if (type != null &&
             (propertyAccessor == null ||
                 propertyAccessor != PropertyAccessor.setter))
