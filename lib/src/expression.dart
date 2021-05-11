@@ -278,7 +278,7 @@ class Expression extends CodeModel {
         value,
       ]);
 
-  Statement assignVariable(String name, {Type type, nullAware = false}) =>
+  Statement assignVariable(String name, {nullAware = false}) =>
       Statement.assignVariable(name, this, nullAware: nullAware);
 
   Statement defineVariable(String name,
