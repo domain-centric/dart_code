@@ -169,14 +169,6 @@ main() {
         expect(actual, expected);
       });
 
-      test("Should throw name exception: 'Must not be null'", () {
-        expect(() {
-          Statement.library(null);
-        },
-            throwsA(
-                (e) => e is ArgumentError && e.message == 'Must not be null'));
-      });
-
       test(
           "Should throw name exception: 'Must start with an lower case letter'",
           () {

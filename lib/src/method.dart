@@ -1,3 +1,4 @@
+import '../dart_code.dart';
 import 'annotation.dart';
 import 'basic.dart';
 import 'comment.dart';
@@ -19,12 +20,12 @@ class Method extends CodeModel {
   final bool abstract;
   final bool static;
   final bool final$;
-  final Type type;
-  final PropertyAccessor propertyAccessor;
-  final Asynchrony asynchrony;
+  final Type? type;
+  final PropertyAccessor? propertyAccessor;
+  final Asynchrony? asynchrony;
   final IdentifierStartingWithLowerCase name;
-  final Parameters parameters;
-  final Body body;
+  final Parameters? parameters;
+  final Body? body;
 
   Method.abstract(
     String name, {
@@ -34,8 +35,7 @@ class Method extends CodeModel {
     this.propertyAccessor,
     this.parameters,
     this.asynchrony,
-  })
-      : abstract = true,
+  })  : abstract = true,
         static = false,
         final$ = false,
         name = IdentifierStartingWithLowerCase(name),
@@ -49,8 +49,7 @@ class Method extends CodeModel {
     this.type,
     this.parameters,
     this.asynchrony,
-  })
-      : abstract = false,
+  })  : abstract = false,
         static = true,
         final$ = false,
         name = IdentifierStartingWithLowerCase(name),
@@ -65,24 +64,22 @@ class Method extends CodeModel {
     this.type,
     this.parameters,
     this.asynchrony,
-  })
-      : abstract = false,
+  })  : abstract = false,
         static = false,
         final$ = false,
         name = IdentifierStartingWithLowerCase(name),
         propertyAccessor = null,
         body = Body([body]);
 
-  Method.getter(
-    String name,
-    CodeNode body, {
-    this.docComments = const [],
-    this.annotations = const [],
-    this.final$ = false,
-    this.type,
-    this.parameters,
-    this.asynchrony,
-  })  : abstract = false,
+  Method.getter(String name,
+      CodeNode body, {
+        this.docComments = const [],
+        this.annotations = const [],
+        this.final$ = false,
+        this.type,
+        this.parameters,
+        this.asynchrony,
+      })  : abstract = false,
         static = false,
         name = IdentifierStartingWithLowerCase(name),
         propertyAccessor = PropertyAccessor.getter,
@@ -96,8 +93,7 @@ class Method extends CodeModel {
     this.type,
     this.parameters,
     this.asynchrony,
-  })
-      : abstract = false,
+  })  : abstract = false,
         static = false,
         final$ = false,
         name = IdentifierStartingWithLowerCase(name),
@@ -105,9 +101,10 @@ class Method extends CodeModel {
         body = Body([body]);
 
   @override
-  List<CodeNode> codeNodes(Context context) => [
-        if (docComments != null) ...docComments,
-        if (annotations != null) ...annotations,
+  List<CodeNode> codeNodes(Context context) =>
+      [
+        ...docComments,
+        ...annotations,
         if (static) KeyWord.static$,
         if (static) Space(),
         if (final$) KeyWord.final$,
@@ -115,7 +112,7 @@ class Method extends CodeModel {
         if (type != null &&
             (propertyAccessor == null ||
                 propertyAccessor != PropertyAccessor.setter))
-          type,
+          type!,
         if (type != null &&
             (propertyAccessor == null ||
                 propertyAccessor != PropertyAccessor.setter))
@@ -133,8 +130,8 @@ class Method extends CodeModel {
           Code('('),
         if (propertyAccessor != null &&
             propertyAccessor == PropertyAccessor.setter)
-          Parameter.required(name.toUnFormattedString(null), type: type),
-        if (parameters != null && propertyAccessor == null) parameters,
+          Parameter.required(CodeFormatter().unFormatted(name), type: type),
+        if (parameters != null && propertyAccessor == null) parameters!,
         if (propertyAccessor == null ||
             propertyAccessor != PropertyAccessor.getter)
           Code(')'),
@@ -143,7 +140,7 @@ class Method extends CodeModel {
           KeyWord.async$,
         if (asynchrony != null && asynchrony == Asynchrony.sync) KeyWord.sync$,
         if (!abstract) Space(),
-        if (!abstract) body,
+        if (!abstract) body!,
         if (abstract) EndOfStatement(),
       ];
 }

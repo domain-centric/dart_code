@@ -19,7 +19,7 @@ main() {
     test("Should throw invalid name exception", () {
       expect(
           () => {ConstructorCall(name: 'InvalidConstructorName').toString()},
-          throwsA(predicate((e) =>
+          throwsA(predicate((dynamic e) =>
               e is ArgumentError &&
               e.message == 'Must start with an lower case letter')));
     });
@@ -57,7 +57,7 @@ main() {
                   super$: true,
                 ).toString()
               },
-          throwsA(predicate((e) =>
+          throwsA(predicate((dynamic e) =>
               e is ArgumentError &&
               e.message == 'Must start with an lower case letter')));
     });
@@ -104,7 +104,7 @@ main() {
                   FieldInitializer('name', Expression.ofString('Bianca')),
                 ]).toString()
               },
-          throwsA(predicate((e) =>
+          throwsA(predicate((dynamic e) =>
               e is ArgumentError &&
               e.message == 'Field names must be unique')));
     });

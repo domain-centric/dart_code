@@ -11,10 +11,10 @@ import 'type.dart';
 class Function extends CodeModel {
   final List<DocComment> docComments;
   final List<Annotation> annotations;
-  final Type returnType;
-  final IdentifierStartingWithLowerCase name;
-  final Parameters parameters;
-  final Asynchrony asynchrony;
+  final Type? returnType;
+  final IdentifierStartingWithLowerCase? name;
+  final Parameters? parameters;
+  final Asynchrony? asynchrony;
   final Body body;
 
   Function.withoutName(
@@ -54,11 +54,11 @@ class Function extends CodeModel {
         ...docComments,
         ...annotations,
         Space(),
-        if (returnType != null) returnType,
+        if (returnType != null) returnType!,
         Space(),
-        if (name != null) name,
+        if (name != null) name!,
         Code('('),
-        if (parameters != null) parameters,
+        if (parameters != null) parameters!,
         Code(')'),
         if (asynchrony != null) Space(),
         if (asynchrony != null && asynchrony == Asynchrony.async)

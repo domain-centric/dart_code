@@ -18,9 +18,9 @@ class VariableDefinition extends Statement {
   /// If a static prefix is needed (only required for class fields)
   final bool static;
   final Modifier modifier;
-  final Type type;
+  final Type? type;
   final IdentifierStartingWithLowerCase name;
-  final Expression value;
+  final Expression? value;
 
   VariableDefinition._(this.modifier, this.name,
       {this.docComments = const [],
@@ -29,8 +29,8 @@ class VariableDefinition extends Statement {
       this.type,
       this.value})
       : super([
-          if (docComments != null) ...docComments,
-          if (annotations != null) ...annotations,
+          ...docComments,
+          ...annotations,
           if (static == true) KeyWord.static$,
           Space(),
           if (modifier == Modifier.var$ && type == null) KeyWord.var$,
@@ -50,8 +50,8 @@ class VariableDefinition extends Statement {
       {List<DocComment> docComments = const [],
       List<Annotation> annotations = const [],
       bool static = false,
-      Type type,
-      Expression value})
+      Type? type,
+      Expression? value})
       : this._(Modifier.var$, IdentifierStartingWithLowerCase(name),
             docComments: docComments,
             annotations: annotations,
@@ -61,11 +61,11 @@ class VariableDefinition extends Statement {
 
   VariableDefinition.final$(
     String name, {
-    Expression value,
+    Expression? value,
     List<DocComment> docComments = const [],
     List<Annotation> annotations = const [],
     bool static = false,
-    Type type,
+    Type? type,
   }) : this._(Modifier.final$, IdentifierStartingWithLowerCase(name),
             docComments: docComments,
             annotations: annotations,
@@ -79,7 +79,7 @@ class VariableDefinition extends Statement {
     List<DocComment> docComments = const [],
     List<Annotation> annotations = const [],
     bool static = false,
-    Type type,
+    Type? type,
   }) : this._(Modifier.const$, IdentifierStartingWithLowerCase(name),
             docComments: docComments,
             annotations: annotations,

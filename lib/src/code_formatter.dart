@@ -9,7 +9,7 @@ import 'model.dart';
 class CodeFormatter {
   final DartFormatter dartFormatter;
 
-  CodeFormatter({String lineEnding, int pageWidth, int indent})
+  CodeFormatter({String? lineEnding, int? pageWidth, int? indent})
       : dartFormatter = DartFormatter(
             lineEnding: lineEnding, pageWidth: pageWidth, indent: indent);
 

@@ -14,7 +14,7 @@ class Statement extends CodeModel {
 
   Statement.ofExpression(Expression expression) : this(expression.nodes);
 
-  Statement.assert$(Expression expression, {String message})
+  Statement.assert$(Expression expression, {String? message})
       : this([
           KeyWord.assert$,
           Code('('),
@@ -87,7 +87,7 @@ class Statement extends CodeModel {
           loopBlock,
         ]);
 
-  Statement.if$(Expression condition, Block ifBock, {Block elseBlock})
+  Statement.if$(Expression condition, Block ifBock, {Block? elseBlock})
       : this([
           KeyWord.if$,
           Space(),
@@ -102,11 +102,11 @@ class Statement extends CodeModel {
         ], hasEndOfStatement: false);
 
   Statement.ifChain$(Map<Expression, Block> conditionsAndBlocks,
-      {Block elseBlock})
+      {Block? elseBlock})
       : this(_createIfChain(conditionsAndBlocks, elseBlock));
 
   static List<CodeNode> _createIfChain(
-      Map<Expression, Block> conditionsAndBlocks, Block elseBlock) {
+      Map<Expression, Block> conditionsAndBlocks, Block? elseBlock) {
     List<CodeNode> nodes = [];
     bool isFirst = true;
     conditionsAndBlocks.forEach((condition, block) {
@@ -153,11 +153,11 @@ class Statement extends CodeModel {
 
   Statement.switch$(
       Expression condition, Map<Expression, Block> valuesAndBlocks,
-      {Block defaultBlock})
+      {Block? defaultBlock})
       : this(_createSwitchNodes(condition, valuesAndBlocks, defaultBlock));
 
   static List<CodeNode> _createSwitchNodes(Expression condition,
-      Map<Expression, Block> valuesAndBlocks, Block defaultBlock) {
+      Map<Expression, Block> valuesAndBlocks, Block? defaultBlock) {
     List<CodeNode> nodes = [];
     nodes.add(KeyWord.switch$);
     nodes.add(Space());
@@ -171,7 +171,7 @@ class Statement extends CodeModel {
   }
 
   static List<CodeNode> _createCaseNodes(
-      Map<Expression, Block> valuesAndBlocks, Block defaultBlock) {
+      Map<Expression, Block> valuesAndBlocks, Block? defaultBlock) {
     List<CodeNode> caseNodes = [];
     valuesAndBlocks.forEach((value, block) {
       caseNodes.addAll(_createCaseNode(value, block));
@@ -204,7 +204,7 @@ class Statement extends CodeModel {
         ]);
 
   Statement.try$(Block tryBlock,
-      {List<Catch> catches = const [], Block finallyBlock})
+      {List<Catch> catches = const [], Block? finallyBlock})
       : this([
           KeyWord.try$,
           Space(),
@@ -238,13 +238,13 @@ class Catch extends CodeModel {
   final List<CodeNode> nodes;
 
   Catch(Block exceptionBlock,
-      [String exceptionVariableName, String stackTraceVariableName])
+      [String? exceptionVariableName, String? stackTraceVariableName])
       : this.onException(null, exceptionBlock,
             exceptionVariableName: exceptionVariableName,
             stackTraceVariableName: stackTraceVariableName);
 
-  Catch.onException(Type exceptionType, Block exceptionBlock,
-      {String exceptionVariableName, String stackTraceVariableName})
+  Catch.onException(Type? exceptionType, Block exceptionBlock,
+      {String? exceptionVariableName, String? stackTraceVariableName})
       : nodes = [
           Space(),
           if (exceptionType != null) KeyWord.on$,

@@ -7,7 +7,7 @@ import 'type.dart';
 /// Represents an [Annotation]. See [https://dart.dev/guides/language/language-tour#metadata]
 class Annotation extends CodeModel {
   final Type type;
-  final ParameterValues parameterValues;
+  final ParameterValues? parameterValues;
   final bool customType;
 
   Annotation(this.type, [this.parameterValues]) : customType = true;
@@ -24,11 +24,12 @@ class Annotation extends CodeModel {
   Annotation.required() : this._dartType('required');
 
   @override
-  List<CodeNode> codeNodes(Context context) => [
+  List<CodeNode> codeNodes(Context context) =>
+      [
         Code('@'),
         type,
         if (customType) Code('('),
-        if (customType && parameterValues != null) parameterValues,
+        if (customType && parameterValues != null) parameterValues!,
         if (customType) Code(')'),
         NewLine(),
       ];

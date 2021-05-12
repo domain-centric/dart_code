@@ -13,8 +13,8 @@ class Field extends VariableDefinition {
       {List<DocComment> docComments = const [],
       List<Annotation> annotations = const [],
       bool static = false,
-      Type type,
-      Expression value})
+      Type? type,
+      Expression? value})
       : super.var$(name,
             docComments: docComments,
             annotations: annotations,
@@ -24,11 +24,11 @@ class Field extends VariableDefinition {
 
   Field.final$(
     String name, {
-    Expression value,
+    Expression? value,
     List<DocComment> docComments = const [],
     List<Annotation> annotations = const [],
     bool static = false,
-    Type type,
+    Type? type,
   }) : super.final$(name,
             value: value,
             docComments: docComments,
@@ -42,7 +42,7 @@ class Field extends VariableDefinition {
     List<DocComment> docComments = const [],
     List<Annotation> annotations = const [],
     bool static = false,
-    Type type,
+    Type? type,
   }) : super.const$(
           name,
           value,

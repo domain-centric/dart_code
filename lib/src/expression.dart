@@ -57,7 +57,7 @@ class Expression extends CodeModel {
   static List<Expression> _createKeyValueExpressions(
           Map<Expression, Expression> expressions) =>
       expressions.keys
-          .map((key) => _createKeyValueExpression(key, expressions[key]))
+          .map((key) => _createKeyValueExpression(key, expressions[key]!))
           .toList();
 
   static Expression _createKeyValueExpression(
@@ -110,16 +110,16 @@ class Expression extends CodeModel {
           IdentifierStartingWithLowerCase(name)
         ];
 
-  Expression.callFunction(String name, [ParameterValues parameterValues])
+  Expression.callFunction(String name, [ParameterValues? parameterValues])
       : nodes = [
-          if (name != null) IdentifierStartingWithLowerCase(name),
+          IdentifierStartingWithLowerCase(name),
           Code('('),
           if (parameterValues != null) parameterValues,
           Code(')'),
         ];
 
   Expression.callConstructor(Type type,
-      {String name, ParameterValues parameterValues})
+      {String? name, ParameterValues? parameterValues})
       : nodes = [
           type,
           if (name != null) Code('.'),
@@ -247,7 +247,7 @@ class Expression extends CodeModel {
   ///===========================================================================
 
   Expression callMethod(String name,
-          {ParameterValues parameterValues, bool cascade = false}) =>
+          {ParameterValues? parameterValues, bool cascade = false}) =>
       Expression([
         this,
         if (!cascade) Code('.'),
@@ -285,8 +285,8 @@ class Expression extends CodeModel {
           {List<DocComment> docComments = const [],
           List<Annotation> annotations = const [],
           bool static = false,
-          Type type,
-          Expression value}) =>
+          Type? type,
+          Expression? value}) =>
       VariableDefinition.var$(
         name,
         docComments: docComments,
@@ -300,8 +300,8 @@ class Expression extends CodeModel {
           {List<DocComment> docComments = const [],
           List<Annotation> annotations = const [],
           bool static = false,
-          Type type,
-          Expression value}) =>
+          Type? type,
+          Expression? value}) =>
       VariableDefinition.final$(
         name,
         value: this,
@@ -315,8 +315,8 @@ class Expression extends CodeModel {
           {List<DocComment> docComments = const [],
           List<Annotation> annotations = const [],
           bool static = false,
-          Type type,
-          Expression value}) =>
+          Type? type,
+          Expression? value}) =>
       VariableDefinition.const$(
         name,
         this,

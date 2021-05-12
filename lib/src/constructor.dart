@@ -1,3 +1,5 @@
+import 'package:dart_code/dart_code.dart';
+
 import 'annotation.dart';
 import 'basic.dart';
 import 'comment.dart';
@@ -10,8 +12,8 @@ import 'type.dart';
 /// Represents a [ConstructorCall]
 /// See [https://dart.dev/guides/language/language-tour#constructors]
 class ConstructorCall extends CodeModel {
-  final String name;
-  final ParameterValues parameterValues;
+  final String? name;
+  final ParameterValues? parameterValues;
   final bool super$;
 
   ConstructorCall({this.super$ = false, this.name, this.parameterValues});
@@ -21,9 +23,9 @@ class ConstructorCall extends CodeModel {
         if (super$) KeyWord.super$,
         if (!super$) KeyWord.this$,
         if (name != null) Code('.'),
-        if (name != null) IdentifierStartingWithLowerCase(name),
+        if (name != null) IdentifierStartingWithLowerCase(name!),
         Code('('),
-        if (parameterValues != null) parameterValues,
+        if (parameterValues != null) parameterValues!,
         Code(')')
       ];
 }
@@ -32,23 +34,23 @@ class ConstructorCall extends CodeModel {
 /// See: [https://dart.dev/guides/language/language-tour#instance-variables]
 class Initializers extends SeparatedValues {
   Initializers(
-      {List<FieldInitializer> fieldInitializers,
-      ConstructorCall constructorCall})
+      {List<FieldInitializer>? fieldInitializers,
+      ConstructorCall? constructorCall})
       : super.forParameters([
-          if (fieldInitializers != null) ...fieldInitializers,
-          if (constructorCall != null) constructorCall
-        ]) {
+    if (fieldInitializers != null) ...fieldInitializers,
+    if (constructorCall != null) constructorCall
+  ]) {
     _validateIfFieldInitializerNamesAreUnique(fieldInitializers);
   }
 
   void _validateIfFieldInitializerNamesAreUnique(
-      List<FieldInitializer> fieldInitializers) {
+      List<FieldInitializer>? fieldInitializers) {
     if (fieldInitializers != null) {
       var allNames = fieldInitializers
-          .map((p) => p.name.toUnFormattedString(null))
+          .map((p) => CodeFormatter().unFormatted(p.name))
           .toList();
       var allUniqueNames = fieldInitializers
-          .map((p) => p.name.toUnFormattedString(null))
+          .map((p) => CodeFormatter().unFormatted(p.name))
           .toSet();
       var namesAreUnique = allNames.length == allUniqueNames.length;
       if (!namesAreUnique)
@@ -73,10 +75,10 @@ class Constructor extends CodeModel {
   /// Whether this constructor should be prefixed with `factory`.
   final bool factory;
   final Type type;
-  final IdentifierStartingWithLowerCase name;
-  final ConstructorParameters parameters;
-  final Initializers initializers;
-  final Block body;
+  final IdentifierStartingWithLowerCase? name;
+  final ConstructorParameters? parameters;
+  final Initializers? initializers;
+  final Block? body;
 
   Constructor(this.type,
       {this.docComments = const [],
@@ -84,7 +86,7 @@ class Constructor extends CodeModel {
       this.external = false,
       this.constant = false,
       this.factory = false,
-      String name,
+      String? name,
       this.parameters,
       this.initializers,
       this.body})
@@ -103,16 +105,16 @@ class Constructor extends CodeModel {
         if (factory) Space(),
         Code(type.name),
         if (name != null) Code('.'),
-        if (name != null) name,
+        if (name != null) name!,
         Code('('),
-        if (parameters != null) parameters,
+        if (parameters != null) parameters!,
         Code(')'),
         if (initializers != null) Space(),
         if (initializers != null) Code(':'),
         if (initializers != null) Space(),
-        if (initializers != null) initializers,
+        if (initializers != null) initializers!,
         if (body != null) Space(),
-        if (body != null) body,
+        if (body != null) body!,
         EndOfStatement(),
       ];
 }

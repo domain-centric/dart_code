@@ -9,7 +9,7 @@ import 'statement.dart';
 /// For the Dart build in types, see: [https://dart.dev/guides/language/language-tour#built-in-types]
 class Type extends CodeModel {
   final String name;
-  final String libraryUrl;
+  final String? libraryUrl;
   final List<Type> generics;
 
   Type.ofBool()
@@ -42,19 +42,25 @@ class Type extends CodeModel {
         libraryUrl = null,
         generics = [];
 
-  Type.ofList() : this.ofGenericList(null);
+  Type.ofList()
+      : name = 'List',
+        libraryUrl = null,
+        generics = const [];
 
   Type.ofGenericList(Type genericType)
       : name = 'List',
         libraryUrl = null,
-        generics = [if (genericType != null) genericType];
+        generics = [genericType];
 
-  Type.ofSet() : this.ofGenericSet(null);
+  Type.ofSet()
+      : name = 'Set',
+        libraryUrl = null,
+        generics = [];
 
   Type.ofGenericSet(Type genericType)
       : name = 'Set',
         libraryUrl = null,
-        generics = [if (genericType != null) genericType];
+        generics = [genericType];
 
   Type.ofMap()
       : name = 'Map',
@@ -117,33 +123,29 @@ class Import extends CodeModel {
 /// A collection of [Import] statements (and their aliases)
 /// See: [https://dart.dev/guides/language/language-tour#libraries-and-visibility]
 class Imports extends CodeModel {
-  /// A map of [Library] URLs and their aliases
-  final Map<String, String> _imports = {};
+  final Map<String, String> _libraryUrlsAndAliases = {};
 
-  Imports(CodeNode codeNode, Context context) {
-    _registerTypesInCodeNode(codeNode, context);
-  }
-
-  void _registerTypesInCodeNode(CodeNode codeNode, Context context) {
+  void registerLibraries(CodeNode codeNode, Context context) {
     if (codeNode is Type) {
       _registerType(codeNode);
     } else if (codeNode is CodeModel) {
       //recursive call
-      _registerTypesInCodeModel(codeNode, context);
+      _registerLibraries(codeNode, context);
     }
   }
 
-  void _registerTypesInCodeModel(CodeModel codeModel, Context context) {
+  void _registerLibraries(CodeModel codeModel, Context context) {
     for (CodeNode codeNode in codeModel.codeNodes(context)) {
-      _registerTypesInCodeNode(codeNode, context);
+      registerLibraries(codeNode, context);
     }
   }
 
   void _registerType(Type type) {
     if (type.libraryUrl != null) {
-      var libraryUrl = type.libraryUrl.toLowerCase();
-      if (!_imports.containsKey(libraryUrl)) {
-        _imports[libraryUrl] = '_i${_imports.length + 1}';
+      var libraryUrl = type.libraryUrl!.toLowerCase();
+      if (!_libraryUrlsAndAliases.containsKey(libraryUrl)) {
+        _libraryUrlsAndAliases[libraryUrl] =
+            '_i${_libraryUrlsAndAliases.length + 1}';
       }
       for (Type genericType in type.generics) {
         //recursive call
@@ -155,15 +157,17 @@ class Imports extends CodeModel {
   @override
   List<CodeNode> codeNodes(Context context) {
     List<CodeNode> imports = [];
-    imports.addAll(_imports.keys
-        .map((libraryUrl) => Import(libraryUrl, _imports[libraryUrl]))
+    imports.addAll(_libraryUrlsAndAliases.keys
+        .map((libraryUrl) =>
+            Import(libraryUrl, _libraryUrlsAndAliases[libraryUrl]!))
         .toList());
     return imports;
   }
 
-  bool containsKey(String libraryUrl) => _imports.containsKey(libraryUrl);
+  bool containsKey(String libraryUrl) =>
+      _libraryUrlsAndAliases.containsKey(libraryUrl);
 
-  String aliasOf(String libraryUrl) => _imports[libraryUrl];
+  String? aliasOf(String libraryUrl) => _libraryUrlsAndAliases[libraryUrl];
 }
 
 /// Represents a [Reference] to a [Library] depending on the alias of an [Import] statement
@@ -178,12 +182,12 @@ class Reference extends CodeModel {
     Imports imports = context.imports;
     List<CodeNode> typeNodes = [];
     if (type.libraryUrl != null) {
-      String libraryUrl = type.libraryUrl.toLowerCase();
+      String libraryUrl = type.libraryUrl!.toLowerCase();
       if (!imports.containsKey(libraryUrl)) {
         throw Exception(
             'Types need to be registered to Imports, before getting a reference, for libraryUrl: $libraryUrl');
       }
-      String alias = imports.aliasOf(libraryUrl);
+      String alias = imports.aliasOf(libraryUrl)!;
       typeNodes.add(Code(alias));
       typeNodes.add(Code('.'));
     }

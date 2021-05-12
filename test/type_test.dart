@@ -103,8 +103,8 @@ main() {
         Statement(
             [Type("MySecondClass", libraryUrl: "package:test/test2.dart")]),
       ]);
-      String actual =
-          CodeFormatter().unFormatted(Imports(statements, Context(statements)));
+      Context context = Context(statements);
+      String actual = CodeFormatter().unFormatted(context.imports);
       String expected =
           'import \'package:test/test1.dart\' as _i1;import \'package:test/test2.dart\' as _i2;';
       expect(actual, expected);

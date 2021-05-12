@@ -15,17 +15,15 @@ class SeparatedValues extends CodeModel {
   @override
   List<CodeNode> codeNodes(Context context) {
     List<CodeNode> nodes = [];
-    if (values != null && values.isNotEmpty) {
+    if (values.isNotEmpty) {
       bool first = true;
       for (CodeNode value in values) {
-        if (value != null) {
-          if (withCommas && !first) {
-            nodes.add(Code(','));
-          } else {
-            first = false;
-          }
-          nodes.add(value);
+        if (withCommas && !first) {
+          nodes.add(Code(','));
+        } else {
+          first = false;
         }
+        nodes.add(value);
       }
     }
     return nodes;
@@ -215,7 +213,6 @@ abstract class _Identifier extends CodeNode {
   }
 
   void _validateName(String name, CaseChecker firstLetterCaseChecker) {
-    if (name == null) throw ArgumentError.notNull(name);
     if (name.isEmpty)
       throw ArgumentError.value(name, 'name', 'Must not be empty');
     if (!firstLetterCaseChecker.isCorrectCase(name[0]))
@@ -259,7 +256,6 @@ class CaseChecker {
   CaseChecker.forLowerCase() : isUpperCase = false;
 
   bool isCorrectCase(String text) {
-    if (text == null) return false;
     if (isUpperCase) {
       return text.toUpperCase() == text;
     } else {

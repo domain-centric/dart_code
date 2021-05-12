@@ -2,12 +2,14 @@ import 'code_formatter.dart';
 import 'type.dart';
 
 class Context {
-  Imports imports;
+  final Imports imports;
   String lastCode = '';
 
-  Context(CodeNode codeNode) {
-    imports = Imports(codeNode, this);
+  Context(CodeNode codeNode) : imports = Imports() {
+    imports.registerLibraries(codeNode, Context._dummyToCreateImports());
   }
+
+  Context._dummyToCreateImports() : imports = Imports();
 }
 
 ///a tree model that represents DartCode

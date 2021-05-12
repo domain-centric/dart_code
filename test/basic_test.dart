@@ -85,18 +85,11 @@ main() {
   });
 
   group('IdentifierStartingWithUpperCase class', () {
-    test('Given a null name => Throws "Must not be null" exception', () {
-      expect(
-          () => {IdentifierStartingWithUpperCase(null)},
-          throwsA(predicate(
-              (e) => e is ArgumentError && e.message == 'Must not be null')));
-    });
-
     test('Given an empty name  => Throws "Must not be empty" exception', () {
       expect(
           () => {IdentifierStartingWithUpperCase('')},
-          throwsA(predicate(
-              (e) => e is ArgumentError && e.message == 'Must not be empty')));
+          throwsA(predicate((dynamic e) =>
+              e is ArgumentError && e.message == 'Must not be empty')));
     });
 
     test(
@@ -104,7 +97,7 @@ main() {
         () {
       expect(
           () => {IdentifierStartingWithUpperCase('invalidCapitalCase')},
-          throwsA(predicate((e) =>
+          throwsA(predicate((dynamic e) =>
               e is ArgumentError &&
               e.message == 'Must start with an upper case letter')));
     });
@@ -119,7 +112,7 @@ main() {
         () {
       expect(
           () => {IdentifierStartingWithUpperCase('@')},
-          throwsA(predicate((e) =>
+          throwsA(predicate((dynamic e) =>
               e is ArgumentError &&
               e.message ==
                   'The first character must be a letter or an underscore')));
@@ -130,7 +123,7 @@ main() {
         () {
       expect(
           () => {IdentifierStartingWithUpperCase('1')},
-          throwsA(predicate((e) =>
+          throwsA(predicate((dynamic e) =>
               e is ArgumentError &&
               e.message ==
                   'The first character must be a letter or an underscore')));
@@ -158,7 +151,7 @@ main() {
         () {
       expect(
           () => {IdentifierStartingWithUpperCase('_\$Valid!Letters')},
-          throwsA(predicate((e) =>
+          throwsA(predicate((dynamic e) =>
               e is ArgumentError &&
               e.message ==
                   'No special characters or punctuation symbol is allowed except the underscore or a dollar sign(\$)')));
@@ -169,7 +162,7 @@ main() {
         () {
       expect(
           () => {IdentifierStartingWithUpperCase('__ValidLetters')},
-          throwsA(predicate((e) =>
+          throwsA(predicate((dynamic e) =>
               e is ArgumentError &&
               e.message == 'No successive underscores are allowed')));
     });
@@ -179,7 +172,7 @@ main() {
         () {
       expect(
           () => {IdentifierStartingWithUpperCase('___ValidLetters')},
-          throwsA(predicate((e) =>
+          throwsA(predicate((dynamic e) =>
               e is ArgumentError &&
               e.message == 'No successive underscores are allowed')));
     });
@@ -190,18 +183,11 @@ main() {
     });
   });
   group('IdentifierStartingWithLowerCase class', () {
-    test('Given a null name => Throws "Must not be null" exception', () {
-      expect(
-          () => {IdentifierStartingWithLowerCase(null)},
-          throwsA(predicate(
-              (e) => e is ArgumentError && e.message == 'Must not be null')));
-    });
-
     test('Given an empty name  => Throws "Must not be empty" exception', () {
       expect(
           () => {IdentifierStartingWithLowerCase('')},
-          throwsA(predicate(
-              (e) => e is ArgumentError && e.message == 'Must not be empty')));
+          throwsA(predicate((dynamic e) =>
+              e is ArgumentError && e.message == 'Must not be empty')));
     });
 
     test(
@@ -209,7 +195,7 @@ main() {
         () {
       expect(
           () => {IdentifierStartingWithLowerCase('InvalidCapitalCase')},
-          throwsA(predicate((e) =>
+          throwsA(predicate((dynamic e) =>
               e is ArgumentError &&
               e.message == 'Must start with an lower case letter')));
     });
@@ -234,7 +220,7 @@ main() {
         () {
       expect(
           () => {IdentifierStartingWithLowerCase('class')},
-          throwsA(predicate((e) =>
+          throwsA(predicate((dynamic e) =>
               e is ArgumentError &&
               e.message == 'Keywords can not be used as identifier')));
     });
