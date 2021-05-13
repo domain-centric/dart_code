@@ -1,5 +1,5 @@
 import 'code_formatter.dart';
-import 'type.dart';
+import 'import.dart';
 
 class Context {
   final Imports imports;
