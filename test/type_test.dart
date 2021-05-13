@@ -46,8 +46,8 @@ main() {
     });
 
     test("Should return: 'List<String>'", () {
-      String actual =
-          CodeFormatter().unFormatted(Type.ofGenericList(Type.ofString()));
+      String actual = CodeFormatter()
+          .unFormatted(Type.ofList(genericType: Type.ofString()));
       String expected = "List<String>";
       expect(actual, expected);
     });
@@ -60,7 +60,7 @@ main() {
 
     test("Should return: 'Set<String>'", () {
       String actual =
-          CodeFormatter().unFormatted(Type.ofGenericSet(Type.ofString()));
+          CodeFormatter().unFormatted(Type.ofSet(genericType: Type.ofString()));
       String expected = "Set<String>";
       expect(actual, expected);
     });
@@ -72,15 +72,15 @@ main() {
     });
 
     test("Should return: 'Map<int, String>'", () {
-      String actual = CodeFormatter()
-          .unFormatted(Type.ofGenericMap(Type.ofInt(), Type.ofString()));
+      String actual = CodeFormatter().unFormatted(
+          Type.ofMap(keyType: Type.ofInt(), valueType: Type.ofString()));
       String expected = 'Map<int,String>';
       expect(actual, expected);
     });
 
     test("Should return: '_i1.MyClass'", () {
       String actual = CodeFormatter()
-          .unFormatted(Type("MyClass", libraryUrl: "package:test/test.dart"));
+          .unFormatted(Type("MyClass", libraryUri: "package:test/test.dart"));
       String expected = "_i1.MyClass";
       expect(actual, expected);
     });
@@ -99,9 +99,9 @@ main() {
     test('Given types => Returns correct import string', () {
       Statements statements = Statements([
         Statement(
-            [Type("MyFirstClass", libraryUrl: "package:test/test1.dart")]),
+            [Type("MyFirstClass", libraryUri: "package:test/test1.dart")]),
         Statement(
-            [Type("MySecondClass", libraryUrl: "package:test/test2.dart")]),
+            [Type("MySecondClass", libraryUri: "package:test/test2.dart")]),
       ]);
       Context context = Context(statements);
       String actual = CodeFormatter().unFormatted(context.imports);
@@ -113,9 +113,9 @@ main() {
     test('Given types => Returns correct type code strings', () {
       String actual = CodeFormatter().unFormatted(Statements([
         Statement(
-            [Type("MyFirstClass", libraryUrl: "package:test/test1.dart")]),
+            [Type("MyFirstClass", libraryUri: "package:test/test1.dart")]),
         Statement(
-            [Type("MySecondClass", libraryUrl: "package:test/test2.dart")]),
+            [Type("MySecondClass", libraryUri: "package:test/test2.dart")]),
       ]));
       String expected = '_i1.MyFirstClass;_i2.MySecondClass;';
       expect(actual, expected);

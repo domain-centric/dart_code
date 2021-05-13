@@ -7,86 +7,71 @@ import 'statement.dart';
 /// Refers to [Type]
 /// For the Dart Type system, see: [https://dart.dev/guides/language/type-system]
 /// For the Dart build in types, see: [https://dart.dev/guides/language/language-tour#built-in-types]
-class Type extends CodeModel {
+class Type extends CodeModelWithLibraryUri {
   final String name;
-  final String? libraryUrl;
-  final List<Type> generics;
+  List<Type> generics = [];
 
   Type.ofBool()
       : name = 'bool',
-        libraryUrl = null,
-        generics = [];
+        super();
 
   Type.ofInt()
       : name = 'int',
-        libraryUrl = null,
-        generics = [];
+        super();
 
   Type.ofDouble()
       : name = 'double',
-        libraryUrl = null,
-        generics = [];
+        super();
 
   Type.ofDateTime()
       : name = 'DateTime',
-        libraryUrl = null,
-        generics = [];
+        super();
 
   Type.ofString()
       : name = 'String',
-        libraryUrl = null,
-        generics = [];
+        super();
 
   Type.ofVar()
       : name = 'var',
-        libraryUrl = null,
-        generics = [];
+        super();
 
-  Type.ofList()
+  Type.ofList({Type? genericType})
       : name = 'List',
-        libraryUrl = null,
-        generics = const [];
+        generics = genericType == null ? const [] : [genericType],
+        super();
 
-  Type.ofGenericList(Type genericType)
-      : name = 'List',
-        libraryUrl = null,
-        generics = [genericType];
-
-  Type.ofSet()
+  Type.ofSet({Type? genericType})
       : name = 'Set',
-        libraryUrl = null,
-        generics = [];
+        generics = genericType == null ? const [] : [genericType],
+        super();
 
-  Type.ofGenericSet(Type genericType)
-      : name = 'Set',
-        libraryUrl = null,
-        generics = [genericType];
-
-  Type.ofMap()
+  Type.ofMap({Type? keyType, Type? valueType})
       : name = 'Map',
-        libraryUrl = null,
-        generics = [];
-
-  Type.ofGenericMap(Type keyType, Type valueType)
-      : name = 'Map',
-        libraryUrl = null,
-        generics = [keyType, valueType];
+        generics = (keyType == null && valueType == null)
+            ? const []
+            : [keyType!, valueType!],
+        super();
 
   Type.ofFuture(Type type)
       : name = 'Future',
-        libraryUrl = null,
-        generics = [type];
+        generics = [type],
+        super();
 
   Type.ofStream(Type type)
       : name = 'Stream',
-        libraryUrl = null,
-        generics = [type];
+        generics = [type],
+        super();
 
-  Type(this.name, {this.libraryUrl, this.generics = const []});
+  Type(this.name, {String? libraryUri, this.generics = const []})
+      : super(libraryUri: libraryUri);
 
   @override
-  List<CodeNode> codeNodes(Context context) =>
-      Reference(this).codeNodes(context);
+  List<CodeNode> codeNodesToWrap(Context context) => [
+        Code(name),
+        if (generics.isNotEmpty) Code('<'),
+        if (generics.isNotEmpty) SeparatedValues.forParameters(generics),
+        if (generics.isNotEmpty) Code('>'),
+      ];
 }
 
 /// Importing makes the components in a library available to the caller code.
@@ -101,17 +86,17 @@ class Type extends CodeModel {
 /// The dart_code library will organize these URL's and references to these Types for you
 /// See: [https://dart.dev/guides/language/language-tour#libraries-and-visibility]
 class Import extends CodeModel {
-  final String libraryUrl;
+  final String libraryUri;
   final String alias;
 
-  Import(this.libraryUrl, this.alias);
+  Import(this.libraryUri, this.alias);
 
   ///e.g.import 'package:reflect_framework/reflect_info_service.dart' as _i1;
   @override
   List<CodeNode> codeNodes(Context context) => [
         KeyWord.import$,
         Space(),
-        Code("'$libraryUrl'"),
+        Code("'$libraryUri'"),
         Space(),
         KeyWord.as$,
         Space(),
@@ -123,33 +108,29 @@ class Import extends CodeModel {
 /// A collection of [Import] statements (and their aliases)
 /// See: [https://dart.dev/guides/language/language-tour#libraries-and-visibility]
 class Imports extends CodeModel {
-  final Map<String, String> _libraryUrlsAndAliases = {};
+  final Map<String, String> _libraryUriAndAliases = {};
 
   void registerLibraries(CodeNode codeNode, Context context) {
-    if (codeNode is Type) {
-      _registerType(codeNode);
-    } else if (codeNode is CodeModel) {
-      //recursive call
-      _registerLibraries(codeNode, context);
+    if (codeNode is CodeModelWithLibraryUri) {
+      _registerLibrary(codeNode.libraryUri);
+    }
+    if (codeNode is CodeModel) {
+      _registerChildrenRecursively(codeNode, context);
     }
   }
 
-  void _registerLibraries(CodeModel codeModel, Context context) {
-    for (CodeNode codeNode in codeModel.codeNodes(context)) {
-      registerLibraries(codeNode, context);
+  void _registerChildrenRecursively(CodeModel codeNode, Context context) {
+    for (CodeNode child in codeNode.codeNodes(context)) {
+      registerLibraries(child, context);
     }
   }
 
-  void _registerType(Type type) {
-    if (type.libraryUrl != null) {
-      var libraryUrl = type.libraryUrl!.toLowerCase();
-      if (!_libraryUrlsAndAliases.containsKey(libraryUrl)) {
-        _libraryUrlsAndAliases[libraryUrl] =
-            '_i${_libraryUrlsAndAliases.length + 1}';
-      }
-      for (Type genericType in type.generics) {
-        //recursive call
-        _registerType(genericType);
+  void _registerLibrary(String? libraryUri) {
+    if (libraryUri != null) {
+      libraryUri = libraryUri.toLowerCase();
+      if (!_libraryUriAndAliases.containsKey(libraryUri)) {
+        _libraryUriAndAliases[libraryUri] =
+            '_i${_libraryUriAndAliases.length + 1}';
       }
     }
   }
@@ -157,57 +138,20 @@ class Imports extends CodeModel {
   @override
   List<CodeNode> codeNodes(Context context) {
     List<CodeNode> imports = [];
-    imports.addAll(_libraryUrlsAndAliases.keys
-        .map((libraryUrl) =>
-            Import(libraryUrl, _libraryUrlsAndAliases[libraryUrl]!))
+    imports.addAll(_libraryUriAndAliases.keys
+        .map((libraryUri) =>
+            Import(libraryUri, _libraryUriAndAliases[libraryUri]!))
         .toList());
     return imports;
   }
 
-  bool containsKey(String libraryUrl) =>
-      _libraryUrlsAndAliases.containsKey(libraryUrl);
+  bool containsKey(String libraryUri) =>
+      _libraryUriAndAliases.containsKey(libraryUri);
 
-  String? aliasOf(String libraryUrl) => _libraryUrlsAndAliases[libraryUrl];
-}
-
-/// Represents a [Reference] to a [Library] depending on the alias of an [Import] statement
-/// See: [https://dart.dev/guides/language/language-tour#libraries-and-visibility]
-class Reference extends CodeModel {
-  final Type type;
-
-  Reference(this.type);
-
-  @override
-  List<CodeNode> codeNodes(Context context) {
-    Imports imports = context.imports;
-    List<CodeNode> typeNodes = [];
-    if (type.libraryUrl != null) {
-      String libraryUrl = type.libraryUrl!.toLowerCase();
-      if (!imports.containsKey(libraryUrl)) {
-        throw Exception(
-            'Types need to be registered to Imports, before getting a reference, for libraryUrl: $libraryUrl');
-      }
-      String alias = imports.aliasOf(libraryUrl)!;
-      typeNodes.add(Code(alias));
-      typeNodes.add(Code('.'));
+  Code aliasOf(String libraryUri) {
+    if (!_libraryUriAndAliases.containsKey(libraryUri)) {
+      _registerLibrary(libraryUri);
     }
-    var name = type.name;
-    typeNodes.add(Code(name));
-    if (type.generics.isNotEmpty) {
-      typeNodes.add(Code('<'));
-      typeNodes.add(_genericNodes(type));
-      typeNodes.add(Code('>'));
-    }
-    return typeNodes;
-  }
-
-  SeparatedValues _genericNodes(Type type) {
-    List<CodeNode> genericNodes = [];
-    for (Type genericType in type.generics) {
-      if (type != genericType) {
-        genericNodes.add(Reference(genericType));
-      }
-    }
-    return SeparatedValues.forParameters(genericNodes);
+    return Code(_libraryUriAndAliases[libraryUri]!);
   }
 }

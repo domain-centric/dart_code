@@ -110,12 +110,11 @@ class Expression extends CodeModel {
           IdentifierStartingWithLowerCase(name)
         ];
 
-  Expression.callFunction(String name, [ParameterValues? parameterValues])
+  Expression.callFunction(String name,
+      {String? libraryUri, ParameterValues? parameterValues})
       : nodes = [
-          IdentifierStartingWithLowerCase(name),
-          Code('('),
-          if (parameterValues != null) parameterValues,
-          Code(')'),
+          FunctionCall(name,
+              libraryUri: libraryUri, parameterValues: parameterValues)
         ];
 
   Expression.callConstructor(Type type,
@@ -332,4 +331,21 @@ class Expression extends CodeModel {
 
   @override
   List<CodeNode> codeNodes(Context context) => nodes;
+}
+
+class FunctionCall extends CodeModelWithLibraryUri {
+  final IdentifierStartingWithLowerCase name;
+  final ParameterValues? parameterValues;
+
+  FunctionCall(String name, {String? libraryUri, this.parameterValues})
+      : name = IdentifierStartingWithLowerCase(name),
+        super(libraryUri: libraryUri);
+
+  @override
+  List<CodeNode> codeNodesToWrap(Context context) => [
+        name,
+        Code('('),
+        if (parameterValues != null) parameterValues!,
+        Code(')'),
+      ];
 }

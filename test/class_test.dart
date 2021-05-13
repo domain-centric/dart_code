@@ -15,7 +15,7 @@ main() {
             'A Person that can be converted to and from Json format')
       ], annotations: [
         Annotation(Type('JsonSerializable',
-            libraryUrl: 'package:json_annotation/json_annotation.dart'))
+            libraryUri: 'package:json_annotation/json_annotation.dart'))
       ]).toString();
       String expected =
           '/// A Person that can be converted to and from Json format\n'
@@ -33,7 +33,7 @@ main() {
     test("Should return: class with super class", () {
       String actual = Class('Person',
               superClass:
-                  Type('Contact', libraryUrl: 'package:my_lib/contact.dart'))
+                  Type('Contact', libraryUri: 'package:my_lib/contact.dart'))
           .toString();
       String expected = 'class Person extends _i1.Contact {}\n';
       expect(actual, expected);
@@ -41,8 +41,8 @@ main() {
 
     test("Should return: class with implements", () {
       String actual = Class('Person', implements: [
-        Type('Musician', libraryUrl: 'package:my_lib/musician.dart'),
-        Type('Technician', libraryUrl: 'package:my_lib/technician.dart')
+        Type('Musician', libraryUri: 'package:my_lib/musician.dart'),
+        Type('Technician', libraryUri: 'package:my_lib/technician.dart')
       ]).toString();
       String expected =
           'class Person implements _i1.Musician, _i2.Technician {}\n';
@@ -51,8 +51,8 @@ main() {
 
     test("Should return: class with mixins", () {
       String actual = Class('Person', mixins: [
-        Type('Musician', libraryUrl: 'package:my_lib/musician.dart'),
-        Type('Technician', libraryUrl: 'package:my_lib/technician.dart')
+        Type('Musician', libraryUri: 'package:my_lib/musician.dart'),
+        Type('Technician', libraryUri: 'package:my_lib/technician.dart')
       ]).toString();
       String expected = 'class Person with _i1.Musician, _i2.Technician {}\n';
       expect(actual, expected);

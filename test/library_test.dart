@@ -60,9 +60,9 @@ main() {
         Class(
           'Employee',
           superClass:
-              Type('Person', libraryUrl: 'package:my_package/person.dart'),
+              Type('Person', libraryUri: 'package:my_package/person.dart'),
           implements: [
-            Type('Skills', libraryUrl: 'package:my_package/skills.dart')
+            Type('Skills', libraryUri: 'package:my_package/skills.dart')
           ],
           abstract: true,
         )
@@ -242,7 +242,7 @@ class SoftWareEngineerClass extends Class {
           methods: [
             Method.abstract(
               'familiarProgramingLanguages',
-              type: Type.ofGenericList(Type.ofString()),
+              type: Type.ofList(genericType: Type.ofString()),
               propertyAccessor: PropertyAccessor.getter,
             )
           ],
@@ -263,7 +263,7 @@ class PersonClass extends Class {
           Field.final$('fullName', type: Type.ofString()),
           Field.final$('dateOfBirth', type: Type.ofDateTime()),
           Field.final$('familiarProgramingLanguages',
-              type: Type.ofGenericList(Type.ofString())),
+              type: Type.ofList(genericType: Type.ofString())),
         ], constructors: [
           Constructor(Type('Person'),
               parameters: ConstructorParameters([
@@ -285,7 +285,7 @@ class PersonClass extends Class {
               'ageInYears',
               Expression.callFunction(
                   'calculateAgeInYears',
-                  ParameterValues(
+                  parameterValues: ParameterValues(
                       [ParameterValue(Expression.ofVariable('dateOfBirth'))])))
         ]);
 

@@ -148,7 +148,7 @@ main() {
       String actual =
           CodeFormatter().unFormatted(Constructor(Type('Person'), annotations: [
         Annotation(Type('JsonSerializable',
-            libraryUrl: 'package:json_annotation/json_annotation.dart'))
+            libraryUri: 'package:json_annotation/json_annotation.dart'))
       ]));
       String expected = '@_i1.JsonSerializable()\n'
           'Person();';
@@ -176,7 +176,7 @@ main() {
             'A Person that can be converted to and from Json format')
       ], annotations: [
         Annotation(Type('JsonSerializable',
-            libraryUrl: 'package:json_annotation/json_annotation.dart'))
+            libraryUri: 'package:json_annotation/json_annotation.dart'))
       ]));
       String expected =
           '/// A Person that can be converted to and from Json format\n'
@@ -277,7 +277,7 @@ main() {
                 'fullName',
                 Expression.callFunction(
                     '_appendNames',
-                    ParameterValues([
+                    parameterValues: ParameterValues([
                       ParameterValue(Expression.ofVariable(givenName)),
                       ParameterValue(Expression.ofVariable(familyName)),
                     ])),

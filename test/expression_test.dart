@@ -64,20 +64,20 @@ main() {
 
       test(
           'Calling named constructor .ofString() => Returns the literal code string',
-              () {
-            String actual =
+          () {
+        String actual =
             CodeFormatter().unFormatted(Expression.ofString('"Hello"'));
-            String expected = '"Hello"';
-            expect(actual, expected);
-          });
+        String expected = '"Hello"';
+        expect(actual, expected);
+      });
 
       test(
           'Calling named constructor .ofString() => Returns the literal code string',
-              () {
-            String actual =
+          () {
+        String actual =
             CodeFormatter().unFormatted(Expression.ofString("'Hello'"));
-            String expected = "'Hello'";
-            expect(actual, expected);
+        String expected = "'Hello'";
+        expect(actual, expected);
       });
 
       test(
@@ -259,11 +259,25 @@ main() {
       test('Should return a call to a function with parameters', () {
         String actual = CodeFormatter().unFormatted(Expression.callFunction(
             'add',
-            ParameterValues([
+            parameterValues: ParameterValues([
               ParameterValue(Expression.ofInt(2)),
               ParameterValue(Expression.ofInt(3))
             ])));
         String expected = 'add(2,3)';
+        expect(actual, expected);
+      });
+
+      test(
+          'Should return a call to a function with parameters from another library',
+          () {
+        String actual = CodeFormatter().unFormatted(Expression.callFunction(
+            'add',
+            libraryUri: "package:test/calculations.dart",
+            parameterValues: ParameterValues([
+              ParameterValue(Expression.ofInt(2)),
+              ParameterValue(Expression.ofInt(3))
+            ])));
+        String expected = '_i1.add(2,3)';
         expect(actual, expected);
       });
 

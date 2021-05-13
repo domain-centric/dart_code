@@ -57,9 +57,9 @@ main() {
    print(Library(classes: [
      Class(
        'Employee',
-       superClass: Type('Person', libraryUrl: 'package:my_package/person.dart'),
+       superClass: Type('Person', libraryUri: 'package:my_package/person.dart'),
        implements: [
-         Type('Skills', libraryUrl: 'package:my_package/skills.dart')
+         Type('Skills', libraryUri: 'package:my_package/skills.dart')
        ],
        abstract: true,
      )

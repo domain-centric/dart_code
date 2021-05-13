@@ -20,7 +20,7 @@ main() {
       test('should result in a named parameter with MyClass type', () {
         String actual = CodeFormatter().unFormatted(Parameter.required('name',
             type: Type('MyClass',
-                libraryUrl: 'package:dart_code/my_class.dart')));
+                libraryUri: 'package:dart_code/my_class.dart')));
         String expected = '_i1.MyClass name';
         expect(actual, expected);
       });
@@ -43,7 +43,7 @@ main() {
       test('should result in a optional parameter with MyClass type', () {
         String actual = CodeFormatter().unFormatted(Parameter.optional('name',
             type: Type('MyClass',
-                libraryUrl: 'package:dart_code/my_class.dart')));
+                libraryUri: 'package:dart_code/my_class.dart')));
         String expected = '_i1.MyClass name';
         expect(actual, expected);
       });
@@ -77,7 +77,7 @@ main() {
       test('should result in a named parameter with MyClass type', () {
         String actual = CodeFormatter().unFormatted(Parameter.named('name',
             type: Type('MyClass',
-                libraryUrl: 'package:dart_code/my_class.dart')));
+                libraryUri: 'package:dart_code/my_class.dart')));
         String expected = '_i1.MyClass name';
         expect(actual, expected);
       });
@@ -227,7 +227,7 @@ main() {
         String actual = CodeFormatter().unFormatted(
             ConstructorParameter.required('name',
                 type: Type('MyClass',
-                    libraryUrl: 'package:dart_code/my_class.dart')));
+                    libraryUri: 'package:dart_code/my_class.dart')));
         String expected = '_i1.MyClass name';
         expect(actual, expected);
       });
@@ -269,7 +269,7 @@ main() {
         String actual = CodeFormatter().unFormatted(
             ConstructorParameter.optional('name',
                 type: Type('MyClass',
-                    libraryUrl: 'package:dart_code/my_class.dart')));
+                    libraryUri: 'package:dart_code/my_class.dart')));
         String expected = '_i1.MyClass name';
         expect(actual, expected);
       });
@@ -336,7 +336,7 @@ main() {
         String actual = CodeFormatter().unFormatted(ConstructorParameter.named(
             'name',
             type: Type('MyClass',
-                libraryUrl: 'package:dart_code/my_class.dart')));
+                libraryUri: 'package:dart_code/my_class.dart')));
         String expected = '_i1.MyClass name';
         expect(actual, expected);
       });
