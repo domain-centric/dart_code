@@ -172,6 +172,13 @@ main() {
         expect(actual, expected);
       });
 
+      test('Should returns the literal code variable! name', () {
+        String actual = CodeFormatter()
+            .unFormatted(Expression.ofVariable('myValue', assertNull: true));
+        String expected = "myValue!";
+        expect(actual, expected);
+      });
+
       test('Should throw an exception invalid name ', () {
         expect(() {
           Expression.ofVariable('InvalidVariableName');

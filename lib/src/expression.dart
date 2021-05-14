@@ -33,34 +33,37 @@ class Expression extends CodeModel {
 
   Expression.ofList(List<Expression> expressions)
       : nodes = [
-    Code('['),
-    SeparatedValues.forParameters(expressions),
-    Code(']')
-  ];
+          Code('['),
+          SeparatedValues.forParameters(expressions),
+          Code(']')
+        ];
 
   Expression.ofSet(Set<Expression> expressions)
       : nodes = [
-    Code('{'),
-    SeparatedValues.forParameters(expressions),
-    Code('}')
-  ];
+          Code('{'),
+          SeparatedValues.forParameters(expressions),
+          Code('}')
+        ];
 
   Expression.ofMap(Map<Expression, Expression> expressions)
       : nodes = _createMapNodes(expressions);
 
-  static List<CodeNode> _createMapNodes(Map<Expression, Expression> expressions) =>
+  static List<CodeNode> _createMapNodes(
+          Map<Expression, Expression> expressions) =>
       [
         Code('{'),
         SeparatedValues.forParameters(_createKeyValueExpressions(expressions)),
         Code('}')
       ];
 
-  static List<Expression> _createKeyValueExpressions(Map<Expression, Expression> expressions) =>
+  static List<Expression> _createKeyValueExpressions(
+          Map<Expression, Expression> expressions) =>
       expressions.keys
           .map((key) => _createKeyValueExpression(key, expressions[key]!))
           .toList();
 
-  static Expression _createKeyValueExpression(Expression key, Expression value) =>
+  static Expression _createKeyValueExpression(
+          Expression key, Expression value) =>
       Expression([
         key,
         Space(),
@@ -88,51 +91,54 @@ class Expression extends CodeModel {
     return [Code(value.toString())];
   }
 
-  Expression.ofVariable(String name)
-      : nodes = [IdentifierStartingWithLowerCase(name)];
+  Expression.ofVariable(String name, {bool assertNull = false})
+      : nodes = [
+          IdentifierStartingWithLowerCase(name),
+          if (assertNull) Code('!')
+        ];
 
   Expression.ofThis() : nodes = [KeyWord.this$];
 
   Expression.ofThisField(String name)
       : nodes = [
-    KeyWord.this$,
-    Code('.'),
-    IdentifierStartingWithLowerCase(name)
-  ];
+          KeyWord.this$,
+          Code('.'),
+          IdentifierStartingWithLowerCase(name)
+        ];
 
   Expression.ofSuper() : nodes = [KeyWord.super$];
 
   Expression.ofSuperField(String name)
       : nodes = [
-    KeyWord.super$,
-    Code('.'),
-    IdentifierStartingWithLowerCase(name)
-  ];
+          KeyWord.super$,
+          Code('.'),
+          IdentifierStartingWithLowerCase(name)
+        ];
 
   Expression.callFunction(String name,
       {String? libraryUri, ParameterValues? parameterValues})
       : nodes = [
-    FunctionCall(name,
-        libraryUri: libraryUri, parameterValues: parameterValues)
-  ];
+          FunctionCall(name,
+              libraryUri: libraryUri, parameterValues: parameterValues)
+        ];
 
   Expression.callConstructor(Type type,
       {String? name, ParameterValues? parameterValues})
       : nodes = [
-    type,
-    if (name != null) Code('.'),
-    if (name != null) IdentifierStartingWithLowerCase(name),
-    Code('('),
-    if (parameterValues != null) parameterValues,
-    Code(')'),
-  ];
+          type,
+          if (name != null) Code('.'),
+          if (name != null) IdentifierStartingWithLowerCase(name),
+          Code('('),
+          if (parameterValues != null) parameterValues,
+          Code(')'),
+        ];
 
   Expression.ofEnum(Type type, String value)
       : nodes = [
-    type,
-    Code('.'),
-    IdentifierStartingWithLowerCase(value),
-  ];
+          type,
+          Code('.'),
+          IdentifierStartingWithLowerCase(value),
+        ];
 
   Expression.betweenParentheses(Expression expression)
       : nodes = [Code('('), expression, Code(')')];
@@ -245,7 +251,7 @@ class Expression extends CodeModel {
   ///===========================================================================
 
   Expression callMethod(String name,
-      {ParameterValues? parameterValues, bool cascade = false}) =>
+          {ParameterValues? parameterValues, bool cascade = false}) =>
       Expression([
         this,
         if (!cascade) Code('.'),
@@ -257,14 +263,14 @@ class Expression extends CodeModel {
       ]);
 
   Expression getProperty(String name, {bool cascade = false}) => Expression([
-    this,
-    if (!cascade) Code('.'),
-    if (cascade) Code('..'),
-    IdentifierStartingWithLowerCase(name),
-  ]);
+        this,
+        if (!cascade) Code('.'),
+        if (cascade) Code('..'),
+        IdentifierStartingWithLowerCase(name),
+      ]);
 
   Expression setProperty(String name, Expression value,
-      {bool cascade = false}) =>
+          {bool cascade = false}) =>
       Expression([
         this,
         if (!cascade) Code('.'),
@@ -316,9 +322,9 @@ class FunctionCall extends CodeModelWithLibraryUri {
 
   @override
   List<CodeNode> codeNodesToWrap(Context context) => [
-    name,
-    Code('('),
-    if (parameterValues != null) parameterValues!,
-    Code(')'),
-  ];
+        name,
+        Code('('),
+        if (parameterValues != null) parameterValues!,
+        Code(')'),
+      ];
 }
