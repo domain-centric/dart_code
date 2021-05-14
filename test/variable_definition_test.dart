@@ -27,6 +27,17 @@ main() {
         expect(actual, expected);
       });
 
+      test("Should return: String? greeting = 'Hello World';\n", () {
+        String actual = VariableDefinition(
+          "greeting",
+          value: Expression.ofString('Hello World'),
+          type: Type.ofString(),
+          nullable: true,
+        ).toString();
+        String expected = "String? greeting = 'Hello World';\n";
+        expect(actual, expected);
+      });
+
       test("Should return: static String greeting = 'Hello World';\n", () {
         String actual = CodeFormatter().unFormatted(VariableDefinition(
             "greeting",
@@ -68,10 +79,22 @@ main() {
       test("Should return: late String greeting = 'Hello World';\n", () {
         String actual = VariableDefinition("greeting",
                 modifier: Modifier.lateVar$,
-                value: Expression.ofString('Hello World'),
+                value: Expression.ofVariable('helloWorld'),
                 type: Type.ofString())
             .toString();
-        String expected = "late String greeting = 'Hello World';\n";
+        String expected = "late String greeting = helloWorld;\n";
+        expect(actual, expected);
+      });
+
+      test("Should return: late String? greeting = helloWorld;\n", () {
+        String actual = VariableDefinition(
+          "greeting",
+          modifier: Modifier.lateVar$,
+          value: Expression.ofVariable('helloWorld'),
+          type: Type.ofString(),
+          nullable: true,
+        ).toString();
+        String expected = "late String? greeting = helloWorld;\n";
         expect(actual, expected);
       });
 
@@ -112,13 +135,26 @@ main() {
           "greeting",
           modifier: Modifier.final$,
           type: Type.ofString(),
-          value: Expression.ofString('Hello World'),
+          value: Expression.ofVariable('helloWorld'),
         ).toString();
-        String expected = "final String greeting = 'Hello World';\n";
+        String expected = "final String greeting = helloWorld;\n";
         expect(actual, expected);
       });
 
-      test("Should return: final String greeting = 'Hello World';\n", () {
+      test("Should return: final String? greeting = helloWorld;\n", () {
+        String actual = VariableDefinition(
+          "greeting",
+          modifier: Modifier.final$,
+          type: Type.ofString(),
+          value: Expression.ofVariable('helloWorld'),
+          nullable: true,
+        ).toString();
+        String expected = "final String? greeting = helloWorld;\n";
+        expect(actual, expected);
+      });
+
+      test("Should return: static final String greeting = 'Hello World';\n",
+          () {
         String actual = CodeFormatter().unFormatted(VariableDefinition(
           "greeting",
           static: true,
@@ -153,18 +189,32 @@ main() {
         expect(actual, expected);
       });
 
-      test("Should return: late final String greeting = 'Hello World';\n", () {
+      test("Should return: late final String greeting = helloWorld;\n", () {
         String actual = VariableDefinition(
           "greeting",
           modifier: Modifier.lateFinal$,
           type: Type.ofString(),
-          value: Expression.ofString('Hello World'),
+          value: Expression.ofVariable('helloWorld'),
         ).toString();
-        String expected = "late final String greeting = 'Hello World';\n";
+        String expected = "late final String greeting = helloWorld;\n";
         expect(actual, expected);
       });
 
-      test("Should return: late final String greeting = 'Hello World';\n", () {
+      test("Should return: late final String? greeting = helloWorld;\n", () {
+        String actual = VariableDefinition(
+          "greeting",
+          modifier: Modifier.lateFinal$,
+          type: Type.ofString(),
+          nullable: true,
+          value: Expression.ofVariable('helloWorld'),
+        ).toString();
+        String expected = "late final String? greeting = helloWorld;\n";
+        expect(actual, expected);
+      });
+
+      test(
+          "Should return: static late final String greeting = 'Hello World';\n",
+          () {
         String actual = CodeFormatter().unFormatted(VariableDefinition(
           "greeting",
           static: true,
@@ -200,13 +250,25 @@ main() {
         expect(actual, expected);
       });
 
-      test("Should return: const String greeting = 'Hello World';\n", () {
+      test("Should return: const String greeting = helloWorld;\n", () {
         String actual = VariableDefinition("greeting",
                 modifier: Modifier.const$,
-                value: Expression.ofString('Hello World'),
+                value: Expression.ofVariable('helloWorld'),
                 type: Type.ofString())
             .toString();
-        String expected = "const String greeting = 'Hello World';\n";
+        String expected = "const String greeting = helloWorld;\n";
+        expect(actual, expected);
+      });
+
+      test("Should return: const String? greeting = helloWorld;\n", () {
+        String actual = VariableDefinition(
+          "greeting",
+          modifier: Modifier.const$,
+          value: Expression.ofVariable('helloWorld'),
+          type: Type.ofString(),
+          nullable: true,
+        ).toString();
+        String expected = "const String? greeting = helloWorld;\n";
         expect(actual, expected);
       });
 

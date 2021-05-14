@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 
 main() {
   group('Field class', () {
-    group('Field.var\$ constructor', () {
+    group('Modifier=var', () {
       test("Should return: 'var name;\n'", () {
         String actual = Field('name').toString();
         String expected = 'var name;\n';
@@ -13,6 +13,13 @@ main() {
       test("Should return: 'String name;\n'", () {
         String actual = Field('name', type: Type.ofString()).toString();
         String expected = 'String name;\n';
+        expect(actual, expected);
+      });
+
+      test("Should return: 'String? name;\n'", () {
+        String actual =
+            Field('name', type: Type.ofString(), nullable: true).toString();
+        String expected = 'String? name;\n';
         expect(actual, expected);
       });
 
@@ -45,7 +52,7 @@ main() {
       });
     });
 
-    group('Field.const\$ constructor', () {
+    group('Modifier=const', () {
       test("Should return: 'const name = 'Nils';\n'", () {
         String actual = Field('name',
                 modifier: Modifier.const$, value: Expression.ofString('Nils'))
@@ -54,13 +61,25 @@ main() {
         expect(actual, expected);
       });
 
-      test("Should return: 'const String name = 'Nils';\n'", () {
+      test("Should return: 'const String name = personName;\n'", () {
         String actual = Field('name',
                 modifier: Modifier.const$,
-                value: Expression.ofString('Nils'),
+                value: Expression.ofVariable('personName'),
                 type: Type.ofString())
             .toString();
-        String expected = "const String name = 'Nils';\n";
+        String expected = "const String name = personName;\n";
+        expect(actual, expected);
+      });
+
+      test("Should return: 'const String? name = personName;\n'", () {
+        String actual = Field(
+          'name',
+          modifier: Modifier.const$,
+          value: Expression.ofVariable('personName'),
+          type: Type.ofString(),
+          nullable: true,
+        ).toString();
+        String expected = "const String? name = personName;\n";
         expect(actual, expected);
       });
 
@@ -100,7 +119,7 @@ main() {
       });
     });
 
-    group('Field.final\$ constructor', () {
+    group('Modifier=field', () {
       test("Should return: 'final name;\n'", () {
         String actual = Field('name', modifier: Modifier.final$).toString();
         String expected = "final name;\n";
@@ -115,13 +134,25 @@ main() {
         expect(actual, expected);
       });
 
-      test("Should return: 'final String name = 'Nils';\n'", () {
+      test("Should return: 'final String name = personName;\n'", () {
         String actual = Field('name',
                 modifier: Modifier.final$,
-                value: Expression.ofString('Nils'),
+                value: Expression.ofVariable('personName'),
                 type: Type.ofString())
             .toString();
-        String expected = "final String name = 'Nils';\n";
+        String expected = "final String name = personName;\n";
+        expect(actual, expected);
+      });
+
+      test("Should return: 'final String? name = personName;\n'", () {
+        String actual = Field(
+          'name',
+          modifier: Modifier.final$,
+          value: Expression.ofVariable('personName'),
+          type: Type.ofString(),
+          nullable: true,
+        ).toString();
+        String expected = "final String? name = personName;\n";
         expect(actual, expected);
       });
 

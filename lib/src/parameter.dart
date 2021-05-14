@@ -16,35 +16,47 @@ enum ParameterCategory { required, named, optional }
 class Parameter extends CodeModel {
   final ParameterCategory category;
   final Type? type;
+  final nullable;
   final bool this$;
   final IdentifierStartingWithLowerCase name;
   final Expression? defaultValue;
   final bool required;
 
   Parameter._(this.category, String name,
-      {this.type, this.defaultValue, this.required = false, this.this$ = false})
+      {this.type,
+      this.nullable = false,
+      this.defaultValue,
+      this.required = false,
+      this.this$ = false})
       : name = IdentifierStartingWithLowerCase(name);
 
-  Parameter.required(String name, {Type? type})
-      : this._(ParameterCategory.required, name, type: type);
+  Parameter.required(String name, {Type? type, bool nullable = false})
+      : this._(ParameterCategory.required, name,
+            type: type, nullable: nullable);
 
-  Parameter.optional(String name, {Type? type, Expression? defaultValue})
+  Parameter.optional(String name,
+      {Type? type, bool nullable = false, Expression? defaultValue})
       : this._(ParameterCategory.optional, name,
-            type: type, defaultValue: defaultValue);
+            type: type, nullable: nullable, defaultValue: defaultValue);
 
   Parameter.named(String name,
-      {Type? type, defaultValue, bool required = false})
+      {Type? type, bool nullable = false, defaultValue, bool required = false})
       : this._(ParameterCategory.named, name,
-            type: type, defaultValue: defaultValue, required: required);
+            type: type,
+            nullable: nullable,
+            defaultValue: defaultValue,
+            required: required);
 
   @override
-  List<CodeNode> codeNodes(Context context) => [
+  List<CodeNode> codeNodes(Context context) =>
+      [
         if (required) Code('@required'),
         if (required) Space(),
         if (this$) KeyWord.this$,
         if (this$) Code('.'),
         if (!this$ && type == null) Code('var'),
         if (!this$ && type != null) type!,
+        if (!this$ && nullable) Code('?'),
         if (!this$) Space(),
         name,
         if (defaultValue != null) Space(),
@@ -127,19 +139,32 @@ class Parameters extends CodeModel {
 /// Represents a [ConstructorParameter] definition.
 /// A [ConstructorParameter] definition is comparable to a [Parameter] definition, but it can also have a default value and may refer to a [Field]
 class ConstructorParameter extends Parameter {
-  ConstructorParameter.required(String name, {bool this$ = false, Type? type})
-      : super._(ParameterCategory.required, name, this$: this$, type: type);
+  ConstructorParameter.required(String name,
+      {bool this$ = false, Type? type, bool nullable = false})
+      : super._(ParameterCategory.required, name,
+            this$: this$, type: type, nullable: nullable);
 
   ConstructorParameter.optional(String name,
-      {bool this$ = false, Type? type, Expression? defaultValue})
+      {bool this$ = false,
+      Type? type,
+      bool nullable = false,
+      Expression? defaultValue})
       : super._(ParameterCategory.optional, name,
-            type: type, this$: this$, defaultValue: defaultValue);
+            type: type,
+            nullable: nullable,
+            this$: this$,
+            defaultValue: defaultValue);
 
   ConstructorParameter.named(String name,
-      {bool this$ = false, Type? type, defaultValue, bool required = false})
+      {bool this$ = false,
+      Type? type,
+      bool nullable = false,
+      defaultValue,
+      bool required = false})
       : super._(ParameterCategory.named, name,
             this$: this$,
             type: type,
+            nullable: nullable,
             defaultValue: defaultValue,
             required: required);
 }

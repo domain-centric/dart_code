@@ -285,6 +285,7 @@ class Expression extends CodeModel {
           bool static = false,
           Modifier modifier = Modifier.var$,
           Type? type,
+          bool nullable = false,
           Expression? value}) =>
       VariableDefinition(
         name,
@@ -293,6 +294,7 @@ class Expression extends CodeModel {
         static: static,
         modifier: modifier,
         type: type,
+        nullable: nullable,
         value: this,
       );
 

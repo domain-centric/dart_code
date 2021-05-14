@@ -19,6 +19,7 @@ class VariableDefinition extends Statement {
   final bool static;
   final Modifier modifier;
   final Type? type;
+  final bool nullable;
   final String name;
   final Expression? value;
 
@@ -28,6 +29,7 @@ class VariableDefinition extends Statement {
       this.static = false,
       this.modifier = Modifier.var$,
       this.type,
+      this.nullable = false,
       this.value})
       : super([
           ...docComments,
@@ -42,15 +44,27 @@ class VariableDefinition extends Statement {
               type == null)
             KeyWord.var$,
           if ((modifier == Modifier.var$ || modifier == Modifier.lateVar$) &&
+              type == null &&
+              nullable)
+            Code('?'),
+          if ((modifier == Modifier.var$ || modifier == Modifier.lateVar$) &&
               type == null)
             Space(),
-          if (modifier == Modifier.final$) KeyWord.final$,
-          if (modifier == Modifier.final$) Space(),
-          if (modifier == Modifier.lateFinal$) KeyWord.final$,
-          if (modifier == Modifier.lateFinal$) Space(),
+          if (modifier == Modifier.final$ || modifier == Modifier.lateFinal$)
+            KeyWord.final$,
+          if ((modifier == Modifier.final$ ||
+                  modifier == Modifier.lateFinal$) &&
+              type == null &&
+              nullable)
+            Code('?'),
+          if (modifier == Modifier.final$ || modifier == Modifier.lateFinal$)
+            Space(),
           if (modifier == Modifier.const$) KeyWord.const$,
+          if (modifier == Modifier.const$ && type == null && nullable)
+            Code('?'),
           if (modifier == Modifier.const$) Space(),
           if (type != null) type,
+          if (type != null && nullable) Code('?'),
           if (type != null) Space(),
           IdentifierStartingWithLowerCase(name),
           if (value != null) Space(),
