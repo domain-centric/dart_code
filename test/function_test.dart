@@ -15,7 +15,7 @@ main() {
     test(
         'Returns a anonymous function that returns a async boolean of value true',
         () {
-          String actual = Function.withoutName(
+      String actual = Function.withoutName(
               Expression.callFunction('booleanGenerator'),
               returnType: Type.ofFuture(Type.ofBool()),
               asynchrony: Asynchrony.async)
@@ -74,8 +74,6 @@ main() {
       expect(actual, expected);
     });
 
-
-
     test(
         'Returns a named function that returns a boolean of value true, with DocComments and Annotations',
         () {
@@ -122,6 +120,5 @@ main() {
       String expected = 'main() async => booleanGenerator();\n';
       expect(actual, expected);
     });
-
   });
 }

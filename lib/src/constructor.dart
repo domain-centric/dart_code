@@ -37,9 +37,9 @@ class Initializers extends SeparatedValues {
       {List<FieldInitializer>? fieldInitializers,
       ConstructorCall? constructorCall})
       : super.forParameters([
-    if (fieldInitializers != null) ...fieldInitializers,
-    if (constructorCall != null) constructorCall
-  ]) {
+          if (fieldInitializers != null) ...fieldInitializers,
+          if (constructorCall != null) constructorCall
+        ]) {
     _validateIfFieldInitializerNamesAreUnique(fieldInitializers);
   }
 
@@ -93,8 +93,7 @@ class Constructor extends CodeModel {
       : name = name == null ? null : IdentifierStartingWithLowerCase(name);
 
   @override
-  List<CodeNode> codeNodes(Context context) =>
-      [
+  List<CodeNode> codeNodes(Context context) => [
         ...docComments,
         ...annotations,
         if (external) KeyWord.external$,

@@ -41,7 +41,7 @@ main() {
 
       test("Should return:  a string field name with docComment and annotation",
           () {
-            String actual = CodeFormatter().unFormatted(Field('name',
+        String actual = CodeFormatter().unFormatted(Field('name',
             type: Type.ofString(),
             docComments: [DocComment.fromString('A valid name')],
             annotations: [Annotation(Type('Hidden'))]));

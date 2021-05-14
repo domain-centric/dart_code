@@ -72,4 +72,3 @@ class Type extends CodeModelWithLibraryUri {
         if (generics.isNotEmpty) Code('>'),
       ];
 }
-

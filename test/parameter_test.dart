@@ -65,7 +65,7 @@ main() {
       test(
           'should result in a optional parameter with String type and default value "Hello World"',
           () {
-            String actual = CodeFormatter().unFormatted(Parameter.optional('name',
+        String actual = CodeFormatter().unFormatted(Parameter.optional('name',
             type: Type.ofString(),
             defaultValue: Expression.ofString('Hello World')));
         String expected = "String name = 'Hello World'";

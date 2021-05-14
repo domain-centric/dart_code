@@ -275,8 +275,7 @@ main() {
           body: Block([
             Statement.assignVariable(
                 'fullName',
-                Expression.callFunction(
-                    '_appendNames',
+                Expression.callFunction('_appendNames',
                     parameterValues: ParameterValues([
                       ParameterValue(Expression.ofVariable(givenName)),
                       ParameterValue(Expression.ofVariable(familyName)),

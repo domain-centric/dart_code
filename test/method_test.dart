@@ -81,7 +81,7 @@ main() {
     test(
         'Should return: code of a static method that returns a greeting string, with DocComments and Annotations',
         () {
-          String actual = CodeFormatter().unFormatted(Method.static(
+      String actual = CodeFormatter().unFormatted(Method.static(
           'greetingMessage',
           Statement.return$(Expression.ofString('Hello \$name.')),
           parameters:

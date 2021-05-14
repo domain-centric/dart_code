@@ -35,8 +35,7 @@ class Class extends CodeModel {
   }) : this.name = IdentifierStartingWithUpperCase(name);
 
   @override
-  List<CodeNode> codeNodes(Context context) =>
-      [
+  List<CodeNode> codeNodes(Context context) => [
         if (docComments != null) ...docComments!,
         if (annotations != null) ...annotations!,
         if (abstract != null && abstract!) KeyWord.abstract$,
