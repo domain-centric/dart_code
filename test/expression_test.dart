@@ -1,4 +1,5 @@
 import 'package:dart_code/dart_code.dart';
+import 'package:dart_code/src/variable_definition.dart';
 import 'package:test/test.dart';
 
 main() {
@@ -513,11 +514,11 @@ main() {
         expect(actual, expected);
       });
 
-      test("Should return: greeting ??= 'Hello World';", () {
+      test("Should return: greeting ??= helloWorld;", () {
         String actual = CodeFormatter().unFormatted(
-            Expression.ofString('Hello World')
+            Expression.ofVariable('helloWorld')
                 .assignVariable("greeting", nullAware: true));
-        String expected = "greeting ??= 'Hello World';";
+        String expected = "greeting ??= helloWorld;";
         expect(actual, expected);
       });
 
@@ -555,11 +556,11 @@ main() {
         expect(actual, expected);
       });
 
-      test("Should return: sstatic  String greeting = \'Hello World\';", () {
+      test("Should return: static String greeting = \'Hello World\';", () {
         String actual = CodeFormatter().unFormatted(
             Expression.ofString('Hello World').defineVariable("greeting",
                 type: Type.ofString(), static: true));
-        String expected = "static  String greeting = \'Hello World\';";
+        String expected = "static String greeting = \'Hello World\';";
         expect(actual, expected);
       });
 
@@ -582,7 +583,7 @@ main() {
     group('defineFinal() method', () {
       test("Should return: final greeting = 'Hello World';\n", () {
         String actual = Expression.ofString('Hello World')
-            .defineFinal("greeting")
+            .defineVariable("greeting", modifier: Modifier.final$)
             .toString();
         String expected = "final greeting = 'Hello World';\n";
         expect(actual, expected);
@@ -590,7 +591,8 @@ main() {
 
       test("Should return: final String greeting = 'Hello World';\n", () {
         String actual = Expression.ofString('Hello World')
-            .defineFinal("greeting", type: Type.ofString())
+            .defineVariable("greeting",
+                modifier: Modifier.final$, type: Type.ofString())
             .toString();
         String expected = "final String greeting = 'Hello World';\n";
         expect(actual, expected);
@@ -598,23 +600,26 @@ main() {
 
       test("Should return: static final String greeting = \'Hello World\';",
           () {
-        String actual = CodeFormatter().unFormatted(
-            Expression.ofString('Hello World')
-                .defineFinal("greeting", type: Type.ofString(), static: true));
+            String actual = CodeFormatter().unFormatted(
+            Expression.ofString('Hello World').defineVariable("greeting",
+                static: true,
+                modifier: Modifier.final$,
+                type: Type.ofString()));
         String expected = "static final String greeting = \'Hello World\';";
         expect(actual, expected);
       });
 
       test('Should result in a final assignment of type Statement', () {
-        bool actual = Expression.ofString('Hello World').defineFinal("greeting")
-            is Statement;
+        bool actual = Expression.ofString('Hello World')
+            .defineVariable("greeting", modifier: Modifier.final$) is Statement;
         bool expected = true;
         expect(actual, expected);
       });
 
       test('Should throw name exception', () {
         expect(() {
-          Expression.ofString('Hello World').defineFinal("Greeting");
+          Expression.ofString('Hello World')
+              .defineVariable("Greeting", modifier: Modifier.final$);
         },
             throwsA((e) =>
                 e is ArgumentError &&
@@ -625,7 +630,7 @@ main() {
     group('defineConst() method', () {
       test("Should return: const greeting = 'Hello World';\n", () {
         String actual = Expression.ofString('Hello World')
-            .defineConst("greeting")
+            .defineVariable("greeting", modifier: Modifier.const$)
             .toString();
         String expected = "const greeting = 'Hello World';\n";
         expect(actual, expected);
@@ -633,7 +638,8 @@ main() {
 
       test("Should return: const String greeting = 'Hello World';\n", () {
         String actual = Expression.ofString('Hello World')
-            .defineConst("greeting", type: Type.ofString())
+            .defineVariable("greeting",
+                modifier: Modifier.const$, type: Type.ofString())
             .toString();
         String expected = "const String greeting = 'Hello World';\n";
         expect(actual, expected);
@@ -641,23 +647,26 @@ main() {
 
       test("Should return: static const String greeting = \'Hello World\';",
           () {
-        String actual = CodeFormatter().unFormatted(
-            Expression.ofString('Hello World')
-                .defineConst("greeting", type: Type.ofString(), static: true));
+            String actual = CodeFormatter().unFormatted(
+            Expression.ofString('Hello World').defineVariable("greeting",
+                static: true,
+                modifier: Modifier.const$,
+                type: Type.ofString()));
         String expected = "static const String greeting = \'Hello World\';";
         expect(actual, expected);
       });
 
       test('Should result in a final assignment of type Statement', () {
-        bool actual = Expression.ofString('Hello World').defineConst("greeting")
-            is Statement;
+        bool actual = Expression.ofString('Hello World')
+            .defineVariable("greeting", modifier: Modifier.const$) is Statement;
         bool expected = true;
         expect(actual, expected);
       });
 
       test('Should throw name exception', () {
         expect(() {
-          Expression.ofString('Hello World').defineConst("Greeting");
+          Expression.ofString('Hello World')
+              .defineVariable("Greeting", modifier: Modifier.const$);
         },
             throwsA((e) =>
                 e is ArgumentError &&
@@ -722,7 +731,7 @@ main() {
                 .getProperty('cheekColor', cascade: true)
                 .defineVariable('person'));
         String expected =
-            ' var  person = Person()..kiss()..cheekColor;'; //makes no sense: returns a kissed Person!
+            'var person = Person()..kiss()..cheekColor;'; //makes no sense: returns a kissed Person!
         expect(actual, expected);
       });
 

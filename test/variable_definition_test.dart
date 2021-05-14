@@ -3,15 +3,15 @@ import 'package:test/test.dart';
 
 main() {
   group('VariableDefinition class', () {
-    group('var\$() constructor', () {
+    group('modifier=var\$', () {
       test("Should return: var greeting;\n", () {
-        String actual = VariableDefinition.var$("greeting").toString();
+        String actual = VariableDefinition("greeting").toString();
         String expected = "var greeting;\n";
         expect(actual, expected);
       });
 
       test("Should return: var greeting = 'Hello World';\n", () {
-        String actual = VariableDefinition.var$("greeting",
+        String actual = VariableDefinition("greeting",
                 value: Expression.ofString('Hello World'))
             .toString();
         String expected = "var greeting = 'Hello World';\n";
@@ -19,7 +19,7 @@ main() {
       });
 
       test("Should return: String greeting = 'Hello World';\n", () {
-        String actual = VariableDefinition.var$("greeting",
+        String actual = VariableDefinition("greeting",
                 value: Expression.ofString('Hello World'),
                 type: Type.ofString())
             .toString();
@@ -28,18 +28,18 @@ main() {
       });
 
       test("Should return: static String greeting = 'Hello World';\n", () {
-        String actual = CodeFormatter().unFormatted(VariableDefinition.var$(
+        String actual = CodeFormatter().unFormatted(VariableDefinition(
             "greeting",
             value: Expression.ofString('Hello World'),
             type: Type.ofString(),
             static: true));
-        String expected = 'static  String greeting = \'Hello World\';';
+        String expected = 'static String greeting = \'Hello World\';';
         expect(actual, expected);
       });
 
       test('Should throw name exception', () {
         expect(() {
-          VariableDefinition.var$("InvalidVariableName").toString();
+          VariableDefinition("InvalidVariableName").toString();
         },
             throwsA((e) =>
                 e is ArgumentError &&
@@ -47,9 +47,60 @@ main() {
       });
     });
 
-    group('final\$() constructor', () {
+    group('modifier=lateVar\$', () {
+      test("Should return: late greeting;\n", () {
+        String actual =
+            VariableDefinition("greeting", modifier: Modifier.lateVar$)
+                .toString();
+        String expected = "late var greeting;\n";
+        expect(actual, expected);
+      });
+
+      test("Should return: late greeting = 'Hello World';\n", () {
+        String actual = VariableDefinition("greeting",
+                modifier: Modifier.lateVar$,
+                value: Expression.ofString('Hello World'))
+            .toString();
+        String expected = "late var greeting = 'Hello World';\n";
+        expect(actual, expected);
+      });
+
+      test("Should return: late String greeting = 'Hello World';\n", () {
+        String actual = VariableDefinition("greeting",
+                modifier: Modifier.lateVar$,
+                value: Expression.ofString('Hello World'),
+                type: Type.ofString())
+            .toString();
+        String expected = "late String greeting = 'Hello World';\n";
+        expect(actual, expected);
+      });
+
+      test("Should return: static late String greeting = 'Hello World';\n", () {
+        String actual = CodeFormatter().unFormatted(VariableDefinition(
+            "greeting",
+            modifier: Modifier.lateVar$,
+            value: Expression.ofString('Hello World'),
+            type: Type.ofString(),
+            static: true));
+        String expected = 'static late String greeting = \'Hello World\';';
+        expect(actual, expected);
+      });
+
+      test('Should throw name exception', () {
+        expect(() {
+          VariableDefinition("InvalidVariableName", modifier: Modifier.lateVar$)
+              .toString();
+        },
+            throwsA((e) =>
+                e is ArgumentError &&
+                e.message == 'Must start with an lower case letter'));
+      });
+    });
+
+    group('modifier=final\$', () {
       test("Should return: final greeting = 'Hello World';\n", () {
-        String actual = VariableDefinition.final$("greeting",
+        String actual = VariableDefinition("greeting",
+                modifier: Modifier.final$,
                 value: Expression.ofString('Hello World'))
             .toString();
         String expected = "final greeting = 'Hello World';\n";
@@ -57,27 +108,32 @@ main() {
       });
 
       test("Should return: final String greeting = 'Hello World';\n", () {
-        String actual = VariableDefinition.final$("greeting",
-                value: Expression.ofString('Hello World'),
-                type: Type.ofString())
-            .toString();
+        String actual = VariableDefinition(
+          "greeting",
+          modifier: Modifier.final$,
+          type: Type.ofString(),
+          value: Expression.ofString('Hello World'),
+        ).toString();
         String expected = "final String greeting = 'Hello World';\n";
         expect(actual, expected);
       });
 
       test("Should return: final String greeting = 'Hello World';\n", () {
-        String actual = CodeFormatter().unFormatted(VariableDefinition.final$(
-            "greeting",
-            value: Expression.ofString('Hello World'),
-            type: Type.ofString(),
-            static: true));
+        String actual = CodeFormatter().unFormatted(VariableDefinition(
+          "greeting",
+          static: true,
+          modifier: Modifier.final$,
+          type: Type.ofString(),
+          value: Expression.ofString('Hello World'),
+        ));
         String expected = 'static final String greeting = \'Hello World\';';
         expect(actual, expected);
       });
 
       test('Should throw name exception', () {
         expect(() {
-          VariableDefinition.final$("InvalidVariableName",
+          VariableDefinition("InvalidVariableName",
+                  modifier: Modifier.final$,
                   value: Expression.ofString('Hello World'))
               .toString();
         },
@@ -87,18 +143,67 @@ main() {
       });
     });
 
-    group('const\$() constructor', () {
+    group('modifier=lateFinal\$', () {
+      test("Should return: late final greeting = 'Hello World';\n", () {
+        String actual = VariableDefinition("greeting",
+                modifier: Modifier.lateFinal$,
+                value: Expression.ofString('Hello World'))
+            .toString();
+        String expected = "late final greeting = 'Hello World';\n";
+        expect(actual, expected);
+      });
+
+      test("Should return: late final String greeting = 'Hello World';\n", () {
+        String actual = VariableDefinition(
+          "greeting",
+          modifier: Modifier.lateFinal$,
+          type: Type.ofString(),
+          value: Expression.ofString('Hello World'),
+        ).toString();
+        String expected = "late final String greeting = 'Hello World';\n";
+        expect(actual, expected);
+      });
+
+      test("Should return: late final String greeting = 'Hello World';\n", () {
+        String actual = CodeFormatter().unFormatted(VariableDefinition(
+          "greeting",
+          static: true,
+          modifier: Modifier.lateFinal$,
+          type: Type.ofString(),
+          value: Expression.ofString('Hello World'),
+        ));
+        String expected =
+            'static late final String greeting = \'Hello World\';';
+        expect(actual, expected);
+      });
+
+      test('Should throw name exception', () {
+        expect(() {
+          VariableDefinition("InvalidVariableName",
+                  modifier: Modifier.lateFinal$,
+                  value: Expression.ofString('Hello World'))
+              .toString();
+        },
+            throwsA((e) =>
+                e is ArgumentError &&
+                e.message == 'Must start with an lower case letter'));
+      });
+    });
+
+    group('modifier=const\$', () {
       test("Should return: const greeting = 'Hello World';\n", () {
-        String actual = VariableDefinition.const$(
-                "greeting", Expression.ofString('Hello World'))
+        String actual = VariableDefinition("greeting",
+                modifier: Modifier.const$,
+                value: Expression.ofString('Hello World'))
             .toString();
         String expected = "const greeting = 'Hello World';\n";
         expect(actual, expected);
       });
 
       test("Should return: const String greeting = 'Hello World';\n", () {
-        String actual = VariableDefinition.const$(
-                "greeting", Expression.ofString('Hello World'),
+        String actual = VariableDefinition("greeting",
+                modifier: Modifier.const$,
+                value: Expression.ofString('Hello World'),
                 type: Type.ofString())
             .toString();
         String expected = "const String greeting = 'Hello World';\n";
@@ -107,17 +212,22 @@ main() {
 
       test("Should return: static const String greeting = 'Hello World';\n",
           () {
-            String actual = CodeFormatter().unFormatted(VariableDefinition.const$(
-            "greeting", Expression.ofString('Hello World'),
-            type: Type.ofString(), static: true));
+        String actual = CodeFormatter().unFormatted(VariableDefinition(
+          "greeting",
+          static: true,
+          modifier: Modifier.const$,
+          type: Type.ofString(),
+          value: Expression.ofString('Hello World'),
+        ));
         String expected = 'static const String greeting = \'Hello World\';';
         expect(actual, expected);
       });
 
       test('Should throw name exception', () {
         expect(() {
-          VariableDefinition.const$(
-                  "InvalidVariableName", Expression.ofString('Hello World'))
+          VariableDefinition("InvalidVariableName",
+                  modifier: Modifier.const$,
+                  value: Expression.ofString('Hello World'))
               .toString();
         },
             throwsA((e) =>

@@ -77,10 +77,11 @@ main() {
     test('constructor with classes parameter', () {
       String actual = Library(classes: [
         Class('Person', fields: [
-          Field.final$('givenName', type: Type.ofString()),
-          Field.final$('familyName', type: Type.ofString()),
-          Field.final$('fullName', type: Type.ofString()),
-          Field.final$('dateOfBirth', type: Type.ofDateTime()),
+          Field('givenName', modifier: Modifier.final$, type: Type.ofString()),
+          Field('familyName', modifier: Modifier.final$, type: Type.ofString()),
+          Field('fullName', modifier: Modifier.final$, type: Type.ofString()),
+          Field('dateOfBirth',
+              modifier: Modifier.final$, type: Type.ofDateTime()),
         ], constructors: [
           Constructor(Type('Person'),
               parameters: ConstructorParameters([
@@ -99,23 +100,23 @@ main() {
           Method.getter(
               'ageInYears',
               Block([
-                VariableDefinition.var$('now',
+                VariableDefinition('now',
                     type: Type.ofDateTime(),
                     value: Expression.callConstructor(Type.ofDateTime(),
                         name: "now")),
-                VariableDefinition.var$('years',
+                VariableDefinition('years',
                     type: Type.ofInt(),
                     value: Expression.ofVariable('now')
                         .getProperty('year')
                         .subtract(Expression.ofVariable('dateOfBirth')
                             .getProperty('year'))),
-                VariableDefinition.var$('months',
+                VariableDefinition('months',
                     type: Type.ofInt(),
                     value: Expression.ofVariable('now')
                         .getProperty('month')
                         .subtract(Expression.ofVariable('dateOfBirth')
                             .getProperty('month'))),
-                VariableDefinition.var$('days',
+                VariableDefinition('days',
                     type: Type.ofInt(),
                     value: Expression.ofVariable('now')
                         .getProperty('day')
@@ -185,23 +186,23 @@ class CalculateAgeInYearsFunction extends Function {
       : super.withName(
           'calculateAgeInYears',
           Block([
-            VariableDefinition.var$('now',
+            VariableDefinition('now',
                 type: Type.ofDateTime(),
                 value:
                     Expression.callConstructor(Type.ofDateTime(), name: "now")),
-            VariableDefinition.var$('years',
+            VariableDefinition('years',
                 type: Type.ofInt(),
                 value: Expression.ofVariable('now')
                     .getProperty('year')
                     .subtract(Expression.ofVariable('dateOfBirth')
                         .getProperty('year'))),
-            VariableDefinition.var$('months',
+            VariableDefinition('months',
                 type: Type.ofInt(),
                 value: Expression.ofVariable('now')
                     .getProperty('month')
                     .subtract(Expression.ofVariable('dateOfBirth')
                         .getProperty('month'))),
-            VariableDefinition.var$('days',
+            VariableDefinition('days',
                 type: Type.ofInt(),
                 value: Expression.ofVariable('now').getProperty('day').subtract(
                     Expression.ofVariable('dateOfBirth').getProperty('day'))),
@@ -258,11 +259,13 @@ class PersonClass extends Class {
       : super('Person', implements: [
           Type('SoftWareEngineer')
         ], fields: [
-          Field.final$('givenName', type: Type.ofString()),
-          Field.final$('familyName', type: Type.ofString()),
-          Field.final$('fullName', type: Type.ofString()),
-          Field.final$('dateOfBirth', type: Type.ofDateTime()),
-          Field.final$('familiarProgramingLanguages',
+          Field('givenName', modifier: Modifier.final$, type: Type.ofString()),
+          Field('familyName', modifier: Modifier.final$, type: Type.ofString()),
+          Field('fullName', modifier: Modifier.final$, type: Type.ofString()),
+          Field('dateOfBirth',
+              modifier: Modifier.final$, type: Type.ofDateTime()),
+          Field('familiarProgramingLanguages',
+              modifier: Modifier.final$,
               type: Type.ofList(genericType: Type.ofString())),
         ], constructors: [
           Constructor(Type('Person'),
@@ -283,8 +286,7 @@ class PersonClass extends Class {
               type: Type.ofString()),
           Method.getter(
               'ageInYears',
-              Expression.callFunction(
-                  'calculateAgeInYears',
+              Expression.callFunction('calculateAgeInYears',
                   parameterValues: ParameterValues(
                       [ParameterValue(Expression.ofVariable('dateOfBirth'))])))
         ]);

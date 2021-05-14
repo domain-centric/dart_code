@@ -9,48 +9,20 @@ import 'variable_definition.dart';
 /// A [Field] is a [VariableDefinition] in a [Class].
 /// See [https://dart.dev/guides/language/language-tour#using-class-members]
 class Field extends VariableDefinition {
-  Field.var$(String name,
+  Field(String name,
       {List<DocComment> docComments = const [],
       List<Annotation> annotations = const [],
       bool static = false,
+      Modifier modifier = Modifier.var$,
       Type? type,
       Expression? value})
-      : super.var$(name,
+      : super(name,
             docComments: docComments,
             annotations: annotations,
             static: static,
+            modifier: modifier,
             type: type,
             value: value);
-
-  Field.final$(
-    String name, {
-    Expression? value,
-    List<DocComment> docComments = const [],
-    List<Annotation> annotations = const [],
-    bool static = false,
-    Type? type,
-  }) : super.final$(name,
-            value: value,
-            docComments: docComments,
-            annotations: annotations,
-            static: static,
-            type: type);
-
-  Field.const$(
-    String name,
-    Expression value, {
-    List<DocComment> docComments = const [],
-    List<Annotation> annotations = const [],
-    bool static = false,
-    Type? type,
-  }) : super.const$(
-          name,
-          value,
-          docComments: docComments,
-          annotations: annotations,
-          static: static,
-          type: type,
-        );
 }
 
 /// A [FieldInitializer] is a [VariableDefinition] with a value assignment within a [Class].

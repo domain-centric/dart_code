@@ -104,6 +104,7 @@ class KeyWord {
   static final Code in$ = Code('in');
   static final Code interface$ = Code('interface');
   static final Code is$ = Code('is');
+  static final Code late$ = Code('late');
   static final Code library$ = Code('library');
   static final Code mixin$ = Code('mixin');
   static final Code new$ = Code('new');
@@ -166,6 +167,7 @@ class KeyWord {
     in$,
     interface$,
     is$,
+    late$,
     library$,
     mixin$,
     new$,

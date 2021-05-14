@@ -83,12 +83,12 @@ main() {
     group('Statement.for\$ constructor', () {
       test("Should return: for loop statements'", () {
         String actual = CodeFormatter().unFormatted(Statement.for$(
-            VariableDefinition.var$('i',
+            VariableDefinition('i',
                 type: Type.ofInt(), value: Expression.ofInt(10)),
             Expression.ofVariable('i').greaterOrEqualTo(Expression.ofInt(0)),
             Expression.ofVariable('i').increment(),
             Block([Statement.print(Expression.ofVariable('i'))])));
-        String expected = 'for (  int i = 10; i >= 0; i++) {print(i);};';
+        String expected = 'for (int i = 10; i >= 0; i++) {print(i);};';
         expect(actual, expected);
       });
     });
@@ -96,10 +96,10 @@ main() {
     group('Statement.forEach\$ constructor', () {
       test("Should return: for loop statements'", () {
         String actual = CodeFormatter().unFormatted(Statement.forEach$(
-            VariableDefinition.var$('color', type: Type('Color')),
+            VariableDefinition('color', type: Type('Color')),
             Expression.ofVariable('colors'),
             Block([Statement.print(Expression.ofVariable('color'))])));
-        String expected = 'for (  Color color in colors) {print(color);};';
+        String expected = 'for (Color color in colors) {print(color);};';
         expect(actual, expected);
       });
     });

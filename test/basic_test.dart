@@ -65,15 +65,16 @@ main() {
       expect(actual, expected);
     });
 
+    final nrOfKeywords = 62;
     test('Given Keyword.allCodes=> Returns .. codes', () {
       int actual = KeyWord.allCodes.length;
-      int expected = 61;
+      int expected = nrOfKeywords;
       expect(actual, expected);
     });
 
     test('Given Keyword.allNames=> Returns .. strings', () {
       int actual = KeyWord.allNames.length;
-      int expected = 61;
+      int expected = nrOfKeywords;
       expect(actual, expected);
     });
 
