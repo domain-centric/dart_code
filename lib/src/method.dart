@@ -71,15 +71,16 @@ class Method extends CodeModel {
         propertyAccessor = null,
         body = Body([body]);
 
-  Method.getter(String name,
-      CodeNode body, {
-        this.docComments = const [],
-        this.annotations = const [],
-        this.final$ = false,
-        this.type,
-        this.parameters,
-        this.asynchrony,
-      })  : abstract = false,
+  Method.getter(
+    String name,
+    CodeNode body, {
+    this.docComments = const [],
+    this.annotations = const [],
+    this.final$ = false,
+    this.type,
+    this.parameters,
+    this.asynchrony,
+  })  : abstract = false,
         static = false,
         name = IdentifierStartingWithLowerCase(name),
         propertyAccessor = PropertyAccessor.getter,
@@ -101,8 +102,7 @@ class Method extends CodeModel {
         body = Body([body]);
 
   @override
-  List<CodeNode> codeNodes(Context context) =>
-      [
+  List<CodeNode> codeNodes(Context context) => [
         ...docComments,
         ...annotations,
         if (static) KeyWord.static$,

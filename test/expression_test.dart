@@ -654,7 +654,7 @@ main() {
 
       test("Should return: static const String greeting = \'Hello World\';",
           () {
-            String actual = CodeFormatter().unFormatted(
+        String actual = CodeFormatter().unFormatted(
             Expression.ofString('Hello World').defineVariable("greeting",
                 static: true,
                 modifier: Modifier.const$,

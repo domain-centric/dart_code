@@ -19,7 +19,7 @@ main() {
 
       test('should result in a named parameter with String? type', () {
         String actual = CodeFormatter().unFormatted(
-            Parameter.required('name', type: Type.ofString(), nullable: true));
+            Parameter.required('name', type: Type.ofString(nullable: true)));
         String expected = 'String? name';
         expect(actual, expected);
       });
@@ -49,7 +49,7 @@ main() {
 
       test('should result in a optional parameter with String? type', () {
         String actual = CodeFormatter().unFormatted(
-            Parameter.optional('name', type: Type.ofString(), nullable: true));
+            Parameter.optional('name', type: Type.ofString(nullable: true)));
         String expected = 'String? name';
         expect(actual, expected);
       });
@@ -90,7 +90,7 @@ main() {
 
       test('should result in a named parameter with String? type', () {
         String actual = CodeFormatter().unFormatted(
-            Parameter.named('name', type: Type.ofString(), nullable: true));
+            Parameter.named('name', type: Type.ofString(nullable: true)));
         String expected = 'String? name';
         expect(actual, expected);
       });

@@ -18,7 +18,7 @@ main() {
 
       test("Should return: 'String? name;\n'", () {
         String actual =
-            Field('name', type: Type.ofString(), nullable: true).toString();
+            Field('name', type: Type.ofString(nullable: true)).toString();
         String expected = 'String? name;\n';
         expect(actual, expected);
       });
@@ -76,8 +76,7 @@ main() {
           'name',
           modifier: Modifier.const$,
           value: Expression.ofVariable('personName'),
-          type: Type.ofString(),
-          nullable: true,
+          type: Type.ofString(nullable: true),
         ).toString();
         String expected = "const String? name = personName;\n";
         expect(actual, expected);
@@ -149,8 +148,7 @@ main() {
           'name',
           modifier: Modifier.final$,
           value: Expression.ofVariable('personName'),
-          type: Type.ofString(),
-          nullable: true,
+          type: Type.ofString(nullable: true),
         ).toString();
         String expected = "final String? name = personName;\n";
         expect(actual, expected);

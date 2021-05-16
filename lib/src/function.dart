@@ -49,8 +49,7 @@ class Function extends CodeModel {
         body = Body([body]);
 
   @override
-  List<CodeNode> codeNodes(Context context) =>
-      [
+  List<CodeNode> codeNodes(Context context) => [
         ...docComments,
         ...annotations,
         Space(),

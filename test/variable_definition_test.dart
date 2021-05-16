@@ -31,8 +31,7 @@ main() {
         String actual = VariableDefinition(
           "greeting",
           value: Expression.ofString('Hello World'),
-          type: Type.ofString(),
-          nullable: true,
+          type: Type.ofString(nullable: true),
         ).toString();
         String expected = "String? greeting = 'Hello World';\n";
         expect(actual, expected);
@@ -91,8 +90,7 @@ main() {
           "greeting",
           modifier: Modifier.lateVar$,
           value: Expression.ofVariable('helloWorld'),
-          type: Type.ofString(),
-          nullable: true,
+          type: Type.ofString(nullable: true),
         ).toString();
         String expected = "late String? greeting = helloWorld;\n";
         expect(actual, expected);
@@ -145,9 +143,8 @@ main() {
         String actual = VariableDefinition(
           "greeting",
           modifier: Modifier.final$,
-          type: Type.ofString(),
+          type: Type.ofString(nullable: true),
           value: Expression.ofVariable('helloWorld'),
-          nullable: true,
         ).toString();
         String expected = "final String? greeting = helloWorld;\n";
         expect(actual, expected);
@@ -204,8 +201,7 @@ main() {
         String actual = VariableDefinition(
           "greeting",
           modifier: Modifier.lateFinal$,
-          type: Type.ofString(),
-          nullable: true,
+          type: Type.ofString(nullable: true),
           value: Expression.ofVariable('helloWorld'),
         ).toString();
         String expected = "late final String? greeting = helloWorld;\n";
@@ -265,8 +261,7 @@ main() {
           "greeting",
           modifier: Modifier.const$,
           value: Expression.ofVariable('helloWorld'),
-          type: Type.ofString(),
-          nullable: true,
+          type: Type.ofString(nullable: true),
         ).toString();
         String expected = "const String? greeting = helloWorld;\n";
         expect(actual, expected);

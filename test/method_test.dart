@@ -115,7 +115,7 @@ main() {
     test(
         'Should return: code of a abstract method that returns a greeting string',
         () {
-          String actual = CodeFormatter().unFormatted(Method.abstract(
+      String actual = CodeFormatter().unFormatted(Method.abstract(
           'greetingMessage',
           parameters:
               Parameters([Parameter.required('name', type: Type.ofString())]),

@@ -15,7 +15,6 @@ class Field extends VariableDefinition {
       bool static = false,
       Modifier modifier = Modifier.var$,
       Type? type,
-      bool nullable = false,
       Expression? value})
       : super(name,
             docComments: docComments,
@@ -23,7 +22,6 @@ class Field extends VariableDefinition {
             static: static,
             modifier: modifier,
             type: type,
-            nullable: nullable,
             value: value);
 }
 

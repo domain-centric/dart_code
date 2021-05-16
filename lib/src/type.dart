@@ -8,60 +8,63 @@ import 'model.dart';
 /// For the Dart build in types, see: [https://dart.dev/guides/language/language-tour#built-in-types]
 class Type extends CodeModelWithLibraryUri {
   final String name;
+  final bool nullable;
   List<Type> generics = [];
 
-  Type.ofBool()
+  Type.ofBool({this.nullable = false})
       : name = 'bool',
         super();
 
-  Type.ofInt()
+  Type.ofInt({this.nullable = false})
       : name = 'int',
         super();
 
-  Type.ofDouble()
+  Type.ofDouble({this.nullable = false})
       : name = 'double',
         super();
 
-  Type.ofDateTime()
+  Type.ofDateTime({this.nullable = false})
       : name = 'DateTime',
         super();
 
-  Type.ofString()
+  Type.ofString({this.nullable = false})
       : name = 'String',
         super();
 
   Type.ofVar()
       : name = 'var',
+        this.nullable = false,
         super();
 
-  Type.ofList({Type? genericType})
+  Type.ofList({Type? genericType, this.nullable = false})
       : name = 'List',
         generics = genericType == null ? const [] : [genericType],
         super();
 
-  Type.ofSet({Type? genericType})
+  Type.ofSet({Type? genericType, this.nullable = false})
       : name = 'Set',
         generics = genericType == null ? const [] : [genericType],
         super();
 
-  Type.ofMap({Type? keyType, Type? valueType})
+  Type.ofMap({Type? keyType, Type? valueType, this.nullable = false})
       : name = 'Map',
         generics = (keyType == null && valueType == null)
             ? const []
             : [keyType!, valueType!],
         super();
 
-  Type.ofFuture(Type type)
+  Type.ofFuture(Type type, {this.nullable = false})
       : name = 'Future',
         generics = [type],
         super();
 
-  Type.ofStream(Type type)
+  Type.ofStream(Type type, {this.nullable = false})
       : name = 'Stream',
         generics = [type],
         super();
 
-  Type(this.name, {String? libraryUri, this.generics = const []})
+  Type(this.name,
+      {String? libraryUri, this.generics = const [], this.nullable = false})
       : super(libraryUri: libraryUri);
 
   @override
@@ -70,5 +73,6 @@ class Type extends CodeModelWithLibraryUri {
         if (generics.isNotEmpty) Code('<'),
         if (generics.isNotEmpty) SeparatedValues.forParameters(generics),
         if (generics.isNotEmpty) Code('>'),
+        if (nullable) Code('?'),
       ];
 }

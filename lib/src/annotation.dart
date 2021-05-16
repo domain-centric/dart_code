@@ -24,8 +24,7 @@ class Annotation extends CodeModel {
   Annotation.required() : this._dartType('required');
 
   @override
-  List<CodeNode> codeNodes(Context context) =>
-      [
+  List<CodeNode> codeNodes(Context context) => [
         Code('@'),
         type,
         if (customType) Code('('),

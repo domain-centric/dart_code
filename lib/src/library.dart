@@ -24,8 +24,7 @@ class Library extends CodeModel {
   }) : libraryStatement = name == null ? null : Statement.library(name);
 
   @override
-  List<CodeNode> codeNodes(Context context) =>
-      [
+  List<CodeNode> codeNodes(Context context) => [
         if (libraryStatement != null) libraryStatement!,
         context.imports,
         if (docComments != null) ...docComments!,
