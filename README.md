@@ -29,7 +29,7 @@ You can use the following CodeFormatter constructor parameters:
 - int indent
 
 Note that this formatter may throw parsing exceptions.
-You can use the [CodeFormatter.unFormatted] method when you need a code partial that can not be parsed by the Dart formatter
+You can use the [CodeFormatter.unFormatted] method when you need a partial code that can not be parsed by the Dart formatter
 
 Alternative formatting example:
 ```dart
@@ -96,5 +96,5 @@ You will probably be using the following code modeling classes:
 ## Inspiration
 This package was inspired by the code_builder package.
 - dart_code is simpler and likely less complete
-- dart_code classes can extended (no fluent builders used) so that code model logic can be writien inside the constructor of the extended classes.
+- dart_code classes can be extended (no fluent builders used) so that code model logic can be written inside the constructor of the extended classes.
 - dart_code allows you to directly use the toString() method on the code classes or use the CodeFormatter class for alternative formatting settings.
