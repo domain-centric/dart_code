@@ -7,7 +7,7 @@ import 'type.dart';
 
 enum ParameterCategory { required, named, optional }
 
-/// Represents the definition of a [Parameter] in a a [Function] or [Method].
+/// Represents the definition of a [Parameter] in a a [DartFunction] or [Method].
 /// A [Parameter] definition can be:
 /// - required positional
 /// - or optional
@@ -152,7 +152,7 @@ class ConstructorParameters extends Parameters {
       : super(constructorParameters);
 }
 
-/// A [ParameterValue] is used when calling a [Function], [Constructor] or [Method]
+/// A [ParameterValue] is used when calling a [DartFunction], [Constructor] or [Method]
 class ParameterValue extends CodeModel {
   final IdentifierStartingWithLowerCase? name;
   final Expression value;

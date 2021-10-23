@@ -205,7 +205,7 @@ final RegExp _lettersNumbersUnderscoreOrDollar =
 
 final RegExp _successiveUnderscores = RegExp(r"__");
 
-/// Identifiers are names of [Class]es, [Field]s, [Method]s, [Function]s etc.
+/// Identifiers are names of [Class]es, [Field]s, [Method]s, [DartFunction]s etc.
 /// See [https://dart.dev/guides/language/language-tour#important-concepts]
 abstract class _Identifier extends CodeNode {
   final String _name;
@@ -281,7 +281,7 @@ class Block extends CodeModel {
       ];
 }
 
-/// Represent a body of e.g. a [Function] or [Method]
+/// Represent a body of e.g. a [DartFunction] or [Method]
 /// A body can be a block (e.g. with a return statement) or a functional block (using =>)
 class Body extends CodeModel {
   final List<CodeNode> nodes;

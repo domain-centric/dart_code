@@ -5,7 +5,7 @@ main() {
   group('Function.withoutName', () {
     test('Returns a anonymous function that returns a boolean of value true',
         () {
-      String actual = Function.withoutName(Expression.ofBool(true),
+      String actual = DartFunction.withoutName(Expression.ofBool(true),
               returnType: Type.ofBool())
           .toString();
       String expected = 'bool() => true;\n';
@@ -15,7 +15,7 @@ main() {
     test(
         'Returns a anonymous function that returns a async boolean of value true',
         () {
-      String actual = Function.withoutName(
+      String actual = DartFunction.withoutName(
               Expression.callFunction('booleanGenerator'),
               returnType: Type.ofFuture(Type.ofBool()),
               asynchrony: Asynchrony.async)
@@ -27,7 +27,7 @@ main() {
     test(
         'Returns a anonymous function that returns a boolean of value true, with DocComments and Annotations',
         () {
-      String actual = Function.withoutName(Expression.ofBool(true),
+      String actual = DartFunction.withoutName(Expression.ofBool(true),
           returnType: Type.ofBool(),
           docComments: [
             DocComment.fromString("This function returns: true")
@@ -55,7 +55,7 @@ main() {
 
   group('Function.withName', () {
     test('Returns a named function that returns a boolean of value true', () {
-      var actual = Function.withName('returnBool', Expression.ofBool(true),
+      var actual = DartFunction.withName('returnBool', Expression.ofBool(true),
               returnType: Type.ofBool())
           .toString();
       var expected = 'bool returnBool() => true;\n';
@@ -64,7 +64,7 @@ main() {
 
     test('Returns a named function that returns a async boolean of value true',
         () {
-      String actual = Function.withName(
+      String actual = DartFunction.withName(
               'returnBool', Expression.callFunction('booleanGenerator'),
               returnType: Type.ofFuture(Type.ofBool()),
               asynchrony: Asynchrony.async)
@@ -77,7 +77,7 @@ main() {
     test(
         'Returns a named function that returns a boolean of value true, with DocComments and Annotations',
         () {
-      String actual = Function.withName('returnTrue', Expression.ofBool(true),
+      String actual = DartFunction.withName('returnTrue', Expression.ofBool(true),
           returnType: Type.ofBool(),
           docComments: [
             DocComment.fromString("This function returns: true")
@@ -105,7 +105,7 @@ main() {
 
   group('Function.main', () {
     test('Returns main function that prints hello world', () {
-      var actual = Function.main(Code("print('Hello World.');")).toString();
+      var actual = DartFunction.main(Code("print('Hello World.');")).toString();
       var expected = 'main() {\n'
           '  print(\'Hello World.\');\n'
           '}\n';
@@ -114,7 +114,7 @@ main() {
 
     test('Returns a main function that returns a async boolean of value true',
         () {
-      String actual = Function.main(Expression.callFunction('booleanGenerator'),
+      String actual = DartFunction.main(Expression.callFunction('booleanGenerator'),
               asynchrony: Asynchrony.async)
           .toString();
       String expected = 'main() async => booleanGenerator();\n';

@@ -6,13 +6,13 @@ import 'function.dart';
 import 'model.dart';
 import 'statement.dart';
 
-/// Represents a [Library] containing optional [DocComment]s, [Annotation]s, [Function]s and [Class]es
+/// Represents a [Library] containing optional [DocComment]s, [Annotation]s, [DartFunction]s and [Class]es
 /// See: [https://www.tutorialspoint.com/dart_programming/dart_programming_libraries.htm#:~:text=A%20library%20in%20a%20programming,typedefs%2C%20properties%2C%20and%20exceptions.]
 class Library extends CodeModel {
   final List<DocComment>? docComments;
   final List<Annotation>? annotations;
   final Statement? libraryStatement;
-  final List<Function>? functions;
+  final List<DartFunction>? functions;
   final List<Class>? classes;
 
   Library({

@@ -1,3 +1,5 @@
+# [0.1.2]
+- https://github.com/efficientyboosters/dart_code/milestone/2?closed=1
 # [0.1.1]
 - https://github.com/efficientyboosters/dart_code/milestone/1?closed=1
 # [0.1.0]

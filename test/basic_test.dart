@@ -232,7 +232,7 @@ main() {
 
   group('Block class', () {
     test('Given a Block class => Returns a formatted code string', () {
-      String actual = Function.withName(
+      String actual = DartFunction.withName(
           'test',
           Block([
             Statement.return$(Expression.ofInt(1)),

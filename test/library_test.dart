@@ -28,7 +28,7 @@ main() {
 
     test('constructor with functions parameter', () {
       String actual = Library(functions: [
-        Function.withName('returnTrue', Expression.ofBool(true),
+        DartFunction.withName('returnTrue', Expression.ofBool(true),
             returnType: Type.ofBool(),
             docComments: [
               DocComment.fromString("This function returns: true")
@@ -181,7 +181,7 @@ main() {
 }
 
 // ignore: deprecated_extends_function
-class CalculateAgeInYearsFunction extends Function {
+class CalculateAgeInYearsFunction extends DartFunction {
   CalculateAgeInYearsFunction()
       : super.withName(
           'calculateAgeInYears',

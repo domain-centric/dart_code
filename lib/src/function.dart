@@ -5,10 +5,10 @@ import 'model.dart';
 import 'parameter.dart';
 import 'type.dart';
 
-/// Represents a [Function]
+/// Represents a [DartFunction]
 /// See: [https://dart.dev/guides/language/language-tour#functions]
 // ignore: deprecated_function_class_declaration
-class Function extends CodeModel {
+class DartFunction extends CodeModel {
   final List<DocComment> docComments;
   final List<Annotation> annotations;
   final Type? returnType;
@@ -17,7 +17,7 @@ class Function extends CodeModel {
   final Asynchrony? asynchrony;
   final Body body;
 
-  Function.withoutName(
+  DartFunction.withoutName(
     CodeNode body, {
     this.docComments = const [],
     this.annotations = const [],
@@ -27,7 +27,7 @@ class Function extends CodeModel {
   })  : name = null,
         body = Body([body]);
 
-  Function.withName(
+  DartFunction.withName(
     String name,
     CodeNode body, {
     this.docComments = const [],
@@ -38,7 +38,7 @@ class Function extends CodeModel {
   })  : name = IdentifierStartingWithLowerCase(name),
         body = Body([body]);
 
-  Function.main(
+  DartFunction.main(
     CodeNode body, {
     this.docComments = const [],
     this.annotations = const [],
