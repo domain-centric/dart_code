@@ -19,7 +19,7 @@ main() {
       ]).toString();
       String expected =
           '/// A Person that can be converted to and from Json format\n'
-          '@_i1.JsonSerializable()\n'
+          '@i1.JsonSerializable()\n'
           'class Person {}\n';
       expect(actual, expected);
     });
@@ -35,7 +35,7 @@ main() {
               superClass:
                   Type('Contact', libraryUri: 'package:my_lib/contact.dart'))
           .toString();
-      String expected = 'class Person extends _i1.Contact {}\n';
+      String expected = 'class Person extends i1.Contact {}\n';
       expect(actual, expected);
     });
 
@@ -45,7 +45,7 @@ main() {
         Type('Technician', libraryUri: 'package:my_lib/technician.dart')
       ]).toString();
       String expected =
-          'class Person implements _i1.Musician, _i2.Technician {}\n';
+          'class Person implements i1.Musician, i2.Technician {}\n';
       expect(actual, expected);
     });
 
@@ -54,7 +54,7 @@ main() {
         Type('Musician', libraryUri: 'package:my_lib/musician.dart'),
         Type('Technician', libraryUri: 'package:my_lib/technician.dart')
       ]).toString();
-      String expected = 'class Person with _i1.Musician, _i2.Technician {}\n';
+      String expected = 'class Person with i1.Musician, i2.Technician {}\n';
       expect(actual, expected);
     });
 

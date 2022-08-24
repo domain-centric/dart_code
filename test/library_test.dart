@@ -67,10 +67,10 @@ main() {
           abstract: true,
         )
       ]).toString();
-      String expected = 'import \'package:my_package/person.dart\' as _i1;\n'
-          'import \'package:my_package/skills.dart\' as _i2;\n'
+      String expected = 'import \'package:my_package/person.dart\' as i1;\n'
+          'import \'package:my_package/skills.dart\' as i2;\n'
           '\n'
-          'abstract class Employee extends _i1.Person implements _i2.Skills {}\n';
+          'abstract class Employee extends i1.Person implements i2.Skills {}\n';
       expect(actual, expected);
     });
 

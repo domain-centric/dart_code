@@ -17,7 +17,7 @@ class Import extends CodeModel {
 
   Import(this.libraryUri, this.alias);
 
-  ///e.g.import 'package:reflect_framework/reflect_info_service.dart' as _i1;
+  ///e.g.import 'package:reflect_framework/reflectinfo_service.dart' as i1;
   @override
   List<CodeNode> codeNodes(Context context) => [
         KeyWord.import$,
@@ -56,7 +56,7 @@ class Imports extends CodeModel {
       libraryUri = libraryUri.toLowerCase();
       if (!_libraryUriAndAliases.containsKey(libraryUri)) {
         _libraryUriAndAliases[libraryUri] =
-            '_i${_libraryUriAndAliases.length + 1}';
+            'i${_libraryUriAndAliases.length + 1}';
       }
     }
   }

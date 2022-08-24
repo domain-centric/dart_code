@@ -6,8 +6,8 @@ main() {
   group('Import class', () {
     test('Given Import => Returns correct code string', () {
       String actual =
-          CodeFormatter().unFormatted(Import("package:test/test.dart", "_i1"));
-      String expected = 'import \'package:test/test.dart\' as _i1;';
+          CodeFormatter().unFormatted(Import("package:test/test.dart", "i1"));
+      String expected = 'import \'package:test/test.dart\' as i1;';
       expect(actual, expected);
     });
   });
@@ -23,7 +23,7 @@ main() {
       Context context = Context(statements);
       String actual = CodeFormatter().unFormatted(context.imports);
       String expected =
-          'import \'package:test/test1.dart\' as _i1;import \'package:test/test2.dart\' as _i2;';
+          'import \'package:test/test1.dart\' as i1;import \'package:test/test2.dart\' as i2;';
       expect(actual, expected);
     });
 
@@ -34,7 +34,7 @@ main() {
         Statement(
             [Type("MySecondClass", libraryUri: "package:test/test2.dart")]),
       ]));
-      String expected = '_i1.MyFirstClass;_i2.MySecondClass;';
+      String expected = 'i1.MyFirstClass;i2.MySecondClass;';
       expect(actual, expected);
     });
   });

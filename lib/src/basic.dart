@@ -207,10 +207,10 @@ final RegExp _successiveUnderscores = RegExp(r"__");
 
 /// Identifiers are names of [Class]es, [Field]s, [Method]s, [DartFunction]s etc.
 /// See [https://dart.dev/guides/language/language-tour#important-concepts]
-abstract class _Identifier extends CodeNode {
+abstract class identifier extends CodeNode {
   final String _name;
 
-  _Identifier(this._name, CaseChecker firstLetterCaseChecker) {
+  identifier(this._name, CaseChecker firstLetterCaseChecker) {
     _validateName(_name, firstLetterCaseChecker);
   }
 
@@ -240,12 +240,12 @@ abstract class _Identifier extends CodeNode {
   }
 }
 
-class IdentifierStartingWithUpperCase extends _Identifier {
+class IdentifierStartingWithUpperCase extends identifier {
   IdentifierStartingWithUpperCase(String name)
       : super(name, CaseChecker.forUpperCase());
 }
 
-class IdentifierStartingWithLowerCase extends _Identifier {
+class IdentifierStartingWithLowerCase extends identifier {
   IdentifierStartingWithLowerCase(String name)
       : super(name, CaseChecker.forLowerCase());
 }

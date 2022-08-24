@@ -150,7 +150,7 @@ main() {
         Annotation(Type('JsonSerializable',
             libraryUri: 'package:json_annotation/json_annotation.dart'))
       ]));
-      String expected = '@_i1.JsonSerializable()\n'
+      String expected = '@i1.JsonSerializable()\n'
           'Person();';
       expect(actual, expected);
     });
@@ -180,7 +180,7 @@ main() {
       ]));
       String expected =
           '/// A Person that can be converted to and from Json format\n'
-          '@_i1.JsonSerializable()\n'
+          '@i1.JsonSerializable()\n'
           'Person();';
       expect(actual, expected);
     });

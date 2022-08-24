@@ -28,7 +28,7 @@ main() {
         String actual = CodeFormatter().unFormatted(Parameter.required('name',
             type: Type('MyClass',
                 libraryUri: 'package:dart_code/my_class.dart')));
-        String expected = '_i1.MyClass name';
+        String expected = 'i1.MyClass name';
         expect(actual, expected);
       });
     });
@@ -58,7 +58,7 @@ main() {
         String actual = CodeFormatter().unFormatted(Parameter.optional('name',
             type: Type('MyClass',
                 libraryUri: 'package:dart_code/my_class.dart')));
-        String expected = '_i1.MyClass name';
+        String expected = 'i1.MyClass name';
         expect(actual, expected);
       });
 
@@ -99,7 +99,7 @@ main() {
         String actual = CodeFormatter().unFormatted(Parameter.named('name',
             type: Type('MyClass',
                 libraryUri: 'package:dart_code/my_class.dart')));
-        String expected = '_i1.MyClass name';
+        String expected = 'i1.MyClass name';
         expect(actual, expected);
       });
 
@@ -249,7 +249,7 @@ main() {
             ConstructorParameter.required('name',
                 type: Type('MyClass',
                     libraryUri: 'package:dart_code/my_class.dart')));
-        String expected = '_i1.MyClass name';
+        String expected = 'i1.MyClass name';
         expect(actual, expected);
       });
     });
@@ -291,7 +291,7 @@ main() {
             ConstructorParameter.optional('name',
                 type: Type('MyClass',
                     libraryUri: 'package:dart_code/my_class.dart')));
-        String expected = '_i1.MyClass name';
+        String expected = 'i1.MyClass name';
         expect(actual, expected);
       });
 
@@ -358,7 +358,7 @@ main() {
             'name',
             type: Type('MyClass',
                 libraryUri: 'package:dart_code/my_class.dart')));
-        String expected = '_i1.MyClass name';
+        String expected = 'i1.MyClass name';
         expect(actual, expected);
       });
 

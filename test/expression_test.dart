@@ -285,7 +285,7 @@ main() {
               ParameterValue(Expression.ofInt(2)),
               ParameterValue(Expression.ofInt(3))
             ])));
-        String expected = '_i1.add(2,3)';
+        String expected = 'i1.add(2,3)';
         expect(actual, expected);
       });
 

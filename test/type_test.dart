@@ -145,17 +145,17 @@ main() {
       expect(actual, expected);
     });
 
-    test("Should return: '_i1.MyClass'", () {
+    test("Should return: 'i1.MyClass'", () {
       String actual = CodeFormatter()
           .unFormatted(Type("MyClass", libraryUri: "package:test/test.dart"));
-      String expected = "_i1.MyClass";
+      String expected = "i1.MyClass";
       expect(actual, expected);
     });
 
-    test("Should return: '_i1.MyClass?'", () {
+    test("Should return: 'i1.MyClass?'", () {
       String actual = CodeFormatter().unFormatted(Type("MyClass",
           libraryUri: "package:test/test.dart", nullable: true));
-      String expected = "_i1.MyClass?";
+      String expected = "i1.MyClass?";
       expect(actual, expected);
     });
   });
