@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022. By Nils ten Hoeve. See LICENSE file in project.
+ */
+
 import 'package:dart_code/dart_code.dart';
 
 ///  An [Expression] is a syntactic entity in the Dart programming language
@@ -109,7 +113,8 @@ class Expression extends CodeModel {
           IdentifierStartingWithLowerCase(name)
         ];
 
-  Expression.callFunction(String name,
+  /// A call to a method in the same class or a function
+  Expression.callMethodOrFunction(String name,
       {String? libraryUri, ParameterValues? parameterValues})
       : nodes = [
           FunctionCall(name,

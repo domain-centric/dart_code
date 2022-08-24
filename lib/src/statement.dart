@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022. By Nils ten Hoeve. See LICENSE file in project.
+ */
+
 import 'basic.dart';
 import 'expression.dart';
 import 'model.dart';
@@ -142,7 +146,7 @@ class Statement extends CodeModel {
 
   Statement.print(Expression expression)
       : this([
-          Expression.callFunction('print',
+          Expression.callMethodOrFunction('print',
               parameterValues: ParameterValues([ParameterValue(expression)]))
         ]);
 

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022. By Nils ten Hoeve. See LICENSE file in project.
+ */
+
 import 'package:dart_code/dart_code.dart';
 import 'package:test/test.dart';
 
@@ -16,7 +20,7 @@ main() {
         'Returns a anonymous function that returns a async boolean of value true',
         () {
       String actual = DartFunction.withoutName(
-              Expression.callFunction('booleanGenerator'),
+              Expression.callMethodOrFunction('booleanGenerator'),
               returnType: Type.ofFuture(Type.ofBool()),
               asynchrony: Asynchrony.async)
           .toString();
@@ -65,7 +69,7 @@ main() {
     test('Returns a named function that returns a async boolean of value true',
         () {
       String actual = DartFunction.withName(
-              'returnBool', Expression.callFunction('booleanGenerator'),
+          'returnBool', Expression.callMethodOrFunction('booleanGenerator'),
               returnType: Type.ofFuture(Type.ofBool()),
               asynchrony: Asynchrony.async)
           .toString();
@@ -116,7 +120,7 @@ main() {
     test('Returns a main function that returns a async boolean of value true',
         () {
       String actual = DartFunction.main(
-              Expression.callFunction('booleanGenerator'),
+          Expression.callMethodOrFunction('booleanGenerator'),
               asynchrony: Asynchrony.async)
           .toString();
       String expected = 'main() async => booleanGenerator();\n';

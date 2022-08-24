@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022. By Nils ten Hoeve. See LICENSE file in project.
+ */
+
 import 'package:dart_code/dart_code.dart';
 import 'package:test/test.dart';
 
@@ -260,26 +264,27 @@ main() {
           Expression.ofEnum(Type('MyColors'), 'InvalidEnumValue');
         },
             throwsA((e) =>
-            e is ArgumentError &&
+                e is ArgumentError &&
                 e.message == 'Must start with an lower case letter'));
       });
     });
 
-    group('Expression.callFunction constructor', () {
-      test('Should return a call to a function', () {
-        String actual =
-        CodeFormatter().unFormatted(Expression.callFunction('myFunction'));
+    group('Expression.callMethodOrFunction constructor', () {
+      test('Should return a call to a function or method', () {
+        String actual = CodeFormatter()
+            .unFormatted(Expression.callMethodOrFunction('myFunction'));
         String expected = "myFunction()";
         expect(actual, expected);
       });
 
-      test('Should return a call to a function with parameters', () {
-        String actual = CodeFormatter().unFormatted(Expression.callFunction(
-            'add',
-            parameterValues: ParameterValues([
-              ParameterValue(Expression.ofInt(2)),
-              ParameterValue(Expression.ofInt(3))
-            ])));
+      test('Should return a call to a function or method with parameters', () {
+        String actual = CodeFormatter().unFormatted(
+            Expression.callMethodOrFunction(
+                'add',
+                parameterValues: ParameterValues([
+                  ParameterValue(Expression.ofInt(2)),
+                  ParameterValue(Expression.ofInt(3))
+                ])));
         String expected = 'add(2,3)';
         expect(actual, expected);
       });
@@ -287,7 +292,8 @@ main() {
       test(
           'Should return a call to a function with parameters from another library',
               () {
-            String actual = CodeFormatter().unFormatted(Expression.callFunction(
+            String actual = CodeFormatter().unFormatted(
+            Expression.callMethodOrFunction(
                 'add',
                 libraryUri: "package:test/calculations.dart",
                 parameterValues: ParameterValues([
@@ -300,7 +306,7 @@ main() {
 
       test('Should throw an exception invalid name ', () {
         expect(() {
-          Expression.callFunction('InvalidFunctionName');
+          Expression.callMethodOrFunction('InvalidFunctionName');
         },
             throwsA((e) =>
             e is ArgumentError &&

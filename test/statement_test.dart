@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022. By Nils ten Hoeve. See LICENSE file in project.
+ */
+
 import 'package:dart_code/dart_code.dart';
 import 'package:test/test.dart';
 
@@ -225,14 +229,15 @@ main() {
       test("Should return: try statement with on cause", () {
         String actual = CodeFormatter().unFormatted(Statement.try$(
             Block([
-              Statement.ofExpression(Expression.callFunction('breedMoreCamels'))
+              Statement.ofExpression(
+                  Expression.callMethodOrFunction('breedMoreCamels'))
             ]),
             catches: [
               Catch.onException(
                   Type('OutOfCamelsException'),
                   Block([
                     Statement.ofExpression(
-                        Expression.callFunction('buyMoreCamels'))
+                        Expression.callMethodOrFunction('buyMoreCamels'))
                   ]))
             ]));
         String expected =
@@ -243,14 +248,15 @@ main() {
       test("Should return: try statement with multiple on causes", () {
         String actual = CodeFormatter().unFormatted(Statement.try$(
             Block([
-              Statement.ofExpression(Expression.callFunction('breedMoreCamels'))
+              Statement.ofExpression(
+                  Expression.callMethodOrFunction('breedMoreCamels'))
             ]),
             catches: [
               Catch.onException(
                   Type('OutOfCamelsException'),
                   Block([
                     Statement.ofExpression(
-                        Expression.callFunction('buyMoreCamels'))
+                        Expression.callMethodOrFunction('buyMoreCamels'))
                   ])),
               Catch.onException(
                   Type('Exception'),
@@ -275,11 +281,12 @@ main() {
       test("Should return: try statement with finally", () {
         String actual = CodeFormatter().unFormatted(Statement.try$(
             Block([
-              Statement.ofExpression(Expression.callFunction('breedMoreCamels'))
+              Statement.ofExpression(
+                  Expression.callMethodOrFunction('breedMoreCamels'))
             ]),
             finallyBlock: Block([
               Statement.ofExpression(
-                  Expression.callFunction('cleanCamelStalls'))
+                  Expression.callMethodOrFunction('cleanCamelStalls'))
             ])));
         String expected =
             'try {breedMoreCamels();} finally {cleanCamelStalls();};';

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022. By Nils ten Hoeve. See LICENSE file in project.
+ */
+
 import 'package:dart_code/dart_code.dart';
 import 'package:test/test.dart';
 
@@ -286,7 +290,7 @@ class PersonClass extends Class {
               type: Type.ofString()),
           Method.getter(
               'ageInYears',
-              Expression.callFunction('calculateAgeInYears',
+              Expression.callMethodOrFunction('calculateAgeInYears',
                   parameterValues: ParameterValues(
                       [ParameterValue(Expression.ofVariable('dateOfBirth'))])))
         ]);

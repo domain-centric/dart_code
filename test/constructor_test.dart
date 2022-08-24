@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022. By Nils ten Hoeve. See LICENSE file in project.
+ */
+
 import 'package:dart_code/dart_code.dart';
 import 'package:test/test.dart';
 
@@ -275,7 +279,7 @@ main() {
           body: Block([
             Statement.assignVariable(
                 'fullName',
-                Expression.callFunction('_appendNames',
+                Expression.callMethodOrFunction('_appendNames',
                     parameterValues: ParameterValues([
                       ParameterValue(Expression.ofVariable(givenName)),
                       ParameterValue(Expression.ofVariable(familyName)),
