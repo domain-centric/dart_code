@@ -1,7 +1,8 @@
 import 'package:dart_code/dart_code.dart';
 
-///  An [Expression] is a syntactic entity in the Dart programming language that may be evaluated to determine its value
-///  e.g.: 1 or or 1.1 or 1+2 or 1*2 or 'hello' or 'hello' + ' world' or user.name
+///  An [Expression] is a syntactic entity in the Dart programming language
+///  that may be evaluated to determine its value
+///  e.g.: 1 or or 1.1 or 1+2 or 'hello' or 'hello' + ' world' or user.name
 ///  See: [https://dart.dev/guides/language/language-tour#operators]
 class Expression extends CodeModel {
   final List<CodeNode> nodes;
@@ -11,6 +12,8 @@ class Expression extends CodeModel {
   /// =========================================================================
 
   Expression(this.nodes);
+
+  Expression.ofNull() : nodes = [Code('null')];
 
   Expression.ofInt(int value) : nodes = [Code(value.toString())];
 
