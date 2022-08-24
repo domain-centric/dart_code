@@ -1,14 +1,5 @@
 import 'package:dart_code/dart_code.dart';
 
-import 'annotation.dart';
-import 'basic.dart';
-import 'comment.dart';
-import 'field.dart';
-import 'model.dart';
-import 'parameter.dart';
-import 'statement.dart';
-import 'type.dart';
-
 /// Represents a [ConstructorCall]
 /// See [https://dart.dev/guides/language/language-tour#constructors]
 class ConstructorCall extends CodeModel {

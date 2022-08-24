@@ -1,14 +1,5 @@
 import 'package:dart_code/dart_code.dart';
 
-import 'annotation.dart';
-import 'basic.dart';
-import 'comment.dart';
-import 'model.dart';
-import 'parameter.dart';
-import 'statement.dart';
-import 'type.dart';
-import 'variable_definition.dart';
-
 ///  An [Expression] is a syntactic entity in the Dart programming language that may be evaluated to determine its value
 ///  e.g.: 1 or or 1.1 or 1+2 or 1*2 or 'hello' or 'hello' + ' world' or user.name
 ///  See: [https://dart.dev/guides/language/language-tour#operators]

@@ -1,9 +1,5 @@
 import 'package:dart_code/dart_code.dart';
 
-import 'model.dart';
-import 'parameter.dart';
-import 'type.dart';
-
 /// Represents an [Annotation]. See [https://dart.dev/guides/language/language-tour#metadata]
 class Annotation extends CodeModel {
   final Type type;

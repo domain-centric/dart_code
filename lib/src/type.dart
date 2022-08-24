@@ -1,8 +1,5 @@
 import 'package:dart_code/dart_code.dart';
 
-import 'basic.dart';
-import 'model.dart';
-
 /// Refers to [Type]
 /// For the Dart Type system, see: [https://dart.dev/guides/language/type-system]
 /// For the Dart build in types, see: [https://dart.dev/guides/language/language-tour#built-in-types]

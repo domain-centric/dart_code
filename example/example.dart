@@ -2,7 +2,8 @@ import 'package:dart_code/dart_code.dart';
 
 main() {
   /// A simple formatting example:
-  print(DartFunction.main(Statement.print(Expression.ofString('Hello World.'))));
+  print(
+      DartFunction.main(Statement.print(Expression.ofString('Hello World.'))));
 
   // OUTPUTS:
   // main() {

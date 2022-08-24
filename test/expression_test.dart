@@ -1,5 +1,4 @@
 import 'package:dart_code/dart_code.dart';
-import 'package:dart_code/src/variable_definition.dart';
 import 'package:test/test.dart';
 
 main() {
@@ -529,13 +528,6 @@ main() {
         expect(actual, expected);
       });
 
-      test('Should return in a variable assignment of type Statement', () {
-        bool actual = Expression.ofString('Hello World')
-            .assignVariable("greeting") is Statement;
-        bool expected = true;
-        expect(actual, expected);
-      });
-
       test('Should throw name exception', () {
         expect(() {
           Expression.ofString('Hello World').assignVariable("Greeting");
@@ -568,13 +560,6 @@ main() {
             Expression.ofString('Hello World').defineVariable("greeting",
                 type: Type.ofString(), static: true));
         String expected = "static String greeting = \'Hello World\';";
-        expect(actual, expected);
-      });
-
-      test('Should result in a variable assignment of type Statement', () {
-        bool actual = Expression.ofString('Hello World')
-            .defineVariable("greeting") is Statement;
-        bool expected = true;
         expect(actual, expected);
       });
 
@@ -616,13 +601,6 @@ main() {
         expect(actual, expected);
       });
 
-      test('Should result in a final assignment of type Statement', () {
-        bool actual = Expression.ofString('Hello World')
-            .defineVariable("greeting", modifier: Modifier.final$) is Statement;
-        bool expected = true;
-        expect(actual, expected);
-      });
-
       test('Should throw name exception', () {
         expect(() {
           Expression.ofString('Hello World')
@@ -660,13 +638,6 @@ main() {
                 modifier: Modifier.const$,
                 type: Type.ofString()));
         String expected = "static const String greeting = \'Hello World\';";
-        expect(actual, expected);
-      });
-
-      test('Should result in a final assignment of type Statement', () {
-        bool actual = Expression.ofString('Hello World')
-            .defineVariable("greeting", modifier: Modifier.const$) is Statement;
-        bool expected = true;
         expect(actual, expected);
       });
 

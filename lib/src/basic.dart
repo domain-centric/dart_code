@@ -1,9 +1,5 @@
 import 'package:dart_code/dart_code.dart';
 
-import 'expression.dart';
-import 'model.dart';
-import 'statement.dart';
-
 class SeparatedValues extends CodeModel {
   final Iterable<CodeNode> values;
   final bool withCommas;

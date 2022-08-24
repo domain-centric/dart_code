@@ -106,7 +106,7 @@ main() {
       test(
           'should result in a named parameter with String type and default value "Hello World"',
           () {
-            String actual = CodeFormatter().unFormatted(Parameter.named('name',
+        String actual = CodeFormatter().unFormatted(Parameter.named('name',
             type: Type.ofString(),
             defaultValue: Expression.ofString('Hello World')));
         String expected = "String name = 'Hello World'";

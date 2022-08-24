@@ -1,11 +1,4 @@
 import '../dart_code.dart';
-import 'annotation.dart';
-import 'basic.dart';
-import 'comment.dart';
-import 'model.dart';
-import 'parameter.dart';
-import 'statement.dart';
-import 'type.dart';
 
 enum PropertyAccessor {
   getter,

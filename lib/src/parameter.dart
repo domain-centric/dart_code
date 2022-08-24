@@ -1,10 +1,5 @@
 import 'package:dart_code/dart_code.dart';
 
-import 'basic.dart';
-import 'expression.dart';
-import 'model.dart';
-import 'type.dart';
-
 enum ParameterCategory { required, named, optional }
 
 /// Represents the definition of a [Parameter] in a a [DartFunction] or [Method].
