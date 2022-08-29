@@ -529,17 +529,17 @@ main() {
       expect(actual, expected);
     });
 
+    test("Should return name ?? 'Guest'", () {
+      String actual = CodeFormatter().unFormatted(
+          Expression.ofVariable('name').ifNull(Expression.ofString('Guest')));
+      String expected = "name ?? 'Guest'";
+      expect(actual, expected);
+    });
+
     test('Should return await me', () {
       String actual =
           CodeFormatter().unFormatted(Expression.ofVariable('me').awaited());
       String expected = 'await me';
-      expect(actual, expected);
-    });
-
-    test('Should return other ?? me', () {
-      String actual = CodeFormatter().unFormatted(Expression.ofVariable('me')
-          .ifNullThen(Expression.ofVariable('other')));
-      String expected = 'other ?? me';
       expect(actual, expected);
     });
   });

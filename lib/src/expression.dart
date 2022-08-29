@@ -227,6 +227,7 @@ class Expression extends CodeModel {
   Expression decrement({after = true}) =>
       after ? Expression([this, Code('--')]) : Expression([Code('--'), this]);
 
+  /// Return `{this} ? {whenTrue} : {whenFalse}`.
   Expression conditional(Expression whenTrue, Expression whenFalse) =>
       Expression([
         this,
@@ -240,12 +241,17 @@ class Expression extends CodeModel {
         whenFalse
       ]);
 
+  /// Return `{this} ?? {alternativeWhenNull}`.
+  Expression ifNull(Expression alternativeWhenNull) => Expression([
+        this,
+        Space(),
+        Code('??'),
+        Space(),
+        alternativeWhenNull,
+      ]);
+
   /// This expression preceded by `await`.
   Expression awaited() => Expression([Code('await'), Space(), this]);
-
-  /// Return `{other} ?? {this}`.
-  Expression ifNullThen(Expression other) =>
-      Expression([other, Space(), Code('??'), Space(), this]);
 
   ///===========================================================================
   ///                     OTHER FLUENT METHODS
