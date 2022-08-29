@@ -371,10 +371,17 @@ main() {
       expect(actual, expected);
     });
 
-    test('Should return me as other', () {
+    test('Should return me as String ', () {
+      String actual = CodeFormatter()
+          .unFormatted(Expression.ofVariable('me').asA(Type.ofString()));
+      String expected = 'me as String ';
+      expect(actual, expected);
+    });
+
+    test('Should return me as String? ', () {
       String actual = CodeFormatter().unFormatted(
-          Expression.ofVariable('me').asA(Expression.ofVariable('other')));
-      String expected = 'me as other';
+          Expression.ofVariable('me').asA(Type.ofString(nullable: true)));
+      String expected = 'me as String? ';
       expect(actual, expected);
     });
 

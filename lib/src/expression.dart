@@ -158,8 +158,8 @@ class Expression extends CodeModel {
   Expression negate() => Expression([Code('!'), this]);
 
   /// Returns the result of `this` `as` [other].
-  Expression asA(Expression other) =>
-      Expression([this, Space(), Code('as'), Space(), other]);
+  Expression asA(Type otherType) =>
+      Expression([this, Space(), Code('as'), Space(), otherType, Space()]);
 
   /// Returns accessing the index operator (`[]`) on `this`.
   Expression index(Expression index) =>
