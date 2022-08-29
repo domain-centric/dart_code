@@ -177,6 +177,16 @@ main() {
       });
     });
 
+    group("Expression.ofType() constructor", () {
+      test("Should return: '{1 : \'Hello\',2 : \'World\'}'", () {
+        String actual = CodeFormatter().unFormatted(
+            Expression.ofType(Type('Environment'))
+                .getProperty('supportsDebugging'));
+        String expected = 'Environment.supportsDebugging';
+        expect(actual, expected);
+      });
+    });
+
     group('Expression.ofVariable constructor', () {
       test('Should returns the literal code variable name', () {
         String actual =

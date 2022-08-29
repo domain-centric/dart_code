@@ -46,6 +46,8 @@ class Expression extends CodeModel {
   Expression.ofMap(Map<Expression, Expression> expressions)
       : nodes = _createMapNodes(expressions);
 
+  Expression.ofType(Type type) : nodes = [type];
+
   static List<CodeNode> _createMapNodes(
           Map<Expression, Expression> expressions) =>
       [
