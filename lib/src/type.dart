@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022. By Nils ten Hoeve. See LICENSE file in project.
+ */
+
 import 'package:dart_code/dart_code.dart';
 
 /// Refers to [Type]
@@ -10,6 +14,10 @@ class Type extends CodeModelWithLibraryUri {
 
   Type.ofBool({this.nullable = false})
       : name = 'bool',
+        super();
+
+  Type.ofNum({this.nullable = false})
+      : name = 'num',
         super();
 
   Type.ofInt({this.nullable = false})

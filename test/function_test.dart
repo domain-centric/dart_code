@@ -69,7 +69,7 @@ main() {
     test('Returns a named function that returns a async boolean of value true',
         () {
       String actual = DartFunction.withName(
-          'returnBool', Expression.callMethodOrFunction('booleanGenerator'),
+              'returnBool', Expression.callMethodOrFunction('booleanGenerator'),
               returnType: Type.ofFuture(Type.ofBool()),
               asynchrony: Asynchrony.async)
           .toString();

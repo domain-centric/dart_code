@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022. By Nils ten Hoeve. See LICENSE file in project.
+ */
+
 import 'package:dart_code/dart_code.dart';
 
 class SeparatedValues extends CodeModel {
@@ -203,10 +207,10 @@ final RegExp _successiveUnderscores = RegExp(r"__");
 
 /// Identifiers are names of [Class]es, [Field]s, [Method]s, [DartFunction]s etc.
 /// See [https://dart.dev/guides/language/language-tour#important-concepts]
-abstract class identifier extends CodeNode {
+abstract class Identifier extends CodeNode {
   final String _name;
 
-  identifier(this._name, CaseChecker firstLetterCaseChecker) {
+  Identifier(this._name, CaseChecker firstLetterCaseChecker) {
     _validateName(_name, firstLetterCaseChecker);
   }
 
@@ -236,12 +240,12 @@ abstract class identifier extends CodeNode {
   }
 }
 
-class IdentifierStartingWithUpperCase extends identifier {
+class IdentifierStartingWithUpperCase extends Identifier {
   IdentifierStartingWithUpperCase(String name)
       : super(name, CaseChecker.forUpperCase());
 }
 
-class IdentifierStartingWithLowerCase extends identifier {
+class IdentifierStartingWithLowerCase extends Identifier {
   IdentifierStartingWithLowerCase(String name)
       : super(name, CaseChecker.forLowerCase());
 }

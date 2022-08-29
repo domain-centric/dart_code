@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022. By Nils ten Hoeve. See LICENSE file in project.
+ */
+
 import 'package:dart_code/dart_code.dart';
 import 'package:test/test.dart';
 
@@ -116,7 +120,7 @@ main() {
       test(
           'should result in a required named parameter with String type and default value "Hello World"',
           () {
-            String actual = CodeFormatter().unFormatted(Parameter.named('name',
+        String actual = CodeFormatter().unFormatted(Parameter.named('name',
             type: Type.ofString(),
             defaultValue: Expression.ofString('Hello World'),
             required: true));

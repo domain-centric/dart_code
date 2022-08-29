@@ -30,78 +30,78 @@ main() {
     group('Expression.ofDouble() constructor', () {
       test(
           'Calling named constructor .ofDouble() => Returns the literal code string',
-              () {
-            String actual = CodeFormatter().unFormatted(Expression.ofDouble(12.12));
-            String expected = '12.12';
-            expect(actual, expected);
-          });
+          () {
+        String actual = CodeFormatter().unFormatted(Expression.ofDouble(12.12));
+        String expected = '12.12';
+        expect(actual, expected);
+      });
     });
 
     group('Expression.ofBool() constructor', () {
       test(
           'Calling named constructor .ofBool(true) => Returns the literal code string',
-              () {
-            String actual = CodeFormatter().unFormatted(Expression.ofBool(true));
-            String expected = 'true';
-            expect(actual, expected);
-          });
+          () {
+        String actual = CodeFormatter().unFormatted(Expression.ofBool(true));
+        String expected = 'true';
+        expect(actual, expected);
+      });
 
       test(
           'Calling named constructor .ofBool(false) => Returns the literal code string',
-              () {
-            String actual = CodeFormatter().unFormatted(Expression.ofBool(false));
-            String expected = 'false';
-            expect(actual, expected);
-          });
+          () {
+        String actual = CodeFormatter().unFormatted(Expression.ofBool(false));
+        String expected = 'false';
+        expect(actual, expected);
+      });
     });
 
     group('Expression.ofDateTime() constructor', () {
       test(
           'Calling named constructor .ofDateTime() => Returns the literal code string',
-              () {
-            var now = DateTime.now();
-            String actual = CodeFormatter().unFormatted(Expression.ofDateTime(now));
-            String expected = now.toString();
-            expect(actual, expected);
-          });
+          () {
+        var now = DateTime.now();
+        String actual = CodeFormatter().unFormatted(Expression.ofDateTime(now));
+        String expected = now.toString();
+        expect(actual, expected);
+      });
     });
 
     group('Expression.ofString() constructor', () {
       test(
           'Calling named constructor .ofString() => Returns the literal code string',
-              () {
-            String actual =
+          () {
+        String actual =
             CodeFormatter().unFormatted(Expression.ofString('Hello'));
-            String expected = "'Hello'";
-            expect(actual, expected);
-          });
+        String expected = "'Hello'";
+        expect(actual, expected);
+      });
 
       test(
           'Calling named constructor .ofString() => Returns the literal code string',
-              () {
-            String actual =
+          () {
+        String actual =
             CodeFormatter().unFormatted(Expression.ofString('"Hello"'));
-            String expected = '"Hello"';
-            expect(actual, expected);
-          });
+        String expected = '"Hello"';
+        expect(actual, expected);
+      });
 
       test(
           'Calling named constructor .ofString() => Returns the literal code string',
-              () {
-            String actual =
+          () {
+        String actual =
             CodeFormatter().unFormatted(Expression.ofString("'Hello'"));
-            String expected = "'Hello'";
-            expect(actual, expected);
-          });
+        String expected = "'Hello'";
+        expect(actual, expected);
+      });
 
       test(
           'Calling named constructor .ofString() => Returns the literal code string',
-              () {
-            String actual = CodeFormatter()
-                .unFormatted(Expression.ofString('considered "normal" behavior'));
-            String expected = "'considered \"normal\" behavior'";
-            expect(actual, expected);
-          });
+          () {
+        String actual = CodeFormatter()
+            .unFormatted(Expression.ofString('considered "normal" behavior'));
+        String expected = "'considered \"normal\" behavior'";
+        expect(actual, expected);
+      });
     });
 
     group('Expression.ofList() constructor', () {
@@ -180,7 +180,7 @@ main() {
     group('Expression.ofVariable constructor', () {
       test('Should returns the literal code variable name', () {
         String actual =
-        CodeFormatter().unFormatted(Expression.ofVariable('myValue'));
+            CodeFormatter().unFormatted(Expression.ofVariable('myValue'));
         String expected = "myValue";
         expect(actual, expected);
       });
@@ -213,10 +213,10 @@ main() {
       test('Should return a call to a constructor with parameter values', () {
         String actual = CodeFormatter()
             .unFormatted(Expression.callConstructor(Type('Point'),
-            parameterValues: ParameterValues([
-              ParameterValue.named('x', Expression.ofInt(20)),
-              ParameterValue.named('y', Expression.ofInt(30))
-            ])));
+                parameterValues: ParameterValues([
+                  ParameterValue.named('x', Expression.ofInt(20)),
+                  ParameterValue.named('y', Expression.ofInt(30))
+                ])));
         String expected = 'Point(x: 20,y: 30)';
         expect(actual, expected);
       });
@@ -229,16 +229,16 @@ main() {
       });
 
       test('Should return a call to a named constructor with parameter values',
-              () {
-            String actual = CodeFormatter()
-                .unFormatted(Expression.callConstructor(Type('Point'),
+          () {
+        String actual = CodeFormatter()
+            .unFormatted(Expression.callConstructor(Type('Point'),
                 name: 'fromJson',
                 parameterValues: ParameterValues([
                   ParameterValue(Expression.ofVariable('json')),
                 ])));
-            String expected = "Point.fromJson(json)";
-            expect(actual, expected);
-          });
+        String expected = "Point.fromJson(json)";
+        expect(actual, expected);
+      });
 
       test('Should throw an exception invalid constructor name ', () {
         expect(() {
@@ -246,7 +246,7 @@ main() {
               name: 'InvalidConstructorName');
         },
             throwsA((e) =>
-            e is ArgumentError &&
+                e is ArgumentError &&
                 e.message == 'Must start with an lower case letter'));
       });
     });
@@ -291,8 +291,8 @@ main() {
 
       test(
           'Should return a call to a function with parameters from another library',
-              () {
-            String actual = CodeFormatter().unFormatted(
+          () {
+        String actual = CodeFormatter().unFormatted(
             Expression.callMethodOrFunction(
                 'add',
                 libraryUri: "package:test/calculations.dart",
@@ -300,16 +300,16 @@ main() {
                   ParameterValue(Expression.ofInt(2)),
                   ParameterValue(Expression.ofInt(3))
                 ])));
-            String expected = 'i1.add(2,3)';
-            expect(actual, expected);
-          });
+        String expected = 'i1.add(2,3)';
+        expect(actual, expected);
+      });
 
       test('Should throw an exception invalid name ', () {
         expect(() {
           Expression.callMethodOrFunction('InvalidFunctionName');
         },
             throwsA((e) =>
-            e is ArgumentError &&
+                e is ArgumentError &&
                 e.message == 'Must start with an lower case letter'));
       });
     });
@@ -325,7 +325,7 @@ main() {
     group('Expression.ofThisField() constructor', () {
       test('Should this', () {
         String actual =
-        CodeFormatter().unFormatted(Expression.ofThisField('field'));
+            CodeFormatter().unFormatted(Expression.ofThisField('field'));
         String expected = "this.field";
         expect(actual, expected);
       });
@@ -342,7 +342,7 @@ main() {
     group('Expression.ofSuperField() constructor', () {
       test('Should this', () {
         String actual =
-        CodeFormatter().unFormatted(Expression.ofSuperField('field'));
+            CodeFormatter().unFormatted(Expression.ofSuperField('field'));
         String expected = "super.field";
         expect(actual, expected);
       });

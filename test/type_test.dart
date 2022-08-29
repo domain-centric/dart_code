@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022. By Nils ten Hoeve. See LICENSE file in project.
+ */
+
 import 'package:dart_code/dart_code.dart';
 import 'package:test/test.dart';
 
@@ -18,6 +22,18 @@ main() {
     test('Should result in bool?', () {
       String actual = CodeFormatter().unFormatted(Type.ofBool(nullable: true));
       String expected = "bool?";
+      expect(actual, expected);
+    });
+
+    test('Should result in num', () {
+      String actual = CodeFormatter().unFormatted(Type.ofNum());
+      String expected = "num";
+      expect(actual, expected);
+    });
+
+    test('Should result in num?', () {
+      String actual = CodeFormatter().unFormatted(Type.ofNum(nullable: true));
+      String expected = "num?";
       expect(actual, expected);
     });
 
