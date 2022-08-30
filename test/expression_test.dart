@@ -694,6 +694,29 @@ main() {
         expect(actual, expected);
       });
 
+      test(
+          'Should return a call to a method without parameter values with ?. separator',
+          () {
+        String actual = CodeFormatter().unFormatted(
+            Expression.ofVariable('address')
+                .callMethod('findGpsLocation', ifNullReturnNull: true));
+        String expected = 'address?.findGpsLocation()';
+        expect(actual, expected);
+      });
+
+      test(
+          'Should return a call to a method without parameter values with ?.. separator',
+          () {
+        String actual = CodeFormatter().unFormatted(
+            Expression.ofVariable('address')
+                .callMethod('findGpsLocation',
+                    cascade: true, ifNullReturnNull: true)
+                .callMethod('calculateLongitude',
+                    cascade: false, ifNullReturnNull: true));
+        String expected = 'address?..findGpsLocation()?.calculateLongitude()';
+        expect(actual, expected);
+      });
+
       test('Should return a call to a method with parameter values', () {
         String actual = CodeFormatter().unFormatted(
             Expression.callConstructor(Type('AddressFinder')).callMethod('find',
@@ -735,6 +758,14 @@ main() {
         expect(actual, expected);
       });
 
+      test('Should get a get property with ?. separator', () {
+        String actual = CodeFormatter().unFormatted(
+            Expression.ofVariable('address')
+                .getProperty('gpsLocation', ifNullReturnNull: true));
+        String expected = 'address?.gpsLocation';
+        expect(actual, expected);
+      });
+
       test('Should return a call to 2 cascade methods', () {
         String actual = CodeFormatter().unFormatted(
             Expression.callConstructor(Type('Person'))
@@ -743,6 +774,15 @@ main() {
                 .defineVariable('person'));
         String expected =
             'var person = Person()..kiss()..cheekColor;'; //makes no sense: returns a kissed Person!
+        expect(actual, expected);
+      });
+
+      test('Should get a get property with ?.. separator', () {
+        String actual = CodeFormatter().unFormatted(Expression.ofVariable(
+                'address')
+            .getProperty('gpsLocation', cascade: true, ifNullReturnNull: true)
+            .getProperty('longitude', cascade: false, ifNullReturnNull: true));
+        String expected = 'address?..gpsLocation?.longitude';
         expect(actual, expected);
       });
 

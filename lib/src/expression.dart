@@ -257,31 +257,45 @@ class Expression extends CodeModel {
   ///                     OTHER FLUENT METHODS
   ///===========================================================================
 
-  Expression callMethod(String name,
-          {ParameterValues? parameterValues, bool cascade = false}) =>
+  Expression callMethod(
+    String name, {
+    ParameterValues? parameterValues,
+    bool cascade = false,
+    bool ifNullReturnNull = false,
+  }) =>
       Expression([
         this,
-        if (!cascade) Code('.'),
-        if (cascade) Code('..'),
+        if (ifNullReturnNull) Code('?'),
+        Code('.'),
+        if (cascade) Code('.'),
         IdentifierStartingWithLowerCase(name),
         Code('('),
         if (parameterValues != null) parameterValues,
         Code(')'),
       ]);
 
-  Expression getProperty(String name, {bool cascade = false}) => Expression([
+  Expression getProperty(
+    String name, {
+    bool cascade = false,
+    bool ifNullReturnNull = false,
+  }) =>
+      Expression([
         this,
-        if (!cascade) Code('.'),
-        if (cascade) Code('..'),
+        if (ifNullReturnNull) Code('?'),
+        Code('.'),
+        if (cascade) Code('.'),
         IdentifierStartingWithLowerCase(name),
       ]);
 
-  Expression setProperty(String name, Expression value,
-          {bool cascade = false}) =>
+  Expression setProperty(
+    String name,
+    Expression value, {
+    bool cascade = false,
+  }) =>
       Expression([
         this,
-        if (!cascade) Code('.'),
-        if (cascade) Code('..'),
+        Code('.'),
+        if (cascade) Code('.'),
         IdentifierStartingWithLowerCase(name),
         Space(),
         Code('='),
