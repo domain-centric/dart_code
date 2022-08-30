@@ -120,7 +120,7 @@ main() {
     test('Returns a main function that returns a async boolean of value true',
         () {
       String actual = DartFunction.main(
-          Expression.callMethodOrFunction('booleanGenerator'),
+              Expression.callMethodOrFunction('booleanGenerator'),
               asynchrony: Asynchrony.async)
           .toString();
       String expected = 'main() async => booleanGenerator();\n';

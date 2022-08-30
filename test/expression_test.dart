@@ -207,7 +207,7 @@ main() {
           Expression.ofVariable('InvalidVariableName');
         },
             throwsA((e) =>
-            e is ArgumentError &&
+                e is ArgumentError &&
                 e.message == 'Must start with an lower case letter'));
       });
     });

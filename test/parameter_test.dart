@@ -162,7 +162,7 @@ main() {
     test(
         'should result in a double required parameter with double optional parameters',
         () {
-          String actual = CodeFormatter().unFormatted(Parameters([
+      String actual = CodeFormatter().unFormatted(Parameters([
         Parameter.required('name', type: Type.ofString()),
         Parameter.required('dateOfBirth', type: Type.ofDateTime()),
         Parameter.optional('email', type: Type.ofString()),
