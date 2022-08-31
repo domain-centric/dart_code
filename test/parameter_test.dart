@@ -176,7 +176,7 @@ main() {
     test(
         'should result in a double required parameter with double Named parameters',
         () {
-          String actual = CodeFormatter().unFormatted(Parameters([
+      String actual = CodeFormatter().unFormatted(Parameters([
         Parameter.required('name', type: Type.ofString()),
         Parameter.required('dateOfBirth', type: Type.ofDateTime()),
         Parameter.named('email', type: Type.ofString()),
