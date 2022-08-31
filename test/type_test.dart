@@ -97,6 +97,7 @@ main() {
       String expected = "Uri?";
       expect(actual, expected);
     });
+
     test('Should result in DateTime', () {
       String actual = CodeFormatter().unFormatted(Type.ofDateTime());
       String expected = "DateTime";
@@ -106,6 +107,18 @@ main() {
       String actual =
           CodeFormatter().unFormatted(Type.ofDateTime(nullable: true));
       String expected = "DateTime?";
+      expect(actual, expected);
+    });
+
+    test('Should result in Duration', () {
+      String actual = CodeFormatter().unFormatted(Type.ofDuration());
+      String expected = "Duration";
+      expect(actual, expected);
+    });
+    test('Should result in Duration?', () {
+      String actual =
+          CodeFormatter().unFormatted(Type.ofDuration(nullable: true));
+      String expected = "Duration?";
       expect(actual, expected);
     });
 

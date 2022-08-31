@@ -44,6 +44,10 @@ class Type extends CodeModelWithLibraryUri {
       : name = 'DateTime',
         super();
 
+  Type.ofDuration({this.nullable = false})
+      : name = 'Duration',
+        super();
+
   Type.ofVar()
       : name = 'var',
         this.nullable = false,
