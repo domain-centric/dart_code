@@ -91,10 +91,9 @@ class Expression extends CodeModel {
     return [Code(value.toString())];
   }
 
-  Expression.ofVariable(String name, {bool assertNull = false})
+  Expression.ofVariable(String name)
       : nodes = [
           IdentifierStartingWithLowerCase(name),
-          if (assertNull) Code('!')
         ];
 
   Expression.ofThis() : nodes = [KeyWord.this$];
@@ -241,13 +240,19 @@ class Expression extends CodeModel {
         whenFalse
       ]);
 
-  /// Return `{this} ?? {alternativeWhenNull}`.
+  /// Return `{this} ?? {alternativeWhenNull} '`.
   Expression ifNull(Expression alternativeWhenNull) => Expression([
         this,
         Space(),
         Code('??'),
         Space(),
         alternativeWhenNull,
+      ]);
+
+  /// Return '{this}!'
+  Expression assertNull() => Expression([
+        this,
+        Code('!'),
       ]);
 
   /// This expression preceded by `await`.

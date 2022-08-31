@@ -197,7 +197,7 @@ main() {
 
       test('Should returns the literal code variable! name', () {
         String actual = CodeFormatter()
-            .unFormatted(Expression.ofVariable('myValue', assertNull: true));
+            .unFormatted(Expression.ofVariable('myValue').assertNull());
         String expected = "myValue!";
         expect(actual, expected);
       });
@@ -529,10 +529,17 @@ main() {
       expect(actual, expected);
     });
 
-    test("Should return name ?? 'Guest'", () {
+    test("Should return 'name ?? 'Guest'", () {
       String actual = CodeFormatter().unFormatted(
           Expression.ofVariable('name').ifNull(Expression.ofString('Guest')));
       String expected = "name ?? 'Guest'";
+      expect(actual, expected);
+    });
+
+    test("Should return 'name!'", () {
+      String actual = CodeFormatter()
+          .unFormatted(Expression.ofVariable('name').assertNull());
+      String expected = "name!";
       expect(actual, expected);
     });
 
