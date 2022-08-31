@@ -49,6 +49,18 @@ main() {
       expect(actual, expected);
     });
 
+    test('Should result in double', () {
+      String actual = CodeFormatter().unFormatted(Type.ofDouble());
+      String expected = "double";
+      expect(actual, expected);
+    });
+    test('Should result in double?', () {
+      String actual =
+          CodeFormatter().unFormatted(Type.ofDouble(nullable: true));
+      String expected = "double?";
+      expect(actual, expected);
+    });
+
     test('Should result in BigInt', () {
       String actual = CodeFormatter().unFormatted(Type.ofBigInt());
       String expected = "BigInt";
@@ -62,15 +74,27 @@ main() {
       expect(actual, expected);
     });
 
-    test('Should result in double', () {
-      String actual = CodeFormatter().unFormatted(Type.ofDouble());
-      String expected = "double";
+    test('Should result in String', () {
+      String actual = CodeFormatter().unFormatted(Type.ofString());
+      String expected = "String";
       expect(actual, expected);
     });
-    test('Should result in double?', () {
+    test('Should result in String?', () {
       String actual =
-          CodeFormatter().unFormatted(Type.ofDouble(nullable: true));
-      String expected = "double?";
+          CodeFormatter().unFormatted(Type.ofString(nullable: true));
+      String expected = "String?";
+      expect(actual, expected);
+    });
+
+    test('Should result in Uri', () {
+      String actual = CodeFormatter().unFormatted(Type.ofUri());
+      String expected = "Uri";
+      expect(actual, expected);
+    });
+
+    test('Should result in Uri?', () {
+      String actual = CodeFormatter().unFormatted(Type.ofUri(nullable: true));
+      String expected = "Uri?";
       expect(actual, expected);
     });
     test('Should result in DateTime', () {
@@ -82,18 +106,6 @@ main() {
       String actual =
           CodeFormatter().unFormatted(Type.ofDateTime(nullable: true));
       String expected = "DateTime?";
-      expect(actual, expected);
-    });
-
-    test('Should result in String', () {
-      String actual = CodeFormatter().unFormatted(Type.ofString());
-      String expected = "String";
-      expect(actual, expected);
-    });
-    test('Should result in String?', () {
-      String actual =
-          CodeFormatter().unFormatted(Type.ofString(nullable: true));
-      String expected = "String?";
       expect(actual, expected);
     });
 
