@@ -12,6 +12,10 @@ class Type extends CodeModelWithLibraryUri {
   final bool nullable;
   List<Type> generics = [];
 
+  Type.ofDynamic({this.nullable = false})
+      : name = 'dynamic',
+        super();
+
   Type.ofBool({this.nullable = false})
       : name = 'bool',
         super();

@@ -13,12 +13,23 @@ main() {
       expect(actual, expected);
     });
 
+    test('Should result in dynamic', () {
+      String actual = CodeFormatter().unFormatted(Type.ofDynamic());
+      String expected = "dynamic";
+      expect(actual, expected);
+    });
+    test('Should result in dynamic?', () {
+      String actual =
+          CodeFormatter().unFormatted(Type.ofDynamic(nullable: true));
+      String expected = "dynamic?";
+      expect(actual, expected);
+    });
+
     test('Should result in bool', () {
       String actual = CodeFormatter().unFormatted(Type.ofBool());
       String expected = "bool";
       expect(actual, expected);
     });
-
     test('Should result in bool?', () {
       String actual = CodeFormatter().unFormatted(Type.ofBool(nullable: true));
       String expected = "bool?";
