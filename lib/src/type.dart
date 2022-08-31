@@ -24,16 +24,20 @@ class Type extends CodeModelWithLibraryUri {
       : name = 'int',
         super();
 
+  Type.ofBigInt({this.nullable = false})
+      : name = 'BigInt',
+        super();
+
   Type.ofDouble({this.nullable = false})
       : name = 'double',
         super();
 
-  Type.ofDateTime({this.nullable = false})
-      : name = 'DateTime',
-        super();
-
   Type.ofString({this.nullable = false})
       : name = 'String',
+        super();
+
+  Type.ofDateTime({this.nullable = false})
+      : name = 'DateTime',
         super();
 
   Type.ofVar()

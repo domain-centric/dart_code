@@ -49,6 +49,19 @@ main() {
       expect(actual, expected);
     });
 
+    test('Should result in BigInt', () {
+      String actual = CodeFormatter().unFormatted(Type.ofBigInt());
+      String expected = "BigInt";
+      expect(actual, expected);
+    });
+
+    test('Should result in BigInt?', () {
+      String actual =
+          CodeFormatter().unFormatted(Type.ofBigInt(nullable: true));
+      String expected = "BigInt?";
+      expect(actual, expected);
+    });
+
     test('Should result in double', () {
       String actual = CodeFormatter().unFormatted(Type.ofDouble());
       String expected = "double";
