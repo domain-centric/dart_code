@@ -197,8 +197,8 @@ class KeyWord {
   static final List<String> allNames = allCodes.map((c) => c.code).toList();
 }
 
-final RegExp _firstCharMustBeLetterOrUnderscore =
-    RegExp(r"^[a-z_]", caseSensitive: false);
+final RegExp _firstCharMustBeLetterOrUnderscoreOrDollar =
+    RegExp(r"^[a-z_$]", caseSensitive: false);
 
 final RegExp _lettersNumbersUnderscoreOrDollar =
     RegExp(r"^[a-z0-9_$]+$", caseSensitive: false);
@@ -220,12 +220,12 @@ abstract class Identifier extends CodeNode {
     if (!firstLetterCaseChecker.isCorrectCase(name[0]))
       throw ArgumentError.value(name, 'name',
           'Must start with an ${firstLetterCaseChecker.isUpperCase ? 'upper case' : 'lower case'} letter');
-    if (!_firstCharMustBeLetterOrUnderscore.hasMatch(name))
+    if (!_firstCharMustBeLetterOrUnderscoreOrDollar.hasMatch(name))
       throw ArgumentError.value(name, 'name',
-          'The first character must be a letter or an underscore');
+          'The first character must be a letter or an underscore or a dollar sign(\$)');
     if (!_lettersNumbersUnderscoreOrDollar.hasMatch(name))
       throw ArgumentError.value(name, 'name',
-          'No special characters or punctuation symbol is allowed except the underscore or a dollar sign(\$)');
+          'All characters must be a letter or number or an underscore or a dollar sign(\$)');
     if (_successiveUnderscores.hasMatch(name))
       throw ArgumentError.value(
           name, 'name', 'No successive underscores are allowed');

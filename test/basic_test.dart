@@ -109,25 +109,25 @@ main() {
     });
 
     test(
-        'Given a special character => Throws "The first character must be a letter or an underscore" exception',
+        'Given a special character => Throws "The first character must be a letter or an underscore or a dollar sign(\$)" exception',
         () {
       expect(
           () => {IdentifierStartingWithUpperCase('@')},
           throwsA(predicate((dynamic e) =>
               e is ArgumentError &&
               e.message ==
-                  'The first character must be a letter or an underscore')));
+                  'The first character must be a letter or an underscore or a dollar sign(\$)')));
     });
 
     test(
-        'Given a number => Throws "The first character must be a letter or an underscore" exception',
+        'Given a number => Throws "The first character must be a letter or an underscore or a dollar sign(\$)" exception',
         () {
       expect(
           () => {IdentifierStartingWithUpperCase('1')},
           throwsA(predicate((dynamic e) =>
               e is ArgumentError &&
               e.message ==
-                  'The first character must be a letter or an underscore')));
+                  'The first character must be a letter or an underscore or a dollar sign(\$)')));
     });
 
     test('Given a name starting with a upper case letter => Is accepted ', () {
@@ -140,6 +140,11 @@ main() {
           returnsNormally);
     });
 
+    test('Given a name starting with dollar sign => Is accepted ', () {
+      expect(() => {IdentifierStartingWithUpperCase('\$ValidCapitalCase')},
+          returnsNormally);
+    });
+
     test(
         'Given a name with letters and numbers and underscore and dollar => Is accepted ',
         () {
@@ -148,14 +153,14 @@ main() {
     });
 
     test(
-        'Given a name with illegal character => Throws "No special characters or punctuation symbol is allowed except the underscore or a dollar sign(\$)" exception ',
+        'Given a name with illegal character => Throws "All characters must be a letter or number or an underscore or a dollar sign(\$)" exception ',
         () {
       expect(
           () => {IdentifierStartingWithUpperCase('_\$Valid!Letters')},
           throwsA(predicate((dynamic e) =>
               e is ArgumentError &&
               e.message ==
-                  'No special characters or punctuation symbol is allowed except the underscore or a dollar sign(\$)')));
+                  'All characters must be a letter or number or an underscore or a dollar sign(\$)')));
     });
 
     test(
@@ -213,6 +218,11 @@ main() {
 
     test('Given a name starting with underscore => Is accepted ', () {
       expect(() => {IdentifierStartingWithLowerCase('_validCapitalCase')},
+          returnsNormally);
+    });
+
+    test('Given a name starting with dollar sign => Is accepted ', () {
+      expect(() => {IdentifierStartingWithLowerCase('\$validCapitalCase')},
           returnsNormally);
     });
 
