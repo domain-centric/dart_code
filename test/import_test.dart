@@ -27,7 +27,8 @@ main() {
       expect(actual, expected);
     });
 
-    test('Given types with capital letters=> Returns correct import string', () {
+    test('Given types with capital letters=> Returns correct import string',
+        () {
       Statements statements = Statements([
         Statement(
             [Type("MyFirstClass", libraryUri: "package:test/test1.dart")]),
@@ -52,7 +53,8 @@ main() {
       expect(actual, expected);
     });
 
-        test('Given types with capital letters=> Returns correct type code strings', () {
+    test('Given types with capital letters=> Returns correct type code strings',
+        () {
       String actual = CodeFormatter().unFormatted(Statements([
         Statement(
             [Type("MyFirstClass", libraryUri: "package:test/TEST1.dart")]),

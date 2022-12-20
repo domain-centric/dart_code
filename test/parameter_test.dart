@@ -241,7 +241,7 @@ main() {
 
       test('should result in a named parameter with this even given a type ',
           () {
-            String actual = CodeFormatter().unFormatted(
+        String actual = CodeFormatter().unFormatted(
             ConstructorParameter.required('name',
                 type: Type.ofString(), this$: true));
         String expected = 'this.name';
@@ -283,7 +283,7 @@ main() {
       test(
           'should result in a optional parameter with this even with given type',
           () {
-            String actual = CodeFormatter().unFormatted(
+        String actual = CodeFormatter().unFormatted(
             ConstructorParameter.optional('name',
                 type: Type.ofString(), this$: true));
         String expected = 'this.name';
@@ -302,7 +302,7 @@ main() {
       test(
           'should result in a optional parameter with String type and default value "Hello World"',
           () {
-            String actual = CodeFormatter().unFormatted(
+        String actual = CodeFormatter().unFormatted(
             ConstructorParameter.optional('name',
                 type: Type.ofString(),
                 defaultValue: Expression.ofString('Hello World')));
@@ -314,7 +314,7 @@ main() {
       test(
           'should result in a optional parameter with this type (even with given type) and default value "Hello World"',
           () {
-            String actual = CodeFormatter().unFormatted(
+        String actual = CodeFormatter().unFormatted(
             ConstructorParameter.optional('name',
                 type: Type.ofString(),
                 this$: true,
@@ -349,7 +349,7 @@ main() {
       test(
           'should result in a named parameter with this even with a given type',
           () {
-            String actual = CodeFormatter().unFormatted(ConstructorParameter.named(
+        String actual = CodeFormatter().unFormatted(ConstructorParameter.named(
             'name',
             type: Type.ofString(),
             this$: true));
@@ -369,7 +369,7 @@ main() {
       test(
           'should result in a named parameter with String type and default value "Hello World"',
           () {
-            String actual = CodeFormatter().unFormatted(ConstructorParameter.named(
+        String actual = CodeFormatter().unFormatted(ConstructorParameter.named(
             'name',
             type: Type.ofString(),
             defaultValue: Expression.ofString('Hello World')));
@@ -381,7 +381,7 @@ main() {
       test(
           'should result in a named parameter with this (even with a given type) and default value "Hello World"',
           () {
-            String actual = CodeFormatter().unFormatted(ConstructorParameter.named(
+        String actual = CodeFormatter().unFormatted(ConstructorParameter.named(
             'name',
             type: Type.ofString(),
             this$: true,
@@ -393,7 +393,7 @@ main() {
       test(
           'should result in a required named parameter with this (even with a given type) and default value "Hello World"',
           () {
-            String actual = CodeFormatter().unFormatted(ConstructorParameter.named(
+        String actual = CodeFormatter().unFormatted(ConstructorParameter.named(
             'name',
             type: Type.ofString(),
             this$: true,
@@ -438,7 +438,7 @@ main() {
     test(
         'should result in a double required constructor parameter with double optional constructor parameters',
         () {
-          String actual = CodeFormatter().unFormatted(ConstructorParameters([
+      String actual = CodeFormatter().unFormatted(ConstructorParameters([
         ConstructorParameter.required('name', type: Type.ofString()),
         ConstructorParameter.required('dateOfBirth', type: Type.ofDateTime()),
         ConstructorParameter.optional('email', type: Type.ofString()),
@@ -452,7 +452,7 @@ main() {
     test(
         'should result in a double required constructor parameter with double Named constructor parameters',
         () {
-          String actual = CodeFormatter().unFormatted(ConstructorParameters([
+      String actual = CodeFormatter().unFormatted(ConstructorParameters([
         ConstructorParameter.required('name', type: Type.ofString()),
         ConstructorParameter.required('dateOfBirth', type: Type.ofDateTime()),
         ConstructorParameter.named('email', type: Type.ofString()),

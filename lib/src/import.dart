@@ -81,8 +81,8 @@ class Imports extends CodeModel {
     return Code(_libraryUriAndAliases[_normalizeLibraryUri(libraryUri)]!);
   }
 
-/// Returns a normalized library uri:
-/// * All characters should be lower case 
-/// * This also makes the keys of [_libraryUriAndAliases] case unsensitive
+  /// Returns a normalized library uri:
+  /// * All characters should be lower case
+  /// * This also makes the keys of [_libraryUriAndAliases] case unsensitive
   String _normalizeLibraryUri(String libraryUri) => libraryUri.toLowerCase();
 }
