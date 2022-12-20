@@ -53,9 +53,9 @@ class Imports extends CodeModel {
 
   void _registerLibrary(String? libraryUri) {
     if (libraryUri != null) {
-      libraryUri = libraryUri.toLowerCase();
-      if (!_libraryUriAndAliases.containsKey(libraryUri)) {
-        _libraryUriAndAliases[libraryUri] =
+      var normalizedLibraryUri = _normalizeLibraryUri(libraryUri);
+      if (!_libraryUriAndAliases.containsKey(normalizedLibraryUri)) {
+        _libraryUriAndAliases[normalizedLibraryUri] =
             'i${_libraryUriAndAliases.length + 1}';
       }
     }
@@ -72,12 +72,17 @@ class Imports extends CodeModel {
   }
 
   bool containsKey(String libraryUri) =>
-      _libraryUriAndAliases.containsKey(libraryUri);
+      _libraryUriAndAliases.containsKey(_normalizeLibraryUri(libraryUri));
 
   Code aliasOf(String libraryUri) {
     if (!_libraryUriAndAliases.containsKey(libraryUri)) {
       _registerLibrary(libraryUri);
     }
-    return Code(_libraryUriAndAliases[libraryUri]!);
+    return Code(_libraryUriAndAliases[_normalizeLibraryUri(libraryUri)]!);
   }
+
+/// Returns a normalized library uri:
+/// * All characters should be lower case 
+/// * This also makes the keys of [_libraryUriAndAliases] case unsensitive
+  String _normalizeLibraryUri(String libraryUri) => libraryUri.toLowerCase();
 }
