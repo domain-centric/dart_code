@@ -71,9 +71,10 @@ class Parameters extends CodeModel {
         parameters.any((p) => p.category == ParameterCategory.optional);
     var hasNamedParameters =
         parameters.any((p) => p.category == ParameterCategory.named);
-    if (hasOptionalParameters && hasNamedParameters)
+    if (hasOptionalParameters && hasNamedParameters) {
       throw new ArgumentError.value(parameters, 'parameters',
           'Parameters may not contain both optional parameters and named parameters');
+    }
   }
 
   void _validateUniqueNames(List<Parameter> parameters) {
@@ -82,9 +83,10 @@ class Parameters extends CodeModel {
     var allUniqueNames =
         parameters.map((p) => CodeFormatter().unFormatted(p.name)).toSet();
     var namesAreUnique = allNames.length == allUniqueNames.length;
-    if (!namesAreUnique)
+    if (!namesAreUnique) {
       throw new ArgumentError.value(
           parameters, 'parameters', 'Parameter names must be unique');
+    }
   }
 
   @override
@@ -102,8 +104,9 @@ class Parameters extends CodeModel {
     nodes.add(SeparatedValues.forParameters(_requiredParameters));
 
     if (_requiredParameters.isNotEmpty &&
-        (_optionalParameters.isNotEmpty || _namedParameters.isNotEmpty))
+        (_optionalParameters.isNotEmpty || _namedParameters.isNotEmpty)) {
       nodes.add(Code(', '));
+    }
 
     if (_optionalParameters.isNotEmpty) {
       nodes.add(Code('['));

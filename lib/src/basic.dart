@@ -215,23 +215,29 @@ abstract class Identifier extends CodeNode {
   }
 
   void _validateName(String name, CaseChecker firstLetterCaseChecker) {
-    if (name.isEmpty)
+    if (name.isEmpty) {
       throw ArgumentError.value(name, 'name', 'Must not be empty');
-    if (!firstLetterCaseChecker.isCorrectCase(name[0]))
+    }
+    if (!firstLetterCaseChecker.isCorrectCase(name[0])) {
       throw ArgumentError.value(name, 'name',
           'Must start with an ${firstLetterCaseChecker.isUpperCase ? 'upper case' : 'lower case'} letter');
-    if (!_firstCharMustBeLetterOrUnderscoreOrDollar.hasMatch(name))
+    }
+    if (!_firstCharMustBeLetterOrUnderscoreOrDollar.hasMatch(name)) {
       throw ArgumentError.value(name, 'name',
           'The first character must be a letter or an underscore or a dollar sign(\$)');
-    if (!_lettersNumbersUnderscoreOrDollar.hasMatch(name))
+    }
+    if (!_lettersNumbersUnderscoreOrDollar.hasMatch(name)) {
       throw ArgumentError.value(name, 'name',
           'All characters must be a letter or number or an underscore or a dollar sign(\$)');
-    if (_successiveUnderscores.hasMatch(name))
+    }
+    if (_successiveUnderscores.hasMatch(name)) {
       throw ArgumentError.value(
           name, 'name', 'No successive underscores are allowed');
-    if (KeyWord.allNames.contains(name))
+    }
+    if (KeyWord.allNames.contains(name)) {
       throw ArgumentError.value(
           name, 'name', 'Keywords can not be used as identifier');
+    }
   }
 
   @override

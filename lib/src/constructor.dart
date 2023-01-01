@@ -44,9 +44,10 @@ class Initializers extends SeparatedValues {
           .map((p) => CodeFormatter().unFormatted(p.name))
           .toSet();
       var namesAreUnique = allNames.length == allUniqueNames.length;
-      if (!namesAreUnique)
+      if (!namesAreUnique) {
         throw new ArgumentError.value(fieldInitializers, 'fieldInitializers',
             'Field names must be unique');
+      }
     }
   }
 }
