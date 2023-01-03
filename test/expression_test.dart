@@ -220,6 +220,13 @@ main() {
         expect(actual, expected);
       });
 
+      test('Should return a call to a empty constructor as a const', () {
+        String actual = CodeFormatter().unFormatted(
+            Expression.callConstructor(Type('Point'), isConst: true));
+        String expected = "const Point()";
+        expect(actual, expected);
+      });
+
       test('Should return a call to a constructor with parameter values', () {
         String actual = CodeFormatter()
             .unFormatted(Expression.callConstructor(Type('Point'),

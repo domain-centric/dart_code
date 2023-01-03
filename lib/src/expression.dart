@@ -122,9 +122,14 @@ class Expression extends CodeModel {
               libraryUri: libraryUri, parameterValues: parameterValues)
         ];
 
-  Expression.callConstructor(Type type,
-      {String? name, ParameterValues? parameterValues})
-      : nodes = [
+  Expression.callConstructor(
+    Type type, {
+    String? name,
+    ParameterValues? parameterValues,
+    bool isConst = false,
+  }) : nodes = [
+          if (isConst) KeyWord.const$,
+          if (isConst) Space(),
           type,
           if (name != null) Code('.'),
           if (name != null) IdentifierStartingWithLowerCase(name),
