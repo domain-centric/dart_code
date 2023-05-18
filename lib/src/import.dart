@@ -53,7 +53,7 @@ class Imports extends CodeModel {
 
   void _registerLibrary(String? libraryUri) {
     if (libraryUri != null) {
-      var normalizedLibraryUri = _normalizeLibraryUri(libraryUri);
+      var normalizedLibraryUri = normalizeLibraryUri(libraryUri);
       if (!_libraryUriAndAliases.containsKey(normalizedLibraryUri)) {
         _libraryUriAndAliases[normalizedLibraryUri] =
             'i${_libraryUriAndAliases.length + 1}';
@@ -72,17 +72,27 @@ class Imports extends CodeModel {
   }
 
   bool containsKey(String libraryUri) =>
-      _libraryUriAndAliases.containsKey(_normalizeLibraryUri(libraryUri));
+      _libraryUriAndAliases.containsKey(normalizeLibraryUri(libraryUri));
 
   Code aliasOf(String libraryUri) {
     if (!_libraryUriAndAliases.containsKey(libraryUri)) {
       _registerLibrary(libraryUri);
     }
-    return Code(_libraryUriAndAliases[_normalizeLibraryUri(libraryUri)]!);
+    return Code(_libraryUriAndAliases[normalizeLibraryUri(libraryUri)]!);
   }
 
   /// Returns a normalized library uri:
   /// * All characters should be lower case
   /// * This also makes the keys of [_libraryUriAndAliases] case unsensitive
-  String _normalizeLibraryUri(String libraryUri) => libraryUri.toLowerCase();
+  /// * Removes everything up until the first slash (relative uri) when the uri 
+  ///   starts with 'asset:' because its likely we have a dart file in the 
+  ///   example folder
+  String normalizeLibraryUri(String libraryUri) {
+    String normalizedUri= libraryUri.toLowerCase();
+    var firstSlashIndex=normalizedUri.indexOf('/');
+    if (normalizedUri.startsWith('asset:') && firstSlashIndex>0 ) {
+      normalizedUri=normalizedUri.substring(firstSlashIndex);
+    }
+    return normalizedUri;
+  }
 }
