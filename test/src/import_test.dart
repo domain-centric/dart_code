@@ -57,12 +57,18 @@ main() {
     });
   });
 
-    given(
-      'object Imports object with references to assets',
-      () {
+  given('object Imports object with references to assets', () {
     Statements statements = Statements([
-      Statement([Type("MyFirstClass", libraryUri: "asset:map_converter/example/lib/person/person.domain.dart")]),
-      Statement([Type("MySecondClass", libraryUri: "asset:map_converter/example/lib/person/person.data.converter.map.dart")]),
+      Statement([
+        Type("MyFirstClass",
+            libraryUri:
+                "asset:map_converter/example/lib/person/person.domain.dart")
+      ]),
+      Statement([
+        Type("MySecondClass",
+            libraryUri:
+                "asset:map_converter/example/lib/person/person.data.converter.map.dart")
+      ]),
     ]);
     Context context = Context(statements);
     var imports = context.imports;
