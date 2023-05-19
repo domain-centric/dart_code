@@ -28,8 +28,8 @@ main() {
     when('calling: formatter', () {
       String result = CodeFormatter().unFormatted(imports);
 
-      String expected =
-          'import \'package:test/test1.dart\' as i1;import \'package:test/test2.dart\' as i2;';
+      String expected = "import 'package:test/test1.dart' as i1;"
+          "import 'package:test/test2.dart' as i2;";
       then('return: "$expected"', () {
         result.should.be(expected);
       });
@@ -49,8 +49,8 @@ main() {
     when('calling: formatter', () {
       String result = CodeFormatter().unFormatted(imports);
 
-      String expected =
-          'import \'package:test/test1.dart\' as i1;import \'package:test/test2.dart\' as i2;';
+      String expected = "import 'package:test/test1.dart' as i1;"
+          "import 'package:test/test2.dart' as i2;";
       then('return: "$expected"', () {
         result.should.be(expected);
       });
@@ -61,13 +61,11 @@ main() {
     Statements statements = Statements([
       Statement([
         Type("MyFirstClass",
-            libraryUri:
-                "asset:map_converter/example/lib/person/person.domain.dart")
+            libraryUri: "asset:map_converter/example/lib/person/person.dart")
       ]),
       Statement([
         Type("MySecondClass",
-            libraryUri:
-                "asset:map_converter/example/lib/person/person.data.converter.map.dart")
+            libraryUri: "asset:map_converter/example/lib/person/gender.dart")
       ]),
     ]);
     Context context = Context(statements);
@@ -76,8 +74,9 @@ main() {
     when('calling: formatter', () {
       String result = CodeFormatter().unFormatted(imports);
 
-      String expected =
-          "import '/example/lib/person/person.domain.dart' as i1;import '/example/lib/person/person.data.converter.map.dart' as i2;";
+      String expected = "// ignore_for_file: avoid_relative_lib_imports\n"
+          "import '/example/lib/person/person.dart' as i1;"
+          "import '/example/lib/person/gender.dart' as i2;";
       then('return: "$expected"', () {
         result.should.be(expected);
       });

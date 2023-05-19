@@ -17,7 +17,7 @@ class Import extends CodeModel {
 
   Import(this.libraryUri, this.alias);
 
-  ///e.g.import 'package:reflect_framework/reflectinfo_service.dart' as i1;
+  ///e.g.import 'package:my_package/my_library.dart' as i1;
   @override
   List<CodeNode> codeNodes(Context context) => [
         KeyWord.import$,
@@ -29,6 +29,8 @@ class Import extends CodeModel {
         Code(alias),
         EndOfStatement(),
       ];
+
+  bool get hasRelativePath => libraryUri.startsWith('/');
 }
 
 /// A collection of [Import] statements (and their aliases)
@@ -53,7 +55,7 @@ class Imports extends CodeModel {
 
   void _registerLibrary(String? libraryUri) {
     if (libraryUri != null) {
-      var normalizedLibraryUri = normalizeLibraryUri(libraryUri);
+      var normalizedLibraryUri = _normalize(libraryUri);
       if (!_libraryUriAndAliases.containsKey(normalizedLibraryUri)) {
         _libraryUriAndAliases[normalizedLibraryUri] =
             'i${_libraryUriAndAliases.length + 1}';
@@ -63,22 +65,41 @@ class Imports extends CodeModel {
 
   @override
   List<CodeNode> codeNodes(Context context) {
-    List<CodeNode> imports = [];
-    imports.addAll(_libraryUriAndAliases.keys
+    List<Import> imports = _createImports();
+    List<CodeNode> codeNodes = [];
+    if (_hasRelativePath(imports)) {
+      codeNodes.add(
+          Comment.fromString("ignore_for_file: avoid_relative_lib_imports"));
+    }
+    codeNodes.addAll(imports);
+    return codeNodes;
+  }
+
+  bool _hasRelativePath(List<Import> imports) {
+    for (var import in imports) {
+      if (import.hasRelativePath) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  List<Import> _createImports() {
+    List<Import> imports = _libraryUriAndAliases.keys
         .map((libraryUri) =>
             Import(libraryUri, _libraryUriAndAliases[libraryUri]!))
-        .toList());
+        .toList();
     return imports;
   }
 
   bool containsKey(String libraryUri) =>
-      _libraryUriAndAliases.containsKey(normalizeLibraryUri(libraryUri));
+      _libraryUriAndAliases.containsKey(_normalize(libraryUri));
 
   Code aliasOf(String libraryUri) {
     if (!_libraryUriAndAliases.containsKey(libraryUri)) {
       _registerLibrary(libraryUri);
     }
-    return Code(_libraryUriAndAliases[normalizeLibraryUri(libraryUri)]!);
+    return Code(_libraryUriAndAliases[_normalize(libraryUri)]!);
   }
 
   /// Returns a normalized library uri:
@@ -87,7 +108,7 @@ class Imports extends CodeModel {
   /// * Removes everything up until the first slash (relative uri) when the uri
   ///   starts with 'asset:' because its likely we have a dart file in the
   ///   example folder
-  String normalizeLibraryUri(String libraryUri) {
+  String _normalize(String libraryUri) {
     String normalizedUri = libraryUri.toLowerCase();
     var firstSlashIndex = normalizedUri.indexOf('/');
     if (normalizedUri.startsWith('asset:') && firstSlashIndex > 0) {
