@@ -9,7 +9,8 @@ main() {
               Statement.print(Expression.ofString('Hello World.'))));
       String expected = '    main() {\n'
           '      print(\n'
-          '          \'Hello World.\');\n'
+          '        \'Hello World.\',\n'
+          '      );\n'
           '    }\n';
       expect(actual, expected);
     });

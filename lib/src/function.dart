@@ -67,3 +67,28 @@ class DartFunction extends CodeModel {
         body,
       ];
 }
+
+class FunctionCall extends CodeModelWithLibraryUri {
+  final IdentifierStartingWithLowerCase name;
+  final ParameterValues? parameterValues;
+  final Type? genericType;
+
+  FunctionCall(
+    String name, {
+    String? libraryUri,
+    this.genericType,
+    this.parameterValues,
+  })  : name = IdentifierStartingWithLowerCase(name),
+        super(libraryUri: libraryUri);
+
+  @override
+  List<CodeNode> codeNodesToWrap(Context context) => [
+        name,
+        if (genericType != null) Code('<'),
+        if (genericType != null) genericType!,
+        if (genericType != null) Code('>'),
+        Code('('),
+        if (parameterValues != null) parameterValues!,
+        Code(')'),
+      ];
+}

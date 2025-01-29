@@ -4,13 +4,13 @@ version: 0.1.10
 repository: https://github.com/domain-centric/dart_code
 
 environment:
-  sdk: '>=2.18.0 <4.0.0'
+  sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
-  dart_style: ^2.2.3
+  dart_style: ^3.0.1
 
 dev_dependencies:
   test: ^1.21.5
-  lints: ^2.0.1
-  given_when_then_unit_test: ^0.0.4
+  lints: ^5.1.1
+  given_when_then_unit_test: ^0.2.1
   shouldly: ^0.5.0+1

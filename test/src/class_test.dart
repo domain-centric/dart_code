@@ -91,9 +91,7 @@ main() {
       ]).toString();
       String expected = 'class Point {\n'
           '  Point(this.x, this.y);\n'
-          '  Point.origin()\n'
-          '      : x = 0,\n'
-          '        y = 0;\n'
+          '  Point.origin() : x = 0, y = 0;\n'
           '}\n';
       expect(actual, expected);
     });
@@ -211,7 +209,7 @@ main() {
           '  final String fullName;\n'
           '  final DateTime dateOfBirth;\n'
           '  Person(this.givenName, this.familyName, this.dateOfBirth)\n'
-          '      : fullName = \'\$givenName \$familyName\';\n'
+          '    : fullName = \'\$givenName \$familyName\';\n'
           '  String greetingMessage() {\n'
           '    return \'Hello \$fullName.\';\n'
           '  }\n'

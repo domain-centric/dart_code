@@ -294,6 +294,15 @@ main() {
         expect(actual, expected);
       });
 
+      test('Should return a call to a function or method with generic type',
+          () {
+        String actual = CodeFormatter().unFormatted(
+            Expression.callMethodOrFunction('cast',
+                genericType: Type.ofDouble()));
+        String expected = "cast<double>()";
+        expect(actual, expected);
+      });
+
       test('Should return a call to a function or method with parameters', () {
         String actual = CodeFormatter().unFormatted(
             Expression.callMethodOrFunction(
@@ -705,6 +714,16 @@ main() {
             Expression.callConstructor(Type('AddressFinder'))
                 .callMethod('findFirst'));
         String expected = 'AddressFinder().findFirst()';
+        expect(actual, expected);
+      });
+
+      test(
+          'Should return a call to a method with generic type, without parameter values',
+          () {
+        String actual = CodeFormatter().unFormatted(
+            Expression.callConstructor(Type('MyCollection'))
+                .callMethod('cast', genericType: Type.ofNum()));
+        String expected = 'MyCollection().cast<num>()';
         expect(actual, expected);
       });
 

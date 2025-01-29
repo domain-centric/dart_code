@@ -3,6 +3,7 @@
  */
 
 import 'package:dart_code/dart_code.dart';
+import 'package:shouldly/shouldly.dart';
 import 'package:test/test.dart';
 
 main() {
@@ -125,6 +126,56 @@ main() {
           .toString();
       String expected = 'main() async => booleanGenerator();\n';
       expect(actual, expected);
+    });
+  });
+
+  group('FunctionCall class', () {
+    test('Should return a call to a function or method', () {
+      CodeFormatter()
+          .unFormatted(FunctionCall('myFunction'))
+          .should
+          .be("myFunction()");
+    });
+
+    test('Should return a call to a function or method with generic type', () {
+      CodeFormatter()
+          .unFormatted(FunctionCall('cast', genericType: Type.ofInt()))
+          .should
+          .be("cast<int>()");
+    });
+
+    test('Should return a call to a function or method with parameters', () {
+      CodeFormatter()
+          .unFormatted(FunctionCall('add',
+              parameterValues: ParameterValues([
+                ParameterValue(Expression.ofInt(2)),
+                ParameterValue(Expression.ofInt(3))
+              ])))
+          .should
+          .be('add(2,3)');
+    });
+
+    test(
+        'Should return a call to a function with parameters from another library',
+        () {
+      CodeFormatter()
+          .unFormatted(FunctionCall('add',
+              libraryUri: "package:test/calculations.dart",
+              parameterValues: ParameterValues([
+                ParameterValue(Expression.ofInt(2)),
+                ParameterValue(Expression.ofInt(3))
+              ])))
+          .should
+          .be('i1.add(2,3)');
+    });
+
+    test('Should throw an exception invalid name ', () {
+      expect(() {
+        FunctionCall('InvalidFunctionName');
+      },
+          throwsA((e) =>
+              e is ArgumentError &&
+              e.message == 'Must start with an lower case letter'));
     });
   });
 }

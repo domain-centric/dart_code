@@ -11,7 +11,10 @@ class CodeFormatter {
 
   CodeFormatter({String? lineEnding, int? pageWidth, int? indent})
       : dartFormatter = DartFormatter(
-            lineEnding: lineEnding, pageWidth: pageWidth, indent: indent);
+            languageVersion: DartFormatter.latestLanguageVersion,
+            lineEnding: lineEnding,
+            pageWidth: pageWidth,
+            indent: indent);
 
   String format(CodeNode codeNode) {
     String unFormattedCode = unFormatted(codeNode);

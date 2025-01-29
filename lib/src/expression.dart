@@ -115,11 +115,16 @@ class Expression extends CodeModel {
         ];
 
   /// A call to a method in the same class or a function
-  Expression.callMethodOrFunction(String name,
-      {String? libraryUri, ParameterValues? parameterValues})
-      : nodes = [
+  Expression.callMethodOrFunction(
+    String name, {
+    String? libraryUri,
+    Type? genericType,
+    ParameterValues? parameterValues,
+  }) : nodes = [
           FunctionCall(name,
-              libraryUri: libraryUri, parameterValues: parameterValues)
+              libraryUri: libraryUri,
+              genericType: genericType,
+              parameterValues: parameterValues)
         ];
 
   Expression.callConstructor(
@@ -269,6 +274,7 @@ class Expression extends CodeModel {
 
   Expression callMethod(
     String name, {
+    Type? genericType,
     ParameterValues? parameterValues,
     bool cascade = false,
     bool ifNullReturnNull = false,
@@ -278,10 +284,11 @@ class Expression extends CodeModel {
         if (ifNullReturnNull) Code('?'),
         Code('.'),
         if (cascade) Code('.'),
-        IdentifierStartingWithLowerCase(name),
-        Code('('),
-        if (parameterValues != null) parameterValues,
-        Code(')'),
+        FunctionCall(
+          name,
+          genericType: genericType,
+          parameterValues: parameterValues,
+        ),
       ]);
 
   Expression getProperty(
@@ -339,21 +346,4 @@ class Expression extends CodeModel {
 
   @override
   List<CodeNode> codeNodes(Context context) => nodes;
-}
-
-class FunctionCall extends CodeModelWithLibraryUri {
-  final IdentifierStartingWithLowerCase name;
-  final ParameterValues? parameterValues;
-
-  FunctionCall(String name, {String? libraryUri, this.parameterValues})
-      : name = IdentifierStartingWithLowerCase(name),
-        super(libraryUri: libraryUri);
-
-  @override
-  List<CodeNode> codeNodesToWrap(Context context) => [
-        name,
-        Code('('),
-        if (parameterValues != null) parameterValues!,
-        Code(')'),
-      ];
 }
