@@ -244,16 +244,30 @@ abstract class Identifier extends CodeNode {
   }
 }
 
+/// A class that represents an identifier starting with an uppercase letter.
+///
+/// This class extends the [Identifier] class and is used to enforce or
+/// represent identifiers that begin with an uppercase character.
 class IdentifierStartingWithUpperCase extends Identifier {
   IdentifierStartingWithUpperCase(String name)
       : super(name, CaseChecker.forUpperCase());
 }
 
+/// A class that represents an identifier starting with a lowercase letter.
+///
+/// This class extends the [Identifier] class and is used to enforce or
+/// represent identifiers that begin with a lowercase character. It can
+/// be useful in scenarios where naming conventions or specific rules
+/// for identifiers are required.
 class IdentifierStartingWithLowerCase extends Identifier {
   IdentifierStartingWithLowerCase(String name)
       : super(name, CaseChecker.forLowerCase());
 }
 
+/// A utility class for checking and manipulating the case of strings.
+///
+/// This class provides methods to determine the case of a string
+/// (e.g., uppercase, lowercase) and perform related operations.
 class CaseChecker {
   final bool isUpperCase;
 
@@ -310,6 +324,10 @@ class Body extends CodeModel {
   }
 }
 
+/// An enumeration representing different types of asynchrony.
+///
+/// This can be used to define or categorize asynchronous operations
+/// or behaviors in your application.
 enum Asynchrony {
   async,
   sync,

@@ -13,10 +13,18 @@ class Annotation extends CodeModel {
         parameterValues = null,
         customType = false;
 
+  /// Creates an annotation for overriding a member in a subclass.
+  /// See [https://api.dart.dev/dart-core/override-constant.html] for more details.
   Annotation.override() : this._dartType('override');
 
+  /// Creates an annotation for deprecated a member in a subclass.
+  /// See [https://api.dart.dev/dart-core/Deprecated-class.html] for more details.
   Annotation.deprecated() : this._dartType('deprecated');
 
+  /// Creates a required annotation.
+  /// @required is just an annotation that allows analyzers let you know that you're
+  ///  missing a named parameter and that's it. so you can still compile the application
+  /// and possibly get an exception if this named param was not passed.
   Annotation.required() : this._dartType('required');
 
   @override

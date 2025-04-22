@@ -1,3 +1,5 @@
+## [0.1.12 Change Log](https://github.com/efficientyboosters/dart_code/milestone/13?closed=1)
+
 ## [0.1.11 Change Log](https://github.com/efficientyboosters/dart_code/milestone/12?closed=1)
 
 ## [0.1.10 Change Log](https://github.com/efficientyboosters/dart_code/milestone/11?closed=1)
