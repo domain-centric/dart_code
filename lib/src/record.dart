@@ -10,9 +10,15 @@ class Record extends CodeModel implements BaseType {
 
   @override
   List<CodeNode> codeNodes(Context context) {
+    var positionalFields = fields.where((e) => e.name == null).toList();
+    var namedFields = fields.where((e) => e.name != null).toList();
     return [
       Code('('),
-      SeparatedValues.forParameters(fields),
+      SeparatedValues.forParameters(positionalFields),
+      if (positionalFields.isNotEmpty && namedFields.isNotEmpty) Code(','),
+      if (namedFields.isNotEmpty) Code('{'),
+      if (namedFields.isNotEmpty) SeparatedValues.forParameters(namedFields),
+      if (namedFields.isNotEmpty) Code('}'),
       Code(')'),
       if (nullable) Code('?'),
     ];

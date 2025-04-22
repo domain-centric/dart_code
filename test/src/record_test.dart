@@ -20,7 +20,7 @@ void main() {
           .toUnFormattedString(dummyContext)
           .should
           .be('name');
-      CodeFormatter().unFormatted(record).should.be('(int,String name)');
+      CodeFormatter().unFormatted(record).should.be('(int,{String name})');
     });
     test('should create a nullable record with nullable fields', () {
       final record = Record([
@@ -37,7 +37,7 @@ void main() {
           .toUnFormattedString(Context(Code('Dummy')))
           .should
           .be('name');
-      CodeFormatter().unFormatted(record).should.be('(int?,String? name)?');
+      CodeFormatter().unFormatted(record).should.be('(int?,{String? name})?');
     });
   });
 
