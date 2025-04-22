@@ -88,7 +88,6 @@ class KeyWord {
   static final Code enum$ = Code('enum');
   static final Code export$ = Code('export');
   static final Code extends$ = Code('extends');
-  static final Code extension$ = Code('extension');
   static final Code external$ = Code('external');
   static final Code factory$ = Code('factory');
   static final Code false$ = Code('false');
@@ -151,7 +150,6 @@ class KeyWord {
     enum$,
     export$,
     extends$,
-    extension$,
     external$,
     factory$,
     false$,
