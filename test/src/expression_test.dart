@@ -3,6 +3,7 @@
  */
 
 import 'package:dart_code/dart_code.dart';
+import 'package:shouldly/shouldly.dart';
 import 'package:test/test.dart';
 
 main() {
@@ -174,6 +175,16 @@ main() {
         }));
         String expected = '{1 : \'Hello\',2 : \'World\'}';
         expect(actual, expected);
+      });
+    });
+
+    group("Expression.ofRecord() constructor", () {
+      test("Should return: (1,name: \'Hello\')'", () {
+        String result = CodeFormatter().unFormatted(Expression.ofRecord([
+          RecordFieldValue(Expression.ofInt(1)),
+          RecordFieldValue.named('name', Expression.ofString('Hello')),
+        ]));
+        result.should.be('(1,name: \'Hello\')');
       });
     });
 

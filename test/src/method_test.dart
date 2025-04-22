@@ -13,7 +13,7 @@ main() {
         Statement.return$(
             Expression.callMethodOrFunction("randomIntGenerator")),
         asynchrony: Asynchrony.async,
-        type: Type.ofFuture(Type.ofInt()),
+        returnType: Type.ofFuture(Type.ofInt()),
       ).toString();
       String expected = 'Future<int> randomNumber() async {\n'
           '  return randomIntGenerator();\n'
@@ -26,7 +26,7 @@ main() {
               Statement.return$(Expression.ofString('Hello \$name.')),
               parameters: Parameters(
                   [Parameter.required('name', type: Type.ofString())]),
-              type: Type.ofString())
+              returnType: Type.ofString())
           .toString();
       String expected = 'String greetingMessage(String name) {\n'
           '  return \'Hello \$name.\';\n'
@@ -41,7 +41,7 @@ main() {
           Statement.return$(Expression.ofString('Hello \$name.')),
           parameters:
               Parameters([Parameter.required('name', type: Type.ofString())]),
-          type: Type.ofString(),
+          returnType: Type.ofString(),
           docComments: [
             DocComment.fromString("This method returns a greeting string")
           ],
@@ -77,7 +77,7 @@ main() {
           Statement.return$(Expression.ofString('Hello \$name.')),
           parameters:
               Parameters([Parameter.required('name', type: Type.ofString())]),
-          type: Type.ofString()));
+          returnType: Type.ofString()));
       String expected =
           'static String greetingMessage(String name) {return \'Hello \$name.\';}';
       expect(actual, expected);
@@ -91,7 +91,7 @@ main() {
           Statement.return$(Expression.ofString('Hello \$name.')),
           parameters:
               Parameters([Parameter.required('name', type: Type.ofString())]),
-          type: Type.ofString(),
+          returnType: Type.ofString(),
           docComments: [
             DocComment.fromString("This method returns a greeting string")
           ],
@@ -124,7 +124,7 @@ main() {
           'greetingMessage',
           parameters:
               Parameters([Parameter.required('name', type: Type.ofString())]),
-          type: Type.ofString()));
+          returnType: Type.ofString()));
       String expected = 'String greetingMessage(String name);';
       expect(actual, expected);
     });
@@ -136,7 +136,7 @@ main() {
           'greetingMessage',
           parameters:
               Parameters([Parameter.required('name', type: Type.ofString())]),
-          type: Type.ofString(),
+          returnType: Type.ofString(),
           docComments: [
             DocComment.fromString("This method returns a greeting string")
           ],
@@ -166,7 +166,7 @@ main() {
       String actual = Method.getter(
         'age',
         Expression.ofThisField('age'),
-        type: Type.ofInt(),
+        returnType: Type.ofInt(),
       ).toString();
       String expected = 'int get age => this.age;\n';
       expect(actual, expected);
@@ -176,7 +176,7 @@ main() {
       String actual = CodeFormatter().unFormatted(Method.getter(
         'age',
         Expression.ofThisField('age'),
-        type: Type.ofInt(),
+        returnType: Type.ofInt(),
         final$: true,
       ));
       String expected = 'final int get age  => this.age;';
@@ -190,7 +190,7 @@ main() {
         'age',
         Statement.assignVariable('age', Expression.ofVariable('age'),
             this$: true),
-        type: Type.ofInt(),
+        returnType: Type.ofInt(),
       ).toString();
       String expected = 'set age(int age) {\n'
           '  this.age = age;\n'

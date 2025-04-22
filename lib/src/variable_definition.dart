@@ -18,7 +18,7 @@ class VariableDefinition extends Statement {
   /// If a static prefix is needed (only required for class fields)
   final bool static;
   final Modifier modifier;
-  final Type? type;
+  final BaseType? type;
   final String name;
   final Expression? value;
 

@@ -14,7 +14,7 @@ class Field extends VariableDefinition {
       List<Annotation> annotations = const [],
       bool static = false,
       Modifier modifier = Modifier.var$,
-      Type? type,
+      BaseType? type,
       Expression? value})
       : super(name,
             docComments: docComments,

@@ -46,8 +46,6 @@ class Expression extends CodeModel {
   Expression.ofMap(Map<Expression, Expression> expressions)
       : nodes = _createMapNodes(expressions);
 
-  Expression.ofType(Type type) : nodes = [type];
-
   static List<CodeNode> _createMapNodes(
           Map<Expression, Expression> expressions) =>
       [
@@ -71,6 +69,15 @@ class Expression extends CodeModel {
         Space(),
         value,
       ]);
+
+  Expression.ofType(BaseType type) : nodes = [type];
+
+  Expression.ofRecord(List<RecordFieldValue> values)
+      : nodes = [
+          Code('('),
+          SeparatedValues.forParameters(values),
+          Code(')'),
+        ];
 
   static RegExp _singleQuote = RegExp("'");
   static RegExp _doubleQuote = RegExp('"');
@@ -169,7 +176,7 @@ class Expression extends CodeModel {
   Expression negate() => Expression([Code('!'), this]);
 
   /// Returns the result of `this` `as` [other].
-  Expression asA(Type otherType) =>
+  Expression asA(BaseType otherType) =>
       Expression([this, Space(), Code('as'), Space(), otherType, Space()]);
 
   /// Returns accessing the index operator (`[]`) on `this`.
@@ -328,7 +335,7 @@ class Expression extends CodeModel {
           List<Annotation> annotations = const [],
           bool static = false,
           Modifier modifier = Modifier.var$,
-          Type? type,
+          BaseType? type,
           Expression? value}) =>
       VariableDefinition(
         name,

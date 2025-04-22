@@ -100,7 +100,7 @@ main() {
       String actual = Class('Person', methods: [
         Method('greetingMessage',
             Statement.return$(Expression.ofString('Hello \$name.')),
-            type: Type.ofString())
+            returnType: Type.ofString())
       ]).toString();
       String expected = 'class Person {\n'
           '  String greetingMessage() {\n'
@@ -115,7 +115,7 @@ main() {
         Method.getter(
           'age',
           Expression.ofThisField('age'),
-          type: Type.ofInt(),
+          returnType: Type.ofInt(),
         )
       ]).toString();
       String expected = 'class Person {\n'
@@ -130,7 +130,7 @@ main() {
           'age',
           Statement.assignVariable('age', Expression.ofVariable('age'),
               this$: true),
-          type: Type.ofInt(),
+          returnType: Type.ofInt(),
         )
       ]).toString();
       String expected = 'class Person {\n'
@@ -162,7 +162,7 @@ main() {
       ], methods: [
         Method('greetingMessage',
             Statement.return$(Expression.ofString('Hello \$fullName.')),
-            type: Type.ofString()),
+            returnType: Type.ofString()),
         Method.getter(
             'ageInYears',
             Block([

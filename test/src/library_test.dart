@@ -100,7 +100,7 @@ main() {
         ], methods: [
           Method('greetingMessage',
               Statement.return$(Expression.ofString('Hello \$fullName.')),
-              type: Type.ofString()),
+              returnType: Type.ofString()),
           Method.getter(
               'ageInYears',
               Block([
@@ -247,7 +247,7 @@ class SoftWareEngineerClass extends Class {
           methods: [
             Method.abstract(
               'familiarProgramingLanguages',
-              type: Type.ofList(genericType: Type.ofString()),
+              returnType: Type.ofList(genericType: Type.ofString()),
               propertyAccessor: PropertyAccessor.getter,
             )
           ],
@@ -287,7 +287,7 @@ class PersonClass extends Class {
         ], methods: [
           Method('greetingMessage',
               Statement.return$(Expression.ofString('Hello \$fullName.')),
-              type: Type.ofString()),
+              returnType: Type.ofString()),
           Method.getter(
               'ageInYears',
               Expression.callMethodOrFunction('calculateAgeInYears',

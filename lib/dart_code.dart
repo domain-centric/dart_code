@@ -11,6 +11,7 @@ export 'src/library.dart';
 export 'src/method.dart';
 export 'src/model.dart';
 export 'src/parameter.dart';
+export 'src/record.dart';
 export 'src/statement.dart';
 export 'src/type.dart';
 export 'src/variable_definition.dart';

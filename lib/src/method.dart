@@ -13,7 +13,7 @@ class Method extends CodeModel {
   final bool abstract;
   final bool static;
   final bool final$;
-  final Type? type;
+  final BaseType? returnType;
   final PropertyAccessor? propertyAccessor;
   final Asynchrony? asynchrony;
   final IdentifierStartingWithLowerCase name;
@@ -24,7 +24,7 @@ class Method extends CodeModel {
     String name, {
     this.docComments = const [],
     this.annotations = const [],
-    this.type,
+    this.returnType,
     this.propertyAccessor,
     this.parameters,
     this.asynchrony,
@@ -39,7 +39,7 @@ class Method extends CodeModel {
     CodeNode body, {
     this.docComments = const [],
     this.annotations = const [],
-    this.type,
+    this.returnType,
     this.parameters,
     this.asynchrony,
   })  : abstract = false,
@@ -54,7 +54,7 @@ class Method extends CodeModel {
     CodeNode body, {
     this.docComments = const [],
     this.annotations = const [],
-    this.type,
+    this.returnType,
     this.parameters,
     this.asynchrony,
   })  : abstract = false,
@@ -70,7 +70,7 @@ class Method extends CodeModel {
     this.docComments = const [],
     this.annotations = const [],
     this.final$ = false,
-    this.type,
+    this.returnType,
     this.parameters,
     this.asynchrony,
   })  : abstract = false,
@@ -84,7 +84,7 @@ class Method extends CodeModel {
     CodeNode body, {
     this.docComments = const [],
     this.annotations = const [],
-    this.type,
+    this.returnType,
     this.parameters,
     this.asynchrony,
   })  : abstract = false,
@@ -102,11 +102,11 @@ class Method extends CodeModel {
         if (static) Space(),
         if (final$) KeyWord.final$,
         if (final$) Space(),
-        if (type != null &&
+        if (returnType != null &&
             (propertyAccessor == null ||
                 propertyAccessor != PropertyAccessor.setter))
-          type!,
-        if (type != null &&
+          returnType!,
+        if (returnType != null &&
             (propertyAccessor == null ||
                 propertyAccessor != PropertyAccessor.setter))
           Space(),
@@ -123,7 +123,8 @@ class Method extends CodeModel {
           Code('('),
         if (propertyAccessor != null &&
             propertyAccessor == PropertyAccessor.setter)
-          Parameter.required(CodeFormatter().unFormatted(name), type: type),
+          Parameter.required(CodeFormatter().unFormatted(name),
+              type: returnType),
         if (parameters != null && propertyAccessor == null) parameters!,
         if (propertyAccessor == null ||
             propertyAccessor != PropertyAccessor.getter)

@@ -4,10 +4,13 @@
 
 import 'package:dart_code/dart_code.dart';
 
+/// BaseType is used to define a type that is a Type or an aggregated Type  like a Record
+abstract class BaseType extends CodeModel {}
+
 /// Refers to [Type]
 /// For the Dart Type system, see: [https://dart.dev/guides/language/type-system]
 /// For the Dart build in types, see: [https://dart.dev/guides/language/language-tour#built-in-types]
-class Type extends CodeModelWithLibraryUri {
+class Type extends CodeModelWithLibraryUri implements BaseType {
   final String name;
   final bool nullable;
   List<Type> generics = [];

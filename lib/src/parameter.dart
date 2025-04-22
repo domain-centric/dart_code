@@ -10,7 +10,7 @@ enum ParameterCategory { required, named, optional }
 /// See: [https://dart.dev/guides/language/language-tour#parameters]
 class Parameter extends CodeModel {
   final ParameterCategory category;
-  final Type? type;
+  final BaseType? type;
   final bool this$;
   final IdentifierStartingWithLowerCase name;
   final Expression? defaultValue;
@@ -20,15 +20,15 @@ class Parameter extends CodeModel {
       {this.type, this.defaultValue, this.required = false, this.this$ = false})
       : name = IdentifierStartingWithLowerCase(name);
 
-  Parameter.required(String name, {Type? type})
+  Parameter.required(String name, {BaseType? type})
       : this._(ParameterCategory.required, name, type: type);
 
-  Parameter.optional(String name, {Type? type, Expression? defaultValue})
+  Parameter.optional(String name, {BaseType? type, Expression? defaultValue})
       : this._(ParameterCategory.optional, name,
             type: type, defaultValue: defaultValue);
 
   Parameter.named(String name,
-      {Type? type, defaultValue, bool required = false})
+      {BaseType? type, defaultValue, bool required = false})
       : this._(ParameterCategory.named, name,
             type: type, defaultValue: defaultValue, required: required);
 
@@ -125,16 +125,17 @@ class Parameters extends CodeModel {
 /// Represents a [ConstructorParameter] definition.
 /// A [ConstructorParameter] definition is comparable to a [Parameter] definition, but it can also have a default value and may refer to a [Field]
 class ConstructorParameter extends Parameter {
-  ConstructorParameter.required(String name, {bool this$ = false, Type? type})
+  ConstructorParameter.required(String name,
+      {bool this$ = false, BaseType? type})
       : super._(ParameterCategory.required, name, this$: this$, type: type);
 
   ConstructorParameter.optional(String name,
-      {bool this$ = false, Type? type, Expression? defaultValue})
+      {bool this$ = false, BaseType? type, Expression? defaultValue})
       : super._(ParameterCategory.optional, name,
             type: type, this$: this$, defaultValue: defaultValue);
 
   ConstructorParameter.named(String name,
-      {bool this$ = false, Type? type, defaultValue, bool required = false})
+      {bool this$ = false, BaseType? type, defaultValue, bool required = false})
       : super._(ParameterCategory.named, name,
             this$: this$,
             type: type,

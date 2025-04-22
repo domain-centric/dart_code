@@ -11,7 +11,7 @@ import 'type.dart';
 class DartFunction extends CodeModel {
   final List<DocComment> docComments;
   final List<Annotation> annotations;
-  final Type? returnType;
+  final BaseType? returnType;
   final IdentifierStartingWithLowerCase? name;
   final Parameters? parameters;
   final Asynchrony? asynchrony;
