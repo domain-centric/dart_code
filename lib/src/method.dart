@@ -1,4 +1,5 @@
-import '../dart_code.dart';
+// Copyright (c) 2025 Nils ten Hoeve, licensed under the 3-Clause BSD License
+import 'package:dart_code/dart_code.dart';
 
 enum PropertyAccessor {
   getter,
@@ -95,7 +96,7 @@ class Method extends CodeModel {
         body = Body([body]);
 
   @override
-  List<CodeNode> codeNodes(Context context) => [
+  List<CodeNode> codeNodes(Imports imports) => [
         ...docComments,
         ...annotations,
         if (static) KeyWord.static$,
@@ -123,7 +124,7 @@ class Method extends CodeModel {
           Code('('),
         if (propertyAccessor != null &&
             propertyAccessor == PropertyAccessor.setter)
-          Parameter.required(CodeFormatter().unFormatted(name),
+          Parameter.required(name.toUnFormattedString(imports),
               type: returnType),
         if (parameters != null && propertyAccessor == null) parameters!,
         if (propertyAccessor == null ||

@@ -1,227 +1,171 @@
-/*
- * Copyright (c) 2022. By Nils ten Hoeve. See LICENSE file in project.
- */
-
+// Copyright (c) 2025 Nils ten Hoeve, licensed under the 3-Clause BSD License
 import 'package:dart_code/dart_code.dart';
+import 'package:shouldly/shouldly.dart';
 import 'package:test/test.dart';
 
 main() {
   group('Type class', () {
     test('Should result in var', () {
-      String actual = CodeFormatter().unFormatted(Type.ofVar());
-      String expected = "var";
-      expect(actual, expected);
+      Type.ofVar().toString().should.be("var");
     });
 
     test('Should result in dynamic', () {
-      String actual = CodeFormatter().unFormatted(Type.ofDynamic());
-      String expected = "dynamic";
-      expect(actual, expected);
+      Type.ofDynamic().toString().should.be("dynamic");
     });
+
     test('Should result in dynamic?', () {
-      String actual =
-          CodeFormatter().unFormatted(Type.ofDynamic(nullable: true));
-      String expected = "dynamic?";
-      expect(actual, expected);
+      Type.ofDynamic(nullable: true).toString().should.be("dynamic?");
     });
 
     test('Should result in bool', () {
-      String actual = CodeFormatter().unFormatted(Type.ofBool());
-      String expected = "bool";
-      expect(actual, expected);
+      Type.ofBool().toString().should.be("bool");
     });
+
     test('Should result in bool?', () {
-      String actual = CodeFormatter().unFormatted(Type.ofBool(nullable: true));
-      String expected = "bool?";
-      expect(actual, expected);
+      Type.ofBool(nullable: true).toString().should.be("bool?");
     });
 
     test('Should result in num', () {
-      String actual = CodeFormatter().unFormatted(Type.ofNum());
-      String expected = "num";
-      expect(actual, expected);
+      Type.ofNum().toString().should.be("num");
     });
 
     test('Should result in num?', () {
-      String actual = CodeFormatter().unFormatted(Type.ofNum(nullable: true));
-      String expected = "num?";
-      expect(actual, expected);
+      Type.ofNum(nullable: true).toString().should.be("num?");
     });
 
     test('Should result in int', () {
-      String actual = CodeFormatter().unFormatted(Type.ofInt());
-      String expected = "int";
-      expect(actual, expected);
+      Type.ofInt().toString().should.be("int");
     });
 
     test('Should result in int?', () {
-      String actual = CodeFormatter().unFormatted(Type.ofInt(nullable: true));
-      String expected = "int?";
-      expect(actual, expected);
+      Type.ofInt(nullable: true).toString().should.be("int?");
     });
 
     test('Should result in double', () {
-      String actual = CodeFormatter().unFormatted(Type.ofDouble());
-      String expected = "double";
-      expect(actual, expected);
+      Type.ofDouble().toString().should.be("double");
     });
+
     test('Should result in double?', () {
-      String actual =
-          CodeFormatter().unFormatted(Type.ofDouble(nullable: true));
-      String expected = "double?";
-      expect(actual, expected);
+      Type.ofDouble(nullable: true).toString().should.be("double?");
     });
 
     test('Should result in BigInt', () {
-      String actual = CodeFormatter().unFormatted(Type.ofBigInt());
-      String expected = "BigInt";
-      expect(actual, expected);
+      Type.ofBigInt().toString().should.be("BigInt");
     });
 
     test('Should result in BigInt?', () {
-      String actual =
-          CodeFormatter().unFormatted(Type.ofBigInt(nullable: true));
-      String expected = "BigInt?";
-      expect(actual, expected);
+      Type.ofBigInt(nullable: true).toString().should.be("BigInt?");
     });
 
     test('Should result in String', () {
-      String actual = CodeFormatter().unFormatted(Type.ofString());
-      String expected = "String";
-      expect(actual, expected);
+      Type.ofString().toString().should.be("String");
     });
+
     test('Should result in String?', () {
-      String actual =
-          CodeFormatter().unFormatted(Type.ofString(nullable: true));
-      String expected = "String?";
-      expect(actual, expected);
+      Type.ofString(nullable: true).toString().should.be("String?");
     });
 
     test('Should result in Uri', () {
-      String actual = CodeFormatter().unFormatted(Type.ofUri());
-      String expected = "Uri";
-      expect(actual, expected);
+      Type.ofUri().toString().should.be("Uri");
     });
 
     test('Should result in Uri?', () {
-      String actual = CodeFormatter().unFormatted(Type.ofUri(nullable: true));
-      String expected = "Uri?";
-      expect(actual, expected);
+      Type.ofUri(nullable: true).toString().should.be("Uri?");
     });
 
     test('Should result in DateTime', () {
-      String actual = CodeFormatter().unFormatted(Type.ofDateTime());
-      String expected = "DateTime";
-      expect(actual, expected);
+      Type.ofDateTime().toString().should.be("DateTime");
     });
+
     test('Should result in DateTime?', () {
-      String actual =
-          CodeFormatter().unFormatted(Type.ofDateTime(nullable: true));
-      String expected = "DateTime?";
-      expect(actual, expected);
+      Type.ofDateTime(nullable: true).toString().should.be("DateTime?");
     });
 
     test('Should result in Duration', () {
-      String actual = CodeFormatter().unFormatted(Type.ofDuration());
-      String expected = "Duration";
-      expect(actual, expected);
+      Type.ofDuration().toString().should.be("Duration");
     });
     test('Should result in Duration?', () {
-      String actual =
-          CodeFormatter().unFormatted(Type.ofDuration(nullable: true));
-      String expected = "Duration?";
-      expect(actual, expected);
+      Type.ofDuration(nullable: true).toString().should.be("Duration?");
     });
 
     test("Should return: 'List'", () {
-      String actual = CodeFormatter().unFormatted(Type.ofList());
-      String expected = "List";
-      expect(actual, expected);
+      Type.ofList().toString().should.be("List");
     });
 
     test("Should return: 'List?'", () {
-      String actual = CodeFormatter().unFormatted(Type.ofList(nullable: true));
-      String expected = "List?";
-      expect(actual, expected);
+      Type.ofList(nullable: true).toString().should.be("List?");
     });
 
     test("Should return: 'List<String>'", () {
-      String actual = CodeFormatter()
-          .unFormatted(Type.ofList(genericType: Type.ofString()));
-      String expected = "List<String>";
-      expect(actual, expected);
+      Type.ofList(genericType: Type.ofString())
+          .toString()
+          .should
+          .be("List<String>");
     });
 
     test("Should return: 'List<String>?'", () {
-      String actual = CodeFormatter().unFormatted(
-          Type.ofList(genericType: Type.ofString(), nullable: true));
-      String expected = "List<String>?";
-      expect(actual, expected);
+      Type.ofList(genericType: Type.ofString(), nullable: true)
+          .toString()
+          .should
+          .be("List<String>?");
     });
 
     test("Should return: 'Set'", () {
-      String actual = CodeFormatter().unFormatted(Type.ofSet());
-      String expected = "Set";
-      expect(actual, expected);
+      Type.ofSet().toString().should.be("Set");
     });
 
     test("Should return: 'Set?'", () {
-      String actual = CodeFormatter().unFormatted(Type.ofSet(nullable: true));
-      String expected = "Set?";
-      expect(actual, expected);
+      Type.ofSet(nullable: true).toString().should.be("Set?");
     });
 
     test("Should return: 'Set<String>'", () {
-      String actual =
-          CodeFormatter().unFormatted(Type.ofSet(genericType: Type.ofString()));
-      String expected = "Set<String>";
-      expect(actual, expected);
+      Type.ofSet(genericType: Type.ofString())
+          .toString()
+          .should
+          .be("Set<String>");
     });
 
     test("Should return: 'Set<String>?'", () {
-      String actual = CodeFormatter().unFormatted(
-          Type.ofSet(genericType: Type.ofString(), nullable: true));
-      String expected = "Set<String>?";
-      expect(actual, expected);
+      Type.ofSet(genericType: Type.ofString(), nullable: true)
+          .toString()
+          .should
+          .be("Set<String>?");
     });
 
     test("Should return: 'Map'", () {
-      String actual = CodeFormatter().unFormatted(Type.ofMap());
-      String expected = "Map";
-      expect(actual, expected);
+      Type.ofMap().toString().should.be("Map");
     });
 
     test("Should return: 'Map?'", () {
-      String actual = CodeFormatter().unFormatted(Type.ofMap(nullable: true));
-      String expected = "Map?";
-      expect(actual, expected);
+      Type.ofMap(nullable: true).toString().should.be("Map?");
     });
 
     test("Should return: 'Map<int, String>'", () {
-      String actual = CodeFormatter().unFormatted(
-          Type.ofMap(keyType: Type.ofInt(), valueType: Type.ofString()));
-      String expected = 'Map<int,String>';
-      expect(actual, expected);
+      Type.ofMap(keyType: Type.ofInt(), valueType: Type.ofString())
+          .toString()
+          .should
+          .be("Map<int,String>");
     });
     test("Should return: 'Map<int, String>?'", () {
-      String actual = CodeFormatter().unFormatted(Type.ofMap(
-          keyType: Type.ofInt(), valueType: Type.ofString(), nullable: true));
-      String expected = 'Map<int,String>?';
-      expect(actual, expected);
+      Type.ofMap(
+              keyType: Type.ofInt(), valueType: Type.ofString(), nullable: true)
+          .toString()
+          .should
+          .be("Map<int,String>?");
     });
 
     test("Should return: 'i1.MyClass'", () {
-      String actual = CodeFormatter()
-          .unFormatted(Type("MyClass", libraryUri: "package:test/test.dart"));
-      String expected = "i1.MyClass";
-      expect(actual, expected);
+      Type("MyClass", libraryUri: "package:test/test.dart")
+          .toString()
+          .should
+          .be("i1.MyClass");
     });
 
     test("Should return: 'i1.MyClass?'", () {
-      String actual = CodeFormatter().unFormatted(Type("MyClass",
-          libraryUri: "package:test/test.dart", nullable: true));
-      String expected = "i1.MyClass?";
-      expect(actual, expected);
+      Type("MyClass", libraryUri: "package:test/test.dart", nullable: true)
+          .toString()
+          .should
+          .be("i1.MyClass?");
     });
   });
 }

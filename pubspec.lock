@@ -105,14 +105,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.0"
-  given_when_then_unit_test:
-    dependency: "direct dev"
-    description:
-      name: given_when_then_unit_test
-      sha256: ed8a25982e3e19b8db5f4a4d299138985405253c9b1112a6273696c600c9c6d1
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.1"
   glob:
     dependency: transitive
     description:

@@ -1,9 +1,5 @@
-import 'annotation.dart';
-import 'basic.dart';
-import 'comment.dart';
-import 'model.dart';
-import 'parameter.dart';
-import 'type.dart';
+// Copyright (c) 2025 Nils ten Hoeve, licensed under the 3-Clause BSD License
+import 'package:dart_code/dart_code.dart';
 
 /// Represents a [DartFunction]
 /// See: [https://dart.dev/guides/language/language-tour#functions]
@@ -49,7 +45,7 @@ class DartFunction extends CodeModel {
         body = Body([body]);
 
   @override
-  List<CodeNode> codeNodes(Context context) => [
+  List<CodeNode> codeNodes(Imports imports) => [
         ...docComments,
         ...annotations,
         Space(),
@@ -82,7 +78,7 @@ class FunctionCall extends CodeModelWithLibraryUri {
         super(libraryUri: libraryUri);
 
   @override
-  List<CodeNode> codeNodesToWrap(Context context) => [
+  List<CodeNode> codeNodesToWrap(Imports imports) => [
         name,
         if (genericType != null) Code('<'),
         if (genericType != null) genericType!,

@@ -1,25 +1,35 @@
-import 'code_formatter.dart';
-import 'import.dart';
-
-class Context {
-  final Imports imports;
-  String lastCode = '';
-
-  Context(CodeNode codeNode) : imports = Imports() {
-    imports.registerLibraries(codeNode, Context._dummyToCreateImports());
-  }
-
-  Context._dummyToCreateImports() : imports = Imports();
-}
+// Copyright (c) 2025 Nils ten Hoeve, licensed under the 3-Clause BSD License
+import 'package:dart_code/dart_code.dart';
+import 'package:dart_style/dart_style.dart';
 
 ///a tree model that represents DartCode
 abstract class CodeNode {
   @override
-  String toString() {
-    return CodeFormatter().format(this);
-  }
+  String toString() => toUnFormattedString(Imports());
 
-  String toUnFormattedString(Context context);
+  /// Converts the [CodeNode] to an unformatted String.
+  /// It should not throw parsing exceptions.
+  String toUnFormattedString(Imports imports);
+
+  /// Converts the [CodeNode] to a formatted String, using the constructor parameters.
+  /// Using the official (dartfmt)[https://github.com/dart-lang/dart_style/wiki/Formatting-Rules] with the dart_style package
+  /// Note that this formatter may throw parsing exceptions.
+  /// You can use the [toUnFormattedString] method when you need a code partial that can not be parsed by the Dart formatter
+  String toFormattedString(
+      {String? lineEnding,
+      int? pageWidth,
+      int? indent,
+      List<String>? experimentFlags}) {
+    var dartFormatter = DartFormatter(
+      languageVersion: DartFormatter.latestLanguageVersion,
+      lineEnding: lineEnding,
+      pageWidth: pageWidth,
+      indent: indent,
+      experimentFlags: experimentFlags,
+    );
+    var unFormattedCode = toUnFormattedString(Imports());
+    return dartFormatter.format(unFormattedCode);
+  }
 }
 
 /// a String representing a piece of Dart code
@@ -29,7 +39,7 @@ class Code extends CodeNode {
   Code(this.code);
 
   @override
-  String toUnFormattedString(Context context) {
+  String toUnFormattedString(Imports imports) {
     return code;
   }
 }
@@ -40,17 +50,14 @@ class Code extends CodeNode {
 /// - [CodeLeaf]s that can be converted to a string
 /// - Other [CodeModel]s that represent part of the code (e.g. a Library, Class, Annotation, Function, Method, Block, Statement, etc)
 abstract class CodeModel extends CodeNode {
-  List<CodeNode> codeNodes(Context context);
+  List<CodeNode> codeNodes(Imports imports);
 
   /// Recursive call to get the unformatted code from all nodes
   @override
-  String toUnFormattedString(Context context) {
+  String toUnFormattedString(Imports imports) {
     StringBuffer buffer = StringBuffer();
-    for (CodeNode codeNode in codeNodes(context)) {
-      String unformattedCode = codeNode.toUnFormattedString(context);
-      if (codeNode is! CodeModel) {
-        context.lastCode = unformattedCode;
-      }
+    for (CodeNode codeNode in codeNodes(imports)) {
+      String unformattedCode = codeNode.toUnFormattedString(imports);
       buffer.write(unformattedCode);
     }
     return buffer.toString();
@@ -66,12 +73,12 @@ abstract class CodeModelWithLibraryUri extends CodeModel {
   CodeModelWithLibraryUri({this.libraryUri});
 
   @override
-  List<CodeNode> codeNodes(Context context) => [
-        if (libraryUri != null) context.imports.aliasOf(libraryUri!),
+  List<CodeNode> codeNodes(Imports imports) => [
+        if (libraryUri != null) imports.aliasOf(libraryUri!),
         if (libraryUri != null) Code('.'),
-        ...codeNodesToWrap(context),
+        ...codeNodesToWrap(imports),
       ];
 
   ///Hook
-  List<CodeNode> codeNodesToWrap(Context context);
+  List<CodeNode> codeNodesToWrap(Imports imports);
 }

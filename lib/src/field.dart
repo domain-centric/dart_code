@@ -1,10 +1,5 @@
-import 'annotation.dart';
-import 'basic.dart';
-import 'comment.dart';
-import 'expression.dart';
-import 'model.dart';
-import 'type.dart';
-import 'variable_definition.dart';
+// Copyright (c) 2025 Nils ten Hoeve, licensed under the 3-Clause BSD License
+import 'package:dart_code/dart_code.dart';
 
 /// A [Field] is a [VariableDefinition] in a [Class].
 /// See [https://dart.dev/guides/language/language-tour#using-class-members]
@@ -35,6 +30,6 @@ class FieldInitializer extends CodeModel {
       : name = IdentifierStartingWithLowerCase(fieldName);
 
   @override
-  List<CodeNode> codeNodes(Context context) =>
+  List<CodeNode> codeNodes(Imports imports) =>
       [name, Space(), Code('='), Space(), value];
 }

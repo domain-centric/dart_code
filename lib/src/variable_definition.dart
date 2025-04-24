@@ -1,10 +1,5 @@
-import 'annotation.dart';
-import 'basic.dart';
-import 'comment.dart';
-import 'expression.dart';
-import 'model.dart';
-import 'statement.dart';
-import 'type.dart';
+// Copyright (c) 2025 Nils ten Hoeve, licensed under the 3-Clause BSD License
+import 'package:dart_code/dart_code.dart';
 
 enum Modifier { var$, lateVar$, final$, lateFinal$, const$ }
 

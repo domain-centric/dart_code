@@ -1,7 +1,4 @@
-/*
- * Copyright (c) 2022. By Nils ten Hoeve. See LICENSE file in project.
- */
-
+// Copyright (c) 2025 Nils ten Hoeve, licensed under the 3-Clause BSD License
 import 'package:dart_code/dart_code.dart';
 
 ///  An [Expression] is a syntactic entity in the Dart programming language
@@ -352,5 +349,5 @@ class Expression extends CodeModel {
   ///===========================================================================
 
   @override
-  List<CodeNode> codeNodes(Context context) => nodes;
+  List<CodeNode> codeNodes(Imports imports) => nodes;
 }

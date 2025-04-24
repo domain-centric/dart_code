@@ -1,7 +1,4 @@
-/*
- * Copyright (c) 2022. By Nils ten Hoeve. See LICENSE file in project.
- */
-
+// Copyright (c) 2025 Nils ten Hoeve, licensed under the 3-Clause BSD License
 import 'package:dart_code/dart_code.dart';
 
 /// BaseType is used to define a type that is a Type or an aggregated Type  like a Record
@@ -92,7 +89,7 @@ class Type extends CodeModelWithLibraryUri implements BaseType {
       : super(libraryUri: libraryUri);
 
   @override
-  List<CodeNode> codeNodesToWrap(Context context) => [
+  List<CodeNode> codeNodesToWrap(Imports imports) => [
         Code(name),
         if (generics.isNotEmpty) Code('<'),
         if (generics.isNotEmpty) SeparatedValues.forParameters(generics),

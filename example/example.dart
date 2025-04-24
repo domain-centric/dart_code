@@ -1,9 +1,10 @@
 import 'package:dart_code/dart_code.dart';
 
 main() {
+  //TODO check outputs
   /// A simple formatting example:
-  print(
-      DartFunction.main(Statement.print(Expression.ofString('Hello World.'))));
+  print(DartFunction.main(Statement.print(Expression.ofString('Hello World.')))
+      .toFormattedString());
 
   // OUTPUTS:
   // main() {
@@ -11,13 +12,13 @@ main() {
   // }
 
   /// An alternative formatting example
-  print(CodeFormatter(pageWidth: 20).format(
-      DartFunction.main(Statement.print(Expression.ofString('Hello World.')))));
+  print(DartFunction.main(Statement.print(Expression.ofString('Hello World.')))
+      .toFormattedString(pageWidth: 20));
 
   // OUTPUTS:
   // main() {
   //   print(
-  //       'Hello World.');
+  //     'Hello World.');
   // }
 
   /// An library example with imports
@@ -30,7 +31,7 @@ main() {
       ],
       abstract: true,
     )
-  ]));
+  ]).toFormattedString());
 
   // OUTPUTS:
   // import 'package:my_package/person.dart' as i1;

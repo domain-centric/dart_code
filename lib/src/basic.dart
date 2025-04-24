@@ -1,7 +1,4 @@
-/*
- * Copyright (c) 2022. By Nils ten Hoeve. See LICENSE file in project.
- */
-
+// Copyright (c) 2025 Nils ten Hoeve, licensed under the 3-Clause BSD License
 import 'package:dart_code/dart_code.dart';
 
 class SeparatedValues extends CodeModel {
@@ -13,7 +10,7 @@ class SeparatedValues extends CodeModel {
   SeparatedValues.forParameters(this.values) : withCommas = true;
 
   @override
-  List<CodeNode> codeNodes(Context context) {
+  List<CodeNode> codeNodes(Imports imports) {
     List<CodeNode> nodes = [];
     if (values.isNotEmpty) {
       bool first = true;
@@ -27,22 +24,6 @@ class SeparatedValues extends CodeModel {
       }
     }
     return nodes;
-  }
-}
-
-///Adds code only when it is not repeating itself (ignoring spaces)
-class NoneRepeatingCode extends CodeNode {
-  final String code;
-
-  NoneRepeatingCode(this.code);
-
-  @override
-  String toUnFormattedString(Context context) {
-    if (code == context.lastCode) {
-      return ''; //add nothing
-    } else {
-      return code;
-    }
   }
 }
 
@@ -239,7 +220,7 @@ abstract class Identifier extends CodeNode {
   }
 
   @override
-  String toUnFormattedString(Context context) {
+  String toUnFormattedString(Imports imports) {
     return _name;
   }
 }
@@ -292,7 +273,7 @@ class Block extends CodeModel {
   Block(this.codeInsideBlock);
 
   @override
-  List<CodeNode> codeNodes(Context context) => [
+  List<CodeNode> codeNodes(Imports imports) => [
         Code('{'),
         ...codeInsideBlock,
         Code('}'),
@@ -307,7 +288,7 @@ class Body extends CodeModel {
   Body(this.nodes);
 
   @override
-  List<CodeNode> codeNodes(Context context) {
+  List<CodeNode> codeNodes(Imports imports) {
     List<CodeNode> codeNodes = [];
     if (nodes.length == 1 && nodes.first is Expression) {
       codeNodes.add(Space());

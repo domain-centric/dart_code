@@ -1,3 +1,5 @@
+// Copyright (c) 2025 Nils ten Hoeve, licensed under the 3-Clause BSD License
+
 /// This file serves as a central export point for various Dart source files
 /// within the `lib/src` directory. It provides access to multiple modules
 /// that include functionalities such as annotations, basic utilities, class
@@ -12,12 +14,12 @@ library;
 export 'src/annotation.dart';
 export 'src/basic.dart';
 export 'src/class.dart';
-export 'src/code_formatter.dart';
 export 'src/comment.dart';
 export 'src/constructor.dart';
 export 'src/expression.dart';
 export 'src/field.dart';
 export 'src/function.dart';
+export 'src/import.dart';
 export 'src/library.dart';
 export 'src/method.dart';
 export 'src/model.dart';

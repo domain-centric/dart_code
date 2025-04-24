@@ -3,14 +3,15 @@
 A package for creating valid and formatted code, e.g. when writing code [builders](https://pub.dev/packages/build).
 
 ## Usage
-The dart_code package provides a Dart code model that can be converted to code using the toString() method.
+The dart_code package provides a Dart code model that can be converted to code using the toString() or toFormattedString() method.
 
 Example of a main function with a print statement:
 ```dart
 import 'package:dart_code/dart_code.dart';
 
 main() {
-  print(Function.main(Statement.print(Expression.ofString('Hello World.'))));
+  print(DartFunction.main(Statement.print(Expression.ofString('Hello World.')))
+    .toFormattedString());
 }
 ```
 
@@ -21,23 +22,22 @@ main() {
 }
 ```
 
-Use the CodeFormatter class for alternative formatting.
-It uses the official (dartfmt)[https://github.com/dart-lang/dart_style/wiki/Formatting-Rules] with the dart_style package
-You can use the following CodeFormatter constructor parameters:
+the toFormattedString() method uses the official (dartfmt)[https://github.com/dart-lang/dart_style/wiki/Formatting-Rules] with the dart_style package
+You can use the following toFormattedString() method parameters:
 - String lineEnding
 - int pageWidth
 - int indent
 
 Note that this formatter may throw parsing exceptions.
-You can use the [CodeFormatter.unFormatted] method when you need a partial code that can not be parsed by the Dart formatter
+You can use the [CodeFormatter.unFormatted] toString() method when you need a partial code that can not be parsed by the Dart formatter
 
 Alternative formatting example:
 ```dart
 import 'package:dart_code/dart_code.dart';
 
 main() {
-  print(CodeFormatter(pageWidth: 20).format(
-      Function.main(Statement.print(Expression.ofString('Hello World.')))));
+  print(DartFunction.main(Statement.print(Expression.ofString('Hello World.')))
+    .toFormattedString(pageWidth: 20));
 }
 ```
 
@@ -54,16 +54,16 @@ An example of a library with unique imports:
 import 'package:dart_code/dart_code.dart';
 
 main() {
-   print(Library(classes: [
-     Class(
-       'Employee',
-       superClass: Type('Person', libraryUri: 'package:my_package/person.dart'),
-       implements: [
-         Type('Skills', libraryUri: 'package:my_package/skills.dart')
-       ],
-       abstract: true,
-     )
-   ]));
+  print(Library(classes: [
+    Class(
+      'Employee',
+      superClass: Type('Person', libraryUri: 'package:my_package/person.dart'),
+      implements: [
+        Type('Skills', libraryUri: 'package:my_package/skills.dart')
+      ],
+      abstract: true,
+    )
+  ]).toFormattedString());
 }
 ```
 
@@ -97,4 +97,4 @@ You will probably be using the following code modeling classes:
 This package was inspired by the code_builder package.
 - dart_code is simpler and likely less complete
 - dart_code classes can be extended (no fluent builders used) so that code model logic can be written inside the constructor of the extended classes.
-- dart_code allows you to directly use the toString() method on the code classes or use the CodeFormatter class for alternative formatting settings.
+- dart_code allows you to directly use the toString() or toFormattedString() method on the code classes.

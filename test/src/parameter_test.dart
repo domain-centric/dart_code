@@ -1,575 +1,516 @@
-/*
- * Copyright (c) 2022. By Nils ten Hoeve. See LICENSE file in project.
- */
-
+// Copyright (c) 2025 Nils ten Hoeve, licensed under the 3-Clause BSD License
 import 'package:dart_code/dart_code.dart';
+import 'package:shouldly/shouldly.dart';
 import 'package:test/test.dart';
 
 main() {
   group('Parameter class', () {
     group('Parameter.required constructor', () {
       test('should result in a named parameter without type', () {
-        String actual = CodeFormatter().unFormatted(Parameter.required('name'));
-        String expected = 'var name';
-        expect(actual, expected);
+        Parameter.required('name').toString().should.be('var name');
       });
 
       test('should result in a named parameter with String type', () {
-        String actual = CodeFormatter()
-            .unFormatted(Parameter.required('name', type: Type.ofString()));
-        String expected = 'String name';
-        expect(actual, expected);
+        Parameter.required('name', type: Type.ofString())
+            .toString()
+            .should
+            .be('String name');
       });
 
       test('should result in a named parameter with String? type', () {
-        String actual = CodeFormatter().unFormatted(
-            Parameter.required('name', type: Type.ofString(nullable: true)));
-        String expected = 'String? name';
-        expect(actual, expected);
+        Parameter.required('name', type: Type.ofString(nullable: true))
+            .toString()
+            .should
+            .be('String? name');
       });
 
       test('should result in a named parameter with MyClass type', () {
-        String actual = CodeFormatter().unFormatted(Parameter.required('name',
-            type: Type('MyClass',
-                libraryUri: 'package:dart_code/my_class.dart')));
-        String expected = 'i1.MyClass name';
-        expect(actual, expected);
+        Parameter.required('name',
+                type: Type('MyClass',
+                    libraryUri: 'package:dart_code/my_class.dart'))
+            .toString()
+            .should
+            .be('i1.MyClass name');
       });
     });
 
     group('Parameter.optional constructor', () {
       test('should result in a optional parameter without type', () {
-        String actual = CodeFormatter().unFormatted(Parameter.optional('name'));
-        String expected = 'var name';
-        expect(actual, expected);
+        Parameter.optional('name').toString().should.be('var name');
       });
 
       test('should result in a optional parameter with String type', () {
-        String actual = CodeFormatter()
-            .unFormatted(Parameter.optional('name', type: Type.ofString()));
-        String expected = 'String name';
-        expect(actual, expected);
+        Parameter.optional('name', type: Type.ofString())
+            .toString()
+            .should
+            .be('String name');
       });
 
       test('should result in a optional parameter with String? type', () {
-        String actual = CodeFormatter().unFormatted(
-            Parameter.optional('name', type: Type.ofString(nullable: true)));
-        String expected = 'String? name';
-        expect(actual, expected);
+        Parameter.optional('name', type: Type.ofString(nullable: true))
+            .toString()
+            .should
+            .be('String? name');
       });
 
       test('should result in a optional parameter with MyClass type', () {
-        String actual = CodeFormatter().unFormatted(Parameter.optional('name',
-            type: Type('MyClass',
-                libraryUri: 'package:dart_code/my_class.dart')));
-        String expected = 'i1.MyClass name';
-        expect(actual, expected);
+        Parameter.optional('name',
+                type: Type('MyClass',
+                    libraryUri: 'package:dart_code/my_class.dart'))
+            .toString()
+            .should
+            .be('i1.MyClass name');
       });
 
       test(
           'should result in a optional parameter with String type and default value "Hello World"',
           () {
-        String actual = CodeFormatter().unFormatted(Parameter.optional('name',
-            type: Type.ofString(),
-            defaultValue: Expression.ofString('Hello World')));
-        String expected = "String name = 'Hello World'";
-        expect(actual, expected);
-        expect(actual, expected);
+        Parameter.optional('name',
+                type: Type.ofString(),
+                defaultValue: Expression.ofString('Hello World'))
+            .toString()
+            .should
+            .be("String name = 'Hello World'");
       });
     });
 
     group('Parameter.named constructor', () {
       test('should result in a named parameter without type', () {
-        String actual = CodeFormatter().unFormatted(Parameter.named('name'));
-        String expected = 'var name';
-        expect(actual, expected);
+        Parameter.named('name').toString().should.be('var name');
       });
 
       test('should result in a named parameter with String type', () {
-        String actual = CodeFormatter()
-            .unFormatted(Parameter.named('name', type: Type.ofString()));
-        String expected = 'String name';
-        expect(actual, expected);
+        Parameter.named('name', type: Type.ofString())
+            .toString()
+            .should
+            .be('String name');
       });
 
       test('should result in a named parameter with String? type', () {
-        String actual = CodeFormatter().unFormatted(
-            Parameter.named('name', type: Type.ofString(nullable: true)));
-        String expected = 'String? name';
-        expect(actual, expected);
+        Parameter.named('name', type: Type.ofString(nullable: true))
+            .toString()
+            .should
+            .be('String? name');
       });
 
       test('should result in a named parameter with MyClass type', () {
-        String actual = CodeFormatter().unFormatted(Parameter.named('name',
-            type: Type('MyClass',
-                libraryUri: 'package:dart_code/my_class.dart')));
-        String expected = 'i1.MyClass name';
-        expect(actual, expected);
+        Parameter.named('name',
+                type: Type('MyClass',
+                    libraryUri: 'package:dart_code/my_class.dart'))
+            .toString()
+            .should
+            .be('i1.MyClass name');
       });
 
       test(
           'should result in a named parameter with String type and default value "Hello World"',
           () {
-        String actual = CodeFormatter().unFormatted(Parameter.named('name',
-            type: Type.ofString(),
-            defaultValue: Expression.ofString('Hello World')));
-        String expected = "String name = 'Hello World'";
-        expect(actual, expected);
+        Parameter.named('name',
+                type: Type.ofString(),
+                defaultValue: Expression.ofString('Hello World'))
+            .toString()
+            .should
+            .be("String name = 'Hello World'");
       });
 
       test(
           'should result in a required named parameter with String type and default value "Hello World"',
           () {
-        String actual = CodeFormatter().unFormatted(Parameter.named('name',
-            type: Type.ofString(),
-            defaultValue: Expression.ofString('Hello World'),
-            required: true));
-        String expected = "@required String name = 'Hello World'";
-        expect(actual, expected);
+        Parameter.named('name',
+                type: Type.ofString(),
+                defaultValue: Expression.ofString('Hello World'),
+                required: true)
+            .toString()
+            .should
+            .be("@required String name = 'Hello World'");
       });
     });
   });
-
   group('Parameters class', () {
     test('should result in no parameters', () {
-      String actual = CodeFormatter().unFormatted(Parameters.empty());
-      String expected = '';
-      expect(actual, expected);
+      Parameters.empty().toString().should.be('');
     });
 
     test('should result in no parameters', () {
-      String actual = CodeFormatter().unFormatted(Parameters([]));
-      String expected = '';
-      expect(actual, expected);
+      Parameters([]).toString().should.be('');
     });
 
     test('should result in a single required parameter', () {
-      String actual = CodeFormatter()
-          .unFormatted(Parameters([Parameter.required('required')]));
-      String expected = 'var required';
-      expect(actual, expected);
+      Parameters([Parameter.required('required')])
+          .toString()
+          .should
+          .be('var required');
     });
 
     test('should result in a double required parameter', () {
-      String actual = CodeFormatter().unFormatted(Parameters([
+      Parameters([
         Parameter.required('name', type: Type.ofString()),
         Parameter.required('age', type: Type.ofInt())
-      ]));
-      String expected = 'String name,int age';
-      expect(actual, expected);
+      ]).toString().should.be('String name,int age');
     });
 
     test(
         'should result in a double required parameter with double optional parameters',
         () {
-      String actual = CodeFormatter().unFormatted(Parameters([
+      Parameters([
         Parameter.required('name', type: Type.ofString()),
         Parameter.required('dateOfBirth', type: Type.ofDateTime()),
         Parameter.optional('email', type: Type.ofString()),
         Parameter.optional('phoneNumber', type: Type.ofString()),
-      ]));
-      String expected =
-          'String name,DateTime dateOfBirth, [String email,String phoneNumber]';
-      expect(actual, expected);
+      ]).toString().should.be(
+          'String name,DateTime dateOfBirth, [String email,String phoneNumber]');
     });
 
     test(
         'should result in a double required parameter with double Named parameters',
         () {
-      String actual = CodeFormatter().unFormatted(Parameters([
+      Parameters([
         Parameter.required('name', type: Type.ofString()),
         Parameter.required('dateOfBirth', type: Type.ofDateTime()),
         Parameter.named('email', type: Type.ofString()),
         Parameter.named('phoneNumber', type: Type.ofString()),
-      ]));
-      String expected =
-          'String name,DateTime dateOfBirth, {String email,String phoneNumber}';
-      expect(actual, expected);
+      ]).toString().should.be(
+          'String name,DateTime dateOfBirth, {String email,String phoneNumber}');
     });
 
     test('should throw an unique parameter name exception', () {
-      expect(
-          () => Parameters([
-                Parameter.required('name', type: Type.ofString()),
-                Parameter.required('dateOfBirth', type: Type.ofDateTime()),
-                Parameter.named('email', type: Type.ofString()),
-                Parameter.named('email', type: Type.ofString()),
-              ]),
-          throwsA((e) =>
-              e is ArgumentError &&
-              e.message == 'Parameter names must be unique'));
+      Should.throwError<ArgumentError>(() => Parameters([
+            Parameter.required('name', type: Type.ofString()),
+            Parameter.required('dateOfBirth', type: Type.ofDateTime()),
+            Parameter.named('email', type: Type.ofString()),
+            Parameter.named('email', type: Type.ofString()),
+          ])).message.toString().should.be('Parameter names must be unique');
     });
 
     test('should throw an only Parameter.optional or Parameter.named exception',
         () {
-      expect(
-          () => Parameters([
+      Should.throwError<ArgumentError>(() => Parameters([
                 Parameter.required('name', type: Type.ofString()),
                 Parameter.required('dateOfBirth', type: Type.ofDateTime()),
                 Parameter.optional('email', type: Type.ofString()),
                 Parameter.named('phoneNumber', type: Type.ofString()),
-              ]),
-          throwsA((e) =>
-              e is ArgumentError &&
-              e.message ==
-                  'Parameters may not contain both optional parameters and named parameters'));
+              ]))
+          .message
+          .toString()
+          .should
+          .be('Parameters may not contain both optional parameters and named parameters');
     });
   });
 
   group('ConstructorParameter class', () {
     group('ConstructorParameter.required constructor', () {
       test('should result in a named parameter without type', () {
-        String actual =
-            CodeFormatter().unFormatted(ConstructorParameter.required('name'));
-        String expected = 'var name';
-        expect(actual, expected);
+        ConstructorParameter.required('name').toString().should.be('var name');
       });
 
       test('should result in a named parameter without type with this', () {
-        String actual = CodeFormatter()
-            .unFormatted(ConstructorParameter.required('name', this$: true));
-        String expected = 'this.name';
-        expect(actual, expected);
+        ConstructorParameter.required('name', this$: true)
+            .toString()
+            .should
+            .be('this.name');
       });
 
       test('should result in a named parameter with String type', () {
-        String actual = CodeFormatter().unFormatted(
-            ConstructorParameter.required('name', type: Type.ofString()));
-        String expected = 'String name';
-        expect(actual, expected);
+        ConstructorParameter.required('name', type: Type.ofString())
+            .toString()
+            .should
+            .be('String name');
       });
 
       test('should result in a named parameter with this even given a type ',
           () {
-        String actual = CodeFormatter().unFormatted(
-            ConstructorParameter.required('name',
-                type: Type.ofString(), this$: true));
-        String expected = 'this.name';
-        expect(actual, expected);
+        ConstructorParameter.required('name',
+                type: Type.ofString(), this$: true)
+            .toString()
+            .should
+            .be('this.name');
       });
 
       test('should result in a named parameter with MyClass type', () {
-        String actual = CodeFormatter().unFormatted(
-            ConstructorParameter.required('name',
+        ConstructorParameter.required('name',
                 type: Type('MyClass',
-                    libraryUri: 'package:dart_code/my_class.dart')));
-        String expected = 'i1.MyClass name';
-        expect(actual, expected);
+                    libraryUri: 'package:dart_code/my_class.dart'))
+            .toString()
+            .should
+            .be('i1.MyClass name');
       });
     });
 
     group('ConstructorParameter.optional constructor', () {
       test('should result in a optional parameter without type', () {
-        String actual =
-            CodeFormatter().unFormatted(ConstructorParameter.optional('name'));
-        String expected = 'var name';
-        expect(actual, expected);
+        ConstructorParameter.optional('name').toString().should.be('var name');
       });
 
       test('should result in a optional parameter with this', () {
-        String actual = CodeFormatter()
-            .unFormatted(ConstructorParameter.optional('name', this$: true));
-        String expected = 'this.name';
-        expect(actual, expected);
+        ConstructorParameter.optional('name', this$: true)
+            .toString()
+            .should
+            .be('this.name');
       });
 
       test('should result in a optional parameter with String type', () {
-        String actual = CodeFormatter().unFormatted(
-            ConstructorParameter.optional('name', type: Type.ofString()));
-        String expected = 'String name';
-        expect(actual, expected);
+        ConstructorParameter.optional('name', type: Type.ofString())
+            .toString()
+            .should
+            .be('String name');
       });
 
       test(
           'should result in a optional parameter with this even with given type',
           () {
-        String actual = CodeFormatter().unFormatted(
-            ConstructorParameter.optional('name',
-                type: Type.ofString(), this$: true));
-        String expected = 'this.name';
-        expect(actual, expected);
+        ConstructorParameter.optional('name',
+                type: Type.ofString(), this$: true)
+            .toString()
+            .should
+            .be('this.name');
       });
 
       test('should result in a optional parameter with MyClass type', () {
-        String actual = CodeFormatter().unFormatted(
-            ConstructorParameter.optional('name',
+        ConstructorParameter.optional('name',
                 type: Type('MyClass',
-                    libraryUri: 'package:dart_code/my_class.dart')));
-        String expected = 'i1.MyClass name';
-        expect(actual, expected);
+                    libraryUri: 'package:dart_code/my_class.dart'))
+            .toString()
+            .should
+            .be('i1.MyClass name');
       });
 
       test(
           'should result in a optional parameter with String type and default value "Hello World"',
           () {
-        String actual = CodeFormatter().unFormatted(
-            ConstructorParameter.optional('name',
+        ConstructorParameter.optional('name',
                 type: Type.ofString(),
-                defaultValue: Expression.ofString('Hello World')));
-        String expected = "String name = 'Hello World'";
-        expect(actual, expected);
-        expect(actual, expected);
+                defaultValue: Expression.ofString('Hello World'))
+            .toString()
+            .should
+            .be("String name = 'Hello World'");
       });
 
       test(
           'should result in a optional parameter with this type (even with given type) and default value "Hello World"',
           () {
-        String actual = CodeFormatter().unFormatted(
-            ConstructorParameter.optional('name',
+        ConstructorParameter.optional('name',
                 type: Type.ofString(),
                 this$: true,
-                defaultValue: Expression.ofString('Hello World')));
-        String expected = "this.name = 'Hello World'";
-        expect(actual, expected);
+                defaultValue: Expression.ofString('Hello World'))
+            .toString()
+            .should
+            .be("this.name = 'Hello World'");
       });
     });
 
     group('ConstructorParameter.named constructor', () {
       test('should result in a named parameter without type', () {
-        String actual =
-            CodeFormatter().unFormatted(ConstructorParameter.named('name'));
-        String expected = 'var name';
-        expect(actual, expected);
+        ConstructorParameter.named('name').toString().should.be('var name');
       });
 
       test('should result in a named parameter this', () {
-        String actual = CodeFormatter()
-            .unFormatted(ConstructorParameter.named('name', this$: true));
-        String expected = 'this.name';
-        expect(actual, expected);
+        ConstructorParameter.named('name', this$: true)
+            .toString()
+            .should
+            .be('this.name');
       });
 
       test('should result in a named parameter with String type', () {
-        String actual = CodeFormatter().unFormatted(
-            ConstructorParameter.named('name', type: Type.ofString()));
-        String expected = 'String name';
-        expect(actual, expected);
+        ConstructorParameter.named('name', type: Type.ofString())
+            .toString()
+            .should
+            .be('String name');
       });
 
       test(
           'should result in a named parameter with this even with a given type',
           () {
-        String actual = CodeFormatter().unFormatted(ConstructorParameter.named(
-            'name',
-            type: Type.ofString(),
-            this$: true));
-        String expected = 'this.name';
-        expect(actual, expected);
+        ConstructorParameter.named('name', type: Type.ofString(), this$: true)
+            .toString()
+            .should
+            .be('this.name');
       });
 
       test('should result in a named parameter with MyClass type', () {
-        String actual = CodeFormatter().unFormatted(ConstructorParameter.named(
-            'name',
-            type: Type('MyClass',
-                libraryUri: 'package:dart_code/my_class.dart')));
-        String expected = 'i1.MyClass name';
-        expect(actual, expected);
+        ConstructorParameter.named('name',
+                type: Type('MyClass',
+                    libraryUri: 'package:dart_code/my_class.dart'))
+            .toString()
+            .should
+            .be('i1.MyClass name');
       });
 
       test(
           'should result in a named parameter with String type and default value "Hello World"',
           () {
-        String actual = CodeFormatter().unFormatted(ConstructorParameter.named(
-            'name',
-            type: Type.ofString(),
-            defaultValue: Expression.ofString('Hello World')));
-        String expected = "String name = 'Hello World'";
-        expect(actual, expected);
-        expect(actual, expected);
+        ConstructorParameter.named('name',
+                type: Type.ofString(),
+                defaultValue: Expression.ofString('Hello World'))
+            .toString()
+            .should
+            .be("String name = 'Hello World'");
       });
 
       test(
           'should result in a named parameter with this (even with a given type) and default value "Hello World"',
           () {
-        String actual = CodeFormatter().unFormatted(ConstructorParameter.named(
-            'name',
-            type: Type.ofString(),
-            this$: true,
-            defaultValue: Expression.ofString('Hello World')));
-        String expected = "this.name = 'Hello World'";
-        expect(actual, expected);
+        ConstructorParameter.named('name',
+                type: Type.ofString(),
+                this$: true,
+                defaultValue: Expression.ofString('Hello World'))
+            .toString()
+            .should
+            .be("this.name = 'Hello World'");
       });
 
       test(
           'should result in a required named parameter with this (even with a given type) and default value "Hello World"',
           () {
-        String actual = CodeFormatter().unFormatted(ConstructorParameter.named(
-            'name',
-            type: Type.ofString(),
-            this$: true,
-            defaultValue: Expression.ofString('Hello World'),
-            required: true));
-        String expected = "@required this.name = 'Hello World'";
-        expect(actual, expected);
+        ConstructorParameter.named('name',
+                type: Type.ofString(),
+                this$: true,
+                defaultValue: Expression.ofString('Hello World'),
+                required: true)
+            .toString()
+            .should
+            .be("@required this.name = 'Hello World'");
       });
     });
-  });
+    group('ConstructorParameters class', () {
+      test('should result in no constructor parameters', () {
+        ConstructorParameters.empty().toString().should.be('');
+      });
 
-  group('ConstructorParameters class', () {
-    test('should result in no constructor parameters', () {
-      String actual =
-          CodeFormatter().unFormatted(ConstructorParameters.empty());
-      String expected = '';
-      expect(actual, expected);
-    });
+      test('should result in no constructor parameters', () {
+        ConstructorParameters([]).toString().should.be('');
+      });
 
-    test('should result in no constructor parameters', () {
-      String actual = CodeFormatter().unFormatted(ConstructorParameters([]));
-      String expected = '';
-      expect(actual, expected);
-    });
+      test('should result in a single required constructor parameter', () {
+        ConstructorParameters([ConstructorParameter.required('required')])
+            .toString()
+            .should
+            .be('var required');
+      });
 
-    test('should result in a single required constructor parameter', () {
-      String actual = CodeFormatter().unFormatted(
-          ConstructorParameters([ConstructorParameter.required('required')]));
-      String expected = 'var required';
-      expect(actual, expected);
-    });
+      test('should result in a double required constructor parameter', () {
+        ConstructorParameters([
+          ConstructorParameter.required('name', type: Type.ofString()),
+          ConstructorParameter.required('age', type: Type.ofInt())
+        ]).toString().should.be('String name,int age');
+      });
 
-    test('should result in a double required constructor parameter', () {
-      String actual = CodeFormatter().unFormatted(ConstructorParameters([
-        ConstructorParameter.required('name', type: Type.ofString()),
-        ConstructorParameter.required('age', type: Type.ofInt())
-      ]));
-      String expected = 'String name,int age';
-      expect(actual, expected);
-    });
+      test(
+          'should result in a double required constructor parameter with double optional constructor parameters',
+          () {
+        ConstructorParameters([
+          ConstructorParameter.required('name', type: Type.ofString()),
+          ConstructorParameter.required('dateOfBirth', type: Type.ofDateTime()),
+          ConstructorParameter.optional('email', type: Type.ofString()),
+          ConstructorParameter.optional('phoneNumber', type: Type.ofString()),
+        ]).toString().should.be(
+            'String name,DateTime dateOfBirth, [String email,String phoneNumber]');
+      });
 
-    test(
-        'should result in a double required constructor parameter with double optional constructor parameters',
-        () {
-      String actual = CodeFormatter().unFormatted(ConstructorParameters([
-        ConstructorParameter.required('name', type: Type.ofString()),
-        ConstructorParameter.required('dateOfBirth', type: Type.ofDateTime()),
-        ConstructorParameter.optional('email', type: Type.ofString()),
-        ConstructorParameter.optional('phoneNumber', type: Type.ofString()),
-      ]));
-      String expected =
-          'String name,DateTime dateOfBirth, [String email,String phoneNumber]';
-      expect(actual, expected);
-    });
+      test(
+          'should result in a double required constructor parameter with double Named constructor parameters',
+          () {
+        ConstructorParameters([
+          ConstructorParameter.required('name', type: Type.ofString()),
+          ConstructorParameter.required('dateOfBirth', type: Type.ofDateTime()),
+          ConstructorParameter.named('email', type: Type.ofString()),
+          ConstructorParameter.named('phoneNumber', type: Type.ofString()),
+        ]).toString().should.be(
+            'String name,DateTime dateOfBirth, {String email,String phoneNumber}');
+      });
 
-    test(
-        'should result in a double required constructor parameter with double Named constructor parameters',
-        () {
-      String actual = CodeFormatter().unFormatted(ConstructorParameters([
-        ConstructorParameter.required('name', type: Type.ofString()),
-        ConstructorParameter.required('dateOfBirth', type: Type.ofDateTime()),
-        ConstructorParameter.named('email', type: Type.ofString()),
-        ConstructorParameter.named('phoneNumber', type: Type.ofString()),
-      ]));
-      String expected =
-          'String name,DateTime dateOfBirth, {String email,String phoneNumber}';
-      expect(actual, expected);
-    });
+      test('should throw an unique parameter name exception', () {
+        Should.throwError<ArgumentError>(() => ConstructorParameters([
+              ConstructorParameter.required('name', type: Type.ofString()),
+              ConstructorParameter.required('dateOfBirth',
+                  type: Type.ofDateTime()),
+              ConstructorParameter.named('email', type: Type.ofString()),
+              ConstructorParameter.named('email', type: Type.ofString()),
+            ])).message.toString().should.be('Parameter names must be unique');
+      });
 
-    test('should throw an unique parameter name exception', () {
-      expect(
-          () => ConstructorParameters([
-                ConstructorParameter.required('name', type: Type.ofString()),
-                ConstructorParameter.required('dateOfBirth',
-                    type: Type.ofDateTime()),
-                ConstructorParameter.named('email', type: Type.ofString()),
-                ConstructorParameter.named('email', type: Type.ofString()),
-              ]),
-          throwsA((e) =>
-              e is ArgumentError &&
-              e.message == 'Parameter names must be unique'));
-    });
-
-    test(
-        'should throw an only Optional constructor Parameter or Named constructor Parameter exception',
-        () {
-      expect(
-          () => ConstructorParameters([
-                ConstructorParameter.required('name', type: Type.ofString()),
-                ConstructorParameter.required('dateOfBirth',
-                    type: Type.ofDateTime()),
-                ConstructorParameter.optional('email', type: Type.ofString()),
-                ConstructorParameter.named('phoneNumber',
-                    type: Type.ofString()),
-              ]),
-          throwsA((e) =>
-              e is ArgumentError &&
-              e.message ==
-                  'Parameters may not contain both optional parameters and named parameters'));
-    });
-  });
-
-  group('ParameterValue class', () {
-    group('ParameterValue constructor', () {
-      test('should result in a String parameter value', () {
-        String actual = CodeFormatter()
-            .unFormatted(ParameterValue(Expression.ofString('Hello World')));
-        String expected = "'Hello World'";
-        expect(actual, expected);
+      test(
+          'should throw an only Optional constructor Parameter or Named constructor Parameter exception',
+          () {
+        Should.throwError<ArgumentError>(() => ConstructorParameters([
+                  ConstructorParameter.required('name', type: Type.ofString()),
+                  ConstructorParameter.required('dateOfBirth',
+                      type: Type.ofDateTime()),
+                  ConstructorParameter.optional('email', type: Type.ofString()),
+                  ConstructorParameter.named('phoneNumber',
+                      type: Type.ofString()),
+                ]))
+            .message
+            .toString()
+            .should
+            .be('Parameters may not contain both optional parameters and named parameters');
       });
     });
 
-    group('ParameterValue.named constructor', () {
-      test('should result in a named String parameter value', () {
-        String actual = CodeFormatter().unFormatted(ParameterValue.named(
-            'greeting', Expression.ofString('Hello World')));
-        String expected = "greeting: 'Hello World'";
-        expect(actual, expected);
+    group('ParameterValue class', () {
+      group('ParameterValue constructor', () {
+        test('should result in a String parameter value', () {
+          ParameterValue(Expression.ofString('Hello World'))
+              .toString()
+              .should
+              .be("'Hello World'");
+        });
       });
 
-      test('should throw invalid name exception', () {
-        expect(
-            () => ParameterValue.named(
-                'Greeting', Expression.ofString('Hello World')),
-            throwsA((e) =>
-                e is ArgumentError &&
-                e.message == 'Must start with an lower case letter'));
+      group('ParameterValue.named constructor', () {
+        test('should result in a named String parameter value', () {
+          ParameterValue.named('greeting', Expression.ofString('Hello World'))
+              .toString()
+              .should
+              .be("greeting: 'Hello World'");
+        });
+
+        test('should throw invalid name exception', () {
+          Should.throwError<ArgumentError>(() => ParameterValue.named(
+                  'Greeting', Expression.ofString('Hello World')))
+              .message
+              .toString()
+              .should
+              .be('Must start with an lower case letter');
+        });
       });
     });
-  });
 
-  group('ParameterValues class', () {
-    test('should result in no parameter values', () {
-      String actual = ParameterValues.none().toString();
-      String expected = '\n';
-      expect(actual, expected);
-    });
+    group('ParameterValues class', () {
+      test('should result in no parameter values', () {
+        ParameterValues.none().toString().should.be('');
+      });
 
-    test('should result in no parameter values', () {
-      String actual = ParameterValues([]).toString();
-      String expected = '\n';
-      expect(actual, expected);
-    });
+      test('should result in no parameter values', () {
+        ParameterValues([]).toString().should.be('');
+      });
 
-    test('should result in a single parameter value', () {
-      String actual = CodeFormatter().unFormatted(ParameterValues(
-          [ParameterValue(Expression.ofString('Hello World'))]));
-      String expected = "'Hello World'";
-      expect(actual, expected);
-    });
+      test('should result in a single parameter value', () {
+        ParameterValues([ParameterValue(Expression.ofString('Hello World'))])
+            .toString()
+            .should
+            .be("'Hello World'");
+      });
 
-    test('should result in a double parameter values', () {
-      String actual = CodeFormatter().unFormatted(ParameterValues([
-        ParameterValue(Expression.ofString("James")),
-        ParameterValue(Expression.ofInt(30)),
-      ]));
-      String expected = '\'James\',30';
-      expect(actual, expected);
-    });
+      test('should result in a double parameter values', () {
+        ParameterValues([
+          ParameterValue(Expression.ofString("James")),
+          ParameterValue(Expression.ofInt(30)),
+        ]).toString().should.be("'James',30");
+      });
 
-    test('should result in a parameter value and named parameter', () {
-      String actual = CodeFormatter().unFormatted(ParameterValues([
-        ParameterValue.named('name', Expression.ofString("James")),
-        ParameterValue(Expression.ofInt(30)),
-      ]));
-      String expected = '30,name: \'James\'';
-      expect(actual, expected);
-    });
+      test('should result in a parameter value and named parameter', () {
+        ParameterValues([
+          ParameterValue.named('name', Expression.ofString("James")),
+          ParameterValue(Expression.ofInt(30)),
+        ]).toString().should.be('30,name: \'James\'');
+      });
 
-    test('should result in a double named parameter values', () {
-      String actual = CodeFormatter().unFormatted(ParameterValues([
-        ParameterValue.named('name', Expression.ofString("James")),
-        ParameterValue.named('age', Expression.ofInt(30)),
-      ]));
-      String expected = 'name: \'James\',age: 30';
-      expect(actual, expected);
+      test('should result in a double named parameter values', () {
+        ParameterValues([
+          ParameterValue.named('name', Expression.ofString("James")),
+          ParameterValue.named('age', Expression.ofInt(30)),
+        ]).toString().should.be('name: \'James\',age: 30');
+      });
     });
   });
 }

@@ -1,82 +1,79 @@
+// Copyright (c) 2025 Nils ten Hoeve, licensed under the 3-Clause BSD License
 import 'package:dart_code/dart_code.dart';
+import 'package:shouldly/shouldly.dart';
 import 'package:test/test.dart';
 
 main() {
   group('Class class', () {
     test("Should return: class", () {
-      String actual = Class('Person').toString();
-      String expected = 'class Person {}\n';
-      expect(actual, expected);
+      Class('Person').toString().should.be('class Person {}');
     });
 
     test("Should return: class with DocComment and annotation", () {
-      String actual = Class('Person', docComments: [
+      Class('Person', docComments: [
         DocComment.fromString(
             'A Person that can be converted to and from Json format')
       ], annotations: [
         Annotation(Type('JsonSerializable',
             libraryUri: 'package:json_annotation/json_annotation.dart'))
-      ]).toString();
-      String expected =
-          '/// A Person that can be converted to and from Json format\n'
-          '@i1.JsonSerializable()\n'
-          'class Person {}\n';
-      expect(actual, expected);
+      ])
+          .toFormattedString()
+          .should
+          .be('/// A Person that can be converted to and from Json format\n'
+              '@i1.JsonSerializable()\n'
+              'class Person {}\n');
     });
 
     test("Should return: abstract class", () {
-      String actual = Class('Person', abstract: true).toString();
-      String expected = 'abstract class Person {}\n';
-      expect(actual, expected);
+      Class('Person', abstract: true)
+          .toString()
+          .should
+          .be('abstract class Person {}');
     });
 
     test("Should return: class with super class", () {
-      String actual = Class('Person',
+      Class('Person',
               superClass:
                   Type('Contact', libraryUri: 'package:my_lib/contact.dart'))
-          .toString();
-      String expected = 'class Person extends i1.Contact {}\n';
-      expect(actual, expected);
+          .toString()
+          .should
+          .be('class Person extends i1.Contact {}');
     });
 
     test("Should return: class with implements", () {
-      String actual = Class('Person', implements: [
+      Class('Person', implements: [
         Type('Musician', libraryUri: 'package:my_lib/musician.dart'),
         Type('Technician', libraryUri: 'package:my_lib/technician.dart')
-      ]).toString();
-      String expected =
-          'class Person implements i1.Musician, i2.Technician {}\n';
-      expect(actual, expected);
+      ])
+          .toString()
+          .should
+          .be('class Person implements i1.Musician,i2.Technician {}');
     });
 
     test("Should return: class with mixins", () {
-      String actual = Class('Person', mixins: [
+      Class('Person', mixins: [
         Type('Musician', libraryUri: 'package:my_lib/musician.dart'),
         Type('Technician', libraryUri: 'package:my_lib/technician.dart')
-      ]).toString();
-      String expected = 'class Person with i1.Musician, i2.Technician {}\n';
-      expect(actual, expected);
+      ]).toString().should.be('class Person with i1.Musician,i2.Technician {}');
     });
 
     test("Should return: class with fields", () {
-      String actual = Class('Person', fields: [
+      Class('Person', fields: [
         Field('name', modifier: Modifier.final$, type: Type.ofString()),
         Field('human',
             static: true,
             modifier: Modifier.const$,
             value: Expression.ofBool(true)),
         Field('gender', value: Expression.ofEnum(Type('Gender'), "male")),
-      ]).toString();
-      String expected = 'class Person {\n'
+      ]).toFormattedString().should.be('class Person {\n'
           '  final String name;\n'
           '  static const human = true;\n'
           '  var gender = Gender.male;\n'
-          '}\n';
-      expect(actual, expected);
+          '}\n');
     });
 
     test("Should return: class with constructors", () {
-      String actual = Class('Point', constructors: [
+      Class('Point', constructors: [
         Constructor(Type('Point'),
             parameters: ConstructorParameters([
               ConstructorParameter.required('x', this$: true),
@@ -88,61 +85,52 @@ main() {
               FieldInitializer('x', Expression.ofInt(0)),
               FieldInitializer('y', Expression.ofInt(0)),
             ]))
-      ]).toString();
-      String expected = 'class Point {\n'
+      ]).toFormattedString().should.be('class Point {\n'
           '  Point(this.x, this.y);\n'
           '  Point.origin() : x = 0, y = 0;\n'
-          '}\n';
-      expect(actual, expected);
+          '}\n');
     });
 
     test("Should return: class with methods", () {
-      String actual = Class('Person', methods: [
+      Class('Person', methods: [
         Method('greetingMessage',
             Statement.return$(Expression.ofString('Hello \$name.')),
             returnType: Type.ofString())
-      ]).toString();
-      String expected = 'class Person {\n'
+      ]).toFormattedString().should.be('class Person {\n'
           '  String greetingMessage() {\n'
           '    return \'Hello \$name.\';\n'
           '  }\n'
-          '}\n';
-      expect(actual, expected);
+          '}\n');
     });
 
     test("Should return: class with getter method", () {
-      String actual = Class('Person', methods: [
+      Class('Person', methods: [
         Method.getter(
           'age',
           Expression.ofThisField('age'),
           returnType: Type.ofInt(),
         )
-      ]).toString();
-      String expected = 'class Person {\n'
+      ]).toFormattedString().should.be('class Person {\n'
           '  int get age => this.age;\n'
-          '}\n';
-      expect(actual, expected);
+          '}\n');
     });
 
     test("Should return: class with getter method", () {
-      String actual = Class('Person', methods: [
+      Class('Person', methods: [
         Method.setter(
           'age',
           Statement.assignVariable('age', Expression.ofVariable('age'),
               this$: true),
           returnType: Type.ofInt(),
         )
-      ]).toString();
-      String expected = 'class Person {\n'
-          '  set age(int age) {\n'
-          '    this.age = age;\n'
-          '  }\n'
-          '}\n';
-      expect(actual, expected);
+      ])
+          .toString()
+          .should
+          .be('class Person {set age(int age) {this.age = age;}}');
     });
 
     test("Should return: a composed class", () {
-      String actual = Class('Person', fields: [
+      Class('Person', fields: [
         Field('givenName', modifier: Modifier.final$, type: Type.ofString()),
         Field('familyName', modifier: Modifier.final$, type: Type.ofString()),
         Field('fullName', modifier: Modifier.final$, type: Type.ofString()),
@@ -202,8 +190,7 @@ main() {
                   ])),
               Statement.return$(Expression.ofVariable('years')),
             ]))
-      ]).toString();
-      String expected = 'class Person {\n'
+      ]).toFormattedString().should.be('class Person {\n'
           '  final String givenName;\n'
           '  final String familyName;\n'
           '  final String fullName;\n'
@@ -224,33 +211,32 @@ main() {
           '    }\n'
           '    return years;\n'
           '  }\n'
-          '}\n';
-      expect(actual, expected);
+          '}\n');
     });
   });
 
   group("Person class", () {
     test('Person.fullName property', () {
       var dateOfBirth = DateTime.utc(1977, 6, 7);
-      String actual = Person('Nils', 'ten Hoeve', dateOfBirth).fullName;
-      String expected = 'Nils ten Hoeve';
-      expect(actual, expected);
+      Person('Nils', 'ten Hoeve', dateOfBirth)
+          .fullName
+          .should
+          .be('Nils ten Hoeve');
     });
 
     test('Person.ageInYears property', () {
       var ageInYears = 30;
       var dateOfBirth =
           DateTime.now().subtract(Duration(days: 366 * ageInYears));
-      int actual = Person('Nils', 'ten Hoeve', dateOfBirth).ageInYears;
-      expect(actual, ageInYears);
+      Person('Nils', 'ten Hoeve', dateOfBirth).ageInYears.should.be(ageInYears);
     });
 
     test('Person.greetingMessage() method', () {
       var dateOfBirth = DateTime.utc(1977, 6, 7);
-      String actual =
-          Person('Nils', 'ten Hoeve', dateOfBirth).greetingMessage();
-      String expected = "Hello Nils ten Hoeve.";
-      expect(actual, expected);
+      Person('Nils', 'ten Hoeve', dateOfBirth)
+          .greetingMessage()
+          .should
+          .be("Hello Nils ten Hoeve.");
     });
   });
 }
@@ -268,7 +254,7 @@ class Person {
     return 'Hello $fullName.';
   }
 
-  get ageInYears {
+  int get ageInYears {
     DateTime now = DateTime.now();
     int years = now.year - dateOfBirth.year;
     int months = now.month - dateOfBirth.month;

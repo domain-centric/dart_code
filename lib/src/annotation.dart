@@ -1,3 +1,4 @@
+// Copyright (c) 2025 Nils ten Hoeve, licensed under the 3-Clause BSD License
 import 'package:dart_code/dart_code.dart';
 
 /// Represents an [Annotation]. See [https://dart.dev/guides/language/language-tour#metadata]
@@ -28,7 +29,7 @@ class Annotation extends CodeModel {
   Annotation.required() : this._dartType('required');
 
   @override
-  List<CodeNode> codeNodes(Context context) => [
+  List<CodeNode> codeNodes(Imports imports) => [
         Code('@'),
         type,
         if (customType) Code('('),

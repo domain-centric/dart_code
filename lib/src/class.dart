@@ -1,11 +1,5 @@
-import 'annotation.dart';
-import 'basic.dart';
-import 'comment.dart';
-import 'constructor.dart';
-import 'field.dart';
-import 'method.dart';
-import 'model.dart';
-import 'type.dart';
+// Copyright (c) 2025 Nils ten Hoeve, licensed under the 3-Clause BSD License
+import 'package:dart_code/dart_code.dart';
 
 /// Represents a [Class]
 /// See [https://dart.dev/guides/language/language-tour#classes]
@@ -35,7 +29,7 @@ class Class extends CodeModel {
   }) : this.name = IdentifierStartingWithUpperCase(name);
 
   @override
-  List<CodeNode> codeNodes(Context context) => [
+  List<CodeNode> codeNodes(Imports imports) => [
         if (docComments != null) ...docComments!,
         if (annotations != null) ...annotations!,
         if (abstract != null && abstract!) KeyWord.abstract$,

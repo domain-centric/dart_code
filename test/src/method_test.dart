@@ -1,43 +1,39 @@
-/*
- * Copyright (c) 2022. By Nils ten Hoeve. See LICENSE file in project.
- */
-
+// Copyright (c) 2025 Nils ten Hoeve, licensed under the 3-Clause BSD License
 import 'package:dart_code/dart_code.dart';
+import 'package:shouldly/shouldly.dart';
 import 'package:test/test.dart';
 
 main() {
   group('Method() constructor', () {
     test("Should return: asynch method", () {
-      String actual = Method(
+      Method(
         'randomNumber',
         Statement.return$(
             Expression.callMethodOrFunction("randomIntGenerator")),
         asynchrony: Asynchrony.async,
         returnType: Type.ofFuture(Type.ofInt()),
-      ).toString();
-      String expected = 'Future<int> randomNumber() async {\n'
+      ).toFormattedString().should.be('Future<int> randomNumber() async {\n'
           '  return randomIntGenerator();\n'
-          '}\n';
-      expect(actual, expected);
+          '}\n');
     });
 
     test('Should return: code of a method that returns a greeting string', () {
-      String actual = Method('greetingMessage',
+      Method('greetingMessage',
               Statement.return$(Expression.ofString('Hello \$name.')),
               parameters: Parameters(
                   [Parameter.required('name', type: Type.ofString())]),
               returnType: Type.ofString())
-          .toString();
-      String expected = 'String greetingMessage(String name) {\n'
-          '  return \'Hello \$name.\';\n'
-          '}\n';
-      expect(actual, expected);
+          .toFormattedString()
+          .should
+          .be('String greetingMessage(String name) {\n'
+              '  return \'Hello \$name.\';\n'
+              '}\n');
     });
 
     test(
         'Should return: code of a method that returns a greeting string, with DocComments and Annotations',
         () {
-      String actual = Method('greetingMessage',
+      Method('greetingMessage',
           Statement.return$(Expression.ofString('Hello \$name.')),
           parameters:
               Parameters([Parameter.required('name', type: Type.ofString())]),
@@ -57,14 +53,13 @@ main() {
                   ParameterValue(
                       Expression.ofEnum(Type('ExecutionModes'), 'directly'))
                 ]))
-          ]).toString();
-      String expected = '/// This method returns a greeting string\n'
+          ]).toFormattedString().should.be(
+          '/// This method returns a greeting string\n'
           '@Visible(forRole: \'admin\')\n'
           '@ExecutionMode(ExecutionModes.directly)\n'
           'String greetingMessage(String name) {\n'
           '  return \'Hello \$name.\';\n'
-          '}\n';
-      expect(actual, expected);
+          '}\n');
     });
   });
 
@@ -72,22 +67,20 @@ main() {
     test(
         'Should return: code of a static method that returns a greeting string',
         () {
-      String actual = CodeFormatter().unFormatted(Method.static(
-          'greetingMessage',
-          Statement.return$(Expression.ofString('Hello \$name.')),
-          parameters:
-              Parameters([Parameter.required('name', type: Type.ofString())]),
-          returnType: Type.ofString()));
-      String expected =
-          'static String greetingMessage(String name) {return \'Hello \$name.\';}';
-      expect(actual, expected);
+      Method.static('greetingMessage',
+              Statement.return$(Expression.ofString('Hello \$name.')),
+              parameters: Parameters(
+                  [Parameter.required('name', type: Type.ofString())]),
+              returnType: Type.ofString())
+          .toString()
+          .should
+          .be('static String greetingMessage(String name) {return \'Hello \$name.\';}');
     });
 
     test(
         'Should return: code of a static method that returns a greeting string, with DocComments and Annotations',
         () {
-      String actual = CodeFormatter().unFormatted(Method.static(
-          'greetingMessage',
+      Method.static('greetingMessage',
           Statement.return$(Expression.ofString('Hello \$name.')),
           parameters:
               Parameters([Parameter.required('name', type: Type.ofString())]),
@@ -107,12 +100,10 @@ main() {
                   ParameterValue(
                       Expression.ofEnum(Type('ExecutionModes'), 'directly'))
                 ]))
-          ]));
-      String expected = '/// This method returns a greeting string\n'
+          ]).toString().should.be('/// This method returns a greeting string\n'
           '@Visible(forRole: \'admin\')\n'
           '@ExecutionMode(ExecutionModes.directly)\n'
-          'static String greetingMessage(String name) {return \'Hello \$name.\';}';
-      expect(actual, expected);
+          'static String greetingMessage(String name) {return \'Hello \$name.\';}');
     });
   });
 
@@ -120,20 +111,19 @@ main() {
     test(
         'Should return: code of a abstract method that returns a greeting string',
         () {
-      String actual = CodeFormatter().unFormatted(Method.abstract(
-          'greetingMessage',
-          parameters:
-              Parameters([Parameter.required('name', type: Type.ofString())]),
-          returnType: Type.ofString()));
-      String expected = 'String greetingMessage(String name);';
-      expect(actual, expected);
+      Method.abstract('greetingMessage',
+              parameters: Parameters(
+                  [Parameter.required('name', type: Type.ofString())]),
+              returnType: Type.ofString())
+          .toString()
+          .should
+          .be('String greetingMessage(String name);');
     });
 
     test(
         'Should return: code of a abstract method that returns a greeting string, with DocComments and Annotations',
         () {
-      String actual = CodeFormatter().unFormatted(Method.abstract(
-          'greetingMessage',
+      Method.abstract('greetingMessage',
           parameters:
               Parameters([Parameter.required('name', type: Type.ofString())]),
           returnType: Type.ofString(),
@@ -152,50 +142,40 @@ main() {
                   ParameterValue(
                       Expression.ofEnum(Type('ExecutionModes'), 'directly'))
                 ]))
-          ]));
-      String expected = '/// This method returns a greeting string\n'
+          ]).toString().should.be('/// This method returns a greeting string\n'
           '@Visible(forRole: \'admin\')\n'
           '@ExecutionMode(ExecutionModes.directly)\n'
-          'String greetingMessage(String name);';
-      expect(actual, expected);
+          'String greetingMessage(String name);');
     });
   });
 
   group('Method.getter() constructor', () {
-    test("Should return: 'int get age => this.age;\n'", () {
-      String actual = Method.getter(
+    test("Should return: 'int get age  => this.age;'", () {
+      Method.getter(
         'age',
         Expression.ofThisField('age'),
         returnType: Type.ofInt(),
-      ).toString();
-      String expected = 'int get age => this.age;\n';
-      expect(actual, expected);
+      ).toString().should.be('int get age  => this.age;');
     });
 
-    test("Should return: 'final int get age => this.age;\n'", () {
-      String actual = CodeFormatter().unFormatted(Method.getter(
+    test("Should return: 'final int get age  => this.age;'", () {
+      Method.getter(
         'age',
         Expression.ofThisField('age'),
         returnType: Type.ofInt(),
         final$: true,
-      ));
-      String expected = 'final int get age  => this.age;';
-      expect(actual, expected);
+      ).toString().should.be('final int get age  => this.age;');
     });
   });
 
   group('Method.setter() constructor', () {
     test("Should return: setter method", () {
-      String actual = Method.setter(
+      Method.setter(
         'age',
         Statement.assignVariable('age', Expression.ofVariable('age'),
             this$: true),
         returnType: Type.ofInt(),
-      ).toString();
-      String expected = 'set age(int age) {\n'
-          '  this.age = age;\n'
-          '}\n';
-      expect(actual, expected);
+      ).toString().should.be('set age(int age) {this.age = age;}');
     });
   });
 }

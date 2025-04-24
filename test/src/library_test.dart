@@ -1,37 +1,29 @@
-/*
- * Copyright (c) 2022. By Nils ten Hoeve. See LICENSE file in project.
- */
-
+// Copyright (c) 2025 Nils ten Hoeve, licensed under the 3-Clause BSD License
 import 'package:dart_code/dart_code.dart';
+import 'package:shouldly/shouldly.dart';
 import 'package:test/test.dart';
 
 main() {
   group('Library class', () {
     test('constructor with name parameter', () {
-      String actual = Library(name: 'contacts').toString();
-      String expected = 'library contacts;\n';
-      expect(actual, expected);
+      Library(name: 'contacts').toString().should.be('library contacts;');
     });
 
     test('constructor with docComments parameter', () {
-      String actual = Library(docComments: [
+      Library(docComments: [
         DocComment.fromString('This is a library with a doc comment.')
-      ]).toString();
-      String expected = '/// This is a library with a doc comment.\n';
-      expect(actual, expected);
+      ]).toString().should.be('/// This is a library with a doc comment.\n');
     });
 
     test('constructor with annotations parameter', () {
-      String actual = CodeFormatter().unFormatted(Library(annotations: [
+      Library(annotations: [
         Annotation(Type('Foo'),
             ParameterValues([ParameterValue(Expression.ofInt(42))]))
-      ]));
-      String expected = '@Foo(42)\n';
-      expect(actual, expected);
+      ]).toString().should.be('@Foo(42)\n');
     });
 
     test('constructor with functions parameter', () {
-      String actual = Library(functions: [
+      Library(functions: [
         DartFunction.withName('returnTrue', Expression.ofBool(true),
             returnType: Type.ofBool(),
             docComments: [
@@ -51,16 +43,14 @@ main() {
                         Expression.ofEnum(Type('ExecutionModes'), 'directly'))
                   ]))
             ])
-      ]).toString();
-      String expected = '/// This function returns: true\n'
+      ]).toString().should.be('/// This function returns: true\n'
           '@Visible(forRole: \'admin\')\n'
           '@ExecutionMode(ExecutionModes.directly)\n'
-          'bool returnTrue() => true;\n';
-      expect(actual, expected);
+          ' bool returnTrue()  => true;');
     });
 
     test('constructor with classes parameter with imports', () {
-      String actual = Library(classes: [
+      Library(classes: [
         Class(
           'Employee',
           superClass:
@@ -70,16 +60,15 @@ main() {
           ],
           abstract: true,
         )
-      ]).toString();
-      String expected = 'import \'package:my_package/person.dart\' as i1;\n'
+      ]).toFormattedString().should.be(
+          'import \'package:my_package/person.dart\' as i1;\n'
           'import \'package:my_package/skills.dart\' as i2;\n'
           '\n'
-          'abstract class Employee extends i1.Person implements i2.Skills {}\n';
-      expect(actual, expected);
+          'abstract class Employee extends i1.Person implements i2.Skills {}\n');
     });
 
     test('constructor with classes parameter', () {
-      String actual = Library(classes: [
+      Library(classes: [
         Class('Person', fields: [
           Field('givenName', modifier: Modifier.final$, type: Type.ofString()),
           Field('familyName', modifier: Modifier.final$, type: Type.ofString()),
@@ -141,8 +130,7 @@ main() {
                 Statement.return$(Expression.ofVariable('years')),
               ]))
         ])
-      ]).toString();
-      String expected = 'class Person {\n'
+      ]).toFormattedString().should.be('class Person {\n'
           '  final String givenName;\n'
           '  final String familyName;\n'
           '  final String fullName;\n'
@@ -163,23 +151,23 @@ main() {
           '    }\n'
           '    return years;\n'
           '  }\n'
-          '}\n';
-      expect(actual, expected);
+          '}\n');
     });
 
     test('constructor with full library', () {
-      String actual = Library(
-          name: 'software_engineer',
-          functions: [CalculateAgeInYearsFunction()],
-          classes: [SoftWareEngineerClass(), PersonClass()]).toString();
-      String expected = "library software_engineer;\n"
+      Library(
+              name: 'software_engineer',
+              functions: [CalculateAgeInYearsFunction()],
+              classes: [SoftWareEngineerClass(), PersonClass()])
+          .toFormattedString()
+          .should
+          .be("library software_engineer;\n"
+                  "\n" +
+              CalculateAgeInYearsFunction().expectedCode +
               "\n" +
-          CalculateAgeInYearsFunction().expectedCode +
-          "\n" +
-          SoftWareEngineerClass().expectedCode +
-          "\n" +
-          PersonClass().expectedCode;
-      expect(actual, expected);
+              SoftWareEngineerClass().expectedCode +
+              "\n" +
+              PersonClass().expectedCode);
     });
   });
 }
@@ -246,7 +234,7 @@ class SoftWareEngineerClass extends Class {
           'SoftWareEngineer',
           methods: [
             Method.abstract(
-              'familiarProgramingLanguages',
+              'familiarProgrammingLanguages',
               returnType: Type.ofList(genericType: Type.ofString()),
               propertyAccessor: PropertyAccessor.getter,
             )
@@ -255,7 +243,7 @@ class SoftWareEngineerClass extends Class {
         );
 
   String expectedCode = 'abstract class SoftWareEngineer {\n'
-      '  List<String> get familiarProgramingLanguages;\n}\n';
+      '  List<String> get familiarProgrammingLanguages;\n}\n';
 }
 
 class PersonClass extends Class {
@@ -268,7 +256,7 @@ class PersonClass extends Class {
           Field('fullName', modifier: Modifier.final$, type: Type.ofString()),
           Field('dateOfBirth',
               modifier: Modifier.final$, type: Type.ofDateTime()),
-          Field('familiarProgramingLanguages',
+          Field('familiarProgrammingLanguages',
               modifier: Modifier.final$,
               type: Type.ofList(genericType: Type.ofString())),
         ], constructors: [
@@ -277,7 +265,7 @@ class PersonClass extends Class {
                 ConstructorParameter.required('givenName', this$: true),
                 ConstructorParameter.required('familyName', this$: true),
                 ConstructorParameter.required('dateOfBirth', this$: true),
-                ConstructorParameter.required('familiarProgramingLanguages',
+                ConstructorParameter.required('familiarProgrammingLanguages',
                     this$: true),
               ]),
               initializers: Initializers(fieldInitializers: [
@@ -300,12 +288,12 @@ class PersonClass extends Class {
       '  final String familyName;\n'
       '  final String fullName;\n'
       '  final DateTime dateOfBirth;\n'
-      '  final List<String> familiarProgramingLanguages;\n'
+      '  final List<String> familiarProgrammingLanguages;\n'
       '  Person(\n'
       '    this.givenName,\n'
       '    this.familyName,\n'
       '    this.dateOfBirth,\n'
-      '    this.familiarProgramingLanguages,\n'
+      '    this.familiarProgrammingLanguages,\n'
       '  ) : fullName = \'\$givenName \$familyName\';\n'
       '  String greetingMessage() {\n'
       '    return \'Hello \$fullName.\';\n'

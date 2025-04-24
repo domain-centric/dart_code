@@ -1,7 +1,7 @@
+// Copyright (c) 2025 Nils ten Hoeve, licensed under the 3-Clause BSD License
 import 'dart:convert';
 
-import 'basic.dart';
-import 'model.dart';
+import 'package:dart_code/dart_code.dart';
 
 /// Represents a [Comment].
 /// See: [https://dart.dev/guides/language/language-tour#comments]
@@ -16,7 +16,7 @@ class Comment extends CodeModel {
       : nodes = _commentsToCodeNodes(comments, commentPrefix);
 
   @override
-  List<CodeNode> codeNodes(Context context) => nodes;
+  List<CodeNode> codeNodes(Imports imports) => nodes;
 }
 
 /// Represents a [DocComment].
@@ -32,7 +32,7 @@ class DocComment extends CodeModel {
       : nodes = _commentsToCodeNodes(comments, docCommentPrefix);
 
   @override
-  List<CodeNode> codeNodes(Context context) => nodes;
+  List<CodeNode> codeNodes(Imports imports) => nodes;
 }
 
 List<CodeNode> _commentsToCodeNodes(List<String> comments, String prefix) {

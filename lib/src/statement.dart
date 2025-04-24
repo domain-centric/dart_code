@@ -1,12 +1,5 @@
-/*
- * Copyright (c) 2022. By Nils ten Hoeve. See LICENSE file in project.
- */
-
-import 'basic.dart';
-import 'expression.dart';
-import 'model.dart';
-import 'parameter.dart';
-import 'type.dart';
+// Copyright (c) 2025 Nils ten Hoeve, licensed under the 3-Clause BSD License
+import 'package:dart_code/dart_code.dart';
 
 /// A [Statement] is a syntactic unit of an imperative programming language that expresses some action to be carried out.
 /// See: [https://dart.dev/guides/language/language-tour#control-flow-statements]
@@ -232,7 +225,7 @@ class Statement extends CodeModel {
         ]);
 
   @override
-  List<CodeNode> codeNodes(Context context) => [
+  List<CodeNode> codeNodes(Imports imports) => [
         ...nodes,
         if (nodes.isNotEmpty && hasEndOfStatement) EndOfStatement(),
       ];
@@ -271,7 +264,7 @@ class Catch extends CodeModel {
         ];
 
   @override
-  List<CodeNode> codeNodes(Context context) => nodes;
+  List<CodeNode> codeNodes(Imports imports) => nodes;
 }
 
 class Statements extends CodeModel {
@@ -280,13 +273,11 @@ class Statements extends CodeModel {
   Statements(this.statements);
 
   @override
-  List<CodeNode> codeNodes(Context context) => statements;
+  List<CodeNode> codeNodes(Imports imports) => statements;
 }
 
 /// ;
-class EndOfStatement extends CodeModel {
+class EndOfStatement extends CodeNode {
   @override
-  List<CodeNode> codeNodes(Context context) => [
-        NoneRepeatingCode(';'),
-      ];
+  String toUnFormattedString(Imports imports) => ';';
 }

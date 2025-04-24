@@ -1,3 +1,4 @@
+// Copyright (c) 2025 Nils ten Hoeve, licensed under the 3-Clause BSD License
 import 'package:dart_code/dart_code.dart';
 
 /// Defines a record type
@@ -9,7 +10,7 @@ class Record extends CodeModel implements BaseType {
   Record(this.fields, {this.nullable = false});
 
   @override
-  List<CodeNode> codeNodes(Context context) {
+  List<CodeNode> codeNodes(Imports imports) {
     var positionalFields = fields.where((e) => e.name == null).toList();
     var namedFields = fields.where((e) => e.name != null).toList();
     return [
@@ -40,7 +41,7 @@ class RecordField extends CodeModel {
       : name = IdentifierStartingWithLowerCase(name);
 
   @override
-  List<CodeNode> codeNodes(Context context) =>
+  List<CodeNode> codeNodes(Imports imports) =>
       name == null ? [type] : [type, Code(' '), name!];
 }
 
@@ -59,6 +60,6 @@ class RecordFieldValue extends CodeModel {
   ) : name = IdentifierStartingWithLowerCase(name);
 
   @override
-  List<CodeNode> codeNodes(Context context) =>
+  List<CodeNode> codeNodes(Imports imports) =>
       name == null ? [value] : [name!, Code(': '), value];
 }

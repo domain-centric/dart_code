@@ -1,3 +1,4 @@
+// Copyright (c) 2025 Nils ten Hoeve, licensed under the 3-Clause BSD License
 import 'package:dart_code/dart_code.dart';
 
 /// Represents a [ConstructorCall]
@@ -10,7 +11,7 @@ class ConstructorCall extends CodeModel {
   ConstructorCall({this.super$ = false, this.name, this.parameterValues});
 
   @override
-  List<CodeNode> codeNodes(Context context) => [
+  List<CodeNode> codeNodes(Imports imports) => [
         if (super$) KeyWord.super$,
         if (!super$) KeyWord.this$,
         if (name != null) Code('.'),
@@ -37,12 +38,9 @@ class Initializers extends SeparatedValues {
   void _validateIfFieldInitializerNamesAreUnique(
       List<FieldInitializer>? fieldInitializers) {
     if (fieldInitializers != null) {
-      var allNames = fieldInitializers
-          .map((p) => CodeFormatter().unFormatted(p.name))
-          .toList();
-      var allUniqueNames = fieldInitializers
-          .map((p) => CodeFormatter().unFormatted(p.name))
-          .toSet();
+      var allNames = fieldInitializers.map((p) => p.name.toString()).toList();
+      var allUniqueNames =
+          fieldInitializers.map((p) => p.name.toString()).toSet();
       var namesAreUnique = allNames.length == allUniqueNames.length;
       if (!namesAreUnique) {
         throw new ArgumentError.value(fieldInitializers, 'fieldInitializers',
@@ -85,7 +83,7 @@ class Constructor extends CodeModel {
       : name = name == null ? null : IdentifierStartingWithLowerCase(name);
 
   @override
-  List<CodeNode> codeNodes(Context context) => [
+  List<CodeNode> codeNodes(Imports imports) => [
         ...docComments,
         ...annotations,
         if (external) KeyWord.external$,

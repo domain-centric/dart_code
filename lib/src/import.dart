@@ -1,4 +1,5 @@
-import '../dart_code.dart';
+// Copyright (c) 2025 Nils ten Hoeve, licensed under the 3-Clause BSD License
+import 'package:dart_code/dart_code.dart';
 
 /// Importing makes the components in a library available to the caller code.
 /// The import keyword is used to achieve the same.
@@ -19,7 +20,7 @@ class Import extends CodeModel {
 
   ///e.g.import 'package:my_package/my_library.dart' as i1;
   @override
-  List<CodeNode> codeNodes(Context context) => [
+  List<CodeNode> codeNodes(Imports imports) => [
         KeyWord.import$,
         Space(),
         Code("'$libraryUri'"),
@@ -38,18 +39,18 @@ class Import extends CodeModel {
 class Imports extends CodeModel {
   final Map<String, String> _libraryUriAndAliases = {};
 
-  void registerLibraries(CodeNode codeNode, Context context) {
+  void registerLibraries(CodeNode codeNode, Imports imports) {
     if (codeNode is CodeModelWithLibraryUri) {
       _registerLibrary(codeNode.libraryUri);
     }
     if (codeNode is CodeModel) {
-      _registerChildrenRecursively(codeNode, context);
+      _registerChildrenRecursively(codeNode, imports);
     }
   }
 
-  void _registerChildrenRecursively(CodeModel codeNode, Context context) {
-    for (CodeNode child in codeNode.codeNodes(context)) {
-      registerLibraries(child, context);
+  void _registerChildrenRecursively(CodeModel codeNode, Imports imports) {
+    for (CodeNode child in codeNode.codeNodes(imports)) {
+      registerLibraries(child, imports);
     }
   }
 
@@ -64,7 +65,7 @@ class Imports extends CodeModel {
   }
 
   @override
-  List<CodeNode> codeNodes(Context context) {
+  List<CodeNode> codeNodes(Imports imports) {
     List<Import> imports = _createImports();
     List<CodeNode> codeNodes = [];
     if (_hasRelativePath(imports)) {

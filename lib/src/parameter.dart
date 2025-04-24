@@ -1,3 +1,4 @@
+// Copyright (c) 2025 Nils ten Hoeve, licensed under the 3-Clause BSD License
 import 'package:dart_code/dart_code.dart';
 
 enum ParameterCategory { required, named, optional }
@@ -33,7 +34,7 @@ class Parameter extends CodeModel {
             type: type, defaultValue: defaultValue, required: required);
 
   @override
-  List<CodeNode> codeNodes(Context context) => [
+  List<CodeNode> codeNodes(Imports imports) => [
         if (required) Code('@required'),
         if (required) Space(),
         if (this$) KeyWord.this$,
@@ -78,10 +79,8 @@ class Parameters extends CodeModel {
   }
 
   void _validateUniqueNames(List<Parameter> parameters) {
-    var allNames =
-        parameters.map((p) => CodeFormatter().unFormatted(p.name)).toList();
-    var allUniqueNames =
-        parameters.map((p) => CodeFormatter().unFormatted(p.name)).toSet();
+    var allNames = parameters.map((p) => p.name.toString()).toList();
+    var allUniqueNames = parameters.map((p) => p.name.toString()).toSet();
     var namesAreUnique = allNames.length == allUniqueNames.length;
     if (!namesAreUnique) {
       throw new ArgumentError.value(
@@ -90,7 +89,7 @@ class Parameters extends CodeModel {
   }
 
   @override
-  List<CodeNode> codeNodes(Context context) {
+  List<CodeNode> codeNodes(Imports imports) {
     List<CodeNode> nodes = [];
     var _requiredParameters = parameters
         .where((p) => p.category == ParameterCategory.required)
@@ -162,7 +161,7 @@ class ParameterValue extends CodeModel {
       : name = IdentifierStartingWithLowerCase(name);
 
   @override
-  List<CodeNode> codeNodes(Context context) =>
+  List<CodeNode> codeNodes(Imports imports) =>
       [if (name != null) name!, if (name != null) Code(': '), value];
 }
 
