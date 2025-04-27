@@ -1,5 +1,6 @@
 // Copyright (c) 2025 Nils ten Hoeve, licensed under the 3-Clause BSD License
 import 'package:dart_code/dart_code.dart';
+import 'package:dart_code/src/operator.dart';
 
 ///  An [Expression] is a syntactic entity in the Dart programming language
 ///  that may be evaluated to determine its value
@@ -163,18 +164,18 @@ class Expression extends CodeModel {
 
   /// Returns the result of `this` `&&` [other].
   Expression and(Expression other) =>
-      Expression([this, Space(), Code('&&'), Space(), other]);
+      Expression([this, Space(), Operator.logicalAnd, Space(), other]);
 
   /// Returns the result of `this` `||` [other].
   Expression or(Expression other) =>
-      Expression([this, Space(), Code('||'), Space(), other]);
+      Expression([this, Space(), Operator.logicalOr, Space(), other]);
 
   /// Returns the result of `!this`.
-  Expression negate() => Expression([Code('!'), this]);
+  Expression negate() => Expression([Operator.negate, this]);
 
   /// Returns the result of `this` `as` [other].
   Expression asA(BaseType otherType) =>
-      Expression([this, Space(), Code('as'), Space(), otherType, Space()]);
+      Expression([this, Space(), Operator.asType, Space(), otherType, Space()]);
 
   /// Returns accessing the index operator (`[]`) on `this`.
   Expression index(Expression index) =>
@@ -182,63 +183,65 @@ class Expression extends CodeModel {
 
   /// Returns the result of `this` `is` [other].
   Expression isA(Expression other) =>
-      Expression([this, Space(), Code('is'), Space(), other]);
+      Expression([this, Space(), Operator.isType, Space(), other]);
 
   /// Returns the result of `this` `is!` [other].
   Expression isNotA(Expression other) =>
-      Expression([this, Space(), Code('is!'), Space(), other]);
+      Expression([this, Space(), Operator.isNotType, Space(), other]);
 
   /// Returns the result of `this` `==` [other].
   Expression equalTo(Expression other) =>
-      Expression([this, Space(), Code('=='), Space(), other]);
+      Expression([this, Space(), Operator.equals, Space(), other]);
 
   /// Returns the result of `this` `!=` [other].
   Expression notEqualTo(Expression other) =>
-      Expression([this, Space(), Code('!='), Space(), other]);
+      Expression([this, Space(), Operator.notEquals, Space(), other]);
 
   /// Returns the result of `this` `>` [other].
   Expression greaterThan(Expression other) =>
-      Expression([this, Space(), Code('>'), Space(), other]);
+      Expression([this, Space(), Operator.greaterThan, Space(), other]);
 
   /// Returns the result of `this` `<` [other].
   Expression lessThan(Expression other) =>
-      Expression([this, Space(), Code('<'), Space(), other]);
+      Expression([this, Space(), Operator.lessThan, Space(), other]);
 
   /// Returns the result of `this` `>=` [other].
-  Expression greaterOrEqualTo(Expression other) =>
-      Expression([this, Space(), Code('>='), Space(), other]);
+  Expression greaterOrEqualTo(Expression other) => Expression(
+      [this, Space(), Operator.greaterThanOrEqualTo, Space(), other]);
 
   /// Returns the result of `this` `<=` [other].
   Expression lessOrEqualTo(Expression other) =>
-      Expression([this, Space(), Code('<='), Space(), other]);
+      Expression([this, Space(), Operator.lessThanOrEqualTo, Space(), other]);
 
   /// Returns the result of `this` `+` [other].
   Expression add(Expression other) =>
-      Expression([this, Space(), Code('+'), Space(), other]);
+      Expression([this, Space(), Operator.add, Space(), other]);
 
   /// Returns the result of `this` `-` [other].
   Expression subtract(Expression other) =>
-      Expression([this, Space(), Code('-'), Space(), other]);
+      Expression([this, Space(), Operator.subtract, Space(), other]);
 
   /// Returns the result of `this` `/` [other].
   Expression divide(Expression other) =>
-      Expression([this, Space(), Code('/'), Space(), other]);
+      Expression([this, Space(), Operator.divide, Space(), other]);
 
   /// Returns the result of `this` `*` [other].
   Expression multiply(Expression other) =>
-      Expression([this, Space(), Code('*'), Space(), other]);
+      Expression([this, Space(), Operator.multiply, Space(), other]);
 
   /// Returns the result of `this` `%` [other].
   Expression modulo(Expression other) =>
-      Expression([this, Space(), Code('%'), Space(), other]);
+      Expression([this, Space(), Operator.modulo, Space(), other]);
 
   /// Returns the result of this++ or ++this.
-  Expression increment({after = true}) =>
-      after ? Expression([this, Code('++')]) : Expression([Code('++'), this]);
+  Expression increment({after = true}) => after
+      ? Expression([this, Operator.increment])
+      : Expression([Operator.increment, this]);
 
   /// Returns the result of this-- or --this.
-  Expression decrement({after = true}) =>
-      after ? Expression([this, Code('--')]) : Expression([Code('--'), this]);
+  Expression decrement({after = true}) => after
+      ? Expression([this, Operator.decrement])
+      : Expression([Operator.decrement, this]);
 
   /// Return `{this} ? {whenTrue} : {whenFalse}`.
   Expression conditional(Expression whenTrue, Expression whenFalse) =>
@@ -258,7 +261,7 @@ class Expression extends CodeModel {
   Expression ifNull(Expression alternativeWhenNull) => Expression([
         this,
         Space(),
-        Code('??'),
+        Operator.nullCoalesce,
         Space(),
         alternativeWhenNull,
       ]);
@@ -266,7 +269,7 @@ class Expression extends CodeModel {
   /// Return '{this}!'
   Expression assertNull() => Expression([
         this,
-        Code('!'),
+        Operator.negate,
       ]);
 
   /// This expression preceded by `await`.

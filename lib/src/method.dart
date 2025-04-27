@@ -1,5 +1,6 @@
 // Copyright (c) 2025 Nils ten Hoeve, licensed under the 3-Clause BSD License
 import 'package:dart_code/dart_code.dart';
+import 'package:dart_code/src/operator.dart';
 
 enum PropertyAccessor {
   getter,
@@ -17,7 +18,7 @@ class Method extends CodeModel {
   final BaseType? returnType;
   final PropertyAccessor? propertyAccessor;
   final Asynchrony? asynchrony;
-  final IdentifierStartingWithLowerCase name;
+  final MethodName name;
   final Parameters? parameters;
   final Body? body;
 
@@ -95,6 +96,23 @@ class Method extends CodeModel {
         propertyAccessor = PropertyAccessor.setter,
         body = Body([body]);
 
+  Method.overrideOperator(
+    Operator operator,
+    CodeNode body, {
+    this.docComments = const [],
+    Set<Annotation> annotations = const {},
+    this.returnType,
+    required Parameter parameter,
+    this.asynchrony,
+  })  : abstract = false,
+        static = false,
+        final$ = false,
+        parameters = Parameters([parameter]),
+        annotations = createOperatorAnnotations(annotations),
+        name = operator,
+        propertyAccessor = null,
+        body = Body([body]);
+
   @override
   List<CodeNode> codeNodes(Imports imports) => [
         ...docComments,
@@ -111,13 +129,14 @@ class Method extends CodeModel {
             (propertyAccessor == null ||
                 propertyAccessor != PropertyAccessor.setter))
           Space(),
+        if (name is Operator) KeyWord.operator$,
         if (propertyAccessor != null &&
             propertyAccessor == PropertyAccessor.getter)
           KeyWord.get$,
         if (propertyAccessor != null &&
             propertyAccessor == PropertyAccessor.setter)
           KeyWord.set$,
-        if (propertyAccessor != null) Space(),
+        if (name is Operator || propertyAccessor != null) Space(),
         name,
         if (propertyAccessor == null ||
             propertyAccessor != PropertyAccessor.getter)
@@ -138,4 +157,17 @@ class Method extends CodeModel {
         if (!abstract) body!,
         if (abstract) EndOfStatement(),
       ];
+
+  static List<Annotation> createOperatorAnnotations(
+      Set<Annotation> annotations) {
+    var overrideAnnotation = Annotation.override().toString();
+    return [
+      if (!annotations.any((a) => a.toString() == overrideAnnotation))
+        Annotation.override(),
+      ...annotations,
+    ];
+  }
 }
+
+/// Represents a [IdentifierStartingWithLowerCase] or [Operator]
+abstract class MethodName extends CodeNode {}

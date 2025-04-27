@@ -37,4 +37,17 @@ class Annotation extends CodeModel {
         if (customType) Code(')'),
         NewLine(),
       ];
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Annotation &&
+          runtimeType == other.runtimeType &&
+          type == other.type &&
+          parameterValues == other.parameterValues &&
+          customType == other.customType;
+
+  @override
+  int get hashCode =>
+      type.hashCode ^ parameterValues.hashCode ^ customType.hashCode;
 }

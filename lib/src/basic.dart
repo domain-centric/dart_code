@@ -240,7 +240,7 @@ class IdentifierStartingWithUpperCase extends Identifier {
 /// represent identifiers that begin with a lowercase character. It can
 /// be useful in scenarios where naming conventions or specific rules
 /// for identifiers are required.
-class IdentifierStartingWithLowerCase extends Identifier {
+class IdentifierStartingWithLowerCase extends Identifier implements MethodName {
   IdentifierStartingWithLowerCase(String name)
       : super(name, CaseChecker.forLowerCase());
 }
