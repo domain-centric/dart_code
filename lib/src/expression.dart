@@ -1,6 +1,5 @@
 // Copyright (c) 2025 Nils ten Hoeve, licensed under the 3-Clause BSD License
 import 'package:dart_code/dart_code.dart';
-import 'package:dart_code/src/operator.dart';
 
 ///  An [Expression] is a syntactic entity in the Dart programming language
 ///  that may be evaluated to determine its value
