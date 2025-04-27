@@ -12,6 +12,10 @@ class Type extends CodeModelWithLibraryUri implements BaseType {
   final bool nullable;
   List<Type> generics = [];
 
+  Type.ofObject({this.nullable = false})
+      : name = 'Object',
+        super();
+
   Type.ofDynamic({this.nullable = false})
       : name = 'dynamic',
         super();

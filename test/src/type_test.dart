@@ -9,6 +9,14 @@ main() {
       Type.ofVar().toString().should.be("var");
     });
 
+    test('Should result in Object', () {
+      Type.ofObject().toString().should.be("Object");
+    });
+
+    test('Should result in Object?', () {
+      Type.ofObject(nullable: true).toString().should.be("Object?");
+    });
+
     test('Should result in dynamic', () {
       Type.ofDynamic().toString().should.be("dynamic");
     });
