@@ -2,7 +2,6 @@
 import 'package:test/test.dart';
 import 'package:shouldly/shouldly.dart';
 import 'package:dart_code/dart_code.dart';
-import 'package:dart_code/src/enum.dart';
 
 void main() {
   group('Enumeration class', () {
@@ -43,8 +42,9 @@ void main() {
           [ConstructorParameter.named('tires', type: Type.ofInt())]);
       final ctor =
           Constructor(Type('Vehicle '), parameters: constructorParameters);
-      final method =
-          Method('toString', Expression.ofString('A \$name has \$tires tires'));
+      final method = Method(
+          'toString', Expression.ofString('A \$name has \$tires tires'),
+          returnType: Type.ofString());
       final enumDecl = Enumeration(
         'Vehicle',
         {
@@ -61,9 +61,12 @@ void main() {
         methods: [method],
       );
 
-      enumDecl.toString().should.be(
-          "enum Vehicle {car(tires: 4),bicycle(tires: 2);\n"
-          "const Vehicle ({required this.tires});final int tires;toString()  => 'A \$name has \$tires tires';}");
+      enumDecl
+          .toString()
+          .should
+          .be("enum Vehicle {car(tires: 4),bicycle(tires: 2);\n"
+              "const Vehicle ({required this.tires});final int tires;"
+              "String toString()  => 'A \$name has \$tires tires';}");
     });
 
     test('should throw an error when enum name casing is incorrect', () {
@@ -160,17 +163,19 @@ void main() {
     });
 
     test('should support multiple methods', () {
-      final method1 =
-          Method('toString', Expression([Code('name.toUpperCase()')]));
-      final method2 =
-          Method('toJson', Expression([Code('name.toLowerCase()')]));
+      final method1 = Method(
+          'toString', Expression([Code('name.toUpperCase()')]),
+          returnType: Type.ofString());
+      final method2 = Method('toJson', Expression([Code('name.toLowerCase()')]),
+          returnType: Type.ofString());
       final enumDecl = Enumeration(
         'Color',
         {EnumValue('red')},
         methods: [method1, method2],
       );
       enumDecl.toString().should.be("enum Color {red;\n"
-          "toString()  => name.toUpperCase();toJson()  => name.toLowerCase();}");
+          "String toString()  => name.toUpperCase();"
+          "String toJson()  => name.toLowerCase();}");
     });
   });
 }

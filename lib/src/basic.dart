@@ -30,14 +30,14 @@ class SeparatedValues extends CodeModel {
 final RegExp endsWithWhiteSpace = RegExp(r'\s$');
 
 /// adds a space.
-/// Note that [CodeFormatter] may add additional spaces or remove unneeded spaces
+/// Note that toFormattedString() may add additional spaces or remove unneeded spaces
 class Space extends Code {
   Space() : super(' ');
 }
 
 /// adds a carriage return (CR) character.
 /// This character is used as a new line character in most other non-Unix operating systems
-/// Note that [CodeFormatter] may
+/// Note that toFormattedString() may
 /// - add additional cr characters
 /// - or remove unneeded cr characters
 /// - or replace it with different end of line characters.

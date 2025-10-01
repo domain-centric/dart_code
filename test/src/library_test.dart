@@ -131,7 +131,8 @@ void main() {
                           Expression.ofVariable('years').decrement())
                     ])),
                 Statement.return$(Expression.ofVariable('years')),
-              ]))
+              ]),
+              returnType: Type.ofInt())
         ])
       ]).toFormattedString().should.be('class Person {\n'
           '  final String givenName;\n'
@@ -144,7 +145,7 @@ void main() {
           '    return \'Hello \$fullName.\';\n'
           '  }\n'
           '\n'
-          '  get ageInYears {\n'
+          '  int get ageInYears {\n'
           '    DateTime now = DateTime.now();\n'
           '    int years = now.year - dateOfBirth.year;\n'
           '    int months = now.month - dateOfBirth.month;\n'
@@ -286,7 +287,8 @@ class PersonClass extends Class {
               'ageInYears',
               Expression.callMethodOrFunction('calculateAgeInYears',
                   parameterValues: ParameterValues(
-                      [ParameterValue(Expression.ofVariable('dateOfBirth'))])))
+                      [ParameterValue(Expression.ofVariable('dateOfBirth'))])),
+              returnType: Type.ofInt())
         ]);
 
   String expectedCode = 'class Person implements SoftWareEngineer {\n'
@@ -304,5 +306,5 @@ class PersonClass extends Class {
       '  String greetingMessage() {\n'
       '    return \'Hello \$fullName.\';\n'
       '  }\n\n'
-      '  get ageInYears => calculateAgeInYears(dateOfBirth);\n}\n';
+      '  int get ageInYears => calculateAgeInYears(dateOfBirth);\n}\n';
 }

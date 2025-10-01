@@ -14,7 +14,7 @@ class Method extends CodeModel {
   final bool abstract;
   final bool static;
   final bool final$;
-  final BaseType? returnType;
+  final BaseType returnType;
   final PropertyAccessor? propertyAccessor;
   final Asynchrony? asynchrony;
   final MethodName name;
@@ -25,7 +25,7 @@ class Method extends CodeModel {
     String name, {
     this.docComments = const [],
     this.annotations = const [],
-    this.returnType,
+    required this.returnType,
     this.propertyAccessor,
     this.parameters,
     this.asynchrony,
@@ -40,7 +40,7 @@ class Method extends CodeModel {
     CodeNode body, {
     this.docComments = const [],
     this.annotations = const [],
-    this.returnType,
+    required this.returnType,
     this.parameters,
     this.asynchrony,
   })  : abstract = false,
@@ -55,7 +55,7 @@ class Method extends CodeModel {
     CodeNode body, {
     this.docComments = const [],
     this.annotations = const [],
-    this.returnType,
+    required this.returnType,
     this.parameters,
     this.asynchrony,
   })  : abstract = false,
@@ -71,7 +71,7 @@ class Method extends CodeModel {
     this.docComments = const [],
     this.annotations = const [],
     this.final$ = false,
-    this.returnType,
+    required this.returnType,
     this.parameters,
     this.asynchrony,
   })  : abstract = false,
@@ -85,7 +85,7 @@ class Method extends CodeModel {
     CodeNode body, {
     this.docComments = const [],
     this.annotations = const [],
-    this.returnType,
+    required this.returnType,
     this.parameters,
     this.asynchrony,
   })  : abstract = false,
@@ -100,7 +100,7 @@ class Method extends CodeModel {
     CodeNode body, {
     this.docComments = const [],
     Set<Annotation> annotations = const {},
-    this.returnType,
+    required this.returnType,
     required Parameter parameter,
     this.asynchrony,
   })  : abstract = false,
@@ -120,13 +120,11 @@ class Method extends CodeModel {
         if (static) Space(),
         if (final$) KeyWord.final$,
         if (final$) Space(),
-        if (returnType != null &&
-            (propertyAccessor == null ||
-                propertyAccessor != PropertyAccessor.setter))
-          returnType!,
-        if (returnType != null &&
-            (propertyAccessor == null ||
-                propertyAccessor != PropertyAccessor.setter))
+        if (propertyAccessor == null ||
+            propertyAccessor != PropertyAccessor.setter)
+          returnType,
+        if (propertyAccessor == null ||
+            propertyAccessor != PropertyAccessor.setter)
           Space(),
         if (name is Operator) KeyWord.operator$,
         if (propertyAccessor != null &&

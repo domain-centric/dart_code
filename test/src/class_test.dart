@@ -192,7 +192,8 @@ void main() {
                         Expression.ofVariable('years').decrement())
                   ])),
               Statement.return$(Expression.ofVariable('years')),
-            ]))
+            ]),
+            returnType: Type.ofInt())
       ]).toFormattedString().should.be('class Person {\n'
           '  final String givenName;\n'
           '  final String familyName;\n'
@@ -204,7 +205,7 @@ void main() {
           '    return \'Hello \$fullName.\';\n'
           '  }\n'
           '\n'
-          '  get ageInYears {\n'
+          '  int get ageInYears {\n'
           '    DateTime now = DateTime.now();\n'
           '    int years = now.year - dateOfBirth.year;\n'
           '    int months = now.month - dateOfBirth.month;\n'
