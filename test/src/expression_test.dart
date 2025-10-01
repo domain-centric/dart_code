@@ -3,7 +3,7 @@ import 'package:dart_code/dart_code.dart';
 import 'package:shouldly/shouldly.dart';
 import 'package:test/test.dart';
 
-main() {
+void main() {
   group('Constructors', () {
     group('Expression.ofNull() constructor', () {
       test(

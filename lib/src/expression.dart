@@ -81,7 +81,7 @@ class Expression extends CodeModel {
   static RegExp _betweenSingleQuotes = RegExp("^'.*'\$");
   static RegExp _betweenDoubleQuotes = RegExp('^".*"\$');
 
-  static _createStringNodes(String value) {
+  static List<Code> _createStringNodes(String value) {
     if (!_betweenSingleQuotes.hasMatch(value) &&
         !_betweenDoubleQuotes.hasMatch(value)) {
       int nrSingleQuotes = _singleQuote.allMatches(value).length;
@@ -233,12 +233,12 @@ class Expression extends CodeModel {
       Expression([this, Space(), Operator.modulo, Space(), other]);
 
   /// Returns the result of this++ or ++this.
-  Expression increment({after = true}) => after
+  Expression increment({bool after = true}) => after
       ? Expression([this, Operator.increment])
       : Expression([Operator.increment, this]);
 
   /// Returns the result of this-- or --this.
-  Expression decrement({after = true}) => after
+  Expression decrement({bool after = true}) => after
       ? Expression([this, Operator.decrement])
       : Expression([Operator.decrement, this]);
 

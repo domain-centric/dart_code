@@ -82,6 +82,32 @@ class Constructor extends CodeModel {
       this.body})
       : name = name == null ? null : IdentifierStartingWithLowerCase(name);
 
+  Constructor copyWith({
+    List<DocComment>? docComments,
+    List<Annotation>? annotations,
+    bool? external,
+    bool? constant,
+    bool? factory,
+    Type? type,
+    String? name,
+    ConstructorParameters? parameters,
+    Initializers? initializers,
+    Block? body,
+  }) {
+    return Constructor(
+      type ?? this.type,
+      docComments: docComments ?? this.docComments,
+      annotations: annotations ?? this.annotations,
+      external: external ?? this.external,
+      constant: constant ?? this.constant,
+      factory: factory ?? this.factory,
+      name: name ?? this.name?.toString(),
+      parameters: parameters ?? this.parameters,
+      initializers: initializers ?? this.initializers,
+      body: body ?? this.body,
+    );
+  }
+
   @override
   List<CodeNode> codeNodes(Imports imports) => [
         ...docComments,

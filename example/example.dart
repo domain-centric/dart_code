@@ -1,6 +1,6 @@
 import 'package:dart_code/dart_code.dart';
 
-main() {
+void main() {
   /// A simple formatting example:
   print(DartFunction.main(Statement.print(Expression.ofString('Hello World.')))
       .toFormattedString());

@@ -3,7 +3,7 @@ import 'package:dart_code/dart_code.dart';
 import 'package:shouldly/shouldly.dart';
 import 'package:test/test.dart';
 
-main() {
+void main() {
   group('Class class', () {
     test("Should return: class", () {
       Class('Person').toString().should.be('class Person {}');

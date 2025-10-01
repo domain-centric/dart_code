@@ -3,7 +3,7 @@ import 'package:dart_code/dart_code.dart';
 import 'package:shouldly/shouldly.dart';
 import 'package:test/test.dart';
 
-main() {
+void main() {
   group('Comment class', () {
     group('Comment.fromString() constructor', () {
       test("Should return: '// Single line comment\n'", () {
