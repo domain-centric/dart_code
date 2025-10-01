@@ -5,6 +5,10 @@ import 'package:test/test.dart';
 
 void main() {
   group('Type class', () {
+    test('Should result in void', () {
+      Type.ofVoid().toString().should.be("void");
+    });
+
     test('Should result in var', () {
       Type.ofVar().toString().should.be("var");
     });

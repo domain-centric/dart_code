@@ -56,6 +56,11 @@ class Type extends CodeModelWithLibraryUri implements BaseType {
       : name = 'Duration',
         super();
 
+  Type.ofVoid()
+      : name = 'void',
+        this.nullable = false,
+        super();
+
   Type.ofVar()
       : name = 'var',
         this.nullable = false,
