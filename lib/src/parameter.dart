@@ -17,25 +17,25 @@ class Parameter extends CodeModel {
   final Expression? defaultValue;
   final bool required;
 
-  Parameter._(this.category, String name,
+  Parameter(this.category, String name,
       {this.type, this.defaultValue, this.required = false, this.this$ = false})
       : name = IdentifierStartingWithLowerCase(name);
 
   Parameter.required(String name, {BaseType? type})
-      : this._(ParameterCategory.required, name, type: type);
+      : this(ParameterCategory.required, name, type: type);
 
   Parameter.optional(String name, {BaseType? type, Expression? defaultValue})
-      : this._(ParameterCategory.optional, name,
+      : this(ParameterCategory.optional, name,
             type: type, defaultValue: defaultValue);
 
   Parameter.named(String name,
       {BaseType? type, defaultValue, bool required = false})
-      : this._(ParameterCategory.named, name,
+      : this(ParameterCategory.named, name,
             type: type, defaultValue: defaultValue, required: required);
 
   @override
   List<CodeNode> codeNodes(Imports imports) => [
-        if (required) Code('@required'),
+        if (required) Code('required'),
         if (required) Space(),
         if (this$) KeyWord.this$,
         if (this$) Code('.'),
@@ -123,24 +123,95 @@ class Parameters extends CodeModel {
 
 /// Represents a [ConstructorParameter] definition.
 /// A [ConstructorParameter] definition is comparable to a [Parameter] definition, but it can also have a default value and may refer to a [Field]
+
 class ConstructorParameter extends Parameter {
-  ConstructorParameter.required(String name,
-      {bool this$ = false, BaseType? type})
-      : super._(ParameterCategory.required, name, this$: this$, type: type);
+  final Qualifier qualifier;
 
-  ConstructorParameter.optional(String name,
-      {bool this$ = false, BaseType? type, Expression? defaultValue})
-      : super._(ParameterCategory.optional, name,
-            type: type, this$: this$, defaultValue: defaultValue);
+  ConstructorParameter(
+    super.category,
+    super.name, {
+    super.type,
+    super.defaultValue,
+    super.required = false,
+    this.qualifier = Qualifier.none,
+  });
 
-  ConstructorParameter.named(String name,
-      {bool this$ = false, BaseType? type, defaultValue, bool required = false})
-      : super._(ParameterCategory.named, name,
-            this$: this$,
-            type: type,
-            defaultValue: defaultValue,
-            required: required);
+  ConstructorParameter.required(
+    String name, {
+    BaseType? type,
+    Qualifier qualifier = Qualifier.none,
+  }) : this(
+          ParameterCategory.required,
+          name,
+          type: type,
+          qualifier: qualifier,
+        );
+
+  ConstructorParameter.optional(
+    String name, {
+    BaseType? type,
+    Qualifier qualifier = Qualifier.none,
+    Expression? defaultValue,
+  }) : this(
+          ParameterCategory.optional,
+          name,
+          type: type,
+          qualifier: qualifier,
+          defaultValue: defaultValue,
+        );
+
+  ConstructorParameter.named(
+    String name, {
+    BaseType? type,
+    Qualifier qualifier = Qualifier.none,
+    defaultValue,
+    bool required = false,
+  }) : this(
+          ParameterCategory.named,
+          name,
+          type: type,
+          qualifier: qualifier,
+          defaultValue: defaultValue,
+          required: required,
+        );
+
+  @override
+  List<CodeNode> codeNodes(Imports imports) => [
+        if (required) Code('required'),
+        if (required) Space(),
+        if (qualifier == Qualifier.this$) KeyWord.this$,
+        if (qualifier == Qualifier.super$) KeyWord.super$,
+        if (qualifier != Qualifier.none) Code('.'),
+        if (qualifier == Qualifier.none && type == null) Code('var'),
+        if (qualifier == Qualifier.none && type != null) type!,
+        if (qualifier == Qualifier.none) Space(),
+        name,
+        if (defaultValue != null) Space(),
+        if (defaultValue != null) Code('='),
+        if (defaultValue != null) Space(),
+        if (defaultValue != null) defaultValue!,
+      ];
+
+  ConstructorParameter copyWith({
+    ParameterCategory? category,
+    String? name,
+    BaseType? type,
+    Expression? defaultValue,
+    bool? required,
+    Qualifier? qualifier,
+  }) {
+    return ConstructorParameter(
+      category ?? this.category,
+      name ?? this.name.toString(),
+      type: type ?? this.type,
+      defaultValue: defaultValue ?? this.defaultValue,
+      required: required ?? this.required,
+      qualifier: qualifier ?? this.qualifier,
+    );
+  }
 }
+
+enum Qualifier { this$, super$, none }
 
 /// [ConstructorParameters] are comparable to [Parameters] only for [ConstructorParameter]s
 class ConstructorParameters extends Parameters {

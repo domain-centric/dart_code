@@ -122,7 +122,7 @@ void main() {
                 required: true)
             .toString()
             .should
-            .be("@required String name = 'Hello World'");
+            .be("required String name = 'Hello World'");
       });
     });
   });
@@ -204,7 +204,7 @@ void main() {
       });
 
       test('should result in a named parameter without type with this', () {
-        ConstructorParameter.required('name', this$: true)
+        ConstructorParameter.required('name', qualifier: Qualifier.this$)
             .toString()
             .should
             .be('this.name');
@@ -220,10 +220,10 @@ void main() {
       test('should result in a named parameter with this even given a type ',
           () {
         ConstructorParameter.required('name',
-                type: Type.ofString(), this$: true)
+                type: Type.ofString(), qualifier: Qualifier.super$)
             .toString()
             .should
-            .be('this.name');
+            .be('super.name');
       });
 
       test('should result in a named parameter with MyClass type', () {
@@ -242,10 +242,10 @@ void main() {
       });
 
       test('should result in a optional parameter with this', () {
-        ConstructorParameter.optional('name', this$: true)
+        ConstructorParameter.optional('name', qualifier: Qualifier.super$)
             .toString()
             .should
-            .be('this.name');
+            .be('super.name');
       });
 
       test('should result in a optional parameter with String type', () {
@@ -259,7 +259,7 @@ void main() {
           'should result in a optional parameter with this even with given type',
           () {
         ConstructorParameter.optional('name',
-                type: Type.ofString(), this$: true)
+                type: Type.ofString(), qualifier: Qualifier.this$)
             .toString()
             .should
             .be('this.name');
@@ -290,7 +290,7 @@ void main() {
           () {
         ConstructorParameter.optional('name',
                 type: Type.ofString(),
-                this$: true,
+                qualifier: Qualifier.this$,
                 defaultValue: Expression.ofString('Hello World'))
             .toString()
             .should
@@ -304,10 +304,10 @@ void main() {
       });
 
       test('should result in a named parameter this', () {
-        ConstructorParameter.named('name', this$: true)
+        ConstructorParameter.named('name', qualifier: Qualifier.super$)
             .toString()
             .should
-            .be('this.name');
+            .be('super.name');
       });
 
       test('should result in a named parameter with String type', () {
@@ -320,7 +320,8 @@ void main() {
       test(
           'should result in a named parameter with this even with a given type',
           () {
-        ConstructorParameter.named('name', type: Type.ofString(), this$: true)
+        ConstructorParameter.named('name',
+                type: Type.ofString(), qualifier: Qualifier.this$)
             .toString()
             .should
             .be('this.name');
@@ -351,7 +352,7 @@ void main() {
           () {
         ConstructorParameter.named('name',
                 type: Type.ofString(),
-                this$: true,
+                qualifier: Qualifier.this$,
                 defaultValue: Expression.ofString('Hello World'))
             .toString()
             .should
@@ -363,12 +364,12 @@ void main() {
           () {
         ConstructorParameter.named('name',
                 type: Type.ofString(),
-                this$: true,
+                qualifier: Qualifier.this$,
                 defaultValue: Expression.ofString('Hello World'),
                 required: true)
             .toString()
             .should
-            .be("@required this.name = 'Hello World'");
+            .be("required this.name = 'Hello World'");
       });
     });
     group('ConstructorParameters class', () {

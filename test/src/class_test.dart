@@ -76,8 +76,8 @@ void main() {
       Class('Point', constructors: [
         Constructor(Type('Point'),
             parameters: ConstructorParameters([
-              ConstructorParameter.required('x', this$: true),
-              ConstructorParameter.required('y', this$: true),
+              ConstructorParameter.required('x', qualifier: Qualifier.this$),
+              ConstructorParameter.required('y', qualifier: Qualifier.super$),
             ])),
         Constructor(Type('Point'),
             name: 'origin',
@@ -86,7 +86,7 @@ void main() {
               FieldInitializer('y', Expression.ofInt(0)),
             ]))
       ]).toFormattedString().should.be('class Point {\n'
-          '  Point(this.x, this.y);\n'
+          '  Point(this.x, super.y);\n'
           '  Point.origin() : x = 0, y = 0;\n'
           '}\n');
     });
@@ -139,9 +139,12 @@ void main() {
       ], constructors: [
         Constructor(Type('Person'),
             parameters: ConstructorParameters([
-              ConstructorParameter.required('givenName', this$: true),
-              ConstructorParameter.required('familyName', this$: true),
-              ConstructorParameter.required('dateOfBirth', this$: true),
+              ConstructorParameter.required('givenName',
+                  qualifier: Qualifier.this$),
+              ConstructorParameter.required('familyName',
+                  qualifier: Qualifier.this$),
+              ConstructorParameter.required('dateOfBirth',
+                  qualifier: Qualifier.this$),
             ]),
             initializers: Initializers(fieldInitializers: [
               FieldInitializer(

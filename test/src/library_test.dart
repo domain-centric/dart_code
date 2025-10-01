@@ -78,9 +78,12 @@ void main() {
         ], constructors: [
           Constructor(Type('Person'),
               parameters: ConstructorParameters([
-                ConstructorParameter.required('givenName', this$: true),
-                ConstructorParameter.required('familyName', this$: true),
-                ConstructorParameter.required('dateOfBirth', this$: true),
+                ConstructorParameter.required('givenName',
+                    qualifier: Qualifier.this$),
+                ConstructorParameter.required('familyName',
+                    qualifier: Qualifier.this$),
+                ConstructorParameter.required('dateOfBirth',
+                    qualifier: Qualifier.this$),
               ]),
               initializers: Initializers(fieldInitializers: [
                 FieldInitializer(
@@ -262,11 +265,14 @@ class PersonClass extends Class {
         ], constructors: [
           Constructor(Type('Person'),
               parameters: ConstructorParameters([
-                ConstructorParameter.required('givenName', this$: true),
-                ConstructorParameter.required('familyName', this$: true),
-                ConstructorParameter.required('dateOfBirth', this$: true),
+                ConstructorParameter.required('givenName',
+                    qualifier: Qualifier.this$),
+                ConstructorParameter.required('familyName',
+                    qualifier: Qualifier.this$),
+                ConstructorParameter.required('dateOfBirth',
+                    qualifier: Qualifier.this$),
                 ConstructorParameter.required('familiarProgrammingLanguages',
-                    this$: true),
+                    qualifier: Qualifier.this$),
               ]),
               initializers: Initializers(fieldInitializers: [
                 FieldInitializer(
