@@ -12,13 +12,12 @@ enum ParameterCategory { required, named, optional }
 class Parameter extends CodeModel {
   final ParameterCategory category;
   final BaseType? type;
-  final bool this$;
   final IdentifierStartingWithLowerCase name;
   final Expression? defaultValue;
   final bool required;
 
   Parameter(this.category, String name,
-      {this.type, this.defaultValue, this.required = false, this.this$ = false})
+      {this.type, this.defaultValue, this.required = false})
       : name = IdentifierStartingWithLowerCase(name);
 
   Parameter.required(String name, {BaseType? type})
@@ -37,11 +36,9 @@ class Parameter extends CodeModel {
   List<CodeNode> codeNodes(Imports imports) => [
         if (required) Code('required'),
         if (required) Space(),
-        if (this$) KeyWord.this$,
-        if (this$) Code('.'),
-        if (!this$ && type == null) Code('var'),
-        if (!this$ && type != null) type!,
-        if (!this$) Space(),
+        if (type == null) Code('var'),
+        if (type != null) type!,
+        Space(),
         name,
         if (defaultValue != null) Space(),
         if (defaultValue != null) Code('='),
