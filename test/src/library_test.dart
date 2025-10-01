@@ -180,47 +180,49 @@ void main() {
 class CalculateAgeInYearsFunction extends DartFunction {
   CalculateAgeInYearsFunction()
       : super.withName(
-          'calculateAgeInYears',
-          Block([
-            VariableDefinition('now',
-                type: Type.ofDateTime(),
-                value:
-                    Expression.callConstructor(Type.ofDateTime(), name: "now")),
-            VariableDefinition('years',
-                type: Type.ofInt(),
-                value: Expression.ofVariable('now')
-                    .getProperty('year')
-                    .subtract(Expression.ofVariable('dateOfBirth')
-                        .getProperty('year'))),
-            VariableDefinition('months',
-                type: Type.ofInt(),
-                value: Expression.ofVariable('now')
-                    .getProperty('month')
-                    .subtract(Expression.ofVariable('dateOfBirth')
-                        .getProperty('month'))),
-            VariableDefinition('days',
-                type: Type.ofInt(),
-                value: Expression.ofVariable('now').getProperty('day').subtract(
-                    Expression.ofVariable('dateOfBirth').getProperty('day'))),
-            Statement.if$(
-                Expression.ofVariable('months')
-                    .lessThan(Expression.ofInt(0))
-                    .or(Expression.betweenParentheses(
-                        Expression.ofVariable('months')
-                            .equalTo(Expression.ofInt(0))
-                            .and(Expression.ofVariable('days')
-                                .lessThan(Expression.ofInt(0))))),
-                Block([
-                  Statement.ofExpression(
-                      Expression.ofVariable('years').decrement())
-                ])),
-            Statement.return$(Expression.ofVariable('years')),
-          ]),
-          parameters: Parameters(
-              [Parameter.required('dateOfBirth', type: Type.ofDateTime())]),
-        );
+            'calculateAgeInYears',
+            Block([
+              VariableDefinition('now',
+                  type: Type.ofDateTime(),
+                  value: Expression.callConstructor(Type.ofDateTime(),
+                      name: "now")),
+              VariableDefinition('years',
+                  type: Type.ofInt(),
+                  value: Expression.ofVariable('now')
+                      .getProperty('year')
+                      .subtract(Expression.ofVariable('dateOfBirth')
+                          .getProperty('year'))),
+              VariableDefinition('months',
+                  type: Type.ofInt(),
+                  value: Expression.ofVariable('now')
+                      .getProperty('month')
+                      .subtract(Expression.ofVariable('dateOfBirth')
+                          .getProperty('month'))),
+              VariableDefinition('days',
+                  type: Type.ofInt(),
+                  value: Expression.ofVariable('now')
+                      .getProperty('day')
+                      .subtract(Expression.ofVariable('dateOfBirth')
+                          .getProperty('day'))),
+              Statement.if$(
+                  Expression.ofVariable('months')
+                      .lessThan(Expression.ofInt(0))
+                      .or(Expression.betweenParentheses(
+                          Expression.ofVariable('months')
+                              .equalTo(Expression.ofInt(0))
+                              .and(Expression.ofVariable('days')
+                                  .lessThan(Expression.ofInt(0))))),
+                  Block([
+                    Statement.ofExpression(
+                        Expression.ofVariable('years').decrement())
+                  ])),
+              Statement.return$(Expression.ofVariable('years')),
+            ]),
+            parameters: Parameters(
+                [Parameter.required('dateOfBirth', type: Type.ofDateTime())]),
+            returnType: Type.ofInt(),);
 
-  String expectedCode = 'calculateAgeInYears(DateTime dateOfBirth) {\n'
+  String expectedCode = 'int calculateAgeInYears(DateTime dateOfBirth) {\n'
       '  DateTime now = DateTime.now();\n'
       '  int years = now.year - dateOfBirth.year;\n'
       '  int months = now.month - dateOfBirth.month;\n'

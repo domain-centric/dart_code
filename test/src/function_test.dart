@@ -105,7 +105,7 @@ void main() {
       DartFunction.main(Code("print('Hello World.');"))
           .toString()
           .should
-          .be('  main() {print(\'Hello World.\');}');
+          .be(" void main() {print('Hello World.');}");
     });
 
     test('Returns a main function that returns a async boolean of value true',
@@ -114,7 +114,7 @@ void main() {
               asynchrony: Asynchrony.async)
           .toString()
           .should
-          .be('  main() async  => booleanGenerator();');
+          .be(' void main() async  => booleanGenerator();');
     });
   });
 

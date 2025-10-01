@@ -7,7 +7,7 @@ import 'package:dart_code/dart_code.dart';
 class DartFunction extends CodeModel {
   final List<DocComment> docComments;
   final List<Annotation> annotations;
-  final BaseType? returnType;
+  final BaseType returnType;
   final IdentifierStartingWithLowerCase? name;
   final Parameters? parameters;
   final Asynchrony? asynchrony;
@@ -17,7 +17,7 @@ class DartFunction extends CodeModel {
     CodeNode body, {
     this.docComments = const [],
     this.annotations = const [],
-    this.returnType,
+    required this.returnType,
     this.parameters,
     this.asynchrony,
   })  : name = null,
@@ -28,7 +28,7 @@ class DartFunction extends CodeModel {
     CodeNode body, {
     this.docComments = const [],
     this.annotations = const [],
-    this.returnType,
+    required this.returnType,
     this.parameters,
     this.asynchrony,
   })  : name = IdentifierStartingWithLowerCase(name),
@@ -40,7 +40,7 @@ class DartFunction extends CodeModel {
     this.annotations = const [],
     this.parameters,
     this.asynchrony,
-  })  : returnType = null,
+  })  : returnType = Type.ofVoid(),
         name = IdentifierStartingWithLowerCase('main'),
         body = Body([body]);
 
@@ -49,7 +49,7 @@ class DartFunction extends CodeModel {
         ...docComments,
         ...annotations,
         Space(),
-        if (returnType != null) returnType!,
+        returnType,
         Space(),
         if (name != null) name!,
         Code('('),

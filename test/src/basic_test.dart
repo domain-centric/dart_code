@@ -236,12 +236,16 @@ void main() {
   group('Block class', () {
     test('Given a Block class => Returns a formatted code string', () {
       DartFunction.withName(
-          'test',
-          Block([
-            Statement.return$(Expression.ofInt(1)),
-          ])).toFormattedString().should.be('test() {\n'
-          '  return 1;\n'
-          '}\n');
+              'test',
+              Block([
+                Statement.print(Expression.ofString('Hello world!')),
+              ]),
+              returnType: Type.ofVoid())
+          .toFormattedString()
+          .should
+          .be('void test() {\n'
+              "  print('Hello world!');\n"
+              '}\n');
     });
   });
 }

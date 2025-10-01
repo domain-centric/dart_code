@@ -174,7 +174,7 @@ void main() {
         'age',
         Statement.assignVariable('age', Expression.ofVariable('age'),
             this$: true),
-        returnType: Type.ofInt(),
+        parameterType: Type.ofInt(),
       ).toString().should.be('set age(int age) {this.age = age;}');
     });
   });

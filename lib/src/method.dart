@@ -85,15 +85,17 @@ class Method extends CodeModel {
     CodeNode body, {
     this.docComments = const [],
     this.annotations = const [],
-    required this.returnType,
-    this.parameters,
+    required BaseType parameterType,
     this.asynchrony,
   })  : abstract = false,
         static = false,
         final$ = false,
         name = IdentifierStartingWithLowerCase(name),
         propertyAccessor = PropertyAccessor.setter,
-        body = Body([body]);
+        body = Body([body]),
+        returnType = Type.ofVoid(),
+        parameters = Parameters(
+            [Parameter(ParameterCategory.required, name, type: parameterType)]);
 
   Method.overrideOperator(
     Operator operator,
@@ -120,32 +122,25 @@ class Method extends CodeModel {
         if (static) Space(),
         if (final$) KeyWord.final$,
         if (final$) Space(),
-        if (propertyAccessor == null ||
-            propertyAccessor != PropertyAccessor.setter)
-          returnType,
-        if (propertyAccessor == null ||
-            propertyAccessor != PropertyAccessor.setter)
-          Space(),
+
+        /// return type void for setter not needed for now
+        if (propertyAccessor != PropertyAccessor.setter) returnType,
+        if (propertyAccessor != PropertyAccessor.setter) Space(),
         if (name is Operator) KeyWord.operator$,
-        if (propertyAccessor != null &&
-            propertyAccessor == PropertyAccessor.getter)
-          KeyWord.get$,
-        if (propertyAccessor != null &&
-            propertyAccessor == PropertyAccessor.setter)
-          KeyWord.set$,
+        if (propertyAccessor == PropertyAccessor.getter) KeyWord.get$,
+        if (propertyAccessor == PropertyAccessor.setter) KeyWord.set$,
         if (name is Operator || propertyAccessor != null) Space(),
         name,
         if (propertyAccessor == null ||
             propertyAccessor != PropertyAccessor.getter)
           Code('('),
-        if (propertyAccessor != null &&
-            propertyAccessor == PropertyAccessor.setter)
-          Parameter.required(name.toUnFormattedString(imports),
-              type: returnType),
-        if (parameters != null && propertyAccessor == null) parameters!,
-        if (propertyAccessor == null ||
-            propertyAccessor != PropertyAccessor.getter)
-          Code(')'),
+        // if (propertyAccessor != null &&
+        //     propertyAccessor == PropertyAccessor.setter)
+        //   Parameter.required(name.toUnFormattedString(imports),
+        //       type: returnType),
+        if (parameters != null && propertyAccessor != PropertyAccessor.getter)
+          parameters!,
+        if (propertyAccessor != PropertyAccessor.getter) Code(')'),
         if (asynchrony != null) Space(),
         if (asynchrony != null && asynchrony == Asynchrony.async)
           KeyWord.async$,
