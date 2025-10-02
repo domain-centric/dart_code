@@ -24,8 +24,7 @@ class Library extends CodeModel {
   })  : name = name == null ? null : IdentifierStartingWithLowerCase(name),
         libraryStatement = name == null ? null : Statement.library(name);
 
-
-   Library copyWith({
+  Library copyWith({
     String? name,
     List<DocComment>? docComments,
     List<Annotation>? annotations,
@@ -35,7 +34,7 @@ class Library extends CodeModel {
     List<TypeDef>? typeDefs,
   }) {
     return Library(
-      name: name?? this.name.toString(),
+      name: name ?? this.name.toString(),
       docComments: docComments ?? this.docComments,
       annotations: annotations ?? this.annotations,
       functions: functions ?? this.functions,
