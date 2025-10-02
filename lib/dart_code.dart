@@ -17,4 +17,5 @@ export 'src/parameter.dart';
 export 'src/record.dart';
 export 'src/statement.dart';
 export 'src/type.dart';
+export 'src/typedef.dart';
 export 'src/variable_definition.dart';
