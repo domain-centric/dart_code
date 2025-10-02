@@ -66,7 +66,6 @@ void main() {
           '\n'
           'abstract class Employee extends i1.Person implements i2.Skills {}\n');
     });
-
     test('constructor with classes parameter', () {
       Library(classes: [
         Class('Person', fields: [
@@ -158,6 +157,19 @@ void main() {
           '}\n');
     });
 
+    test('Constructor with enums', () {
+      Library(name: 'my_lib', enumerations: [ColorEnum()])
+          .toString()
+          .should
+          .be("library my_lib;" + ColorEnum.expectedCode);
+    });
+
+    test('Constructor with typedefs', () {
+      Library(name: 'my_lib', typeDefs: [MappedListTypeDef()])
+          .toString()
+          .should
+          .be("library my_lib;" + MappedListTypeDef.expectedCode);
+    });
     test('constructor with full library', () {
       Library(
               name: 'software_engineer',
@@ -174,6 +186,25 @@ void main() {
               PersonClass().expectedCode);
     });
   });
+}
+
+class ColorEnum extends Enumeration {
+  ColorEnum()
+      : super(
+            'Color', {EnumValue('red'), EnumValue('green'), EnumValue('blue')});
+  static const String expectedCode = 'enum Color {red,green,blue}';
+}
+
+class MappedListTypeDef extends TypeDef {
+  MappedListTypeDef()
+      : super(
+          alias: Type('MappedList', generics: [Type('X')]),
+          type: Type.ofMap(
+              keyType: Type('X'),
+              valueType: Type.ofList(genericType: Type('X'))),
+        );
+
+  static const String expectedCode = 'typedef MappedList<X>=Map<X,List<X>>;';
 }
 
 // ignore: deprecated_extends_function
