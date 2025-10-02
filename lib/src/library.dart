@@ -24,6 +24,27 @@ class Library extends CodeModel {
   })  : name = name == null ? null : IdentifierStartingWithLowerCase(name),
         libraryStatement = name == null ? null : Statement.library(name);
 
+
+   Library copyWith({
+    String? name,
+    List<DocComment>? docComments,
+    List<Annotation>? annotations,
+    List<DartFunction>? functions,
+    List<Class>? classes,
+    List<Enumeration>? enumerations,
+    List<TypeDef>? typeDefs,
+  }) {
+    return Library(
+      name: name?? this.name.toString(),
+      docComments: docComments ?? this.docComments,
+      annotations: annotations ?? this.annotations,
+      functions: functions ?? this.functions,
+      classes: classes ?? this.classes,
+      enumerations: enumerations ?? this.enumerations,
+      typeDefs: typeDefs ?? this.typeDefs,
+    );
+  }
+
   @override
   List<CodeNode> codeNodes(Imports imports) {
     var codeNodes = [
