@@ -21,8 +21,8 @@ class Library extends CodeModel {
     this.classes,
     this.enumerations,
     this.typeDefs,
-  })  : name = name == null ? null : IdentifierStartingWithLowerCase(name),
-        libraryStatement = name == null ? null : Statement.library(name);
+  }) : name = name == null ? null : IdentifierStartingWithLowerCase(name),
+       libraryStatement = name == null ? null : Statement.library(name);
 
   Library copyWith({
     String? name,

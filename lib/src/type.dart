@@ -12,97 +12,72 @@ class Type extends CodeModelWithLibraryUri implements BaseType {
   final bool nullable;
   List<Type> generics = [];
 
-  Type.ofObject({this.nullable = false})
-      : name = 'Object',
-        super();
+  Type.ofObject({this.nullable = false}) : name = 'Object', super();
 
-  Type.ofDynamic({this.nullable = false})
-      : name = 'dynamic',
-        super();
+  Type.ofDynamic({this.nullable = false}) : name = 'dynamic', super();
 
-  Type.ofBool({this.nullable = false})
-      : name = 'bool',
-        super();
+  Type.ofBool({this.nullable = false}) : name = 'bool', super();
 
-  Type.ofNum({this.nullable = false})
-      : name = 'num',
-        super();
+  Type.ofNum({this.nullable = false}) : name = 'num', super();
 
-  Type.ofInt({this.nullable = false})
-      : name = 'int',
-        super();
+  Type.ofInt({this.nullable = false}) : name = 'int', super();
 
-  Type.ofBigInt({this.nullable = false})
-      : name = 'BigInt',
-        super();
+  Type.ofBigInt({this.nullable = false}) : name = 'BigInt', super();
 
-  Type.ofDouble({this.nullable = false})
-      : name = 'double',
-        super();
+  Type.ofDouble({this.nullable = false}) : name = 'double', super();
 
-  Type.ofString({this.nullable = false})
-      : name = 'String',
-        super();
+  Type.ofString({this.nullable = false}) : name = 'String', super();
 
-  Type.ofUri({this.nullable = false})
-      : name = 'Uri',
-        super();
+  Type.ofUri({this.nullable = false}) : name = 'Uri', super();
 
-  Type.ofDateTime({this.nullable = false})
-      : name = 'DateTime',
-        super();
+  Type.ofDateTime({this.nullable = false}) : name = 'DateTime', super();
 
-  Type.ofDuration({this.nullable = false})
-      : name = 'Duration',
-        super();
+  Type.ofDuration({this.nullable = false}) : name = 'Duration', super();
 
-  Type.ofVoid()
-      : name = 'void',
-        this.nullable = false,
-        super();
+  Type.ofVoid() : name = 'void', this.nullable = false, super();
 
-  Type.ofVar()
-      : name = 'var',
-        this.nullable = false,
-        super();
+  Type.ofVar() : name = 'var', this.nullable = false, super();
 
   Type.ofList({Type? genericType, this.nullable = false})
-      : name = 'List',
-        generics = genericType == null ? const [] : [genericType],
-        super();
+    : name = 'List',
+      generics = genericType == null ? const [] : [genericType],
+      super();
 
   Type.ofSet({Type? genericType, this.nullable = false})
-      : name = 'Set',
-        generics = genericType == null ? const [] : [genericType],
-        super();
+    : name = 'Set',
+      generics = genericType == null ? const [] : [genericType],
+      super();
 
   Type.ofMap({Type? keyType, Type? valueType, this.nullable = false})
-      : name = 'Map',
-        generics = (keyType == null && valueType == null)
-            ? const []
-            : [keyType!, valueType!],
-        super();
+    : name = 'Map',
+      generics = (keyType == null && valueType == null)
+          ? const []
+          : [keyType!, valueType!],
+      super();
 
   Type.ofFuture(Type type, {this.nullable = false})
-      : name = 'Future',
-        generics = [type],
-        super();
+    : name = 'Future',
+      generics = [type],
+      super();
 
   Type.ofStream(Type type, {this.nullable = false})
-      : name = 'Stream',
-        generics = [type],
-        super();
+    : name = 'Stream',
+      generics = [type],
+      super();
 
-  Type(this.name,
-      {String? libraryUri, this.generics = const [], this.nullable = false})
-      : super(libraryUri: libraryUri);
+  Type(
+    this.name, {
+    String? libraryUri,
+    this.generics = const [],
+    this.nullable = false,
+  }) : super(libraryUri: libraryUri);
 
   @override
   List<CodeNode> codeNodesToWrap(Imports imports) => [
-        Code(name),
-        if (generics.isNotEmpty) Code('<'),
-        if (generics.isNotEmpty) SeparatedValues.forParameters(generics),
-        if (generics.isNotEmpty) Code('>'),
-        if (nullable) Code('?'),
-      ];
+    Code(name),
+    if (generics.isNotEmpty) Code('<'),
+    if (generics.isNotEmpty) SeparatedValues.forParameters(generics),
+    if (generics.isNotEmpty) Code('>'),
+    if (nullable) Code('?'),
+  ];
 }

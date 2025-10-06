@@ -10,10 +10,10 @@ class Comment extends CodeModel {
   static const String commentPrefix = '// ';
 
   Comment.fromString(String comment)
-      : nodes = _commentsToCodeNodes([comment], commentPrefix);
+    : nodes = _commentsToCodeNodes([comment], commentPrefix);
 
   Comment.fromList(List<String> comments)
-      : nodes = _commentsToCodeNodes(comments, commentPrefix);
+    : nodes = _commentsToCodeNodes(comments, commentPrefix);
 
   @override
   List<CodeNode> codeNodes(Imports imports) => nodes;
@@ -26,10 +26,10 @@ class DocComment extends CodeModel {
   static const String docCommentPrefix = '/// ';
 
   DocComment.fromString(String comment)
-      : nodes = _commentsToCodeNodes([comment], docCommentPrefix);
+    : nodes = _commentsToCodeNodes([comment], docCommentPrefix);
 
   DocComment.fromList(List<String> comments)
-      : nodes = _commentsToCodeNodes(comments, docCommentPrefix);
+    : nodes = _commentsToCodeNodes(comments, docCommentPrefix);
 
   @override
   List<CodeNode> codeNodes(Imports imports) => nodes;

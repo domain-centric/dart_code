@@ -7,65 +7,72 @@ void main() {
   group('Constructors', () {
     group('Expression.ofNull() constructor', () {
       test(
-          'Calling named constructor .ofNull() => Returns the literal code string',
-          () {
-        Expression.ofNull().toString().should.be('null');
-      });
+        'Calling named constructor .ofNull() => Returns the literal code string',
+        () {
+          Expression.ofNull().toString().should.be('null');
+        },
+      );
 
       group('Expression.ofInt() constructor', () {
         test(
-            'Calling named constructor .ofInt() => Returns the literal code string',
-            () {
-          Expression.ofInt(12).toString().should.be('12');
-        });
+          'Calling named constructor .ofInt() => Returns the literal code string',
+          () {
+            Expression.ofInt(12).toString().should.be('12');
+          },
+        );
       });
 
       group('Expression.ofDouble() constructor', () {
         test(
-            'Calling named constructor .ofDouble() => Returns the literal code string',
-            () {
-          Expression.ofDouble(12.12).toString().should.be('12.12');
-        });
+          'Calling named constructor .ofDouble() => Returns the literal code string',
+          () {
+            Expression.ofDouble(12.12).toString().should.be('12.12');
+          },
+        );
       });
     });
 
     group('Expression.ofBool() constructor', () {
       test(
-          'Calling named constructor .ofBool(true) => Returns the literal code string',
-          () {
-        Expression.ofBool(true).toString().should.be('true');
-      });
+        'Calling named constructor .ofBool(true) => Returns the literal code string',
+        () {
+          Expression.ofBool(true).toString().should.be('true');
+        },
+      );
 
       test(
-          'Calling named constructor .ofBool(false) => Returns the literal code string',
-          () {
-        Expression.ofBool(false).toString().should.be('false');
-      });
+        'Calling named constructor .ofBool(false) => Returns the literal code string',
+        () {
+          Expression.ofBool(false).toString().should.be('false');
+        },
+      );
     });
 
     group('Expression.ofDateTime() constructor', () {
       test(
-          'Calling named constructor .ofDateTime() => Returns the literal code string',
-          () {
-        var now = DateTime.now();
-        Expression.ofDateTime(now).toString().should.be(now.toString());
-      });
+        'Calling named constructor .ofDateTime() => Returns the literal code string',
+        () {
+          var now = DateTime.now();
+          Expression.ofDateTime(now).toString().should.be(now.toString());
+        },
+      );
     });
     group('Expression.ofString() constructor', () {
       test(
-          'Calling named constructor .ofString() => Returns the literal code string',
-          () {
-        Expression.ofString('Hello').toString().should.be("'Hello'");
-      });
+        'Calling named constructor .ofString() => Returns the literal code string',
+        () {
+          Expression.ofString('Hello').toString().should.be("'Hello'");
+        },
+      );
 
       test(
-          'Calling named constructor .ofString() => Returns the literal code string',
-          () {
-        Expression.ofString('considered "normal" behavior')
-            .toString()
-            .should
-            .be("'considered \"normal\" behavior'");
-      });
+        'Calling named constructor .ofString() => Returns the literal code string',
+        () {
+          Expression.ofString(
+            'considered "normal" behavior',
+          ).toString().should.be("'considered \"normal\" behavior'");
+        },
+      );
     });
     group('Expression.ofList() constructor', () {
       test('Should return: [1, 2, 3]', () {
@@ -151,130 +158,132 @@ void main() {
       });
 
       test('Should returns the literal code variable! name', () {
-        Expression.ofVariable('myValue')
-            .assertNull()
-            .toString()
-            .should
-            .be("myValue!");
+        Expression.ofVariable(
+          'myValue',
+        ).assertNull().toString().should.be("myValue!");
       });
 
       test('Should throw an exception invalid name ', () {
         Should.throwError<ArgumentError>(
-                () => {Expression.ofVariable('InvalidVariableName')})
-            .message
-            .toString()
-            .should
-            .be('Must start with an lower case letter');
+          () => {Expression.ofVariable('InvalidVariableName')},
+        ).message.toString().should.be('Must start with an lower case letter');
       });
     });
 
     group('Expression.callConstructor constructor', () {
       test('Should return a call to a empty constructor', () {
-        Expression.callConstructor(Type('Point'))
-            .toString()
-            .should
-            .be("Point()");
+        Expression.callConstructor(
+          Type('Point'),
+        ).toString().should.be("Point()");
       });
 
       test('Should return a call to a empty constructor as a const', () {
-        Expression.callConstructor(Type('Point'), isConst: true)
-            .toString()
-            .should
-            .be("const Point()");
+        Expression.callConstructor(
+          Type('Point'),
+          isConst: true,
+        ).toString().should.be("const Point()");
       });
 
       test('Should return a call to a constructor with parameter values', () {
-        Expression.callConstructor(Type('Point'),
-            parameterValues: ParameterValues([
-              ParameterValue.named('x', Expression.ofInt(20)),
-              ParameterValue.named('y', Expression.ofInt(30))
-            ])).toString().should.be('Point(x: 20,y: 30)');
+        Expression.callConstructor(
+          Type('Point'),
+          parameterValues: ParameterValues([
+            ParameterValue.named('x', Expression.ofInt(20)),
+            ParameterValue.named('y', Expression.ofInt(30)),
+          ]),
+        ).toString().should.be('Point(x: 20,y: 30)');
       });
 
       test('Should return a call to a empty named constructor', () {
-        Expression.callConstructor(Type('Point'), name: 'origin')
-            .toString()
-            .should
-            .be("Point.origin()");
+        Expression.callConstructor(
+          Type('Point'),
+          name: 'origin',
+        ).toString().should.be("Point.origin()");
       });
 
-      test('Should return a call to a named constructor with parameter values',
-          () {
-        Expression.callConstructor(Type('Point'),
+      test(
+        'Should return a call to a named constructor with parameter values',
+        () {
+          Expression.callConstructor(
+            Type('Point'),
             name: 'fromJson',
             parameterValues: ParameterValues([
               ParameterValue(Expression.ofVariable('json')),
-            ])).toString().should.be("Point.fromJson(json)");
-      });
+            ]),
+          ).toString().should.be("Point.fromJson(json)");
+        },
+      );
 
       test('Should throw an exception invalid constructor name ', () {
         Should.throwError<ArgumentError>(() {
-          Expression.callConstructor(Type('Point'),
-              name: 'InvalidConstructorName');
+          Expression.callConstructor(
+            Type('Point'),
+            name: 'InvalidConstructorName',
+          );
         }).message.toString().should.be('Must start with an lower case letter');
       });
     });
 
     group('Expression.ofEnu, constructor', () {
       test('Should return a reference to a enum value', () {
-        Expression.ofEnum(Type('MyColors'), 'red')
-            .toString()
-            .should
-            .be("MyColors.red");
+        Expression.ofEnum(
+          Type('MyColors'),
+          'red',
+        ).toString().should.be("MyColors.red");
       });
 
       test('Should throw an exception invalid constructor name ', () {
         Should.throwError<ArgumentError>(
-                () => {Expression.ofEnum(Type('MyColors'), 'InvalidEnumValue')})
-            .message
-            .toString()
-            .should
-            .be('Must start with an lower case letter');
+          () => {Expression.ofEnum(Type('MyColors'), 'InvalidEnumValue')},
+        ).message.toString().should.be('Must start with an lower case letter');
       });
     });
 
     group('Expression.callMethodOrFunction constructor', () {
       test('Should return a call to a function or method', () {
-        Expression.callMethodOrFunction('myFunction')
-            .toString()
-            .should
-            .be("myFunction()");
-      });
-
-      test('Should return a call to a function or method with generic type',
-          () {
-        Expression.callMethodOrFunction('cast', genericType: Type.ofDouble())
-            .toString()
-            .should
-            .be("cast<double>()");
-      });
-
-      test('Should return a call to a function or method with parameters', () {
-        Expression.callMethodOrFunction('add',
-            parameterValues: ParameterValues([
-              ParameterValue(Expression.ofInt(2)),
-              ParameterValue(Expression.ofInt(3))
-            ])).toString().should.be('add(2,3)');
+        Expression.callMethodOrFunction(
+          'myFunction',
+        ).toString().should.be("myFunction()");
       });
 
       test(
-          'Should return a call to a function with parameters from another library',
-          () {
-        Expression.callMethodOrFunction('add',
+        'Should return a call to a function or method with generic type',
+        () {
+          Expression.callMethodOrFunction(
+            'cast',
+            genericType: Type.ofDouble(),
+          ).toString().should.be("cast<double>()");
+        },
+      );
+
+      test('Should return a call to a function or method with parameters', () {
+        Expression.callMethodOrFunction(
+          'add',
+          parameterValues: ParameterValues([
+            ParameterValue(Expression.ofInt(2)),
+            ParameterValue(Expression.ofInt(3)),
+          ]),
+        ).toString().should.be('add(2,3)');
+      });
+
+      test(
+        'Should return a call to a function with parameters from another library',
+        () {
+          Expression.callMethodOrFunction(
+            'add',
             libraryUri: "package:test/calculations.dart",
             parameterValues: ParameterValues([
               ParameterValue(Expression.ofInt(2)),
-              ParameterValue(Expression.ofInt(3))
-            ])).toString().should.be('i1.add(2,3)');
-      });
+              ParameterValue(Expression.ofInt(3)),
+            ]),
+          ).toString().should.be('i1.add(2,3)');
+        },
+      );
 
       test('Should throw an exception invalid name ', () {
         Should.throwError<ArgumentError>(
-                () => {Expression.callMethodOrFunction('InvalidFunctionName')})
-            .message
-            .toString()
-            .should
-            .be('Must start with an lower case letter');
+          () => {Expression.callMethodOrFunction('InvalidFunctionName')},
+        ).message.toString().should.be('Must start with an lower case letter');
       });
     });
 
@@ -323,11 +332,9 @@ void main() {
       });
 
       test('Should return me as String ', () {
-        Expression.ofVariable('me')
-            .asA(Type.ofString())
-            .toString()
-            .should
-            .be('me as String ');
+        Expression.ofVariable(
+          'me',
+        ).asA(Type.ofString()).toString().should.be('me as String ');
       });
 
       test('Should return me as String? ', () {
@@ -455,11 +462,9 @@ void main() {
       });
 
       test('Should return ++me', () {
-        Expression.ofVariable('me')
-            .increment(after: false)
-            .toString()
-            .should
-            .be('++me');
+        Expression.ofVariable(
+          'me',
+        ).increment(after: false).toString().should.be('++me');
       });
 
       test('Should return me--', () {
@@ -467,17 +472,17 @@ void main() {
       });
 
       test('Should return --me', () {
-        Expression.ofVariable('me')
-            .decrement(after: false)
-            .toString()
-            .should
-            .be('--me');
+        Expression.ofVariable(
+          'me',
+        ).decrement(after: false).toString().should.be('--me');
       });
 
       test('Should return me ? whenTrue : whenFalse', () {
         Expression.ofVariable('me')
-            .conditional(Expression.ofVariable('whenTrue'),
-                Expression.ofVariable('whenFalse'))
+            .conditional(
+              Expression.ofVariable('whenTrue'),
+              Expression.ofVariable('whenFalse'),
+            )
             .toString()
             .should
             .be('me ? whenTrue : whenFalse');
@@ -492,11 +497,9 @@ void main() {
       });
 
       test("Should return 'name!'", () {
-        Expression.ofVariable('name')
-            .assertNull()
-            .toString()
-            .should
-            .be("name!");
+        Expression.ofVariable(
+          'name',
+        ).assertNull().toString().should.be("name!");
       });
 
       test('Should return await me', () {
@@ -525,11 +528,9 @@ void main() {
         test('Should throw name exception', () {
           Should.throwError<ArgumentError>(() {
             Expression.ofString('Hello World').assignVariable("Greeting");
-          })
-              .message
-              .toString()
-              .should
-              .be('Must start with an lower case letter');
+          }).message.toString().should.be(
+            'Must start with an lower case letter',
+          );
         });
       });
 
@@ -561,11 +562,9 @@ void main() {
         test('Should throw name exception', () {
           Should.throwError<ArgumentError>(() {
             Expression.ofString('Hello World').defineVariable("Greeting");
-          })
-              .message
-              .toString()
-              .should
-              .be('Must start with an lower case letter');
+          }).message.toString().should.be(
+            'Must start with an lower case letter',
+          );
         });
       });
 
@@ -580,34 +579,40 @@ void main() {
 
         test("Should return: final String greeting = 'Hello World';", () {
           Expression.ofString('Hello World')
-              .defineVariable("greeting",
-                  modifier: Modifier.final$, type: Type.ofString())
+              .defineVariable(
+                "greeting",
+                modifier: Modifier.final$,
+                type: Type.ofString(),
+              )
               .toString()
               .should
               .be("final String greeting = 'Hello World';");
         });
 
-        test("Should return: static final String greeting = 'Hello World';",
-            () {
-          Expression.ofString('Hello World')
-              .defineVariable("greeting",
+        test(
+          "Should return: static final String greeting = 'Hello World';",
+          () {
+            Expression.ofString('Hello World')
+                .defineVariable(
+                  "greeting",
                   static: true,
                   modifier: Modifier.final$,
-                  type: Type.ofString())
-              .toString()
-              .should
-              .be("static final String greeting = 'Hello World';");
-        });
+                  type: Type.ofString(),
+                )
+                .toString()
+                .should
+                .be("static final String greeting = 'Hello World';");
+          },
+        );
 
         test('Should throw name exception', () {
           Should.throwError<ArgumentError>(() {
-            Expression.ofString('Hello World')
-                .defineVariable("Greeting", modifier: Modifier.final$);
-          })
-              .message
-              .toString()
-              .should
-              .be('Must start with an lower case letter');
+            Expression.ofString(
+              'Hello World',
+            ).defineVariable("Greeting", modifier: Modifier.final$);
+          }).message.toString().should.be(
+            'Must start with an lower case letter',
+          );
         });
       });
       group('defineConst() method', () {
@@ -621,34 +626,40 @@ void main() {
 
         test("Should return: const String greeting = 'Hello World';", () {
           Expression.ofString('Hello World')
-              .defineVariable("greeting",
-                  modifier: Modifier.const$, type: Type.ofString())
+              .defineVariable(
+                "greeting",
+                modifier: Modifier.const$,
+                type: Type.ofString(),
+              )
               .toString()
               .should
               .be("const String greeting = 'Hello World';");
         });
 
-        test("Should return: static const String greeting = \'Hello World\';",
-            () {
-          Expression.ofString('Hello World')
-              .defineVariable("greeting",
+        test(
+          "Should return: static const String greeting = \'Hello World\';",
+          () {
+            Expression.ofString('Hello World')
+                .defineVariable(
+                  "greeting",
                   static: true,
                   modifier: Modifier.const$,
-                  type: Type.ofString())
-              .toString()
-              .should
-              .be("static const String greeting = \'Hello World\';");
-        });
+                  type: Type.ofString(),
+                )
+                .toString()
+                .should
+                .be("static const String greeting = \'Hello World\';");
+          },
+        );
 
         test('Should throw name exception', () {
           Should.throwError<ArgumentError>(() {
-            Expression.ofString('Hello World')
-                .defineVariable("Greeting", modifier: Modifier.const$);
-          })
-              .message
-              .toString()
-              .should
-              .be('Must start with an lower case letter');
+            Expression.ofString(
+              'Hello World',
+            ).defineVariable("Greeting", modifier: Modifier.const$);
+          }).message.toString().should.be(
+            'Must start with an lower case letter',
+          );
         });
       });
 
@@ -662,43 +673,55 @@ void main() {
         });
 
         test(
-            'Should return a call to a method with generic type, without parameter values',
-            () {
-          Expression.callConstructor(Type('MyCollection'))
-              .callMethod('cast', genericType: Type.ofNum())
-              .toString()
-              .should
-              .be('MyCollection().cast<num>()');
-        });
+          'Should return a call to a method with generic type, without parameter values',
+          () {
+            Expression.callConstructor(Type('MyCollection'))
+                .callMethod('cast', genericType: Type.ofNum())
+                .toString()
+                .should
+                .be('MyCollection().cast<num>()');
+          },
+        );
 
         test(
-            'Should return a call to a method without parameter values with ?. separator',
-            () {
-          Expression.ofVariable('address')
-              .callMethod('findGpsLocation', ifNullReturnNull: true)
-              .toString()
-              .should
-              .be('address?.findGpsLocation()');
-        });
+          'Should return a call to a method without parameter values with ?. separator',
+          () {
+            Expression.ofVariable('address')
+                .callMethod('findGpsLocation', ifNullReturnNull: true)
+                .toString()
+                .should
+                .be('address?.findGpsLocation()');
+          },
+        );
 
         test(
-            'Should return a call to a method without parameter values with ?.. separator',
-            () {
-          Expression.ofVariable('address')
-              .callMethod('findGpsLocation',
-                  cascade: true, ifNullReturnNull: true)
-              .callMethod('calculateLongitude',
-                  cascade: false, ifNullReturnNull: true)
-              .toString()
-              .should
-              .be('address?..findGpsLocation()?.calculateLongitude()');
-        });
+          'Should return a call to a method without parameter values with ?.. separator',
+          () {
+            Expression.ofVariable('address')
+                .callMethod(
+                  'findGpsLocation',
+                  cascade: true,
+                  ifNullReturnNull: true,
+                )
+                .callMethod(
+                  'calculateLongitude',
+                  cascade: false,
+                  ifNullReturnNull: true,
+                )
+                .toString()
+                .should
+                .be('address?..findGpsLocation()?.calculateLongitude()');
+          },
+        );
 
         test('Should return a call to a method with parameter values', () {
           Expression.callConstructor(Type('AddressFinder'))
-              .callMethod('find',
-                  parameterValues: ParameterValues(
-                      [ParameterValue(Expression.ofString("Santa's house"))]))
+              .callMethod(
+                'find',
+                parameterValues: ParameterValues([
+                  ParameterValue(Expression.ofString("Santa's house")),
+                ]),
+              )
               .toString()
               .should
               .be("AddressFinder().find(\"Santa\'s house\")");
@@ -706,10 +729,13 @@ void main() {
 
         test('Should return a call to 2 cascade methods', () {
           Expression.callConstructor(Type('Person'))
-              .callMethod('tickle',
-                  cascade: true,
-                  parameterValues: ParameterValues(
-                      [ParameterValue(Expression.ofString('feather'))]))
+              .callMethod(
+                'tickle',
+                cascade: true,
+                parameterValues: ParameterValues([
+                  ParameterValue(Expression.ofString('feather')),
+                ]),
+              )
               .callMethod('kiss', cascade: true)
               .assignVariable('person')
               .toString()
@@ -719,23 +745,20 @@ void main() {
 
         test('Should throw an exception invalid name ', () {
           Should.throwError<ArgumentError>(() {
-            Expression.callConstructor(Type('AddressFinder'))
-                .callMethod('InvalidMethodName');
-          })
-              .message
-              .toString()
-              .should
-              .be('Must start with an lower case letter');
+            Expression.callConstructor(
+              Type('AddressFinder'),
+            ).callMethod('InvalidMethodName');
+          }).message.toString().should.be(
+            'Must start with an lower case letter',
+          );
         });
       });
 
       group('getProperty() method', () {
         test('Should return a get property', () {
-          Expression.callConstructor(Type('Person'))
-              .getProperty('name')
-              .toString()
-              .should
-              .be("Person().name");
+          Expression.callConstructor(
+            Type('Person'),
+          ).getProperty('name').toString().should.be("Person().name");
         });
 
         test('Should get a get property with ?. separator', () {
@@ -767,13 +790,12 @@ void main() {
 
         test('Should throw an invalid name exception', () {
           Should.throwError<ArgumentError>(() {
-            Expression.callConstructor(Type('Person'))
-                .getProperty('InvalidPropertyName');
-          })
-              .message
-              .toString()
-              .should
-              .be('Must start with an lower case letter');
+            Expression.callConstructor(
+              Type('Person'),
+            ).getProperty('InvalidPropertyName');
+          }).message.toString().should.be(
+            'Must start with an lower case letter',
+          );
         });
       });
 
@@ -798,8 +820,10 @@ void main() {
           Expression.callConstructor(Type('Person'))
               .callMethod('kiss', cascade: true)
               .setProperty(
-                  'cheekColor', Expression.ofEnum(Type('CheekColors'), 'red'),
-                  cascade: true)
+                'cheekColor',
+                Expression.ofEnum(Type('CheekColors'), 'red'),
+                cascade: true,
+              )
               .assignVariable('person')
               .toString()
               .should
@@ -808,13 +832,12 @@ void main() {
 
         test('Should throw an invalid name exception', () {
           Should.throwError<ArgumentError>(() {
-            Expression.callConstructor(Type('Person')).setProperty(
-                'InvalidPropertyName', Expression.ofString('Value'));
-          })
-              .message
-              .toString()
-              .should
-              .be('Must start with an lower case letter');
+            Expression.callConstructor(
+              Type('Person'),
+            ).setProperty('InvalidPropertyName', Expression.ofString('Value'));
+          }).message.toString().should.be(
+            'Must start with an lower case letter',
+          );
         });
       });
     });

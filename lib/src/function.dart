@@ -20,8 +20,8 @@ class DartFunction extends CodeModel {
     required this.returnType,
     this.parameters,
     this.asynchrony,
-  })  : name = null,
-        body = Body([body]);
+  }) : name = null,
+       body = Body([body]);
 
   DartFunction.withName(
     String name,
@@ -31,8 +31,8 @@ class DartFunction extends CodeModel {
     required this.returnType,
     this.parameters,
     this.asynchrony,
-  })  : name = IdentifierStartingWithLowerCase(name),
-        body = Body([body]);
+  }) : name = IdentifierStartingWithLowerCase(name),
+       body = Body([body]);
 
   DartFunction.main(
     CodeNode body, {
@@ -40,28 +40,27 @@ class DartFunction extends CodeModel {
     this.annotations = const [],
     this.parameters,
     this.asynchrony,
-  })  : returnType = Type.ofVoid(),
-        name = IdentifierStartingWithLowerCase('main'),
-        body = Body([body]);
+  }) : returnType = Type.ofVoid(),
+       name = IdentifierStartingWithLowerCase('main'),
+       body = Body([body]);
 
   @override
   List<CodeNode> codeNodes(Imports imports) => [
-        ...docComments,
-        ...annotations,
-        Space(),
-        returnType,
-        Space(),
-        if (name != null) name!,
-        Code('('),
-        if (parameters != null) parameters!,
-        Code(')'),
-        if (asynchrony != null) Space(),
-        if (asynchrony != null && asynchrony == Asynchrony.async)
-          KeyWord.async$,
-        if (asynchrony != null && asynchrony == Asynchrony.sync) KeyWord.sync$,
-        Space(),
-        body,
-      ];
+    ...docComments,
+    ...annotations,
+    Space(),
+    returnType,
+    Space(),
+    if (name != null) name!,
+    Code('('),
+    if (parameters != null) parameters!,
+    Code(')'),
+    if (asynchrony != null) Space(),
+    if (asynchrony != null && asynchrony == Asynchrony.async) KeyWord.async$,
+    if (asynchrony != null && asynchrony == Asynchrony.sync) KeyWord.sync$,
+    Space(),
+    body,
+  ];
 }
 
 class FunctionCall extends CodeModelWithLibraryUri {
@@ -74,17 +73,17 @@ class FunctionCall extends CodeModelWithLibraryUri {
     String? libraryUri,
     this.genericType,
     this.parameterValues,
-  })  : name = IdentifierStartingWithLowerCase(name),
-        super(libraryUri: libraryUri);
+  }) : name = IdentifierStartingWithLowerCase(name),
+       super(libraryUri: libraryUri);
 
   @override
   List<CodeNode> codeNodesToWrap(Imports imports) => [
-        name,
-        if (genericType != null) Code('<'),
-        if (genericType != null) genericType!,
-        if (genericType != null) Code('>'),
-        Code('('),
-        if (parameterValues != null) parameterValues!,
-        Code(')'),
-      ];
+    name,
+    if (genericType != null) Code('<'),
+    if (genericType != null) genericType!,
+    if (genericType != null) Code('>'),
+    Code('('),
+    if (parameterValues != null) parameterValues!,
+    Code(')'),
+  ];
 }

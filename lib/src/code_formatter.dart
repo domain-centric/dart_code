@@ -6,7 +6,8 @@ import 'package:dart_code/dart_code.dart';
 /// Note that this formatter may throw parsing exceptions.
 /// You can use the [CodeFormatter.unFormatted] method when you need a code partial that can not be parsed by the Dart formatter
 @Deprecated(
-    'Use CodeNode.toFormattedString() or CodeNode.toUnFormattedString() instead')
+  'Use CodeNode.toFormattedString() or CodeNode.toUnFormattedString() instead',
+)
 class CodeFormatter {
   String? lineEnding;
   int? pageWidth;
@@ -21,11 +22,11 @@ class CodeFormatter {
 
   @Deprecated('Use CodeNode.toFormattedString() instead')
   String format(CodeNode codeNode) => codeNode.toFormattedString(
-        lineEnding: lineEnding,
-        pageWidth: pageWidth,
-        indent: indent,
-        experimentFlags: experimentFlags,
-      );
+    lineEnding: lineEnding,
+    pageWidth: pageWidth,
+    indent: indent,
+    experimentFlags: experimentFlags,
+  );
 
   @Deprecated('Use CodeNode.toUnFormattedString() instead')
   String unFormatted(CodeNode codeNode) =>

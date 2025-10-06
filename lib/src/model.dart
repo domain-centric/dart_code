@@ -15,11 +15,12 @@ abstract class CodeNode {
   /// Using the official (dartfmt)[https://github.com/dart-lang/dart_style/wiki/Formatting-Rules] with the dart_style package
   /// Note that this formatter may throw parsing exceptions.
   /// You can use the [toUnFormattedString] method when you need a code partial that can not be parsed by the Dart formatter
-  String toFormattedString(
-      {String? lineEnding,
-      int? pageWidth,
-      int? indent,
-      List<String>? experimentFlags}) {
+  String toFormattedString({
+    String? lineEnding,
+    int? pageWidth,
+    int? indent,
+    List<String>? experimentFlags,
+  }) {
     var dartFormatter = DartFormatter(
       languageVersion: DartFormatter.latestLanguageVersion,
       lineEnding: lineEnding,
@@ -74,10 +75,10 @@ abstract class CodeModelWithLibraryUri extends CodeModel {
 
   @override
   List<CodeNode> codeNodes(Imports imports) => [
-        if (libraryUri != null) imports.aliasOf(libraryUri!),
-        if (libraryUri != null) Code('.'),
-        ...codeNodesToWrap(imports),
-      ];
+    if (libraryUri != null) imports.aliasOf(libraryUri!),
+    if (libraryUri != null) Code('.'),
+    ...codeNodesToWrap(imports),
+  ];
 
   ///Hook
   List<CodeNode> codeNodesToWrap(Imports imports);

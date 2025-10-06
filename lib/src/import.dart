@@ -21,15 +21,15 @@ class Import extends CodeModel {
   ///e.g.import 'package:my_package/my_library.dart' as i1;
   @override
   List<CodeNode> codeNodes(Imports imports) => [
-        KeyWord.import$,
-        Space(),
-        Code("'$libraryUri'"),
-        Space(),
-        KeyWord.as$,
-        Space(),
-        Code(alias),
-        EndOfStatement(),
-      ];
+    KeyWord.import$,
+    Space(),
+    Code("'$libraryUri'"),
+    Space(),
+    KeyWord.as$,
+    Space(),
+    Code(alias),
+    EndOfStatement(),
+  ];
 
   bool get hasRelativePath => libraryUri.startsWith('/');
 }
@@ -70,7 +70,8 @@ class Imports extends CodeModel {
     List<CodeNode> codeNodes = [];
     if (_hasRelativePath(imports)) {
       codeNodes.add(
-          Comment.fromString("ignore_for_file: avoid_relative_lib_imports"));
+        Comment.fromString("ignore_for_file: avoid_relative_lib_imports"),
+      );
     }
     codeNodes.addAll(imports);
     return codeNodes;
@@ -87,8 +88,10 @@ class Imports extends CodeModel {
 
   List<Import> _createImports() {
     List<Import> imports = _libraryUriAndAliases.keys
-        .map((libraryUri) =>
-            Import(libraryUri, _libraryUriAndAliases[libraryUri]!))
+        .map(
+          (libraryUri) =>
+              Import(libraryUri, _libraryUriAndAliases[libraryUri]!),
+        )
         .toList();
     return imports;
   }

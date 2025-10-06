@@ -38,7 +38,7 @@ class RecordField extends CodeModel {
   RecordField(this.type) : name = null;
 
   RecordField.named(this.type, String name)
-      : name = IdentifierStartingWithLowerCase(name);
+    : name = IdentifierStartingWithLowerCase(name);
 
   @override
   List<CodeNode> codeNodes(Imports imports) =>
@@ -54,10 +54,8 @@ class RecordFieldValue extends CodeModel {
   final Expression value;
 
   RecordFieldValue(this.value) : name = null;
-  RecordFieldValue.named(
-    String name,
-    this.value,
-  ) : name = IdentifierStartingWithLowerCase(name);
+  RecordFieldValue.named(String name, this.value)
+    : name = IdentifierStartingWithLowerCase(name);
 
   @override
   List<CodeNode> codeNodes(Imports imports) =>

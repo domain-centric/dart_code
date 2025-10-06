@@ -112,8 +112,10 @@ void main() {
     });
 
     test('should handle named RecordFieldValue with nullable value', () {
-      final fieldValue =
-          RecordFieldValue.named('name', Expression.ofString('null'));
+      final fieldValue = RecordFieldValue.named(
+        'name',
+        Expression.ofString('null'),
+      );
 
       Should.satisfyAllConditions([
         () => fieldValue.value.toString().should.be("'null'"),

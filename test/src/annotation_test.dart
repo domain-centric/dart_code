@@ -11,10 +11,11 @@ void main() {
 
     test("Should return: '@Hidden(forRole: \'admin\')'", () {
       Annotation(
-          Type('Hidden'),
-          ParameterValues([
-            ParameterValue.named('forRole', Expression.ofString('admin'))
-          ])).toString().should.be('@Hidden(forRole: \'admin\')\n');
+        Type('Hidden'),
+        ParameterValues([
+          ParameterValue.named('forRole', Expression.ofString('admin')),
+        ]),
+      ).toString().should.be('@Hidden(forRole: \'admin\')\n');
     });
 
     test("Should return: '@override'", () {

@@ -10,9 +10,9 @@ class Annotation extends CodeModel {
   Annotation(this.type, [this.parameterValues]) : customType = true;
 
   Annotation._dartType(String name)
-      : type = Type(name),
-        parameterValues = null,
-        customType = false;
+    : type = Type(name),
+      parameterValues = null,
+      customType = false;
 
   /// Creates an annotation for overriding a member in a subclass.
   /// See [https://api.dart.dev/dart-core/override-constant.html] for more details.
@@ -30,13 +30,13 @@ class Annotation extends CodeModel {
 
   @override
   List<CodeNode> codeNodes(Imports imports) => [
-        Code('@'),
-        type,
-        if (customType) Code('('),
-        if (customType && parameterValues != null) parameterValues!,
-        if (customType) Code(')'),
-        NewLine(),
-      ];
+    Code('@'),
+    type,
+    if (customType) Code('('),
+    if (customType && parameterValues != null) parameterValues!,
+    if (customType) Code(')'),
+    NewLine(),
+  ];
 
   @override
   bool operator ==(Object other) =>

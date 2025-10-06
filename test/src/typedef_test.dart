@@ -12,9 +12,11 @@ void main() {
         docComments: [DocComment.fromString('/// This is a typedef')],
         annotations: [Annotation.deprecated()],
       );
-      typeDef.toString().should.be('/// This is a typedef\n'
-          '@deprecated\n'
-          'typedef MyAlias=int;');
+      typeDef.toString().should.be(
+        '/// This is a typedef\n'
+        '@deprecated\n'
+        'typedef MyAlias=int;',
+      );
     });
 
     test('should have correct alias and type', () {
@@ -29,7 +31,9 @@ void main() {
       var typeDef = TypeDef(
         alias: Type('MappedList', generics: [Type('X')]),
         type: Type.ofMap(
-            keyType: Type('X'), valueType: Type.ofList(genericType: Type('X'))),
+          keyType: Type('X'),
+          valueType: Type.ofList(genericType: Type('X')),
+        ),
       );
       typeDef.toString().should.be('typedef MappedList<X>=Map<X,List<X>>;');
     });

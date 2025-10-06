@@ -27,54 +27,45 @@ class Expression extends CodeModel {
   Expression.ofString(String value) : nodes = _createStringNodes(value);
 
   Expression.ofList(List<Expression> expressions)
-      : nodes = [
-          Code('['),
-          SeparatedValues.forParameters(expressions),
-          Code(']')
-        ];
-
-  Expression.ofSet(Set<Expression> expressions)
-      : nodes = [
-          Code('{'),
-          SeparatedValues.forParameters(expressions),
-          Code('}')
-        ];
-
-  Expression.ofMap(Map<Expression, Expression> expressions)
-      : nodes = _createMapNodes(expressions);
-
-  static List<CodeNode> _createMapNodes(
-          Map<Expression, Expression> expressions) =>
-      [
-        Code('{'),
-        SeparatedValues.forParameters(_createKeyValueExpressions(expressions)),
-        Code('}')
+    : nodes = [
+        Code('['),
+        SeparatedValues.forParameters(expressions),
+        Code(']'),
       ];
 
+  Expression.ofSet(Set<Expression> expressions)
+    : nodes = [
+        Code('{'),
+        SeparatedValues.forParameters(expressions),
+        Code('}'),
+      ];
+
+  Expression.ofMap(Map<Expression, Expression> expressions)
+    : nodes = _createMapNodes(expressions);
+
+  static List<CodeNode> _createMapNodes(
+    Map<Expression, Expression> expressions,
+  ) => [
+    Code('{'),
+    SeparatedValues.forParameters(_createKeyValueExpressions(expressions)),
+    Code('}'),
+  ];
+
   static List<Expression> _createKeyValueExpressions(
-          Map<Expression, Expression> expressions) =>
-      expressions.keys
-          .map((key) => _createKeyValueExpression(key, expressions[key]!))
-          .toList();
+    Map<Expression, Expression> expressions,
+  ) => expressions.keys
+      .map((key) => _createKeyValueExpression(key, expressions[key]!))
+      .toList();
 
   static Expression _createKeyValueExpression(
-          Expression key, Expression value) =>
-      Expression([
-        key,
-        Space(),
-        Code(':'),
-        Space(),
-        value,
-      ]);
+    Expression key,
+    Expression value,
+  ) => Expression([key, Space(), Code(':'), Space(), value]);
 
   Expression.ofType(BaseType type) : nodes = [type];
 
   Expression.ofRecord(List<RecordFieldValue> values)
-      : nodes = [
-          Code('('),
-          SeparatedValues.forParameters(values),
-          Code(')'),
-        ];
+    : nodes = [Code('('), SeparatedValues.forParameters(values), Code(')')];
 
   static RegExp _singleQuote = RegExp("'");
   static RegExp _doubleQuote = RegExp('"');
@@ -96,27 +87,21 @@ class Expression extends CodeModel {
   }
 
   Expression.ofVariable(String name)
-      : nodes = [
-          IdentifierStartingWithLowerCase(name),
-        ];
+    : nodes = [IdentifierStartingWithLowerCase(name)];
 
   Expression.ofThis() : nodes = [KeyWord.this$];
 
   Expression.ofThisField(String name)
-      : nodes = [
-          KeyWord.this$,
-          Code('.'),
-          IdentifierStartingWithLowerCase(name)
-        ];
+    : nodes = [KeyWord.this$, Code('.'), IdentifierStartingWithLowerCase(name)];
 
   Expression.ofSuper() : nodes = [KeyWord.super$];
 
   Expression.ofSuperField(String name)
-      : nodes = [
-          KeyWord.super$,
-          Code('.'),
-          IdentifierStartingWithLowerCase(name)
-        ];
+    : nodes = [
+        KeyWord.super$,
+        Code('.'),
+        IdentifierStartingWithLowerCase(name),
+      ];
 
   /// A call to a method in the same class or a function
   Expression.callMethodOrFunction(
@@ -125,11 +110,13 @@ class Expression extends CodeModel {
     Type? genericType,
     ParameterValues? parameterValues,
   }) : nodes = [
-          FunctionCall(name,
-              libraryUri: libraryUri,
-              genericType: genericType,
-              parameterValues: parameterValues)
-        ];
+         FunctionCall(
+           name,
+           libraryUri: libraryUri,
+           genericType: genericType,
+           parameterValues: parameterValues,
+         ),
+       ];
 
   Expression.callConstructor(
     Type type, {
@@ -137,25 +124,21 @@ class Expression extends CodeModel {
     ParameterValues? parameterValues,
     bool isConst = false,
   }) : nodes = [
-          if (isConst) KeyWord.const$,
-          if (isConst) Space(),
-          type,
-          if (name != null) Code('.'),
-          if (name != null) IdentifierStartingWithLowerCase(name),
-          Code('('),
-          if (parameterValues != null) parameterValues,
-          Code(')'),
-        ];
+         if (isConst) KeyWord.const$,
+         if (isConst) Space(),
+         type,
+         if (name != null) Code('.'),
+         if (name != null) IdentifierStartingWithLowerCase(name),
+         Code('('),
+         if (parameterValues != null) parameterValues,
+         Code(')'),
+       ];
 
   Expression.ofEnum(Type type, String value)
-      : nodes = [
-          type,
-          Code('.'),
-          IdentifierStartingWithLowerCase(value),
-        ];
+    : nodes = [type, Code('.'), IdentifierStartingWithLowerCase(value)];
 
   Expression.betweenParentheses(Expression expression)
-      : nodes = [Code('('), expression, Code(')')];
+    : nodes = [Code('('), expression, Code(')')];
 
   /// =========================================================================
   ///                        OPERATORS AS FLUENT METHODS
@@ -205,8 +188,13 @@ class Expression extends CodeModel {
       Expression([this, Space(), Operator.lessThan, Space(), other]);
 
   /// Returns the result of `this` `>=` [other].
-  Expression greaterOrEqualTo(Expression other) => Expression(
-      [this, Space(), Operator.greaterThanOrEqualTo, Space(), other]);
+  Expression greaterOrEqualTo(Expression other) => Expression([
+    this,
+    Space(),
+    Operator.greaterThanOrEqualTo,
+    Space(),
+    other,
+  ]);
 
   /// Returns the result of `this` `<=` [other].
   Expression lessOrEqualTo(Expression other) =>
@@ -253,23 +241,20 @@ class Expression extends CodeModel {
         Space(),
         Code(':'),
         Space(),
-        whenFalse
+        whenFalse,
       ]);
 
   /// Return `{this} ?? {alternativeWhenNull} '`.
   Expression ifNull(Expression alternativeWhenNull) => Expression([
-        this,
-        Space(),
-        Operator.nullCoalesce,
-        Space(),
-        alternativeWhenNull,
-      ]);
+    this,
+    Space(),
+    Operator.nullCoalesce,
+    Space(),
+    alternativeWhenNull,
+  ]);
 
   /// Return '{this}!'
-  Expression assertNull() => Expression([
-        this,
-        Operator.negate,
-      ]);
+  Expression assertNull() => Expression([this, Operator.negate]);
 
   /// This expression preceded by `await`.
   Expression awaited() => Expression([Code('await'), Space(), this]);
@@ -284,67 +269,65 @@ class Expression extends CodeModel {
     ParameterValues? parameterValues,
     bool cascade = false,
     bool ifNullReturnNull = false,
-  }) =>
-      Expression([
-        this,
-        if (ifNullReturnNull) Code('?'),
-        Code('.'),
-        if (cascade) Code('.'),
-        FunctionCall(
-          name,
-          genericType: genericType,
-          parameterValues: parameterValues,
-        ),
-      ]);
+  }) => Expression([
+    this,
+    if (ifNullReturnNull) Code('?'),
+    Code('.'),
+    if (cascade) Code('.'),
+    FunctionCall(
+      name,
+      genericType: genericType,
+      parameterValues: parameterValues,
+    ),
+  ]);
 
   Expression getProperty(
     String name, {
     bool cascade = false,
     bool ifNullReturnNull = false,
-  }) =>
-      Expression([
-        this,
-        if (ifNullReturnNull) Code('?'),
-        Code('.'),
-        if (cascade) Code('.'),
-        IdentifierStartingWithLowerCase(name),
-      ]);
+  }) => Expression([
+    this,
+    if (ifNullReturnNull) Code('?'),
+    Code('.'),
+    if (cascade) Code('.'),
+    IdentifierStartingWithLowerCase(name),
+  ]);
 
   Expression setProperty(
     String name,
     Expression value, {
     bool cascade = false,
-  }) =>
-      Expression([
-        this,
-        Code('.'),
-        if (cascade) Code('.'),
-        IdentifierStartingWithLowerCase(name),
-        Space(),
-        Code('='),
-        Space(),
-        value,
-      ]);
+  }) => Expression([
+    this,
+    Code('.'),
+    if (cascade) Code('.'),
+    IdentifierStartingWithLowerCase(name),
+    Space(),
+    Code('='),
+    Space(),
+    value,
+  ]);
 
   Statement assignVariable(String name, {nullAware = false}) =>
       Statement.assignVariable(name, this, nullAware: nullAware);
 
-  Statement defineVariable(String name,
-          {List<DocComment> docComments = const [],
-          List<Annotation> annotations = const [],
-          bool static = false,
-          Modifier modifier = Modifier.var$,
-          BaseType? type,
-          Expression? value}) =>
-      VariableDefinition(
-        name,
-        docComments: docComments,
-        annotations: annotations,
-        static: static,
-        modifier: modifier,
-        type: type,
-        value: this,
-      );
+  Statement defineVariable(
+    String name, {
+    List<DocComment> docComments = const [],
+    List<Annotation> annotations = const [],
+    bool static = false,
+    Modifier modifier = Modifier.var$,
+    BaseType? type,
+    Expression? value,
+  }) => VariableDefinition(
+    name,
+    docComments: docComments,
+    annotations: annotations,
+    static: static,
+    modifier: modifier,
+    type: type,
+    value: this,
+  );
 
   ///===========================================================================
   ///                             codeNodes

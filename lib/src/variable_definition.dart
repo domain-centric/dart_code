@@ -17,40 +17,41 @@ class VariableDefinition extends Statement {
   final String name;
   final Expression? value;
 
-  VariableDefinition(this.name,
-      {this.docComments = const [],
-      this.annotations = const [],
-      this.static = false,
-      this.modifier = Modifier.var$,
-      this.type,
-      this.value})
-      : super([
-          ...docComments,
-          ...annotations,
-          if (static) KeyWord.static$,
-          if (static) Space(),
-          if (modifier == Modifier.lateVar$ || modifier == Modifier.lateFinal$)
-            KeyWord.late$,
-          if (modifier == Modifier.lateVar$ || modifier == Modifier.lateFinal$)
-            Space(),
-          if ((modifier == Modifier.var$ || modifier == Modifier.lateVar$) &&
-              type == null)
-            KeyWord.var$,
-          if ((modifier == Modifier.var$ || modifier == Modifier.lateVar$) &&
-              type == null)
-            Space(),
-          if (modifier == Modifier.final$ || modifier == Modifier.lateFinal$)
-            KeyWord.final$,
-          if (modifier == Modifier.final$ || modifier == Modifier.lateFinal$)
-            Space(),
-          if (modifier == Modifier.const$) KeyWord.const$,
-          if (modifier == Modifier.const$) Space(),
-          if (type != null) type,
-          if (type != null) Space(),
-          IdentifierStartingWithLowerCase(name),
-          if (value != null) Space(),
-          if (value != null) Code('='),
-          if (value != null) Space(),
-          if (value != null) value,
-        ]);
+  VariableDefinition(
+    this.name, {
+    this.docComments = const [],
+    this.annotations = const [],
+    this.static = false,
+    this.modifier = Modifier.var$,
+    this.type,
+    this.value,
+  }) : super([
+         ...docComments,
+         ...annotations,
+         if (static) KeyWord.static$,
+         if (static) Space(),
+         if (modifier == Modifier.lateVar$ || modifier == Modifier.lateFinal$)
+           KeyWord.late$,
+         if (modifier == Modifier.lateVar$ || modifier == Modifier.lateFinal$)
+           Space(),
+         if ((modifier == Modifier.var$ || modifier == Modifier.lateVar$) &&
+             type == null)
+           KeyWord.var$,
+         if ((modifier == Modifier.var$ || modifier == Modifier.lateVar$) &&
+             type == null)
+           Space(),
+         if (modifier == Modifier.final$ || modifier == Modifier.lateFinal$)
+           KeyWord.final$,
+         if (modifier == Modifier.final$ || modifier == Modifier.lateFinal$)
+           Space(),
+         if (modifier == Modifier.const$) KeyWord.const$,
+         if (modifier == Modifier.const$) Space(),
+         if (type != null) type,
+         if (type != null) Space(),
+         IdentifierStartingWithLowerCase(name),
+         if (value != null) Space(),
+         if (value != null) Code('='),
+         if (value != null) Space(),
+         if (value != null) value,
+       ]);
 }

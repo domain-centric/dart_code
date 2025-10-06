@@ -109,17 +109,16 @@ void main() {
     });
 
     test("Should return: 'List<String>'", () {
-      Type.ofList(genericType: Type.ofString())
-          .toString()
-          .should
-          .be("List<String>");
+      Type.ofList(
+        genericType: Type.ofString(),
+      ).toString().should.be("List<String>");
     });
 
     test("Should return: 'List<String>?'", () {
-      Type.ofList(genericType: Type.ofString(), nullable: true)
-          .toString()
-          .should
-          .be("List<String>?");
+      Type.ofList(
+        genericType: Type.ofString(),
+        nullable: true,
+      ).toString().should.be("List<String>?");
     });
 
     test("Should return: 'Set'", () {
@@ -131,17 +130,16 @@ void main() {
     });
 
     test("Should return: 'Set<String>'", () {
-      Type.ofSet(genericType: Type.ofString())
-          .toString()
-          .should
-          .be("Set<String>");
+      Type.ofSet(
+        genericType: Type.ofString(),
+      ).toString().should.be("Set<String>");
     });
 
     test("Should return: 'Set<String>?'", () {
-      Type.ofSet(genericType: Type.ofString(), nullable: true)
-          .toString()
-          .should
-          .be("Set<String>?");
+      Type.ofSet(
+        genericType: Type.ofString(),
+        nullable: true,
+      ).toString().should.be("Set<String>?");
     });
 
     test("Should return: 'Map'", () {
@@ -153,31 +151,32 @@ void main() {
     });
 
     test("Should return: 'Map<int, String>'", () {
-      Type.ofMap(keyType: Type.ofInt(), valueType: Type.ofString())
-          .toString()
-          .should
-          .be("Map<int,String>");
+      Type.ofMap(
+        keyType: Type.ofInt(),
+        valueType: Type.ofString(),
+      ).toString().should.be("Map<int,String>");
     });
     test("Should return: 'Map<int, String>?'", () {
       Type.ofMap(
-              keyType: Type.ofInt(), valueType: Type.ofString(), nullable: true)
-          .toString()
-          .should
-          .be("Map<int,String>?");
+        keyType: Type.ofInt(),
+        valueType: Type.ofString(),
+        nullable: true,
+      ).toString().should.be("Map<int,String>?");
     });
 
     test("Should return: 'i1.MyClass'", () {
-      Type("MyClass", libraryUri: "package:test/test.dart")
-          .toString()
-          .should
-          .be("i1.MyClass");
+      Type(
+        "MyClass",
+        libraryUri: "package:test/test.dart",
+      ).toString().should.be("i1.MyClass");
     });
 
     test("Should return: 'i1.MyClass?'", () {
-      Type("MyClass", libraryUri: "package:test/test.dart", nullable: true)
-          .toString()
-          .should
-          .be("i1.MyClass?");
+      Type(
+        "MyClass",
+        libraryUri: "package:test/test.dart",
+        nullable: true,
+      ).toString().should.be("i1.MyClass?");
     });
   });
 }

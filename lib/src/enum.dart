@@ -28,24 +28,24 @@ class Enumeration extends CodeModel {
 
   @override
   List<CodeNode> codeNodes(Imports imports) => [
-        if (docComments != null) ...docComments!,
-        if (annotations != null) ...annotations!,
-        KeyWord.enum$,
-        Space(),
-        name,
-        Space(),
-        if (implements != null) KeyWord.implements$,
-        if (implements != null) Space(),
-        if (implements != null) SeparatedValues.forParameters(implements!),
-        if (implements != null) Space(),
-        Block([
-          SeparatedValues.forParameters(values),
-          if (constructor != null || (methods ?? []).isNotEmpty) Code(';\n'),
-          if (constructor != null) normalizedEnumConstructor(constructor!),
-          if (constructor != null) ...fieldsFromConstructor(constructor!),
-          if (methods != null) SeparatedValues.forStatements(methods!),
-        ]),
-      ];
+    if (docComments != null) ...docComments!,
+    if (annotations != null) ...annotations!,
+    KeyWord.enum$,
+    Space(),
+    name,
+    Space(),
+    if (implements != null) KeyWord.implements$,
+    if (implements != null) Space(),
+    if (implements != null) SeparatedValues.forParameters(implements!),
+    if (implements != null) Space(),
+    Block([
+      SeparatedValues.forParameters(values),
+      if (constructor != null || (methods ?? []).isNotEmpty) Code(';\n'),
+      if (constructor != null) normalizedEnumConstructor(constructor!),
+      if (constructor != null) ...fieldsFromConstructor(constructor!),
+      if (methods != null) SeparatedValues.forStatements(methods!),
+    ]),
+  ];
 
   void validateIfValuesIsNotEmpty() {
     if (values.isEmpty) {
@@ -66,7 +66,9 @@ class Enumeration extends CodeModel {
     if (constructor!.parameters == null ||
         constructor!.parameters!.parameters.isEmpty) {
       throw ArgumentError(
-          'must have one or more constructor parameters', 'constructor');
+        'must have one or more constructor parameters',
+        'constructor',
+      );
     }
   }
 
@@ -79,31 +81,41 @@ class Enumeration extends CodeModel {
       parameter as ConstructorParameter;
       if (parameter.type == null) {
         throw ArgumentError(
-            'constructor parameter: ${parameter.name} must have a type',
-            'constructor');
+          'constructor parameter: ${parameter.name} must have a type',
+          'constructor',
+        );
       }
     }
   }
 
   Constructor normalizedEnumConstructor(Constructor constructor) =>
       constructor.copyWith(
-          parameters: normalizedConstructorParameters(constructor.parameters!),
-          constant: true,
-          factory: false);
+        parameters: normalizedConstructorParameters(constructor.parameters!),
+        constant: true,
+        factory: false,
+      );
 
   ConstructorParameters normalizedConstructorParameters(
-          ConstructorParameters parameters) =>
-      ConstructorParameters(parameters.parameters
-          .cast<ConstructorParameter>()
-          .map((p) => p.copyWith(
-              qualifier: Qualifier.this$,
-              required: (p.type is! Type || !(p.type as Type).nullable)))
-          .toList());
+    ConstructorParameters parameters,
+  ) => ConstructorParameters(
+    parameters.parameters
+        .cast<ConstructorParameter>()
+        .map(
+          (p) => p.copyWith(
+            qualifier: Qualifier.this$,
+            required: (p.type is! Type || !(p.type as Type).nullable),
+          ),
+        )
+        .toList(),
+  );
 
   Iterable<Field> fieldsFromConstructor(Constructor constructor) =>
       constructor.parameters!.parameters.map((p) {
-        var field =
-            Field(p.name.toString(), type: p.type, modifier: Modifier.final$);
+        var field = Field(
+          p.name.toString(),
+          type: p.type,
+          modifier: Modifier.final$,
+        );
         print(field.toString());
         return field;
       });
@@ -113,7 +125,7 @@ class EnumValue extends CodeModel {
   final IdentifierStartingWithLowerCase name;
   final ParameterValues? parameterValues;
   EnumValue(String name, [this.parameterValues])
-      : name = IdentifierStartingWithLowerCase(name);
+    : name = IdentifierStartingWithLowerCase(name);
 
   @override
   bool operator ==(Object other) =>
@@ -128,9 +140,9 @@ class EnumValue extends CodeModel {
 
   @override
   List<CodeNode> codeNodes(Imports imports) => [
-        name,
-        if (parameterValues != null) Code('('),
-        if (parameterValues != null) parameterValues!,
-        if (parameterValues != null) Code(')'),
-      ];
+    name,
+    if (parameterValues != null) Code('('),
+    if (parameterValues != null) parameterValues!,
+    if (parameterValues != null) Code(')'),
+  ];
 }

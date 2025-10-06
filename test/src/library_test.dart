@@ -10,158 +10,242 @@ void main() {
     });
 
     test('constructor with docComments parameter', () {
-      Library(docComments: [
-        DocComment.fromString('This is a library with a doc comment.')
-      ]).toString().should.be('/// This is a library with a doc comment.\n');
+      Library(
+        docComments: [
+          DocComment.fromString('This is a library with a doc comment.'),
+        ],
+      ).toString().should.be('/// This is a library with a doc comment.\n');
     });
 
     test('constructor with annotations parameter', () {
-      Library(annotations: [
-        Annotation(Type('Foo'),
-            ParameterValues([ParameterValue(Expression.ofInt(42))]))
-      ]).toString().should.be('@Foo(42)\n');
+      Library(
+        annotations: [
+          Annotation(
+            Type('Foo'),
+            ParameterValues([ParameterValue(Expression.ofInt(42))]),
+          ),
+        ],
+      ).toString().should.be('@Foo(42)\n');
     });
 
     test('constructor with functions parameter', () {
-      Library(functions: [
-        DartFunction.withName('returnTrue', Expression.ofBool(true),
+      Library(
+        functions: [
+          DartFunction.withName(
+            'returnTrue',
+            Expression.ofBool(true),
             returnType: Type.ofBool(),
-            docComments: [
-              DocComment.fromString("This function returns: true")
-            ],
+            docComments: [DocComment.fromString("This function returns: true")],
             annotations: [
               Annotation(
-                  Type('Visible'),
-                  ParameterValues([
-                    ParameterValue.named(
-                        'forRole', Expression.ofString('admin'))
-                  ])),
+                Type('Visible'),
+                ParameterValues([
+                  ParameterValue.named('forRole', Expression.ofString('admin')),
+                ]),
+              ),
               Annotation(
-                  Type('ExecutionMode'),
-                  ParameterValues([
-                    ParameterValue(
-                        Expression.ofEnum(Type('ExecutionModes'), 'directly'))
-                  ]))
-            ])
-      ]).toString().should.be('/// This function returns: true\n'
-          '@Visible(forRole: \'admin\')\n'
-          '@ExecutionMode(ExecutionModes.directly)\n'
-          ' bool returnTrue()  => true;');
+                Type('ExecutionMode'),
+                ParameterValues([
+                  ParameterValue(
+                    Expression.ofEnum(Type('ExecutionModes'), 'directly'),
+                  ),
+                ]),
+              ),
+            ],
+          ),
+        ],
+      ).toString().should.be(
+        '/// This function returns: true\n'
+        '@Visible(forRole: \'admin\')\n'
+        '@ExecutionMode(ExecutionModes.directly)\n'
+        ' bool returnTrue()  => true;',
+      );
     });
 
     test('constructor with classes parameter with imports', () {
-      Library(classes: [
-        Class(
-          'Employee',
-          superClass:
-              Type('Person', libraryUri: 'package:my_package/person.dart'),
-          implements: [
-            Type('Skills', libraryUri: 'package:my_package/skills.dart')
-          ],
-          abstract: true,
-        )
-      ]).toFormattedString().should.be(
-          'import \'package:my_package/person.dart\' as i1;\n'
-          'import \'package:my_package/skills.dart\' as i2;\n'
-          '\n'
-          'abstract class Employee extends i1.Person implements i2.Skills {}\n');
+      Library(
+        classes: [
+          Class(
+            'Employee',
+            superClass: Type(
+              'Person',
+              libraryUri: 'package:my_package/person.dart',
+            ),
+            implements: [
+              Type('Skills', libraryUri: 'package:my_package/skills.dart'),
+            ],
+            modifier: ClassModifier.abstract,
+          ),
+        ],
+      ).toFormattedString().should.be(
+        'import \'package:my_package/person.dart\' as i1;\n'
+        'import \'package:my_package/skills.dart\' as i2;\n'
+        '\n'
+        'abstract class Employee extends i1.Person implements i2.Skills {}\n',
+      );
     });
     test('constructor with classes parameter', () {
-      Library(classes: [
-        Class('Person', fields: [
-          Field('givenName', modifier: Modifier.final$, type: Type.ofString()),
-          Field('familyName', modifier: Modifier.final$, type: Type.ofString()),
-          Field('fullName', modifier: Modifier.final$, type: Type.ofString()),
-          Field('dateOfBirth',
-              modifier: Modifier.final$, type: Type.ofDateTime()),
-        ], constructors: [
-          Constructor(Type('Person'),
-              parameters: ConstructorParameters([
-                ConstructorParameter.required('givenName',
-                    qualifier: Qualifier.this$),
-                ConstructorParameter.required('familyName',
-                    qualifier: Qualifier.this$),
-                ConstructorParameter.required('dateOfBirth',
-                    qualifier: Qualifier.this$),
-              ]),
-              initializers: Initializers(fieldInitializers: [
-                FieldInitializer(
-                    'fullName', Expression.ofString('\$givenName \$familyName'))
-              ]))
-        ], methods: [
-          Method('greetingMessage',
-              Statement.return$(Expression.ofString('Hello \$fullName.')),
-              returnType: Type.ofString()),
-          Method.getter(
-              'ageInYears',
-              Block([
-                VariableDefinition('now',
+      Library(
+        classes: [
+          Class(
+            'Person',
+            fields: [
+              Field(
+                'givenName',
+                modifier: Modifier.final$,
+                type: Type.ofString(),
+              ),
+              Field(
+                'familyName',
+                modifier: Modifier.final$,
+                type: Type.ofString(),
+              ),
+              Field(
+                'fullName',
+                modifier: Modifier.final$,
+                type: Type.ofString(),
+              ),
+              Field(
+                'dateOfBirth',
+                modifier: Modifier.final$,
+                type: Type.ofDateTime(),
+              ),
+            ],
+            constructors: [
+              Constructor(
+                Type('Person'),
+                parameters: ConstructorParameters([
+                  ConstructorParameter.required(
+                    'givenName',
+                    qualifier: Qualifier.this$,
+                  ),
+                  ConstructorParameter.required(
+                    'familyName',
+                    qualifier: Qualifier.this$,
+                  ),
+                  ConstructorParameter.required(
+                    'dateOfBirth',
+                    qualifier: Qualifier.this$,
+                  ),
+                ]),
+                initializers: Initializers(
+                  fieldInitializers: [
+                    FieldInitializer(
+                      'fullName',
+                      Expression.ofString('\$givenName \$familyName'),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+            methods: [
+              Method(
+                'greetingMessage',
+                Statement.return$(Expression.ofString('Hello \$fullName.')),
+                returnType: Type.ofString(),
+              ),
+              Method.getter(
+                'ageInYears',
+                Block([
+                  VariableDefinition(
+                    'now',
                     type: Type.ofDateTime(),
-                    value: Expression.callConstructor(Type.ofDateTime(),
-                        name: "now")),
-                VariableDefinition('years',
+                    value: Expression.callConstructor(
+                      Type.ofDateTime(),
+                      name: "now",
+                    ),
+                  ),
+                  VariableDefinition(
+                    'years',
                     type: Type.ofInt(),
                     value: Expression.ofVariable('now')
                         .getProperty('year')
-                        .subtract(Expression.ofVariable('dateOfBirth')
-                            .getProperty('year'))),
-                VariableDefinition('months',
+                        .subtract(
+                          Expression.ofVariable(
+                            'dateOfBirth',
+                          ).getProperty('year'),
+                        ),
+                  ),
+                  VariableDefinition(
+                    'months',
                     type: Type.ofInt(),
                     value: Expression.ofVariable('now')
                         .getProperty('month')
-                        .subtract(Expression.ofVariable('dateOfBirth')
-                            .getProperty('month'))),
-                VariableDefinition('days',
+                        .subtract(
+                          Expression.ofVariable(
+                            'dateOfBirth',
+                          ).getProperty('month'),
+                        ),
+                  ),
+                  VariableDefinition(
+                    'days',
                     type: Type.ofInt(),
                     value: Expression.ofVariable('now')
                         .getProperty('day')
-                        .subtract(Expression.ofVariable('dateOfBirth')
-                            .getProperty('day'))),
-                Statement.if$(
+                        .subtract(
+                          Expression.ofVariable(
+                            'dateOfBirth',
+                          ).getProperty('day'),
+                        ),
+                  ),
+                  Statement.if$(
                     Expression.ofVariable('months')
                         .lessThan(Expression.ofInt(0))
-                        .or(Expression.betweenParentheses(
+                        .or(
+                          Expression.betweenParentheses(
                             Expression.ofVariable('months')
                                 .equalTo(Expression.ofInt(0))
-                                .and(Expression.ofVariable('days')
-                                    .lessThan(Expression.ofInt(0))))),
+                                .and(
+                                  Expression.ofVariable(
+                                    'days',
+                                  ).lessThan(Expression.ofInt(0)),
+                                ),
+                          ),
+                        ),
                     Block([
                       Statement.ofExpression(
-                          Expression.ofVariable('years').decrement())
-                    ])),
-                Statement.return$(Expression.ofVariable('years')),
-              ]),
-              returnType: Type.ofInt())
-        ])
-      ]).toFormattedString().should.be('class Person {\n'
-          '  final String givenName;\n'
-          '  final String familyName;\n'
-          '  final String fullName;\n'
-          '  final DateTime dateOfBirth;\n'
-          '  Person(this.givenName, this.familyName, this.dateOfBirth)\n'
-          '    : fullName = \'\$givenName \$familyName\';\n'
-          '  String greetingMessage() {\n'
-          '    return \'Hello \$fullName.\';\n'
-          '  }\n'
-          '\n'
-          '  int get ageInYears {\n'
-          '    DateTime now = DateTime.now();\n'
-          '    int years = now.year - dateOfBirth.year;\n'
-          '    int months = now.month - dateOfBirth.month;\n'
-          '    int days = now.day - dateOfBirth.day;\n'
-          '    if (months < 0 || (months == 0 && days < 0)) {\n'
-          '      years--;\n'
-          '    }\n'
-          '    return years;\n'
-          '  }\n'
-          '}\n');
+                        Expression.ofVariable('years').decrement(),
+                      ),
+                    ]),
+                  ),
+                  Statement.return$(Expression.ofVariable('years')),
+                ]),
+                returnType: Type.ofInt(),
+              ),
+            ],
+          ),
+        ],
+      ).toFormattedString().should.be(
+        'class Person {\n'
+        '  final String givenName;\n'
+        '  final String familyName;\n'
+        '  final String fullName;\n'
+        '  final DateTime dateOfBirth;\n'
+        '  Person(this.givenName, this.familyName, this.dateOfBirth)\n'
+        '    : fullName = \'\$givenName \$familyName\';\n'
+        '  String greetingMessage() {\n'
+        '    return \'Hello \$fullName.\';\n'
+        '  }\n'
+        '\n'
+        '  int get ageInYears {\n'
+        '    DateTime now = DateTime.now();\n'
+        '    int years = now.year - dateOfBirth.year;\n'
+        '    int months = now.month - dateOfBirth.month;\n'
+        '    int days = now.day - dateOfBirth.day;\n'
+        '    if (months < 0 || (months == 0 && days < 0)) {\n'
+        '      years--;\n'
+        '    }\n'
+        '    return years;\n'
+        '  }\n'
+        '}\n',
+      );
     });
 
     test('Constructor with enums', () {
-      Library(name: 'my_lib', enumerations: [ColorEnum()])
-          .toString()
-          .should
-          .be("library my_lib;" + ColorEnum.expectedCode);
+      Library(
+        name: 'my_lib',
+        enumerations: [ColorEnum()],
+      ).toString().should.be("library my_lib;" + ColorEnum.expectedCode);
     });
 
     test('Constructor with typedefs', () {
@@ -172,37 +256,37 @@ void main() {
     });
     test('constructor with full library', () {
       Library(
-              name: 'software_engineer',
-              functions: [CalculateAgeInYearsFunction()],
-              classes: [SoftWareEngineerClass(), PersonClass()])
-          .toFormattedString()
-          .should
-          .be("library software_engineer;\n"
-                  "\n" +
-              CalculateAgeInYearsFunction().expectedCode +
-              "\n" +
-              SoftWareEngineerClass().expectedCode +
-              "\n" +
-              PersonClass().expectedCode);
+        name: 'software_engineer',
+        functions: [CalculateAgeInYearsFunction()],
+        classes: [SoftWareEngineerClass(), PersonClass()],
+      ).toFormattedString().should.be(
+        "library software_engineer;\n"
+                "\n" +
+            CalculateAgeInYearsFunction().expectedCode +
+            "\n" +
+            SoftWareEngineerClass().expectedCode +
+            "\n" +
+            PersonClass().expectedCode,
+      );
     });
   });
 }
 
 class ColorEnum extends Enumeration {
   ColorEnum()
-      : super(
-            'Color', {EnumValue('red'), EnumValue('green'), EnumValue('blue')});
+    : super('Color', {EnumValue('red'), EnumValue('green'), EnumValue('blue')});
   static const String expectedCode = 'enum Color {red,green,blue}';
 }
 
 class MappedListTypeDef extends TypeDef {
   MappedListTypeDef()
-      : super(
-          alias: Type('MappedList', generics: [Type('X')]),
-          type: Type.ofMap(
-              keyType: Type('X'),
-              valueType: Type.ofList(genericType: Type('X'))),
-        );
+    : super(
+        alias: Type('MappedList', generics: [Type('X')]),
+        type: Type.ofMap(
+          keyType: Type('X'),
+          valueType: Type.ofList(genericType: Type('X')),
+        ),
+      );
 
   static const String expectedCode = 'typedef MappedList<X>=Map<X,List<X>>;';
 }
@@ -210,49 +294,71 @@ class MappedListTypeDef extends TypeDef {
 // ignore: deprecated_extends_function
 class CalculateAgeInYearsFunction extends DartFunction {
   CalculateAgeInYearsFunction()
-      : super.withName(
-          'calculateAgeInYears',
-          Block([
-            VariableDefinition('now',
-                type: Type.ofDateTime(),
-                value:
-                    Expression.callConstructor(Type.ofDateTime(), name: "now")),
-            VariableDefinition('years',
-                type: Type.ofInt(),
-                value: Expression.ofVariable('now')
-                    .getProperty('year')
-                    .subtract(Expression.ofVariable('dateOfBirth')
-                        .getProperty('year'))),
-            VariableDefinition('months',
-                type: Type.ofInt(),
-                value: Expression.ofVariable('now')
-                    .getProperty('month')
-                    .subtract(Expression.ofVariable('dateOfBirth')
-                        .getProperty('month'))),
-            VariableDefinition('days',
-                type: Type.ofInt(),
-                value: Expression.ofVariable('now').getProperty('day').subtract(
-                    Expression.ofVariable('dateOfBirth').getProperty('day'))),
-            Statement.if$(
-                Expression.ofVariable('months')
-                    .lessThan(Expression.ofInt(0))
-                    .or(Expression.betweenParentheses(
-                        Expression.ofVariable('months')
-                            .equalTo(Expression.ofInt(0))
-                            .and(Expression.ofVariable('days')
-                                .lessThan(Expression.ofInt(0))))),
-                Block([
-                  Statement.ofExpression(
-                      Expression.ofVariable('years').decrement())
-                ])),
-            Statement.return$(Expression.ofVariable('years')),
-          ]),
-          parameters: Parameters(
-              [Parameter.required('dateOfBirth', type: Type.ofDateTime())]),
-          returnType: Type.ofInt(),
-        );
+    : super.withName(
+        'calculateAgeInYears',
+        Block([
+          VariableDefinition(
+            'now',
+            type: Type.ofDateTime(),
+            value: Expression.callConstructor(Type.ofDateTime(), name: "now"),
+          ),
+          VariableDefinition(
+            'years',
+            type: Type.ofInt(),
+            value: Expression.ofVariable('now')
+                .getProperty('year')
+                .subtract(
+                  Expression.ofVariable('dateOfBirth').getProperty('year'),
+                ),
+          ),
+          VariableDefinition(
+            'months',
+            type: Type.ofInt(),
+            value: Expression.ofVariable('now')
+                .getProperty('month')
+                .subtract(
+                  Expression.ofVariable('dateOfBirth').getProperty('month'),
+                ),
+          ),
+          VariableDefinition(
+            'days',
+            type: Type.ofInt(),
+            value: Expression.ofVariable('now')
+                .getProperty('day')
+                .subtract(
+                  Expression.ofVariable('dateOfBirth').getProperty('day'),
+                ),
+          ),
+          Statement.if$(
+            Expression.ofVariable('months')
+                .lessThan(Expression.ofInt(0))
+                .or(
+                  Expression.betweenParentheses(
+                    Expression.ofVariable('months')
+                        .equalTo(Expression.ofInt(0))
+                        .and(
+                          Expression.ofVariable(
+                            'days',
+                          ).lessThan(Expression.ofInt(0)),
+                        ),
+                  ),
+                ),
+            Block([
+              Statement.ofExpression(
+                Expression.ofVariable('years').decrement(),
+              ),
+            ]),
+          ),
+          Statement.return$(Expression.ofVariable('years')),
+        ]),
+        parameters: Parameters([
+          Parameter.required('dateOfBirth', type: Type.ofDateTime()),
+        ]),
+        returnType: Type.ofInt(),
+      );
 
-  String expectedCode = 'int calculateAgeInYears(DateTime dateOfBirth) {\n'
+  String expectedCode =
+      'int calculateAgeInYears(DateTime dateOfBirth) {\n'
       '  DateTime now = DateTime.now();\n'
       '  int years = now.year - dateOfBirth.year;\n'
       '  int months = now.month - dateOfBirth.month;\n'
@@ -266,64 +372,95 @@ class CalculateAgeInYearsFunction extends DartFunction {
 
 class SoftWareEngineerClass extends Class {
   SoftWareEngineerClass()
-      : super(
-          'SoftWareEngineer',
-          methods: [
-            Method.abstract(
-              'familiarProgrammingLanguages',
-              returnType: Type.ofList(genericType: Type.ofString()),
-              propertyAccessor: PropertyAccessor.getter,
-            )
-          ],
-          abstract: true,
-        );
+    : super(
+        'SoftWareEngineer',
+        methods: [
+          Method.abstract(
+            'familiarProgrammingLanguages',
+            returnType: Type.ofList(genericType: Type.ofString()),
+            propertyAccessor: PropertyAccessor.getter,
+          ),
+        ],
+        modifier: ClassModifier.abstract,
+      );
 
-  String expectedCode = 'abstract class SoftWareEngineer {\n'
+  String expectedCode =
+      'abstract class SoftWareEngineer {\n'
       '  List<String> get familiarProgrammingLanguages;\n}\n';
 }
 
 class PersonClass extends Class {
   PersonClass()
-      : super('Person', implements: [
-          Type('SoftWareEngineer')
-        ], fields: [
+    : super(
+        'Person',
+        implements: [Type('SoftWareEngineer')],
+        fields: [
           Field('givenName', modifier: Modifier.final$, type: Type.ofString()),
           Field('familyName', modifier: Modifier.final$, type: Type.ofString()),
           Field('fullName', modifier: Modifier.final$, type: Type.ofString()),
-          Field('dateOfBirth',
-              modifier: Modifier.final$, type: Type.ofDateTime()),
-          Field('familiarProgrammingLanguages',
-              modifier: Modifier.final$,
-              type: Type.ofList(genericType: Type.ofString())),
-        ], constructors: [
-          Constructor(Type('Person'),
-              parameters: ConstructorParameters([
-                ConstructorParameter.required('givenName',
-                    qualifier: Qualifier.this$),
-                ConstructorParameter.required('familyName',
-                    qualifier: Qualifier.this$),
-                ConstructorParameter.required('dateOfBirth',
-                    qualifier: Qualifier.this$),
-                ConstructorParameter.required('familiarProgrammingLanguages',
-                    qualifier: Qualifier.this$),
-              ]),
-              initializers: Initializers(fieldInitializers: [
+          Field(
+            'dateOfBirth',
+            modifier: Modifier.final$,
+            type: Type.ofDateTime(),
+          ),
+          Field(
+            'familiarProgrammingLanguages',
+            modifier: Modifier.final$,
+            type: Type.ofList(genericType: Type.ofString()),
+          ),
+        ],
+        constructors: [
+          Constructor(
+            Type('Person'),
+            parameters: ConstructorParameters([
+              ConstructorParameter.required(
+                'givenName',
+                qualifier: Qualifier.this$,
+              ),
+              ConstructorParameter.required(
+                'familyName',
+                qualifier: Qualifier.this$,
+              ),
+              ConstructorParameter.required(
+                'dateOfBirth',
+                qualifier: Qualifier.this$,
+              ),
+              ConstructorParameter.required(
+                'familiarProgrammingLanguages',
+                qualifier: Qualifier.this$,
+              ),
+            ]),
+            initializers: Initializers(
+              fieldInitializers: [
                 FieldInitializer(
-                    'fullName', Expression.ofString('\$givenName \$familyName'))
-              ]))
-        ], methods: [
-          Method('greetingMessage',
-              Statement.return$(Expression.ofString('Hello \$fullName.')),
-              returnType: Type.ofString()),
+                  'fullName',
+                  Expression.ofString('\$givenName \$familyName'),
+                ),
+              ],
+            ),
+          ),
+        ],
+        methods: [
+          Method(
+            'greetingMessage',
+            Statement.return$(Expression.ofString('Hello \$fullName.')),
+            returnType: Type.ofString(),
+          ),
           Method.getter(
-              'ageInYears',
-              Expression.callMethodOrFunction('calculateAgeInYears',
-                  parameterValues: ParameterValues(
-                      [ParameterValue(Expression.ofVariable('dateOfBirth'))])),
-              returnType: Type.ofInt())
-        ]);
+            'ageInYears',
+            Expression.callMethodOrFunction(
+              'calculateAgeInYears',
+              parameterValues: ParameterValues([
+                ParameterValue(Expression.ofVariable('dateOfBirth')),
+              ]),
+            ),
+            returnType: Type.ofInt(),
+          ),
+        ],
+      );
 
-  String expectedCode = 'class Person implements SoftWareEngineer {\n'
+  String expectedCode =
+      'class Person implements SoftWareEngineer {\n'
       '  final String givenName;\n'
       '  final String familyName;\n'
       '  final String fullName;\n'

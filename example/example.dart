@@ -2,8 +2,11 @@ import 'package:dart_code/dart_code.dart';
 
 void main() {
   /// A simple formatting example:
-  print(DartFunction.main(Statement.print(Expression.ofString('Hello World.')))
-      .toFormattedString());
+  print(
+    DartFunction.main(
+      Statement.print(Expression.ofString('Hello World.')),
+    ).toFormattedString(),
+  );
 
   // OUTPUTS:
   // main() {
@@ -11,8 +14,11 @@ void main() {
   // }
 
   /// An alternative formatting example
-  print(DartFunction.main(Statement.print(Expression.ofString('Hello World.')))
-      .toFormattedString(pageWidth: 20));
+  print(
+    DartFunction.main(
+      Statement.print(Expression.ofString('Hello World.')),
+    ).toFormattedString(pageWidth: 20),
+  );
 
   // OUTPUTS:
   // main() {
@@ -21,16 +27,23 @@ void main() {
   // }
 
   /// An library example with imports
-  print(Library(classes: [
-    Class(
-      'Employee',
-      superClass: Type('Person', libraryUri: 'package:my_package/person.dart'),
-      implements: [
-        Type('Skills', libraryUri: 'package:my_package/skills.dart')
+  print(
+    Library(
+      classes: [
+        Class(
+          'Employee',
+          superClass: Type(
+            'Person',
+            libraryUri: 'package:my_package/person.dart',
+          ),
+          implements: [
+            Type('Skills', libraryUri: 'package:my_package/skills.dart'),
+          ],
+          modifier: ClassModifier.abstract,
+        ),
       ],
-      abstract: true,
-    )
-  ]).toFormattedString());
+    ).toFormattedString(),
+  );
 
   // OUTPUTS:
   // import 'package:my_package/person.dart' as i1;

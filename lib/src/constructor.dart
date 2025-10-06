@@ -12,39 +12,44 @@ class ConstructorCall extends CodeModel {
 
   @override
   List<CodeNode> codeNodes(Imports imports) => [
-        if (super$) KeyWord.super$,
-        if (!super$) KeyWord.this$,
-        if (name != null) Code('.'),
-        if (name != null) IdentifierStartingWithLowerCase(name!),
-        Code('('),
-        if (parameterValues != null) parameterValues!,
-        Code(')')
-      ];
+    if (super$) KeyWord.super$,
+    if (!super$) KeyWord.this$,
+    if (name != null) Code('.'),
+    if (name != null) IdentifierStartingWithLowerCase(name!),
+    Code('('),
+    if (parameterValues != null) parameterValues!,
+    Code(')'),
+  ];
 }
 
 /// Represents a [Constructor] [Initializers]
 /// See: [https://dart.dev/guides/language/language-tour#instance-variables]
 class Initializers extends SeparatedValues {
-  Initializers(
-      {List<FieldInitializer>? fieldInitializers,
-      ConstructorCall? constructorCall})
-      : super.forParameters([
-          if (fieldInitializers != null) ...fieldInitializers,
-          if (constructorCall != null) constructorCall
-        ]) {
+  Initializers({
+    List<FieldInitializer>? fieldInitializers,
+    ConstructorCall? constructorCall,
+  }) : super.forParameters([
+         if (fieldInitializers != null) ...fieldInitializers,
+         if (constructorCall != null) constructorCall,
+       ]) {
     _validateIfFieldInitializerNamesAreUnique(fieldInitializers);
   }
 
   void _validateIfFieldInitializerNamesAreUnique(
-      List<FieldInitializer>? fieldInitializers) {
+    List<FieldInitializer>? fieldInitializers,
+  ) {
     if (fieldInitializers != null) {
       var allNames = fieldInitializers.map((p) => p.name.toString()).toList();
-      var allUniqueNames =
-          fieldInitializers.map((p) => p.name.toString()).toSet();
+      var allUniqueNames = fieldInitializers
+          .map((p) => p.name.toString())
+          .toSet();
       var namesAreUnique = allNames.length == allUniqueNames.length;
       if (!namesAreUnique) {
-        throw new ArgumentError.value(fieldInitializers, 'fieldInitializers',
-            'Field names must be unique');
+        throw new ArgumentError.value(
+          fieldInitializers,
+          'fieldInitializers',
+          'Field names must be unique',
+        );
       }
     }
   }
@@ -70,17 +75,18 @@ class Constructor extends CodeModel {
   final Initializers? initializers;
   final Block? body;
 
-  Constructor(this.type,
-      {this.docComments = const [],
-      this.annotations = const [],
-      this.external = false,
-      this.constant = false,
-      this.factory = false,
-      String? name,
-      this.parameters,
-      this.initializers,
-      this.body})
-      : name = name == null ? null : IdentifierStartingWithLowerCase(name);
+  Constructor(
+    this.type, {
+    this.docComments = const [],
+    this.annotations = const [],
+    this.external = false,
+    this.constant = false,
+    this.factory = false,
+    String? name,
+    this.parameters,
+    this.initializers,
+    this.body,
+  }) : name = name == null ? null : IdentifierStartingWithLowerCase(name);
 
   Constructor copyWith({
     List<DocComment>? docComments,
@@ -110,26 +116,26 @@ class Constructor extends CodeModel {
 
   @override
   List<CodeNode> codeNodes(Imports imports) => [
-        ...docComments,
-        ...annotations,
-        if (external) KeyWord.external$,
-        if (external) Space(),
-        if (constant) KeyWord.const$,
-        if (constant) Space(),
-        if (factory) KeyWord.factory$,
-        if (factory) Space(),
-        Code(type.name),
-        if (name != null) Code('.'),
-        if (name != null) name!,
-        Code('('),
-        if (parameters != null) parameters!,
-        Code(')'),
-        if (initializers != null) Space(),
-        if (initializers != null) Code(':'),
-        if (initializers != null) Space(),
-        if (initializers != null) initializers!,
-        if (body != null) Space(),
-        if (body != null) body!,
-        EndOfStatement(),
-      ];
+    ...docComments,
+    ...annotations,
+    if (external) KeyWord.external$,
+    if (external) Space(),
+    if (constant) KeyWord.const$,
+    if (constant) Space(),
+    if (factory) KeyWord.factory$,
+    if (factory) Space(),
+    Code(type.name),
+    if (name != null) Code('.'),
+    if (name != null) name!,
+    Code('('),
+    if (parameters != null) parameters!,
+    Code(')'),
+    if (initializers != null) Space(),
+    if (initializers != null) Code(':'),
+    if (initializers != null) Space(),
+    if (initializers != null) initializers!,
+    if (body != null) Space(),
+    if (body != null) body!,
+    EndOfStatement(),
+  ];
 }

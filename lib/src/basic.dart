@@ -176,11 +176,15 @@ class KeyWord {
   static final List<String> allNames = allCodes.map((c) => c.code).toList();
 }
 
-final RegExp _firstCharMustBeLetterOrUnderscoreOrDollar =
-    RegExp(r"^[a-z_$]", caseSensitive: false);
+final RegExp _firstCharMustBeLetterOrUnderscoreOrDollar = RegExp(
+  r"^[a-z_$]",
+  caseSensitive: false,
+);
 
-final RegExp _lettersNumbersUnderscoreOrDollar =
-    RegExp(r"^[a-z0-9_$]+$", caseSensitive: false);
+final RegExp _lettersNumbersUnderscoreOrDollar = RegExp(
+  r"^[a-z0-9_$]+$",
+  caseSensitive: false,
+);
 
 final RegExp _successiveUnderscores = RegExp(r"__");
 
@@ -198,24 +202,39 @@ abstract class Identifier extends CodeNode {
       throw ArgumentError.value(name, 'name', 'Must not be empty');
     }
     if (!firstLetterCaseChecker.isCorrectCase(name[0])) {
-      throw ArgumentError.value(name, 'name',
-          'Must start with an ${firstLetterCaseChecker.isUpperCase ? 'upper case' : 'lower case'} letter');
+      throw ArgumentError.value(
+        name,
+        'name',
+        'Must start with an ${firstLetterCaseChecker.isUpperCase ? 'upper case' : 'lower case'} letter',
+      );
     }
     if (!_firstCharMustBeLetterOrUnderscoreOrDollar.hasMatch(name)) {
-      throw ArgumentError.value(name, 'name',
-          'The first character must be a letter or an underscore or a dollar sign(\$)');
+      throw ArgumentError.value(
+        name,
+        'name',
+        'The first character must be a letter or an underscore or a dollar sign(\$)',
+      );
     }
     if (!_lettersNumbersUnderscoreOrDollar.hasMatch(name)) {
-      throw ArgumentError.value(name, 'name',
-          'All characters must be a letter or number or an underscore or a dollar sign(\$)');
+      throw ArgumentError.value(
+        name,
+        'name',
+        'All characters must be a letter or number or an underscore or a dollar sign(\$)',
+      );
     }
     if (_successiveUnderscores.hasMatch(name)) {
       throw ArgumentError.value(
-          name, 'name', 'No successive underscores are allowed');
+        name,
+        'name',
+        'No successive underscores are allowed',
+      );
     }
     if (KeyWord.allNames.contains(name)) {
       throw ArgumentError.value(
-          name, 'name', 'Keywords can not be used as identifier');
+        name,
+        'name',
+        'Keywords can not be used as identifier',
+      );
     }
   }
 
@@ -231,7 +250,7 @@ abstract class Identifier extends CodeNode {
 /// represent identifiers that begin with an uppercase character.
 class IdentifierStartingWithUpperCase extends Identifier {
   IdentifierStartingWithUpperCase(String name)
-      : super(name, CaseChecker.forUpperCase());
+    : super(name, CaseChecker.forUpperCase());
 }
 
 /// A class that represents an identifier starting with a lowercase letter.
@@ -242,7 +261,7 @@ class IdentifierStartingWithUpperCase extends Identifier {
 /// for identifiers are required.
 class IdentifierStartingWithLowerCase extends Identifier implements MethodName {
   IdentifierStartingWithLowerCase(String name)
-      : super(name, CaseChecker.forLowerCase());
+    : super(name, CaseChecker.forLowerCase());
 }
 
 /// A utility class for checking and manipulating the case of strings.
@@ -274,10 +293,10 @@ class Block extends CodeModel {
 
   @override
   List<CodeNode> codeNodes(Imports imports) => [
-        Code('{'),
-        ...codeInsideBlock,
-        Code('}'),
-      ];
+    Code('{'),
+    ...codeInsideBlock,
+    Code('}'),
+  ];
 }
 
 /// Represent a body of e.g. a [DartFunction] or [Method]
@@ -309,7 +328,4 @@ class Body extends CodeModel {
 ///
 /// This can be used to define or categorize asynchronous operations
 /// or behaviors in your application.
-enum Asynchrony {
-  async,
-  sync,
-}
+enum Asynchrony { async, sync }

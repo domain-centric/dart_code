@@ -52,12 +52,12 @@ enum Operator implements CodeNode, MethodName {
   }
 
   @override
-  String toFormattedString(
-          {String? lineEnding,
-          int? pageWidth,
-          int? indent,
-          List<String>? experimentFlags}) =>
-      symbol;
+  String toFormattedString({
+    String? lineEnding,
+    int? pageWidth,
+    int? indent,
+    List<String>? experimentFlags,
+  }) => symbol;
 
   @override
   String toUnFormattedString(Imports imports) => symbol;

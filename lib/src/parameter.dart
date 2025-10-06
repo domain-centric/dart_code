@@ -16,35 +16,51 @@ class Parameter extends CodeModel {
   final Expression? defaultValue;
   final bool required;
 
-  Parameter(this.category, String name,
-      {this.type, this.defaultValue, this.required = false})
-      : name = IdentifierStartingWithLowerCase(name);
+  Parameter(
+    this.category,
+    String name, {
+    this.type,
+    this.defaultValue,
+    this.required = false,
+  }) : name = IdentifierStartingWithLowerCase(name);
 
   Parameter.required(String name, {BaseType? type})
-      : this(ParameterCategory.required, name, type: type);
+    : this(ParameterCategory.required, name, type: type);
 
   Parameter.optional(String name, {BaseType? type, Expression? defaultValue})
-      : this(ParameterCategory.optional, name,
-            type: type, defaultValue: defaultValue);
+    : this(
+        ParameterCategory.optional,
+        name,
+        type: type,
+        defaultValue: defaultValue,
+      );
 
-  Parameter.named(String name,
-      {BaseType? type, defaultValue, bool required = false})
-      : this(ParameterCategory.named, name,
-            type: type, defaultValue: defaultValue, required: required);
+  Parameter.named(
+    String name, {
+    BaseType? type,
+    defaultValue,
+    bool required = false,
+  }) : this(
+         ParameterCategory.named,
+         name,
+         type: type,
+         defaultValue: defaultValue,
+         required: required,
+       );
 
   @override
   List<CodeNode> codeNodes(Imports imports) => [
-        if (required) Code('required'),
-        if (required) Space(),
-        if (type == null) Code('var'),
-        if (type != null) type!,
-        Space(),
-        name,
-        if (defaultValue != null) Space(),
-        if (defaultValue != null) Code('='),
-        if (defaultValue != null) Space(),
-        if (defaultValue != null) defaultValue!,
-      ];
+    if (required) Code('required'),
+    if (required) Space(),
+    if (type == null) Code('var'),
+    if (type != null) type!,
+    Space(),
+    name,
+    if (defaultValue != null) Space(),
+    if (defaultValue != null) Code('='),
+    if (defaultValue != null) Space(),
+    if (defaultValue != null) defaultValue!,
+  ];
 }
 
 /// [Parameters] can have any number of required positional [Parameter] definitions.
@@ -65,13 +81,18 @@ class Parameters extends CodeModel {
   }
 
   void _validateOnlyOptionalOrNamed(List<Parameter> parameters) {
-    var hasOptionalParameters =
-        parameters.any((p) => p.category == ParameterCategory.optional);
-    var hasNamedParameters =
-        parameters.any((p) => p.category == ParameterCategory.named);
+    var hasOptionalParameters = parameters.any(
+      (p) => p.category == ParameterCategory.optional,
+    );
+    var hasNamedParameters = parameters.any(
+      (p) => p.category == ParameterCategory.named,
+    );
     if (hasOptionalParameters && hasNamedParameters) {
-      throw new ArgumentError.value(parameters, 'parameters',
-          'Parameters may not contain both optional parameters and named parameters');
+      throw new ArgumentError.value(
+        parameters,
+        'parameters',
+        'Parameters may not contain both optional parameters and named parameters',
+      );
     }
   }
 
@@ -81,7 +102,10 @@ class Parameters extends CodeModel {
     var namesAreUnique = allNames.length == allUniqueNames.length;
     if (!namesAreUnique) {
       throw new ArgumentError.value(
-          parameters, 'parameters', 'Parameter names must be unique');
+        parameters,
+        'parameters',
+        'Parameter names must be unique',
+      );
     }
   }
 
@@ -94,8 +118,9 @@ class Parameters extends CodeModel {
     var _optionalParameters = parameters
         .where((p) => p.category == ParameterCategory.optional)
         .toList();
-    var _namedParameters =
-        parameters.where((p) => p.category == ParameterCategory.named).toList();
+    var _namedParameters = parameters
+        .where((p) => p.category == ParameterCategory.named)
+        .toList();
 
     nodes.add(SeparatedValues.forParameters(_requiredParameters));
 
@@ -137,12 +162,7 @@ class ConstructorParameter extends Parameter {
     String name, {
     BaseType? type,
     Qualifier qualifier = Qualifier.none,
-  }) : this(
-          ParameterCategory.required,
-          name,
-          type: type,
-          qualifier: qualifier,
-        );
+  }) : this(ParameterCategory.required, name, type: type, qualifier: qualifier);
 
   ConstructorParameter.optional(
     String name, {
@@ -150,12 +170,12 @@ class ConstructorParameter extends Parameter {
     Qualifier qualifier = Qualifier.none,
     Expression? defaultValue,
   }) : this(
-          ParameterCategory.optional,
-          name,
-          type: type,
-          qualifier: qualifier,
-          defaultValue: defaultValue,
-        );
+         ParameterCategory.optional,
+         name,
+         type: type,
+         qualifier: qualifier,
+         defaultValue: defaultValue,
+       );
 
   ConstructorParameter.named(
     String name, {
@@ -164,30 +184,30 @@ class ConstructorParameter extends Parameter {
     defaultValue,
     bool required = false,
   }) : this(
-          ParameterCategory.named,
-          name,
-          type: type,
-          qualifier: qualifier,
-          defaultValue: defaultValue,
-          required: required,
-        );
+         ParameterCategory.named,
+         name,
+         type: type,
+         qualifier: qualifier,
+         defaultValue: defaultValue,
+         required: required,
+       );
 
   @override
   List<CodeNode> codeNodes(Imports imports) => [
-        if (required) Code('required'),
-        if (required) Space(),
-        if (qualifier == Qualifier.this$) KeyWord.this$,
-        if (qualifier == Qualifier.super$) KeyWord.super$,
-        if (qualifier != Qualifier.none) Code('.'),
-        if (qualifier == Qualifier.none && type == null) Code('var'),
-        if (qualifier == Qualifier.none && type != null) type!,
-        if (qualifier == Qualifier.none) Space(),
-        name,
-        if (defaultValue != null) Space(),
-        if (defaultValue != null) Code('='),
-        if (defaultValue != null) Space(),
-        if (defaultValue != null) defaultValue!,
-      ];
+    if (required) Code('required'),
+    if (required) Space(),
+    if (qualifier == Qualifier.this$) KeyWord.this$,
+    if (qualifier == Qualifier.super$) KeyWord.super$,
+    if (qualifier != Qualifier.none) Code('.'),
+    if (qualifier == Qualifier.none && type == null) Code('var'),
+    if (qualifier == Qualifier.none && type != null) type!,
+    if (qualifier == Qualifier.none) Space(),
+    name,
+    if (defaultValue != null) Space(),
+    if (defaultValue != null) Code('='),
+    if (defaultValue != null) Space(),
+    if (defaultValue != null) defaultValue!,
+  ];
 
   ConstructorParameter copyWith({
     ParameterCategory? category,
@@ -215,7 +235,7 @@ class ConstructorParameters extends Parameters {
   ConstructorParameters.empty() : super(const []);
 
   ConstructorParameters(List<ConstructorParameter> constructorParameters)
-      : super(constructorParameters);
+    : super(constructorParameters);
 }
 
 /// A [ParameterValue] is used when calling a [DartFunction], [Constructor] or [Method]
@@ -226,22 +246,26 @@ class ParameterValue extends CodeModel {
   ParameterValue(this.value) : name = null;
 
   ParameterValue.named(String name, this.value)
-      : name = IdentifierStartingWithLowerCase(name);
+    : name = IdentifierStartingWithLowerCase(name);
 
   @override
-  List<CodeNode> codeNodes(Imports imports) =>
-      [if (name != null) name!, if (name != null) Code(': '), value];
+  List<CodeNode> codeNodes(Imports imports) => [
+    if (name != null) name!,
+    if (name != null) Code(': '),
+    value,
+  ];
 }
 
 /// [ParameterValues] is a list of [ParameterValue]s
 class ParameterValues extends SeparatedValues {
   ParameterValues(List<ParameterValue> parameterValues)
-      : super.forParameters(_orderedParameterValues(parameterValues));
+    : super.forParameters(_orderedParameterValues(parameterValues));
 
   ParameterValues.none() : super.forParameters([]);
 
   static List<CodeNode> _orderedParameterValues(
-      List<ParameterValue> parameterValues) {
+    List<ParameterValue> parameterValues,
+  ) {
     List<ParameterValue> values = [];
     values.addAll(parameterValues.where((pv) => pv.name == null).toList());
     values.addAll(parameterValues.where((pv) => pv.name != null).toList());

@@ -17,13 +17,13 @@ class TypeDef extends CodeModel {
 
   @override
   List<CodeNode> codeNodes(Imports imports) => [
-        if (docComments != null) ...docComments!,
-        if (annotations != null) ...annotations!,
-        KeyWord.typedef$,
-        Space(),
-        alias,
-        Operator.assign,
-        type,
-        Code(';'),
-      ];
+    if (docComments != null) ...docComments!,
+    if (annotations != null) ...annotations!,
+    KeyWord.typedef$,
+    Space(),
+    alias,
+    Operator.assign,
+    type,
+    Code(';'),
+  ];
 }

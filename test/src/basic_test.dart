@@ -25,24 +25,24 @@ void main() {
 
   group('Space class', () {
     test(
-        'Given multiple sequential SpaceWhenNeeded, or a single SpaceWhenNeeded => Results in a single space',
-        () {
-      Statement([
-        KeyWord.class$,
-        Space(),
-        Code('Test'),
-        Space(),
-        Space(),
-        KeyWord.extends$,
-        Space(),
-        Code('OtherClass'),
-        Space(),
-        Code('{}'),
-      ], hasEndOfStatement: false)
-          .toString()
-          .should
-          .be('class Test  extends OtherClass {}');
-    });
+      'Given multiple sequential SpaceWhenNeeded, or a single SpaceWhenNeeded => Results in a single space',
+      () {
+        Statement([
+          KeyWord.class$,
+          Space(),
+          Code('Test'),
+          Space(),
+          Space(),
+          KeyWord.extends$,
+          Space(),
+          Code('OtherClass'),
+          Space(),
+          Code('{}'),
+        ], hasEndOfStatement: false).toString().should.be(
+          'class Test  extends OtherClass {}',
+        );
+      },
+    );
 
     test('Given an empty line => Does not ad a space', () {
       Space().toString().should.be(' ');
@@ -71,137 +71,135 @@ void main() {
   group('IdentifierStartingWithUpperCase class', () {
     test('Given an empty name  => Throws "Must not be empty" exception', () {
       Should.throwError<ArgumentError>(
-              () => {IdentifierStartingWithUpperCase('')})
-          .message
-          .toString()
-          .should
-          .be('Must not be empty');
+        () => {IdentifierStartingWithUpperCase('')},
+      ).message.toString().should.be('Must not be empty');
     });
 
     test(
-        'Given a name starting with a lower case letter =>  "Must start with an upper case letter" exception',
-        () {
-      Should.throwError<ArgumentError>(
-              () => {IdentifierStartingWithUpperCase('invalidCapitalCase')})
-          .message
-          .toString()
-          .should
-          .be('Must start with an upper case letter');
-    });
+      'Given a name starting with a lower case letter =>  "Must start with an upper case letter" exception',
+      () {
+        Should.throwError<ArgumentError>(
+          () => {IdentifierStartingWithUpperCase('invalidCapitalCase')},
+        ).message.toString().should.be('Must start with an upper case letter');
+      },
+    );
 
     test('Given a name starting with a upper case letter => Is accepted', () {
       Should.notThrowError(
-          () => {IdentifierStartingWithUpperCase('ValidCapitalCase')});
+        () => {IdentifierStartingWithUpperCase('ValidCapitalCase')},
+      );
     });
 
     test(
-        'Given a special character => Throws "The first character must be a letter or an underscore or a dollar sign(\$)" exception',
-        () {
-      Should.throwError<ArgumentError>(
-          () => {
-                IdentifierStartingWithUpperCase('@')
-              }).message.toString().should.be(
-          'The first character must be a letter or an underscore or a dollar sign(\$)');
-    });
+      'Given a special character => Throws "The first character must be a letter or an underscore or a dollar sign(\$)" exception',
+      () {
+        Should.throwError<ArgumentError>(
+          () => {IdentifierStartingWithUpperCase('@')},
+        ).message.toString().should.be(
+          'The first character must be a letter or an underscore or a dollar sign(\$)',
+        );
+      },
+    );
 
     test(
-        'Given a number => Throws "The first character must be a letter or an underscore or a dollar sign(\$)" exception',
-        () {
-      Should.throwError<ArgumentError>(
-          () => {
-                IdentifierStartingWithUpperCase('1')
-              }).message.toString().should.be(
-          'The first character must be a letter or an underscore or a dollar sign(\$)');
-    });
+      'Given a number => Throws "The first character must be a letter or an underscore or a dollar sign(\$)" exception',
+      () {
+        Should.throwError<ArgumentError>(
+          () => {IdentifierStartingWithUpperCase('1')},
+        ).message.toString().should.be(
+          'The first character must be a letter or an underscore or a dollar sign(\$)',
+        );
+      },
+    );
 
     test('Given a name starting with a upper case letter => Is accepted ', () {
       Should.notThrowError(
-          () => {IdentifierStartingWithUpperCase('ValidCapitalCase')});
+        () => {IdentifierStartingWithUpperCase('ValidCapitalCase')},
+      );
     });
 
     test('Given a name starting with underscore => Is accepted ', () {
       Should.notThrowError(
-          () => {IdentifierStartingWithUpperCase('_ValidCapitalCase')});
+        () => {IdentifierStartingWithUpperCase('_ValidCapitalCase')},
+      );
     });
 
     test('Given a name starting with dollar sign => Is accepted ', () {
       Should.notThrowError(
-          () => {IdentifierStartingWithUpperCase('\$ValidCapitalCase')});
+        () => {IdentifierStartingWithUpperCase('\$ValidCapitalCase')},
+      );
     });
 
     test(
-        'Given a name with letters and numbers and underscore and dollar => Is accepted ',
-        () {
-      Should.notThrowError(
-          () => {IdentifierStartingWithUpperCase('_\$ValidLetters')});
-    });
+      'Given a name with letters and numbers and underscore and dollar => Is accepted ',
+      () {
+        Should.notThrowError(
+          () => {IdentifierStartingWithUpperCase('_\$ValidLetters')},
+        );
+      },
+    );
 
     test(
-        'Given a name with illegal character => Throws "All characters must be a letter or number or an underscore or a dollar sign(\$)" exception ',
-        () {
-      Should.throwError<ArgumentError>(
-          () => {
-                IdentifierStartingWithUpperCase('_\$Valid!Letters')
-              }).message.toString().should.be(
-          'All characters must be a letter or number or an underscore or a dollar sign(\$)');
-    });
+      'Given a name with illegal character => Throws "All characters must be a letter or number or an underscore or a dollar sign(\$)" exception ',
+      () {
+        Should.throwError<ArgumentError>(
+          () => {IdentifierStartingWithUpperCase('_\$Valid!Letters')},
+        ).message.toString().should.be(
+          'All characters must be a letter or number or an underscore or a dollar sign(\$)',
+        );
+      },
+    );
 
     test(
-        'Given a name with 2 successive underscores => Throws "No two successive underscores are allowed" exception',
-        () {
-      Should.throwError<ArgumentError>(
-              () => {IdentifierStartingWithUpperCase('__ValidLetters')})
-          .message
-          .toString()
-          .should
-          .be('No successive underscores are allowed');
-    });
+      'Given a name with 2 successive underscores => Throws "No two successive underscores are allowed" exception',
+      () {
+        Should.throwError<ArgumentError>(
+          () => {IdentifierStartingWithUpperCase('__ValidLetters')},
+        ).message.toString().should.be('No successive underscores are allowed');
+      },
+    );
 
     test(
-        'Given a name with 3 successive underscores => Throws "No successive underscores are allowed" exception',
-        () {
-      Should.throwError<ArgumentError>(
-              () => {IdentifierStartingWithUpperCase('___ValidLetters')})
-          .message
-          .toString()
-          .should
-          .be('No successive underscores are allowed');
-    });
+      'Given a name with 3 successive underscores => Throws "No successive underscores are allowed" exception',
+      () {
+        Should.throwError<ArgumentError>(
+          () => {IdentifierStartingWithUpperCase('___ValidLetters')},
+        ).message.toString().should.be('No successive underscores are allowed');
+      },
+    );
 
     test('Given a name with single underscore => Is accepted ', () {
       Should.notThrowError(
-          () => {IdentifierStartingWithUpperCase('_ValidLetters')});
+        () => {IdentifierStartingWithUpperCase('_ValidLetters')},
+      );
     });
   });
   group('IdentifierStartingWithLowerCase class', () {
     test('Given an empty name  => Throws "Must not be empty" exception', () {
       Should.throwError<ArgumentError>(
-              () => {IdentifierStartingWithLowerCase('')})
-          .message
-          .toString()
-          .should
-          .be('Must not be empty');
+        () => {IdentifierStartingWithLowerCase('')},
+      ).message.toString().should.be('Must not be empty');
     });
 
     test(
-        'Given a name starting with a upper case letter => Throws "Must start with an lower case letter" exception',
-        () {
-      Should.throwError<ArgumentError>(
-              () => {IdentifierStartingWithLowerCase('InvalidCapitalCase')})
-          .message
-          .toString()
-          .should
-          .be('Must start with an lower case letter');
-    });
+      'Given a name starting with a upper case letter => Throws "Must start with an lower case letter" exception',
+      () {
+        Should.throwError<ArgumentError>(
+          () => {IdentifierStartingWithLowerCase('InvalidCapitalCase')},
+        ).message.toString().should.be('Must start with an lower case letter');
+      },
+    );
 
     test('Given a name starting with a lower case letter => Is accepted', () {
       Should.notThrowError(
-          () => {IdentifierStartingWithLowerCase('validCapitalCase')});
+        () => {IdentifierStartingWithLowerCase('validCapitalCase')},
+      );
     });
 
     test('Given a name starting with a lower case letter => Is accepted ', () {
       Should.notThrowError(
-          () => {IdentifierStartingWithLowerCase('validCapitalCase')});
+        () => {IdentifierStartingWithLowerCase('validCapitalCase')},
+      );
     });
 
     test('Given a name starting with underscore => Is accepted ', () {
@@ -217,35 +215,31 @@ void main() {
     });
 
     test(
-        'Given a name that is a keyword => Throws "Keywords can not be used as identifier" exception',
-        () {
-      Should.throwError<ArgumentError>(
-              () => {IdentifierStartingWithLowerCase('class')})
-          .message
-          .toString()
-          .should
-          .be('Keywords can not be used as identifier');
-    });
+      'Given a name that is a keyword => Throws "Keywords can not be used as identifier" exception',
+      () {
+        Should.throwError<ArgumentError>(
+          () => {IdentifierStartingWithLowerCase('class')},
+        ).message.toString().should.be(
+          'Keywords can not be used as identifier',
+        );
+      },
+    );
     test('Given a name not being a key word => Is accepted ', () {
-      Should.notThrowError(
-        () => {IdentifierStartingWithLowerCase('other')},
-      );
+      Should.notThrowError(() => {IdentifierStartingWithLowerCase('other')});
     });
   });
 
   group('Block class', () {
     test('Given a Block class => Returns a formatted code string', () {
       DartFunction.withName(
-              'test',
-              Block([
-                Statement.print(Expression.ofString('Hello world!')),
-              ]),
-              returnType: Type.ofVoid())
-          .toFormattedString()
-          .should
-          .be('void test() {\n'
-              "  print('Hello world!');\n"
-              '}\n');
+        'test',
+        Block([Statement.print(Expression.ofString('Hello world!'))]),
+        returnType: Type.ofVoid(),
+      ).toFormattedString().should.be(
+        'void test() {\n'
+        "  print('Hello world!');\n"
+        '}\n',
+      );
     });
   });
 }
