@@ -12,6 +12,21 @@ class Type extends CodeModelWithLibraryUri implements BaseType {
   final bool nullable;
   List<Type> generics = [];
 
+  Type(
+    this.name, {
+    String? libraryUri,
+    this.generics = const [],
+    this.nullable = false,
+  }) : super(libraryUri: libraryUri);
+
+  Type copyWith({String? name, bool? nullable, List<Type>? generics}) {
+    return Type(
+      name ?? this.name,
+      nullable: nullable ?? this.nullable,
+      generics: generics ?? List<Type>.from(this.generics),
+    );
+  }
+
   Type.ofObject({this.nullable = false}) : name = 'Object', super();
 
   Type.ofDynamic({this.nullable = false}) : name = 'dynamic', super();
@@ -64,13 +79,6 @@ class Type extends CodeModelWithLibraryUri implements BaseType {
     : name = 'Stream',
       generics = [type],
       super();
-
-  Type(
-    this.name, {
-    String? libraryUri,
-    this.generics = const [],
-    this.nullable = false,
-  }) : super(libraryUri: libraryUri);
 
   @override
   List<CodeNode> codeNodesToWrap(Imports imports) => [
