@@ -6,6 +6,7 @@ export 'src/comment.dart';
 export 'src/constructor.dart';
 export 'src/enum.dart';
 export 'src/expression.dart';
+export 'src/extension.dart';
 export 'src/field.dart';
 export 'src/function.dart';
 export 'src/import.dart';

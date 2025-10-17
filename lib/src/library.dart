@@ -12,6 +12,7 @@ class Library extends CodeModel {
   final List<Class>? classes;
   final List<Enumeration>? enumerations;
   final List<TypeDef>? typeDefs;
+  final List<Extension>? extensions;
 
   Library({
     String? name,
@@ -21,6 +22,7 @@ class Library extends CodeModel {
     this.classes,
     this.enumerations,
     this.typeDefs,
+    this.extensions,
   }) : name = name == null ? null : IdentifierStartingWithLowerCase(name),
        libraryStatement = name == null ? null : Statement.library(name);
 
@@ -32,6 +34,7 @@ class Library extends CodeModel {
     List<Class>? classes,
     List<Enumeration>? enumerations,
     List<TypeDef>? typeDefs,
+    List<Extension>? extensions,
   }) {
     return Library(
       name: name ?? this.name.toString(),
@@ -41,6 +44,7 @@ class Library extends CodeModel {
       classes: classes ?? this.classes,
       enumerations: enumerations ?? this.enumerations,
       typeDefs: typeDefs ?? this.typeDefs,
+      extensions: extensions?? this.extensions,
     );
   }
 
@@ -55,6 +59,7 @@ class Library extends CodeModel {
       if (classes != null) SeparatedValues.forStatements(classes!),
       if (enumerations != null) SeparatedValues.forStatements(enumerations!),
       if (typeDefs != null) SeparatedValues.forStatements(typeDefs!),
+      if (extensions != null) SeparatedValues.forStatements(extensions!),
     ];
     for (var codeNode in codeNodes) {
       imports.registerLibraries(codeNode, imports);
