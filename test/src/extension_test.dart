@@ -40,7 +40,7 @@ void main() {
     });
 
     test('should include methods in codeNodes if present', () {
-      final method = Method('greet', Body([]), returnType: Type.ofVoid(), );
+      final method = Method('greet', Body([]), returnType: Type.ofVoid());
       final extension = Extension(
         'MyExtension',
         Type('String'),

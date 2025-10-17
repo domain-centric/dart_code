@@ -44,7 +44,7 @@ class Library extends CodeModel {
       classes: classes ?? this.classes,
       enumerations: enumerations ?? this.enumerations,
       typeDefs: typeDefs ?? this.typeDefs,
-      extensions: extensions?? this.extensions,
+      extensions: extensions ?? this.extensions,
     );
   }
 
