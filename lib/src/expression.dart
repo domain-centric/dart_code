@@ -254,7 +254,7 @@ class Expression extends CodeModel {
   ]);
 
   /// Return '{this}!'
-  Expression assertNull() => Expression([this, Operator.negate]);
+  Expression assertNotNull() => Expression([this, Operator.negate]);
 
   /// This expression preceded by `await`.
   Expression awaited() => Expression([Code('await'), Space(), this]);

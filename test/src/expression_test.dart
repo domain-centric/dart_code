@@ -160,7 +160,7 @@ void main() {
       test('Should returns the literal code variable! name', () {
         Expression.ofVariable(
           'myValue',
-        ).assertNull().toString().should.be("myValue!");
+        ).assertNotNull().toString().should.be("myValue!");
       });
 
       test('Should throw an exception invalid name ', () {
@@ -499,7 +499,7 @@ void main() {
       test("Should return 'name!'", () {
         Expression.ofVariable(
           'name',
-        ).assertNull().toString().should.be("name!");
+        ).assertNotNull().toString().should.be("name!");
       });
 
       test('Should return await me', () {
