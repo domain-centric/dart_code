@@ -1,7 +1,9 @@
 name: dart_code
 description: A package for creating valid and formatted code, e.g. when writing code builders.
-version: 0.2.2
+version: 0.2.3
 repository: https://github.com/domain-centric/dart_code
+issue_tracker: https://github.com/domain-centric/dart_code/issues
+documentation: https://github.com/domain-centric/dart_code/blob/main/README.md
 
 topics:
   - code-generation
