@@ -5,11 +5,11 @@ import 'package:dart_style/dart_style.dart';
 ///a tree model that represents DartCode
 abstract class CodeNode {
   @override
-  String toString() => toUnFormattedString(Imports());
+  String toString() => toUnFormattedString();
 
   /// Converts the [CodeNode] to an unformatted String.
   /// It should not throw parsing exceptions.
-  String toUnFormattedString(Imports imports);
+  String toUnFormattedString([Imports? imports]);
 
   /// Converts the [CodeNode] to a formatted String, using the constructor parameters.
   /// Using the official (dartfmt)[https://github.com/dart-lang/dart_style/wiki/Formatting-Rules] with the dart_style package
@@ -28,7 +28,7 @@ abstract class CodeNode {
       indent: indent,
       experimentFlags: experimentFlags,
     );
-    var unFormattedCode = toUnFormattedString(Imports());
+    var unFormattedCode = toUnFormattedString();
     return dartFormatter.format(unFormattedCode);
   }
 }
@@ -40,7 +40,7 @@ class Code extends CodeNode {
   Code(this.code);
 
   @override
-  String toUnFormattedString(Imports imports) {
+  String toUnFormattedString([Imports? imports]) {
     return code;
   }
 }
@@ -55,7 +55,8 @@ abstract class CodeModel extends CodeNode {
 
   /// Recursive call to get the unformatted code from all nodes
   @override
-  String toUnFormattedString(Imports imports) {
+  String toUnFormattedString([Imports? imports]) {
+    imports = imports ?? Imports();
     StringBuffer buffer = StringBuffer();
     for (CodeNode codeNode in codeNodes(imports)) {
       String unformattedCode = codeNode.toUnFormattedString(imports);

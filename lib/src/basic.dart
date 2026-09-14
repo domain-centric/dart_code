@@ -240,7 +240,7 @@ abstract class Identifier extends CodeNode {
   }
 
   @override
-  String toUnFormattedString(Imports imports) {
+  String toUnFormattedString([Imports? imports]) {
     return _name;
   }
 }

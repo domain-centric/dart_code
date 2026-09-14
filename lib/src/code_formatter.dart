@@ -29,6 +29,5 @@ class CodeFormatter {
   );
 
   @Deprecated('Use CodeNode.toUnFormattedString() instead')
-  String unFormatted(CodeNode codeNode) =>
-      codeNode.toUnFormattedString(Imports());
+  String unFormatted(CodeNode codeNode) => codeNode.toUnFormattedString();
 }

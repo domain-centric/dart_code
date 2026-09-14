@@ -300,5 +300,5 @@ class Statements extends CodeModel {
 /// ;
 class EndOfStatement extends CodeNode {
   @override
-  String toUnFormattedString(Imports imports) => ';';
+  String toUnFormattedString([Imports? imports]) => ';';
 }

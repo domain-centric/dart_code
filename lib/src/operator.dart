@@ -60,5 +60,5 @@ enum Operator implements CodeNode, MethodName {
   }) => symbol;
 
   @override
-  String toUnFormattedString(Imports imports) => symbol;
+  String toUnFormattedString([Imports? imports]) => symbol;
 }

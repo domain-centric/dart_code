@@ -1,4 +1,3 @@
-import 'package:dart_code/src/import.dart';
 import 'package:test/test.dart';
 import 'package:shouldly/shouldly.dart';
 import 'package:dart_code/src/operator.dart';
@@ -43,8 +42,8 @@ void main() {
     });
     test('toUnFormattedString() should return correct Code object', () {
       Should.satisfyAllConditions([
-        () => Operator.equals.toUnFormattedString(Imports()).should.be('=='),
-        () => Operator.add.toUnFormattedString(Imports()).should.be('+'),
+        () => Operator.equals.toUnFormattedString().should.be('=='),
+        () => Operator.add.toUnFormattedString().should.be('+'),
       ]);
     });
   });
